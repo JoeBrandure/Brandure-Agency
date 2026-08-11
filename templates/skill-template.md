@@ -1,10 +1,22 @@
 # Skill template
 
-The pattern every Brandure skill inherits. Copy this file into `skills/build/`
-or `skills/run/` as `brandure-agency-<name>.md` and fill it in.
+The pattern every Brandure skill inherits.
 
-Two closing steps are mandatory and appear in every skill without exception —
-see "Mandatory closing steps" below.
+A skill is a **directory**, not a file. Create
+`skills/build/brandure-agency-<name>/` or
+`skills/run/brandure-agency-<name>/`, and copy this template into it as
+`SKILL.md`. Reference files — prompt sets, scoring rubrics, output templates —
+sit alongside it in the same directory.
+
+```
+skills/run/brandure-agency-measure/
+├── SKILL.md
+├── prompt-set-legal-2026-08.md
+└── output-template.md
+```
+
+The closing steps in "Mandatory closing steps" below end every skill without
+exception, including trivial ones.
 
 ---
 
@@ -21,10 +33,17 @@ description: <one sentence, third person, stating what the skill does and when
 ---
 ```
 
-`name` must match the filename and carry the `brandure-agency-` prefix.
+`name` must match the **directory name** and carry the `brandure-agency-`
+prefix. The file inside is always `SKILL.md`.
+
 `description` earns its place by being specific: "Samples buying-intent prompts
 across ChatGPT, Claude and Perplexity for a named brand and records which
 competitors are cited" is usable; "Helps with AEO research" is not.
+
+**Status is not in frontmatter.** Lifecycle status (`not-built`, `drafted`,
+`in-use`, `retired`) lives in `registry/skills.md` and nowhere else. A skill
+file claiming `in-use` while the registry says `drafted` is worse than a single
+imperfect record.
 
 ## Body structure
 
@@ -39,41 +58,119 @@ client-facing artefact, say which one.
 The trigger conditions. Also state when *not* to use it, if there is a
 neighbouring skill that could be confused with this one.
 
+## Dependencies
+What must already exist for this skill to run. Three kinds — see
+"Dependencies" below for the format and the registry reconciliation rule.
+
 ## Inputs
-Everything the skill needs before it can start, and where each comes from.
-Mark anything the operator must supply by hand. If a required input is
-missing, stop and ask — do not infer a client name, a competitor set or a
-target market.
+Everything the skill needs at runtime, and where each comes from. Mark
+anything the operator must supply by hand. If a required input is missing,
+stop and ask — do not infer a client name, a competitor set or a target
+market.
 
 ## Method
 Numbered steps. Each step is an action with a verifiable result, not a
 description of an intention. Where a step involves a judgement call, state
 the criterion being applied. Where a step calls another skill or an agent,
-name it with its full `brandure-agency-` prefix.
+name it with its full `brandure-agency-` prefix. Where a step uses a
+reference file in this directory, name the file.
 
 ## Output
-The artefact produced, its format, and its path. Client work writes to
-`clients/<client-slug>/`. Internal work writes to the relevant top-level
-directory. State the filename convention explicitly.
+The artefact produced, its format, and its path. State the filename
+convention explicitly. Paths by work type:
+  - Client work → `clients/<client-slug>/`
+  - Prospect sweeps → `research/prospect-sweeps/<prospect-slug>/`
+  - Published research → `research/<project>/`
+  - Agency ops → the relevant top-level directory
 
 ## Failure modes
 What commonly goes wrong and what to do about it. At minimum: what to do
 when a data source is unavailable, and what to do when the result is
 ambiguous rather than clearly positive or negative. A skill that silently
 produces a confident-looking output from thin data is worse than one that
-stops.
+stops. If a dependency is missing, stop — log the run as `blocked`, do not
+improvise a substitute.
 
-## Step N-1: Alignment check
-## Step N: Log the run
+## Closing steps
+Run both mandatory closing steps: the alignment check, then append to
+`runs/YYYY-MM.md`. Full text and run-log columns in
+`templates/skill-template.md`. Neither is optional.
 ```
+
+Do not restate the closing steps in full inside a skill. They are stated once,
+below, and referenced from every skill — so a change to the alignment check or
+the log format is one edit, not a dozen.
+
+They are also not numbered `Step N-1` / `Step N`. Method step counts vary per
+skill, so relative numbering drifts the moment a method step is added. They are
+named, and they come last.
+
+## Dependencies
+
+Three kinds, because they fail differently and unblock differently. List only
+the ones that apply.
+
+```markdown
+## Dependencies
+**Skills and agents** — `brandure-agency-measure`. Consumes its sweep output
+at `research/prospect-sweeps/<slug>/measure-YYYY-MM-DD.md`; needs the cited-
+domains table, not the summary.
+
+**External** — Bright Data account. Manual collection is a viable fallback at
+low volume.
+
+**Repo state** — ICP defined. Competitor set agreed and recorded in the
+client or prospect directory.
+```
+
+Name the **artefact** consumed, not just the upstream skill. `citation-map`
+depending on "`brandure-agency-measure`" tells you nothing when an output path
+changes; depending on a named file at a named path tells you exactly what
+breaks. This is the whole point of the section — chains that break silently are
+the failure mode a dozen skills will produce.
+
+Where a dependency is a fallback rather than a hard requirement, say so, as in
+the Bright Data line above. A skill blocked on something it could work around
+is a skill that will not get built.
+
+### Reconciliation with the registry
+
+`registry/skills.md` carries a Dependencies column for the same skill. The two
+must agree.
+
+- **The skill file is authoritative.** The registry column is an index —
+  the same items, comma-separated, condensed to fit a table cell.
+- **Update both in the same commit.** Adding, removing or changing a
+  dependency in a skill without touching its registry row is how the two
+  drift, and the registry is what gets read when planning.
+- **Mark blockers in the registry with `(BLOCKED)`**, matching `STATE.md`. The
+  registry is where a blocker is visible across all skills at once.
+
+## Reference files
+
+Anything the skill needs that is not prose instruction lives in the skill
+directory beside `SKILL.md`: prompt sets, scoring rubrics, output templates,
+worked examples. Name them plainly; group into subdirectories only past a
+handful.
+
+**Frozen inputs must be dated and never edited in place.** A measurement
+prompt set is the clear case: `brandure-agency-measure` is only comparable
+across time if the prompts are identical between runs. Changing a prompt set
+silently invalidates every comparison built on it, and the corruption is
+invisible — the numbers still look like numbers.
+
+So: name frozen files with the period they came into use
+(`prompt-set-legal-2026-08.md`), and when a change is needed, add a new dated
+file rather than editing the old one. The run log records which file a run
+used, via the output path or Notes. Superseded sets stay in the directory.
 
 ## Mandatory closing steps
 
-These are the final two steps of every skill, in this order, and they are not
-optional. They apply to **every skill, including trivial ones** — a
-two-minute skill logs itself exactly like a two-hour one.
+Two steps, in this order, at the end of every skill. They apply to **every
+skill, including trivial ones** — a two-minute skill logs itself exactly like a
+two-hour one.
 
-### Step N-1 — Alignment check
+### First — Alignment check
 
 Before returning the deliverable, verify:
 
@@ -87,14 +184,19 @@ Before returning the deliverable, verify:
 
 State any drift found rather than silently correcting it.
 
-### Step N — Append to `runs/`
+This is the same check as in `CLAUDE.md`, which is read before any task in this
+repo — so it should already be in context. It is restated here because a skill
+handed to a subcontractor may arrive without it.
+
+### Second — Append to `runs/`
 
 Append one row to the current month's run log: `runs/YYYY-MM.md`. Create the
 file if it does not exist, with the header row below.
 
-| Date | Skill | Target/client | Output path | Outcome | Notes |
-|------|-------|---------------|-------------|---------|-------|
-| 2026-08-11 | brandure-agency-measure | acme-legal | clients/acme-legal/measure-2026-08-11.md | complete | Perplexity sampling incomplete — rate limited, 6 of 10 prompts |
+| Date | Skill | Target/client | Output path | Duration | Outcome | Notes |
+|------|-------|---------------|-------------|----------|---------|-------|
+| 2026-08-11 | brandure-agency-measure | acme-legal | research/prospect-sweeps/acme-legal/measure-2026-08-11.md | 1h40 | complete | Perplexity sampling incomplete — rate limited, 6 of 10 prompts. Used prompt-set-legal-2026-08.md |
+| 2026-08-12 | brandure-agency-retainer-report | acme-legal | none | 0h10 | blocked | Searchable partner access not granted; no tracking data to report against |
 
 Column rules:
 
@@ -103,10 +205,41 @@ Column rules:
 - **Target/client** — client slug, prospect name, or `internal` for agency work.
 - **Output path** — repo-relative path to what was produced. If the skill
   produced nothing on disk, write `none` and say why in Notes.
-- **Outcome** — `complete`, `partial`, `failed`, or `aborted`.
+- **Duration** — wall-clock time spent, as `1h40`. Estimate to the nearest ten
+  minutes; precision is not the point, presence is. Record it for `blocked`
+  runs too — time spent discovering a blocker is real time.
+- **Outcome** — one of five, below.
 - **Notes** — what would be needed to interpret or repeat this run later.
-  Blockers, data gaps, decisions taken mid-run. Blank is acceptable only when
-  the run was genuinely unremarkable.
+  Blockers, data gaps, decisions taken mid-run, which reference file was used.
+  Blank is acceptable only when the run was genuinely unremarkable.
+
+**Outcome values:**
+
+| Value | Meaning |
+|-------|---------|
+| `complete` | Ran to the end, output is usable. |
+| `partial` | Ran to the end, output is usable but incomplete — a source was thin, a step was skipped. Say which in Notes. |
+| `failed` | Started and did not produce usable output. Something went wrong mid-run. |
+| `aborted` | Started, then stopped deliberately — priorities changed, the target became irrelevant. |
+| `blocked` | Could not start. A dependency was unavailable: partner access missing, no baseline to compare against, an upstream skill not yet built. |
+
+`blocked` is not `failed` and not `aborted`. Nothing went wrong and nothing was
+abandoned — a precondition was absent. Logging a blocked run as either of the
+others corrupts any later reading of the history: `failed` implies a skill that
+needs fixing, `aborted` implies a decision that was taken. Neither is true, and
+both hide the thing that actually needs attention, which is the dependency.
+
+**Log blocked runs.** This is the row people skip, because nothing was
+produced and it feels like nothing happened. Blocked rows are the record of
+what dependencies cost in practice, and they are the input to deciding what to
+unblock first. A skill blocked four times in a month is an argument.
+
+**Why Duration is a column.** `brandure-agency-capacity` is specified to derive
+actual hours by skill and client from these logs, and pricing is blocked on
+knowing real delivery hours per engagement. Neither works if duration is left
+to prose in Notes. This is the only field that cannot be reconstructed after
+the fact — output paths and outcomes survive in the repo, elapsed time does
+not.
 
 **There is no automatic telemetry.** Nothing observes these skills or records
 that they ran. A skill that does not log itself leaves no trace — the run did

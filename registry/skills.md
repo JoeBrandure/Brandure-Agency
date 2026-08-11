@@ -11,6 +11,14 @@ deliver work and operate the agency.
 All skills inherit `templates/skill-template.md`, including the two mandatory
 closing steps (alignment check, then append to `runs/YYYY-MM.md`).
 
+Each skill is a directory — `skills/<type>/brandure-agency-<name>/SKILL.md` —
+so it can carry prompt sets, rubrics and output templates alongside the
+instructions.
+
+The Dependencies column below is an index. The skill file is authoritative;
+both are updated in the same commit. `(BLOCKED)` marks a dependency that is
+currently blocking, matching `STATE.md`.
+
 ## Build
 
 Skills that create the agency itself — the assets, proof and pipeline that

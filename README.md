@@ -40,14 +40,21 @@ alignment check and the standing rules. `STATE.md` carries the current position.
 
 1. Add the row to `registry/skills.md` first, with status `not-built`. If it
    does not belong in the registry, it is not a skill — it is a one-off task.
-2. Copy `templates/skill-template.md` to `skills/build/` or `skills/run/` as
-   `brandure-agency-<name>.md`.
+2. Create the skill directory — `skills/build/brandure-agency-<name>/` or
+   `skills/run/brandure-agency-<name>/` — and copy
+   `templates/skill-template.md` into it as `SKILL.md`. A skill is a
+   directory, not a file, so it can carry prompt sets, rubrics and output
+   templates alongside the instructions.
 3. Fill in frontmatter (`name`, `description`) and body: purpose, when to use,
-   inputs, method, output, failure modes.
-4. Keep the two mandatory closing steps intact — alignment check, then append
-   to `runs/`. They are not optional and not negotiable per skill.
-5. Run it once against a real target. A skill that has never run is a draft.
-6. Update its registry status and update `STATE.md`.
+   dependencies, inputs, method, output, failure modes.
+4. Keep the closing-steps reference intact — alignment check, then append to
+   `runs/`. They are not optional and not negotiable per skill. Do not restate
+   them in full; they live once, in the template.
+5. Update the skill's row in `registry/skills.md` in the same commit if its
+   dependencies changed. The skill file is authoritative; the registry is the
+   index that gets read when planning.
+6. Run it once against a real target. A skill that has never run is a draft.
+7. Update its registry status and update `STATE.md`.
 
 ## How to add a client
 
@@ -66,7 +73,11 @@ alignment check and the standing rules. `STATE.md` carries the current position.
 **Every skill run appends a row to `runs/YYYY-MM.md`. No exceptions, including
 trivial runs.**
 
-Date, skill name, target/client, output path, outcome, notes.
+Date, skill name, target/client, output path, duration, outcome, notes.
+
+Outcome is one of `complete`, `partial`, `failed`, `aborted`, `blocked`. Log
+blocked runs — a skill that could not start because a dependency was missing is
+the row people skip and the row that tells you what to unblock first.
 
 There is no automatic telemetry. Nothing here observes itself. A skill that does
 not log itself leaves no trace — the capacity model has no hours to read, the

@@ -121,10 +121,16 @@ treated as open questions, not settled context.
   pricing. Blocked on ICP and on knowing real delivery hours per engagement,
   which is unknown until the first skills are built and run against a live
   target.
-- **BLOCKED — Bright Data account.** The measurement layer depends on Bright
-  Data AI scrapers for answer sampling and citation capture. Account is not yet
-  set up. Until it is, `brandure-agency-measure` and
-  `brandure-agency-citation-map` cannot be built beyond a manual method.
+- **BLOCKED — Searchable partner access.** Client-facing reporting is deferred
+  until Searchable's output shape and export options are known.
+  `brandure-agency-measure` and `brandure-agency-retainer-report` cannot be
+  specified until then. Whether Brandure still owns a proprietary measurement
+  layer is an open question, not a settled one — see
+  `decisions/2026-08-11-client-reporting-deferred.md`.
+- **BLOCKED — Bright Data account.** Not yet set up, and now held deliberately
+  until partner access resolves. `brandure-agency-citation-map` still depends
+  on it. A manual sampling method remains viable for `brandure-agency-measure`
+  and is the intended first version.
 - **BLOCKED — Service definition.** What Brandure actually sells (audit,
   sprint, retainer, or some combination), and what the deliverable looks like,
   is undecided. Follows from ICP and from measured delivery cost.

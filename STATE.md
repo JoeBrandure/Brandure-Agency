@@ -98,12 +98,6 @@ repo recorded only what landed — so anything raised and left hanging was
 invisible by the next session. Clear items out as they are decided; do not let
 this become a backlog.
 
-- **Legal template placeholders.** `{market}` in prompts 1, 2, 5 and `{city}`
-  in 3, 4 resolve to the same thing under the vertical's city-level rule. Worth
-  collapsing to `{city}` before the set is instantiated and frozen, because
-  after that it is permanent.
-- **Hospitality prompt 20.** A category comparison rather than a
-  recommendation; may return no brands. Judge on first run and replace if so.
 - **Skills are repo-local.** `.claude/skills/` is discovered by Claude Code
   sessions rooted at this repo. `CLAUDE.md` says the repo is read from chat,
   Cowork and Claude Code — skills are not invocable from the first two unless

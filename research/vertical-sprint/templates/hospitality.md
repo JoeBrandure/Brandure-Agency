@@ -39,21 +39,36 @@ All buying-intent by design. Informational prompts do not belong in this set.
 17. Alternatives to {competitor} for a members' club stay in {city}
 18. Best independent hotels in {destination}
 19. Best boutique hotels in {city} for a city break
-20. {destination} boutique vs chain hotels
+20. {destination} boutique vs chain hotels — **on probation, see below**
 
 Prompt numbers are stable IDs, continuous across all four template files. New
 prompts take the next free number; never renumber.
 
-## Watch item — prompt 20
+## Prompt 20 — retained on probation
 
-**Prompt 20 is the weakest buying-intent test in the set.** "Boutique vs chain
-hotels" asks a model to compare two categories, not to recommend a property. It
-may well return an explainer naming no hotels at all, which would make it an
-informational prompt in buying-intent clothing — the exact thing the sprint
-method excludes.
+**Decided 2026-08-11.** Prompt 20 is the weakest buying-intent test in the set:
+"boutique vs chain hotels" asks a model to compare two categories, not to
+recommend a property. It may return an explainer naming no hotels at all, which
+would make it an informational prompt in buying-intent clothing — the exact
+thing the sprint method excludes.
 
-It is kept as supplied and worth running once: a comparison prompt that does
-name properties is a useful signal, because category-comparison queries are
-common at the top of a travel decision. But judge it on the first run. If it
-returns prose without brands, replace it with a recommendation-shaped prompt
-rather than carrying dead weight through every re-measure.
+It is retained for the first run rather than cut in advance, because a
+comparison prompt that *does* name properties is a useful signal:
+category-comparison queries are common at the top of a travel decision, and a
+prompt that reaches named brands from that position is worth keeping.
+
+**The test, applied on the first run, per model:**
+
+| Result | Verdict |
+|--------|---------|
+| Named properties appear, in any order | Passes. Keep, log, and treat as a normal prompt from then on. |
+| Category explainer with no property named | Fails. Drop **before the set is frozen**. |
+| Named properties on some models, not others | Passes. Divergence across models is a finding in itself, per the sprint method. |
+
+If it fails, replace it with a recommendation-shaped prompt at ID 21 rather
+than reusing 20 — prompt numbers are stable IDs and never renumber.
+
+**Timing matters.** The judgement is made on the first run and acted on before
+`prompts/` is frozen. After the freeze the prompt is permanent for that set, and
+dropping it would mean a new dated set rather than an edit.
+

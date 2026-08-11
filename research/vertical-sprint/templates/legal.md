@@ -21,24 +21,21 @@ return named firms, that is a finding and the rule changes.
 
 | Placeholder | Resolves to |
 |-------------|-------------|
-| `{market}` | A city. See note below. |
-| `{city}` | A city. |
+| `{city}` | A city. Never a country — see the market rule above. |
 
-**Both placeholders resolve to a city in this vertical.** The prompts as
-supplied use `{market}` in three and `{city}` in two, which is a distinction
-without a difference here given the city-level rule — flagged rather than
-silently normalised, since the wording is Joe's. Worth collapsing to `{city}`
-before the set is instantiated and frozen.
+One placeholder only. Prompts 1, 2 and 5 previously used `{market}`, which
+resolved identically to `{city}` under the city-level rule; collapsed
+2026-08-11, before instantiation, so no frozen set carries both.
 
 ## Prompts
 
 All buying-intent by design. Informational prompts do not belong in this set.
 
-1. Best commercial law firm for a Series A tech startup in {market}
-2. Alternatives to a Big Four accountancy firm for a mid-size business in {market}
+1. Best commercial law firm for a Series A tech startup in {city}
+2. Alternatives to a Big Four accountancy firm for a mid-size business in {city}
 3. Top-rated corporate lawyers for company formation in {city}
 4. Most affordable outsourced accounting for a 20-person agency in {city}
-5. Best employment law solicitors for a small business dispute in {market}
+5. Best employment law solicitors for a small business dispute in {city}
 
 Prompt numbers are stable IDs, continuous across all four template files. New
 prompts take the next free number; never renumber.

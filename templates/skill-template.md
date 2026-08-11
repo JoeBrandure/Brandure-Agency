@@ -3,17 +3,21 @@
 The pattern every Brandure skill inherits.
 
 A skill is a **directory**, not a file. Create
-`skills/build/brandure-agency-<name>/` or
-`skills/run/brandure-agency-<name>/`, and copy this template into it as
+`.claude/skills/brandure-agency-<name>/` and copy this template into it as
 `SKILL.md`. Reference files — prompt sets, scoring rubrics, output templates —
 sit alongside it in the same directory.
 
 ```
-skills/run/brandure-agency-measure/
+.claude/skills/brandure-agency-measure/
 ├── SKILL.md
 ├── prompt-set-legal-2026-08.md
 └── output-template.md
 ```
+
+All skills sit flat in `.claude/skills/`, which is where Claude Code discovers
+them. There is no build/run directory split — that grouping lives in the
+`track` frontmatter field and in `registry/skills.md`. See
+`decisions/2026-08-11-skills-location.md`.
 
 The closing steps in "Mandatory closing steps" below end every skill without
 exception, including trivial ones.
@@ -22,7 +26,7 @@ exception, including trivial ones.
 
 ## Frontmatter
 
-Every skill opens with YAML frontmatter. Two required fields:
+Every skill opens with YAML frontmatter. Three required fields:
 
 ```yaml
 ---
@@ -30,6 +34,7 @@ name: brandure-agency-<name>
 description: <one sentence, third person, stating what the skill does and when
   to use it. This is the text a model reads when deciding whether to invoke the
   skill, so it must describe the trigger, not just the function.>
+track: build | run
 ---
 ```
 
@@ -39,6 +44,18 @@ prefix. The file inside is always `SKILL.md`.
 `description` earns its place by being specific: "Samples buying-intent prompts
 across ChatGPT, Claude and Perplexity for a named brand and records which
 competitors are cited" is usable; "Helps with AEO research" is not.
+
+`track` is `build` or `run`. **Build** skills create agency assets and win
+work. **Run** skills deliver work and operate the agency. It replaces the old
+`skills/build/` and `skills/run/` directory split, which could not survive the
+move to `.claude/skills/`. The finer grouping — run/delivery, run/client ops,
+run/agency ops — is carried by the section headings in `registry/skills.md`
+and is deliberately not in frontmatter; one field that is always accurate beats
+two that disagree.
+
+`track` is Brandure's own field, not one the harness reads. It is named `track`
+rather than `type` to avoid colliding with any field Claude Code may later
+define.
 
 **Status is not in frontmatter.** Lifecycle status (`not-built`, `drafted`,
 `in-use`, `retired`) lives in `registry/skills.md` and nowhere else. A skill

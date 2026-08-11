@@ -16,12 +16,11 @@ alignment check and the standing rules. `STATE.md` carries the current position.
 | `registry/skills.md` | Every planned skill: name, type, status, purpose, dependencies. |
 | `registry/agents.md` | Every planned agent, same format. |
 | `templates/skill-template.md` | The pattern every skill inherits. |
-| `skills/build/` | Skills that build the agency — assets, proof, pipeline. |
-| `skills/run/` | Skills that run the agency — delivery, client ops, agency ops. |
-| `.claude/agents/` | Agent definitions. |
+| `.claude/skills/` | Skills, one directory each: `brandure-agency-<name>/SKILL.md` plus its reference files. Flat — build/run is a frontmatter field, not a directory. |
+| `.claude/agents/` | Agent definitions, one flat `.md` each. |
 | `decisions/` | One file per decision: what, why, what would reverse it. |
 | `runs/` | Run logs, one file per month: `YYYY-MM.md`. |
-| `research/` | Research output. `vertical-sprint/` holds the ICP work. |
+| `research/` | Research output, one directory per project. `vertical-sprint/` holds the ICP work; `prospect-sweeps/` holds pre-sale measurement. |
 | `clients/` | One directory per client. Empty — no clients yet. |
 
 ## Conventions
@@ -32,6 +31,14 @@ alignment check and the standing rules. `STATE.md` carries the current position.
   decision was made, not the day it was written up.
 - **Run logs** are `runs/YYYY-MM.md`, one row per run.
 - **Clients** are `clients/<client-slug>/`, lower-case, hyphenated.
+- **Skills** are `.claude/skills/brandure-agency-<name>/SKILL.md`, with
+  reference files alongside. Flat, no build/run split — see
+  `decisions/2026-08-11-skills-location.md`. **Agents** are flat files at
+  `.claude/agents/brandure-agency-<name>.md`.
+- **Research** is `research/<project>/`, one directory per project, named for
+  the work rather than the date. Prospect sweeps are the standing exception:
+  `research/prospect-sweeps/<prospect-slug>/`, one directory per prospect,
+  since they accumulate per target rather than per project.
 - **British English** throughout.
 - **`main` only.** No branches, no pull requests. See
   `decisions/2026-08-08-main-branch-only.md`.
@@ -40,13 +47,13 @@ alignment check and the standing rules. `STATE.md` carries the current position.
 
 1. Add the row to `registry/skills.md` first, with status `not-built`. If it
    does not belong in the registry, it is not a skill — it is a one-off task.
-2. Create the skill directory — `skills/build/brandure-agency-<name>/` or
-   `skills/run/brandure-agency-<name>/` — and copy
+2. Create `.claude/skills/brandure-agency-<name>/` and copy
    `templates/skill-template.md` into it as `SKILL.md`. A skill is a
    directory, not a file, so it can carry prompt sets, rubrics and output
-   templates alongside the instructions.
-3. Fill in frontmatter (`name`, `description`) and body: purpose, when to use,
-   dependencies, inputs, method, output, failure modes.
+   templates alongside the instructions. All skills sit flat here — that is
+   where Claude Code discovers them.
+3. Fill in frontmatter (`name`, `description`, `track: build | run`) and body:
+   purpose, when to use, dependencies, inputs, method, output, failure modes.
 4. Keep the closing-steps reference intact — alignment check, then append to
    `runs/`. They are not optional and not negotiable per skill. Do not restate
    them in full; they live once, in the template.

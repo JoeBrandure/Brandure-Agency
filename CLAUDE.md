@@ -91,6 +91,12 @@ that could be invoked by name.
 - The prefix is not decoration: it namespaces Brandure's assets against
   everything else Claude can see across chat, Cowork and Claude Code, and makes
   it obvious in a run log which system produced a given output.
+- Location follows from that. Skills live at
+  `.claude/skills/brandure-agency-<name>/SKILL.md` and agents at
+  `.claude/agents/brandure-agency-<name>.md`, because that is where Claude Code
+  discovers them — a prefix justified on invocation reliability is worth
+  nothing if the asset sits somewhere the harness never looks. See
+  `decisions/2026-08-11-skills-location.md`.
 - Files that are documents rather than invocable assets (decision records,
   research notes, client folders) do not take the prefix. They use their own
   conventions — see README.md.

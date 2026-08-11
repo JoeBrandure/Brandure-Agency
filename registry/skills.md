@@ -1,19 +1,22 @@
 # Skill registry
 
 Every planned skill. A skill is listed here before it is built — the registry is
-the plan, `skills/` is the implementation.
+the plan, `.claude/skills/` is the implementation.
 
 Status values: `not-built`, `drafted`, `in-use`, `retired`.
 
-Types: **build** skills create agency assets and win work. **run** skills
-deliver work and operate the agency.
+Track: **build** skills create agency assets and win work. **run** skills
+deliver work and operate the agency. It is a frontmatter field on each skill,
+not a directory — see `decisions/2026-08-11-skills-location.md`. The section
+headings below carry the finer grouping.
 
 All skills inherit `templates/skill-template.md`, including the two mandatory
 closing steps (alignment check, then append to `runs/YYYY-MM.md`).
 
-Each skill is a directory — `skills/<type>/brandure-agency-<name>/SKILL.md` —
+Each skill is a directory — `.claude/skills/brandure-agency-<name>/SKILL.md` —
 so it can carry prompt sets, rubrics and output templates alongside the
-instructions.
+instructions. All skills sit flat there regardless of track, because that is
+where Claude Code discovers them.
 
 The Dependencies column below is an index. The skill file is authoritative;
 both are updated in the same commit. `(BLOCKED)` marks a dependency that is
@@ -24,7 +27,7 @@ currently blocking, matching `STATE.md`.
 Skills that create the agency itself — the assets, proof and pipeline that
 exist before a client does.
 
-| Name | Type | Status | Purpose | Dependencies |
+| Name | Track | Status | Purpose | Dependencies |
 |------|------|--------|---------|--------------|
 | brandure-agency-own-aeo | build | not-built | Apply Brandure's own AEO method to Brandure. The agency must be findable and citable in AI answers for its own category, or the pitch does not survive its first check. | brandure-agency-measure (to baseline), ICP defined |
 | brandure-agency-content | build | not-built | Produce answer-shaped content for Brandure's own surface: category explainers, method write-ups, and the earned-media assets that AI answers actually cite. | brandure-agency-own-aeo, positioning settled |
@@ -35,7 +38,7 @@ exist before a client does.
 
 Skills that produce client work.
 
-| Name | Type | Status | Purpose | Dependencies |
+| Name | Track | Status | Purpose | Dependencies |
 |------|------|--------|---------|--------------|
 | brandure-agency-measure | run | not-built | Sample buying-intent prompts across ChatGPT, Claude, Gemini and Perplexity for a named brand and its competitor set. Records which brands are named, in what order, and which domains are cited. The wedge artefact, and the engine behind prospect sweeps and the published index. Runs on the owned layer, not Searchable. | None blocking — manual method needs no tooling and is the intended first version. Bright Data scales it later. |
 | brandure-agency-citation-map | run | not-built | Map the sources AI answers actually draw on for a category — which domains, which pages, which earned media — so placement effort targets what models cite rather than what ranks. | brandure-agency-measure, Bright Data account (BLOCKED) |
@@ -48,7 +51,7 @@ Skills that produce client work.
 
 Skills that run the client relationship.
 
-| Name | Type | Status | Purpose | Dependencies |
+| Name | Track | Status | Purpose | Dependencies |
 |------|------|--------|---------|--------------|
 | brandure-agency-onboard | run | not-built | Stand up a new client: create `clients/<slug>/`, capture competitor set, buying-intent prompt set, brand facts and access, then run the baseline measurement. | brandure-agency-measure, service definition |
 | brandure-agency-qbr | run | not-built | Quarterly review: cumulative position change, what the work bought, and the case for the next period's scope. | brandure-agency-retainer-report |
@@ -58,7 +61,7 @@ Skills that run the client relationship.
 
 Skills that run the business.
 
-| Name | Type | Status | Purpose | Dependencies |
+| Name | Track | Status | Purpose | Dependencies |
 |------|------|--------|---------|--------------|
 | brandure-agency-pipeline | run | not-built | Maintain pipeline state: prospects, stage, next action, expected value. Answers "what needs doing to win work this week". | brandure-agency-prospect-qualify |
 | brandure-agency-capacity | run | not-built | Read `runs/` to derive actual hours by skill and client, against available hours. Answers whether the next engagement can be taken, and when subcontracting becomes necessary. | populated `runs/` logs |

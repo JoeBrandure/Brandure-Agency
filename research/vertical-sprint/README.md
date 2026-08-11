@@ -40,7 +40,14 @@ shape that misrepresents how the category is bought. Run B2B SaaS without a
 geography unless there is a specific reason not to, and record which choice was
 made per vertical — a sweep run with a market and a re-run without one are two
 different measurements, not two readings of the same one. Standing rule in
-`CLAUDE.md`.
+`CLAUDE.md`; reasoning and reversal conditions in
+`decisions/2026-08-11-market-elicitation.md`.
+
+The local/non-local split is an assumption, and this sprint is its first test.
+Log the market choice per prompt whether or not the split holds — if a local
+category returns named businesses without a market, or B2B SaaS returns a
+materially different citation set with one, that is a finding worth having and
+the record needs to be able to show it.
 
 **Fresh chats, memory off.** Every prompt runs in a new session with memory and
 personalisation disabled. A personalised answer measures the operator's history,

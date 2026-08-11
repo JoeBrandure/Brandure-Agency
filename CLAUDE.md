@@ -96,6 +96,10 @@ This is the same principle as not inferring a client name or a competitor set,
 and it applies to any skill instantiating a template, not only the vertical
 sprint. If the market is not supplied, stop and ask.
 
+The local/non-local split above is an inference, not a measured finding — the
+2026-08 vertical sprint is its first test. See
+`decisions/2026-08-11-market-elicitation.md`.
+
 ### External platform writes
 
 **Reads from an external platform may proceed unattended. Writes must be

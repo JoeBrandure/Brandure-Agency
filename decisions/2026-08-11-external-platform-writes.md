@@ -35,6 +35,11 @@ frozen-prompt-set rule in `templates/skill-template.md`: prompt sets are dated
 and never edited in place, and an unattended write is the obvious way that rule
 gets broken by something other than a person.
 
+The companion rule is `decisions/2026-08-11-market-elicitation.md`. Both exist
+to prevent silent corruption of comparability: this one guards the record
+against being altered after the fact, that one against being incomparable from
+the outset.
+
 Confirmation is cheap. Writes are rare, and a write worth doing is worth
 thirty seconds of asking. The rule costs almost nothing in the cases where it
 binds and prevents the one class of error that cannot be detected afterwards.

@@ -1,7 +1,7 @@
 # STATE.md — current position
 
-Last updated: 2026-08-11 (client reporting deferred pending Searchable partner
-access)
+Last updated: 2026-08-11 (measurement ownership resolved — owned layer for
+prospect sweeps and published research, Searchable for client tracking)
 
 Current position at a glance. Update this file whenever something moves between
 sections. It is the first thing to read at the start of a working session.
@@ -11,7 +11,12 @@ sections. It is the first thing to read at the start of a working session.
 - Repo foundations: directory structure, `CLAUDE.md`, `README.md`, skill
   template, registries, decision records, vertical sprint brief.
 - Decision record set covering repo-as-source-of-truth, naming convention,
-  branch policy, vertical shortlist, and Bright Data as the measurement layer.
+  branch policy, vertical shortlist, and the measurement stack.
+- **Measurement ownership settled.** Brandure owns the measurement layer for
+  prospect sweeps and published research; Searchable owns client tracking and
+  dashboards. The published index is the lead generation mechanism and requires
+  data Brandure can publish. See
+  `decisions/2026-08-11-measurement-ownership-split.md`.
 
 ## In progress
 
@@ -33,20 +38,25 @@ sections. It is the first thing to read at the start of a working session.
   cadence and delivery all unspecified until Searchable's output shape and
   export options are known. Looker Studio or equivalent is the fallback. See
   `decisions/2026-08-11-client-reporting-deferred.md`.
-- **`brandure-agency-measure` and `brandure-agency-retainer-report`** — blocked
-  on Searchable partner access, not on Bright Data. Neither can be specified
-  until the output shape is known. A manual sampling method can still be
-  written in the meantime and remains the intended first version of `measure`.
-- **`brandure-agency-citation-map`** — still blocked on the Bright Data
-  account, which is not yet set up.
-- **Measurement layer ownership — open question, not decided.** The 8 August
-  record puts proprietary measurement on Bright Data with Searchable as the
-  client surface only; the 11 August record has Searchable expected to handle
-  measurement across engines. Whether Brandure still owns a proprietary
-  measurement layer needs an explicit decision once partner access resolves.
-  Do not treat either position as settled in the meantime.
+- **`brandure-agency-retainer-report`** — blocked on Searchable partner access.
+  It is client tracking, which is Searchable's side of the split.
+- **`brandure-agency-citation-map`** — needs the Bright Data account, which is
+  not yet set up. No longer urgent: it runs on the owned layer, and with client
+  tracking on Searchable nothing a client pays for waits on it.
 - **Service definition** — what is actually sold, and in what shape. Blocked
   on ICP and measured delivery cost.
+- **Baseline reconciliation — decide before the first client.** Prospect sweeps
+  run on the owned layer, client tracking on Searchable. The two will not
+  produce matching numbers, so the pitch figure and the first client report
+  will disagree. Either re-baseline on Searchable at onboarding and present the
+  sweep as a pre-engagement finding, or state the methodology change in the
+  first report. Not blocking now; blocking the moment a client signs.
+
+**No longer blocked:**
+
+- **`brandure-agency-measure`** — off the partner-access dependency. It is a
+  prospect sweep, which puts it on the owned layer. The manual method needs no
+  tooling and is the intended first version.
 
 ## Next
 
@@ -54,18 +64,17 @@ In order:
 
 1. Run the vertical sprint. Buying-intent prompts across the four primary
    verticals, logged per `research/vertical-sprint/README.md`. Unblocks ICP.
-2. Pursue Searchable partner access. Now the gating item for the measurement
-   and reporting layers, ahead of Bright Data. Independent of the sprint, so it
-   can run in parallel. Test on access: right engines, buying-intent prompts
-   rather than keyword tracking, cited domains captured, export and
-   white-labelling available.
-3. Build the manual version of `brandure-agency-measure`. Not blocked by
-   partner access — the manual method needs no tooling, and it is the wedge
-   artefact shown to a prospect before anything is sold. Running it once
-   produces the first real delivery-hours figure.
+2. Build the manual version of `brandure-agency-measure`. Unblocked, needs no
+   tooling, and it is the wedge artefact shown to a prospect before anything is
+   sold. Running it once produces the first real delivery-hours figure.
+3. Pursue Searchable partner access. Now scoped to client tracking and
+   reporting only, so it gates nothing pre-revenue. Test on access: export,
+   white-labelling, and whether tracking is good enough to hand a client.
 4. Define ICP from sprint output. Then pricing.
-5. Hold Bright Data setup until partner access resolves. Building collection
-   against a method Searchable may supersede is the wrong order.
+5. Set up Bright Data once the sprint names a vertical. It is the marketing
+   path now — required for the published index, not for client delivery — so it
+   follows the sprint rather than racing it. Verify coverage across ChatGPT,
+   Claude, Gemini and Perplexity at usable cost before committing.
 
 ## Standing notes
 

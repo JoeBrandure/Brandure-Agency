@@ -122,15 +122,16 @@ treated as open questions, not settled context.
   which is unknown until the first skills are built and run against a live
   target.
 - **BLOCKED — Searchable partner access.** Client-facing reporting is deferred
-  until Searchable's output shape and export options are known.
-  `brandure-agency-measure` and `brandure-agency-retainer-report` cannot be
-  specified until then. Whether Brandure still owns a proprietary measurement
-  layer is an open question, not a settled one — see
-  `decisions/2026-08-11-client-reporting-deferred.md`.
-- **BLOCKED — Bright Data account.** Not yet set up, and now held deliberately
-  until partner access resolves. `brandure-agency-citation-map` still depends
-  on it. A manual sampling method remains viable for `brandure-agency-measure`
-  and is the intended first version.
+  until Searchable's output shape and export options are known, so
+  `brandure-agency-retainer-report` cannot be specified. Scoped to client
+  tracking only: measurement ownership is settled, and Brandure keeps its own
+  layer for prospect sweeps and published research — see
+  `decisions/2026-08-11-measurement-ownership-split.md`.
+- **BLOCKED — Bright Data account.** Not yet set up. Required for the published
+  index and `brandure-agency-citation-map`, both on the owned layer. Marketing
+  path rather than client delivery, so it is necessary but not urgent. A manual
+  sampling method remains the intended first version of
+  `brandure-agency-measure`.
 - **BLOCKED — Service definition.** What Brandure actually sells (audit,
   sprint, retainer, or some combination), and what the deliverable looks like,
   is undecided. Follows from ICP and from measured delivery cost.

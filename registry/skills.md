@@ -29,12 +29,12 @@ Skills that produce client work.
 
 | Name | Type | Status | Purpose | Dependencies |
 |------|------|--------|---------|--------------|
-| brandure-agency-measure | run | not-built | Sample buying-intent prompts across ChatGPT, Claude, Gemini and Perplexity for a named brand and its competitor set. Records which brands are named, in what order, and which domains are cited. The wedge artefact and the baseline everything else is measured against. | Searchable partner access (BLOCKED) — cannot be specified until output shape is known; manual method viable first |
+| brandure-agency-measure | run | not-built | Sample buying-intent prompts across ChatGPT, Claude, Gemini and Perplexity for a named brand and its competitor set. Records which brands are named, in what order, and which domains are cited. The wedge artefact, and the engine behind prospect sweeps and the published index. Runs on the owned layer, not Searchable. | None blocking — manual method needs no tooling and is the intended first version. Bright Data scales it later. |
 | brandure-agency-citation-map | run | not-built | Map the sources AI answers actually draw on for a category — which domains, which pages, which earned media — so placement effort targets what models cite rather than what ranks. | brandure-agency-measure, Bright Data account (BLOCKED) |
 | brandure-agency-placement-plan | run | not-built | Convert a citation map into a prioritised placement plan: which third-party surfaces to pursue, in what order, at what effort, with what expected effect on answer inclusion. | brandure-agency-citation-map |
 | brandure-agency-entity-fix | run | not-built | Correct and strengthen the brand's entity footprint — the structured, consistent, machine-resolvable facts models rely on to know what a brand is and what it is for. | brandure-agency-measure |
 | brandure-agency-answer-content | run | not-built | Produce client-side content built to be lifted into an AI answer: direct claims, clean structure, explicit comparisons, resolvable entities. | brandure-agency-citation-map, brandure-agency-entity-fix |
-| brandure-agency-retainer-report | run | not-built | Recurring client report: movement in answer-surface position since last period, what changed, what caused it, what happens next. | Searchable partner access (BLOCKED) — client reporting deferred, see `decisions/2026-08-11-client-reporting-deferred.md`; brandure-agency-measure, service definition |
+| brandure-agency-retainer-report | run | not-built | Recurring client report: movement in answer-surface position since last period, what changed, what caused it, what happens next. Reads Searchable tracking, not the owned layer. | Searchable partner access (BLOCKED) — client reporting deferred, see `decisions/2026-08-11-client-reporting-deferred.md`; service definition |
 
 ## Run — client operations
 

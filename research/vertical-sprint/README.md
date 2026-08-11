@@ -8,6 +8,35 @@ Status: designed, not run. See `STATE.md`.
 
 Decision record: `decisions/2026-08-08-vertical-shortlist.md`.
 
+## Structure
+
+```
+research/vertical-sprint/
+├── README.md            method, shortlist, evidence
+├── templates/           prompt templates, one per vertical — editable
+├── prompts/             instantiated sets, one per sweep — frozen once run
+└── results/             logged output, one file per vertical per sweep
+```
+
+**`templates/` is editable.** Placeholders unresolved, no market, no competitor
+names. Change them as the method improves.
+
+**`prompts/` is frozen.** An instantiated set — markets and competitors
+resolved — named for its period: `prompts/2026-08-sweep.md`. Once a sweep has
+run against it, it is never edited. A changed prompt set silently invalidates
+every comparison built on it, and the corruption is invisible because the
+numbers still look like numbers. To change prompts, add a new dated file. Same
+rule as frozen skill inputs in `templates/skill-template.md`.
+
+**`prompts/` does not exist yet**, deliberately. Instantiation requires market
+elicitation and competitor names, and neither has been supplied. See
+`decisions/2026-08-11-market-elicitation.md`.
+
+**Prompt numbering** is continuous across the four template files — 1–5 legal,
+6–10 B2B SaaS, 11–15 health, 16–20 hospitality. The number is a stable ID for
+logging and for comparing a prompt against itself over time. New prompts take
+the next free number; never renumber.
+
 ## Shortlist
 
 **Primary — test these first, in this order:**
@@ -61,8 +90,9 @@ contestable, and contestable is what Brandure sells into.
 
 **Log for every prompt run:**
 
-- The prompt, verbatim
+- The prompt ID and the prompt, verbatim as sent
 - The market used, or `none` where the vertical was run without one
+- Which frozen set it came from — `prompts/<file>.md`
 - The model, and the date run
 - Brands named, **in the order they appear** — order is the signal, not just
   presence
@@ -70,8 +100,9 @@ contestable, and contestable is what Brandure sells into.
 - Whether review sites, directories or aggregators dominate the citations
   rather than brand-owned or editorial sources
 
-Write results to this directory, one file per vertical:
-`research/vertical-sprint/<vertical-slug>.md`.
+Write results to `results/<vertical-slug>-<period>.md` — for example
+`results/legal-2026-08.md`. One file per vertical per sweep, so a re-measure
+sits alongside its baseline rather than overwriting it.
 
 **What the sprint is looking for.** A vertical qualifies when brands are named
 but the set is unstable across models and prompts, citations come from sources

@@ -130,6 +130,9 @@ Before returning any response or deliverable, verify:
    absent search result as evidence against something already established in
    project context or prior conversation.
 4. Are assumptions labelled as assumptions?
+5. Does this build on work confirmed complete, or work assumed complete?
+   Verify prior state before acting on it. An instruction issued is not an
+   instruction executed.
 
 State any drift found rather than silently correcting it.
 

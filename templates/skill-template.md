@@ -227,8 +227,16 @@ Before returning the deliverable, verify:
    absent search result as evidence against something already established in
    project context or prior conversation.
 4. Are assumptions labelled as assumptions?
+5. Does this build on work confirmed complete, or work assumed complete?
+   Verify prior state before acting on it. An instruction issued is not an
+   instruction executed.
 
 State any drift found rather than silently correcting it.
+
+Item 5 has a specific meaning inside a skill: check that the upstream artefact
+named in Dependencies exists at the path given, before consuming it. A skill
+that assumes its predecessor ran produces output built on nothing, and the
+output looks identical either way.
 
 This is the same check as in `CLAUDE.md`, which is read before any task in this
 repo — so it should already be in context. It is restated here because a skill

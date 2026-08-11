@@ -8,8 +8,15 @@ sections. It is the first thing to read at the start of a working session.
 
 ## Built
 
+Entries here mean the work is in the repo. Nothing is listed on the strength of
+having been instructed — if it is not on disk and committed, it is not built,
+and a section below records what was raised and left undone. Verify against the
+repo before building on anything here.
+
 - Repo foundations: directory structure, `CLAUDE.md`, `README.md`, skill
   template, registries, decision records, vertical sprint brief.
+- Vertical sprint prompt templates: four files, 20 buying-intent prompts, at
+  `research/vertical-sprint/templates/`.
 - Decision record set covering repo-as-source-of-truth, naming convention,
   branch policy, vertical shortlist, and the measurement stack.
 - **Measurement ownership settled.** Brandure owns the measurement layer for
@@ -24,10 +31,13 @@ sections. It is the first thing to read at the start of a working session.
 
 ## Blocked
 
-- **Vertical sprint** — designed but not run. Blocked on operator time only;
-  no dependency, no tooling required. Method and shortlist are in
-  `research/vertical-sprint/README.md`. This is the highest-value unblocked
-  item and everything below waits on it.
+- **Vertical sprint** — designed and templated, not run. Needs no tooling, but
+  no longer blocked on operator time alone: the prompt sets cannot be
+  instantiated until Joe supplies markets per vertical and competitor names for
+  the B2B SaaS and hospitality prompts. `research/vertical-sprint/prompts/`
+  does not exist until then, per
+  `decisions/2026-08-11-market-elicitation.md`. Still the highest-value item;
+  everything below waits on it.
 - **ICP definition** — blocked on the vertical sprint. Cannot be written from
   first principles; needs evidence of which categories have weak, contestable
   AI answer surfaces.
@@ -75,6 +85,33 @@ In order:
    path now — required for the published index, not for client delivery — so it
    follows the sprint rather than racing it. Verify coverage across ChatGPT,
    Claude, Gemini and Perplexity at usable cost before committing.
+
+## Raised, not resolved
+
+Questions surfaced in working sessions that have not been decided, and small
+changes proposed but not made. Distinct from Blocked: nothing external is
+stopping these, they simply have not been ruled on.
+
+This section exists because a conversation ends and takes its open loops with
+it. An instruction issued is not an instruction executed, and until now the
+repo recorded only what landed — so anything raised and left hanging was
+invisible by the next session. Clear items out as they are decided; do not let
+this become a backlog.
+
+- **Legal template placeholders.** `{market}` in prompts 1, 2, 5 and `{city}`
+  in 3, 4 resolve to the same thing under the vertical's city-level rule. Worth
+  collapsing to `{city}` before the set is instantiated and frozen, because
+  after that it is permanent.
+- **Hospitality prompt 20.** A category comparison rather than a
+  recommendation; may return no brands. Judge on first run and replace if so.
+- **Skills are repo-local.** `.claude/skills/` is discovered by Claude Code
+  sessions rooted at this repo. `CLAUDE.md` says the repo is read from chat,
+  Cowork and Claude Code — skills are not invocable from the first two unless
+  the session is rooted here. Unresolved, and it bears on which surface
+  delivery actually runs from.
+- **`registry/agents.md` Type column.** Every row reads `agent` in a file
+  called agents.md, and it is the last use of "Type" vocabulary after the
+  rename to Track. Cosmetic; drop it next time the file is touched.
 
 ## Standing notes
 

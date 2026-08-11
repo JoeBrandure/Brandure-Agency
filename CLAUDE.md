@@ -68,6 +68,53 @@ Apply these to every response and deliverable in this repo.
   behaviour, licence (noun) / license (verb).
 - **No filler openers.** Start with the substance.
 
+## Standing rules
+
+Operational constraints, not style. They apply to every task in this repo and
+to every skill, whether or not the skill restates them.
+
+### Market elicitation
+
+**Never infer a market, city or destination when instantiating a prompt
+template.** Ask which market applies — and ask whether a market is needed at
+all.
+
+Adding a geography a buyer would not have typed does not make the test more
+specific, it makes it a different test. Some categories are actively distorted
+by it: B2B SaaS in particular, where buyers search for the tool and not for a
+tool near them, and where inserting a city produces a local-services answer
+shape that has nothing to do with how the category is actually bought. Other
+categories are meaningless without one — legal, health and aesthetics,
+hospitality — because the answer is a local recommendation by nature.
+
+Which of those applies is a finding, not an assumption. It is also part of what
+a measurement is comparable against: a baseline taken with a market and a
+re-measure taken without it are two different measurements wearing the same
+name.
+
+This is the same principle as not inferring a client name or a competitor set,
+and it applies to any skill instantiating a template, not only the vertical
+sprint. If the market is not supplied, stop and ask.
+
+### External platform writes
+
+**Reads from an external platform may proceed unattended. Writes must be
+confirmed with Joe first.**
+
+Writes means: creating or modifying a workspace, adding or editing a tracked
+prompt, deleting or reorganising anything, and any action consuming paid quota.
+The uncertain case is a write.
+
+A silent write can overwrite a frozen prompt set or pollute a tracking history,
+and the corruption is invisible because the numbers still look like numbers.
+There is no diff to review and no error to notice — a comparison built on the
+altered record simply becomes wrong, and stays wrong until someone questions a
+result that looks fine.
+
+The rule holds regardless of what a given integration technically permits. An
+available write tool is not authorisation to use it. See
+`decisions/2026-08-11-external-platform-writes.md`.
+
 ## ALIGNMENT CHECK
 
 Before returning any response or deliverable, verify:

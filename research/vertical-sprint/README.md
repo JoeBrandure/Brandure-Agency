@@ -27,9 +27,20 @@ Decision record: `decisions/2026-08-08-vertical-shortlist.md`.
 
 **Buying-intent prompts only.** The prompt must be one a person would type when
 they are choosing, not researching a concept. "Best employment law firm in
-Dubai for a redundancy dispute" qualifies. "What is employment law" does not.
+[market] for a redundancy dispute" qualifies. "What is employment law" does not.
 Informational prompts produce answers that look interesting and predict
 nothing about whether a brand gets recommended at the point of purchase.
+
+**Elicit the market; do not assume one.** Before running a vertical, decide
+which market applies — and whether one applies at all. Legal, health and
+aesthetics, and hospitality are local by nature and are not testable without a
+market. B2B SaaS is distorted by adding one: buyers search for the tool, not
+for a tool near them, and inserting a city produces a local-services answer
+shape that misrepresents how the category is bought. Run B2B SaaS without a
+geography unless there is a specific reason not to, and record which choice was
+made per vertical — a sweep run with a market and a re-run without one are two
+different measurements, not two readings of the same one. Standing rule in
+`CLAUDE.md`.
 
 **Fresh chats, memory off.** Every prompt runs in a new session with memory and
 personalisation disabled. A personalised answer measures the operator's history,
@@ -44,6 +55,7 @@ contestable, and contestable is what Brandure sells into.
 **Log for every prompt run:**
 
 - The prompt, verbatim
+- The market used, or `none` where the vertical was run without one
 - The model, and the date run
 - Brands named, **in the order they appear** — order is the signal, not just
   presence

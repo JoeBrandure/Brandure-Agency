@@ -82,15 +82,19 @@ What must already exist for this skill to run. Three kinds — see
 ## Inputs
 Everything the skill needs at runtime, and where each comes from. Mark
 anything the operator must supply by hand. If a required input is missing,
-stop and ask — do not infer a client name, a competitor set or a target
-market.
+stop and ask — do not infer a client name, a competitor set, or a market.
+Market includes whether a market applies at all: adding a geography a buyer
+would not have typed produces a different test, not a sharper one. See
+"Market elicitation" in `CLAUDE.md`.
 
 ## Method
 Numbered steps. Each step is an action with a verifiable result, not a
 description of an intention. Where a step involves a judgement call, state
 the criterion being applied. Where a step calls another skill or an agent,
 name it with its full `brandure-agency-` prefix. Where a step uses a
-reference file in this directory, name the file.
+reference file in this directory, name the file. **A step that writes to an
+external platform is its own numbered step and halts for Joe's confirmation
+before running** — never folded into a step that also reads or computes.
 
 ## Output
 The artefact produced, its format, and its path. State the filename
@@ -180,6 +184,31 @@ So: name frozen files with the period they came into use
 (`prompt-set-legal-2026-08.md`), and when a change is needed, add a new dated
 file rather than editing the old one. The run log records which file a run
 used, via the output path or Notes. Superseded sets stay in the directory.
+
+## External platform writes
+
+Reads from an external platform may proceed unattended. **Writes must be
+confirmed with Joe first** — creating or modifying a workspace, adding or
+editing a tracked prompt, deleting or reorganising anything, or consuming paid
+quota. The rule is stated in full in `CLAUDE.md`; the reasoning and reversal
+conditions are in `decisions/2026-08-11-external-platform-writes.md`.
+
+**This is deliberately not a body section.** Three reasons:
+
+- Most skills never touch an external platform. A section that reads "none" in
+  nine files out of twelve trains the reader to skip it, and the one skill where
+  it matters gets skipped with the rest.
+- The confirmation has to happen at the moment of the write, which is a Method
+  step. A preamble declaring an intention to confirm is not a confirmation.
+- It is a standing rule, so it also binds one-off work that never becomes a
+  skill. `CLAUDE.md` is the right home for anything that broad; restating it
+  per-skill would repeat the duplication the closing steps were just fixed to
+  avoid.
+
+What a writing skill carries instead is a numbered Method step that halts, and
+a Dependencies entry naming the platform access it needs. A skill handed to a
+subcontractor therefore carries the halt in its own steps rather than relying
+on the subcontractor having read `CLAUDE.md`.
 
 ## Mandatory closing steps
 

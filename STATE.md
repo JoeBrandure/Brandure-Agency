@@ -19,6 +19,9 @@ repo before building on anything here.
   `research/vertical-sprint/templates/`.
 - Decision record set covering repo-as-source-of-truth, naming convention,
   branch policy, vertical shortlist, and the measurement stack.
+- **Delivery surface settled.** Delivery runs from Cowork; Claude Code builds
+  and maintains this repo. The repo stays authoritative and Cowork consumes a
+  packaged version. See `decisions/2026-08-11-delivery-surface.md`.
 - **Measurement ownership settled.** Brandure owns the measurement layer for
   prospect sweeps and published research; Searchable owns client tracking and
   dashboards. The published index is the lead generation mechanism and requires
@@ -55,6 +58,11 @@ repo before building on anything here.
   tracking on Searchable nothing a client pays for waits on it.
 - **Service definition** — what is actually sold, and in what shape. Blocked
   on ICP and measured delivery cost.
+- **`brandure-agency-package`** — bundles `.claude/skills/` into a plugin
+  Cowork can consume. Blocked on there being a skill to package (currently
+  none) and on the plugin layout not being scoped. Not urgent for that reason,
+  but it sits between every delivery skill and the surface delivery runs from,
+  so it stops being deferrable the moment the first skill is built.
 - **Baseline reconciliation — decide before the first client.** Prospect sweeps
   run on the owned layer, client tracking on Searchable. The two will not
   produce matching numbers, so the pitch figure and the first client report
@@ -98,11 +106,13 @@ repo recorded only what landed — so anything raised and left hanging was
 invisible by the next session. Clear items out as they are decided; do not let
 this become a backlog.
 
-- **Skills are repo-local.** `.claude/skills/` is discovered by Claude Code
-  sessions rooted at this repo. `CLAUDE.md` says the repo is read from chat,
-  Cowork and Claude Code — skills are not invocable from the first two unless
-  the session is rooted here. Unresolved, and it bears on which surface
-  delivery actually runs from.
+- **Where the run log lands.** Delivery runs from Cowork against a packaged
+  copy of this repo, but the mandatory closing step appends to
+  `runs/YYYY-MM.md` here. A log that lands in the package rather than the repo
+  is a log nobody reads. Follows from
+  `decisions/2026-08-11-delivery-surface.md` and needs an answer before the
+  first delivery run — an unlogged run does not exist, and capacity and pricing
+  both depend on the log.
 - **`registry/agents.md` Type column.** Every row reads `agent` in a file
   called agents.md, and it is the last use of "Type" vocabulary after the
   rename to Track. Cosmetic; drop it next time the file is touched.

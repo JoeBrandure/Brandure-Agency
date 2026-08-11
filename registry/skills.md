@@ -33,6 +33,7 @@ exist before a client does.
 | brandure-agency-content | build | not-built | Produce answer-shaped content for Brandure's own surface: category explainers, method write-ups, and the earned-media assets that AI answers actually cite. | brandure-agency-own-aeo, positioning settled |
 | brandure-agency-prospect-qualify | build | not-built | Score an inbound or sourced prospect against ICP and AEO opportunity: is their answer surface weak, contestable, and commercially worth contesting? | ICP defined, brandure-agency-measure |
 | brandure-agency-pitch | build | not-built | Turn a qualified prospect's measured answer-surface position into a pitch: what they are losing, to whom, and what the engagement would do about it. | brandure-agency-prospect-qualify, pricing defined, service definition |
+| brandure-agency-package | build | not-built | Bundle `.claude/skills/` into a plugin Cowork can consume, so delivery skills are invocable on the surface delivery actually runs from. Re-run whenever a skill changes, which is why it is a skill rather than a one-off build step. | At least one skill built (currently none); plugin layout not yet scoped; `decisions/2026-08-11-delivery-surface.md` |
 
 ## Run — delivery
 

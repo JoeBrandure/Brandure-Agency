@@ -151,6 +151,10 @@ that could be invoked by name.
   discovers them — a prefix justified on invocation reliability is worth
   nothing if the asset sits somewhere the harness never looks. See
   `decisions/2026-08-11-skills-location.md`.
+- Delivery runs from Cowork, not Claude Code. Skills are built and maintained
+  here and reach Cowork through packaging, which is unbuilt — so a skill is
+  currently invocable only in a Claude Code session rooted at this repo. See
+  `decisions/2026-08-11-delivery-surface.md`.
 - Files that are documents rather than invocable assets (decision records,
   research notes, client folders) do not take the prefix. They use their own
   conventions — see README.md.

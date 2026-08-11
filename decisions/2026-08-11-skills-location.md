@@ -71,6 +71,12 @@ Packaging is a transform either way, so it does not favour one location over
 the other and should not influence the choice made today. Recorded so the
 question is not re-opened as though it were an argument against this decision.
 
+**Updated 2026-08-11.** `decisions/2026-08-11-delivery-surface.md` settles that
+delivery runs from Cowork, which makes packaging required rather than
+hypothetical. It does not change this decision, for the reason above — the
+transform is needed from any source layout. Packaging is tracked as
+`brandure-agency-package` in `registry/skills.md`.
+
 ## What would reverse it
 
 - Claude Code changing its discovery path. The decision follows the harness by

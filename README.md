@@ -20,7 +20,9 @@ alignment check and the standing rules. `STATE.md` carries the current position.
 | `.claude/agents/` | Agent definitions, one flat `.md` each. |
 | `decisions/` | One file per decision: what, why, what would reverse it. |
 | `runs/` | Run logs, one file per month: `YYYY-MM.md`. |
-| `research/` | Research output, one directory per project. `vertical-sprint/` holds the ICP work; `prospect-sweeps/` holds pre-sale measurement. |
+| `research/` | Research output, one directory per project. `vertical-sprint/` holds the ICP work; `prospect-sweeps/` holds pre-sale measurement; `sources/` holds dated source notes on external material. |
+| `measurement/` | Client measurement standards. `methodology.md` is the operational standard for baselines, control sets and reporting. |
+| `growth/` | Agency growth operations. `content-log.md` logs published content for repurposing. |
 | `clients/` | One directory per client. Empty — no clients yet. |
 
 ## Conventions
@@ -36,9 +38,11 @@ alignment check and the standing rules. `STATE.md` carries the current position.
   `decisions/2026-08-11-skills-location.md`. **Agents** are flat files at
   `.claude/agents/brandure-agency-<name>.md`.
 - **Research** is `research/<project>/`, one directory per project, named for
-  the work rather than the date. Prospect sweeps are the standing exception:
+  the work rather than the date. Two standing exceptions:
   `research/prospect-sweeps/<prospect-slug>/`, one directory per prospect,
-  since they accumulate per target rather than per project.
+  since they accumulate per target rather than per project; and
+  `research/sources/YYYY-MM-DD-slug.md`, dated flat files holding notes on
+  external material, following the decision-record naming convention.
 - **British English** throughout.
 - **`main` only.** No branches, no pull requests. See
   `decisions/2026-08-08-main-branch-only.md`.

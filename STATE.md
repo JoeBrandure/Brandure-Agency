@@ -1,7 +1,7 @@
 # STATE.md — current position
 
-Last updated: 2026-08-11 (measurement ownership resolved — owned layer for
-prospect sweeps and published research, Searchable for client tracking)
+Last updated: 2026-08-12 (Searchable measurement capability confirmed;
+measurement methodology and content log added)
 
 Current position at a glance. Update this file whenever something moves between
 sections. It is the first thing to read at the start of a working session.
@@ -19,6 +19,16 @@ repo before building on anything here.
   `research/vertical-sprint/templates/`.
 - Decision record set covering repo-as-source-of-truth, naming convention,
   branch policy, vertical shortlist, and the measurement stack.
+- **Searchable measurement capability confirmed** against public documentation,
+  and `measurement/methodology.md` written as the operational standard —
+  day-zero baselines, control sets, raw metrics alongside every composite
+  score, and the case study publishing bar. See
+  `decisions/2026-08-12-searchable-measurement-capability.md`.
+- **Source note** on the Donnelly/Searchable playbook at
+  `research/sources/2026-08-12-donnelly-searchable-playbook.md`. Process useful,
+  outcome claims discounted — vendor commentary from a founder with a 3M
+  audience.
+- **`growth/content-log.md`** in place, structure only, no content published.
 - **Delivery surface settled.** Delivery runs from Cowork; Claude Code builds
   and maintains this repo. The repo stays authoritative and Cowork consumes a
   packaged version. See `decisions/2026-08-11-delivery-surface.md`.
@@ -106,6 +116,21 @@ repo recorded only what landed — so anything raised and left hanging was
 invisible by the next session. Clear items out as they are decided; do not let
 this become a backlog.
 
+- **`brandure-agency-citation-map` scope.** Citation-source analysis turns out
+  to be a first-class Searchable feature, so client-side diagnosis is the
+  platform's job, not the skill's. The owned-layer version still has work on
+  prospect sweeps and the published index. `registry/skills.md` still describes
+  the broader scope and needs reconciling against
+  `decisions/2026-08-12-searchable-measurement-capability.md`.
+- **Demand research is unmeasured.** The vertical sprint tests whether brands
+  are visible; it does not test whether buyers are complaining. Adding a
+  forum/subreddit/comment pass per vertical would test the second, and the two
+  together are a far stronger ICP input. Raised in the Donnelly source note.
+- **Content log seed rows.** The instruction creating `growth/content-log.md`
+  was truncated before the seed content. Table is empty pending supply.
+- **White-label plan tier.** Which Searchable tier carries white-label report
+  entitlement, and whether the Agency Partner Programme includes it. Client
+  reporting depends on it.
 - **Where the run log lands.** Delivery runs from Cowork against a packaged
   copy of this repo, but the mandatory closing step appends to
   `runs/YYYY-MM.md` here. A log that lands in the package rather than the repo

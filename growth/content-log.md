@@ -3,8 +3,22 @@
 Running log of published content across all channels. One row per published
 piece.
 
-**Not seeded — see below.** The table is empty because no seed rows were
-supplied.
+## The table is intentionally empty
+
+**Decided 2026-08-12. No seed rows, no example rows, ever.**
+
+A content log is a record of published output. Anything sitting in the table is
+read as something that went out. An example row is indistinguishable from a
+real record once the context that introduced it has scrolled away — and the
+rows most likely to be believed are the ones with plausible metrics attached.
+
+This applies to demonstration rows as much as to seed data, and it does not
+expire once real rows exist. A fabricated row surrounded by genuine ones is
+harder to spot, not easier.
+
+The column semantics are documented below in prose instead. An earlier version
+of this file carried a fenced example row; it has been removed under this
+decision.
 
 ## Why this exists
 
@@ -25,6 +39,22 @@ Brandure the long-form source is the published research index, which is what
 makes the index affordable for a solo operator — the content cost is amortised
 across a month of posts rather than paid once.
 
+## Columns
+
+| Column | What goes in it |
+|--------|-----------------|
+| Date | Publication date, `YYYY-MM-DD`. |
+| Channel | One of: Joe LinkedIn / Brandure LinkedIn / TikTok. |
+| Format | Text post, carousel, short video, newsletter, and so on. |
+| Content pillar | One of the standing pillars. Not yet defined — record the topic and normalise later. |
+| Source asset | The research index entry or long-form piece it derives from. Write `original` where there is none, never blank. |
+| Saves | Raw count. |
+| Shares | Raw count. |
+| New followers | Attributable to the post. |
+| Repurposed from | The earlier piece this was derived from, by date and channel. |
+| Repurposed to | Anything later derived from this, by date and channel. Updated retrospectively. |
+| Notes | Anything needed to interpret the row later. |
+
 ## How to use it
 
 - **Log at publication**, not in a weekly catch-up. A row added from memory
@@ -34,34 +64,18 @@ across a month of posts rather than paid once.
   keeping or passing on. Fill them in at a consistent interval after posting —
   pick one and hold it, since a 24-hour figure and a 30-day figure are not
   comparable.
-- **Source asset** names the research index entry or long-form piece the post
-  derives from. Write `original` where there is none, rather than leaving it
-  blank — blank reads as unrecorded.
-- **Content pillar** must be one of the three or four standing pillars. Pillars
-  are not yet defined; that work sits behind the personal-brand phase, which is
-  deferred. Until then, record the topic and normalise later.
-
-Row format:
-
-```
-| 2026-09-03 | Joe LinkedIn | Text post | — | research index: legal 2026-08 | 41 | 12 | 8 | — | TikTok 2026-09-05 | Strongest performer of the week |
-```
+- **Blank means unrecorded, not zero.** Write `0` where a metric was checked
+  and was zero.
 
 ## Log
 
 | Date | Channel | Format | Content pillar | Source asset | Saves | Shares | New followers | Repurposed from | Repurposed to | Notes |
 |------|---------|--------|----------------|---------------|-------|--------|---------------|-----------------|---------------|-------|
 
-Channel is one of: Joe LinkedIn / Brandure LinkedIn / TikTok.
-
 ## Status
 
-**No content published.** The log is structure only.
-
-The instruction that created this file was truncated mid-sentence at "Seed
-with", so the intended seed rows are not recorded here. They were not invented:
-a content log is a record of what was published, and fabricated rows would make
-it worse than empty. Supply them and they will be added.
+**No content published.** The log is structure only, and empty by decision
+rather than by omission.
 
 Related deferral: the personal-brand mechanics in
 `research/sources/2026-08-12-donnelly-searchable-playbook.md` are marked

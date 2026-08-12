@@ -91,13 +91,30 @@ Flagged in `STATE.md` for reconciliation against `registry/skills.md`.
    it does not belong in any Brandure pitch, proposal or case study. Brandure
    quotes its own measured results or none.
 
-## Open item
+## Open items
 
 **Confirm which plan tier carries white-label report entitlement, and whether
 the Agency Partner Programme includes it.** Client-facing reporting depends on
 it — see `decisions/2026-08-11-client-reporting-deferred.md`, which is still
 blocked on partner access. If white-labelling sits above the tier Brandure can
 justify, the Looker Studio fallback comes back into play.
+
+**Re-verify the whole capability list against a live account once Agency
+Partner Programme access is granted** — specifically which endpoints and
+features the partner tier actually exposes.
+
+The API reference shows tier-gating on at least shopping analytics and
+white-label reports, which establishes that gating exists rather than that
+those two are the only gated features. **Documented capability does not imply
+available capability.** Every decision above rests on a list read from public
+documentation, and any item that turns out to sit above Brandure's tier changes
+what the methodology in `measurement/methodology.md` can promise a client.
+
+Re-verification is not a formality to tick off. The items to check first are
+the ones the methodology depends on hardest: per-prompt breakdowns, the
+citation-sources layer, share-of-voice history depth, and API access to all
+three. A client already onboarded when a gap surfaces is a client whose
+reporting standard silently drops.
 
 ## What would reverse it
 

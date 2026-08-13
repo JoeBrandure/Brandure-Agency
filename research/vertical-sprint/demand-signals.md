@@ -92,15 +92,47 @@ In descending weight:
 **Only classes 1 and 2 are buying signals.** Classes 3 and 4 are awareness, and
 awareness is what makes a long cycle long.
 
-## Threshold to pass
+## Review trigger — bands and pre-committed responses
 
-**15 distinct buyer-side instances within the six-month window, of which at
-least 5 fall in classes 1 or 2.**
+**Ratified 2026-08-12.** Section A of
+`decisions/2026-08-12-channel-strategy.md`. This file is the operative copy.
+
+**A review trigger, not a gate.** There is no measured basis for these numbers
+— no prior Brandure funnel exists to derive them from. They are legibility
+thresholds, not forecasts, and their function is to force a stop-and-reassess
+at a pre-committed point rather than continuation on momentum. Full definition
+and governing rules in the channel strategy record.
+
+| Band | Reading | Response |
+|------|---------|----------|
+| **15+ instances, 5+ in classes 1–2** | Viable as first vertical. | Lead with it. |
+| **8–14 instances, 3+ in classes 1–2** | Contestable. | Hold as reserve. Do not lead with it. |
+| **Under 8 instances** | Education-led selling. | Not affordable as a first vertical at 15–20 hours a week. |
 
 Distinct means distinct people. One person posting five times is one instance.
 
-Both halves must be met. Fifteen instances that are all class 3 and 4 is an
-aware market that is not yet buying, and it fails.
+**Both halves of a band must be met.** Fifteen instances that are all class 3
+and 4 is an aware market that is not yet buying — it does not reach the top
+band on volume alone, and drops to the band its class 1–2 count supports.
+
+### Governing rules
+
+Full statement in `decisions/2026-08-12-channel-strategy.md`. In short:
+
+- **One re-test per vertical.** A re-test landing in the middle band again is
+  treated as the bottom band. Persistent ambiguity is the answer.
+- **Mitigating circumstances are pre-registered**, recorded below on the day the
+  window opens for a given vertical. Nothing added afterwards counts.
+- **Track instances per source as a leading indicator**, not only the running
+  total, so a source returning nothing is visible early. Leading indicators
+  inform; the trigger fires at the end of the window on the full count.
+
+### Pre-registered circumstances
+
+Recorded per vertical when its measurement window opens. An empty list is valid
+and is written down as one.
+
+_None registered — no window has opened._
 
 ## Collection and classification
 

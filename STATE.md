@@ -1,7 +1,7 @@
 # STATE.md — current position
 
-Last updated: 2026-08-12 (channel strategy recorded — Section A decided,
-Section B unratified and blocked on a contract read)
+Last updated: 2026-08-12 (review-trigger bands ratified for demand signal and
+Phase 2; Phase 1 and merge trigger still unratified)
 
 Current position at a glance. Update this file whenever something moves between
 sections. It is the first thing to read at the start of a working session.
@@ -34,8 +34,8 @@ repo before building on anything here.
   once context is lost. Decided 2026-08-12, recorded in the file.
 - **Demand-listening method instrumented** at
   `research/vertical-sprint/demand-signals.md`. Sources, buyer-side inclusion
-  rule, four signal classes, and a pass threshold of 15 distinct buyer-side
-  instances with at least 5 in classes 1–2. Not yet run.
+  rule, four signal classes, and a three-band review trigger with a
+  pre-committed response per band. Not yet run.
 - **`brandure-agency-citation-map` narrowed** to prospect sweeps and published
   index production, with an explicit exclusion from client engagements where
   Searchable's native cited-sources layer already covers it.
@@ -45,8 +45,17 @@ repo before building on anything here.
   publishes research indexes with a single CTA offering a personalised AI
   visibility report; TikTok carries founder-journey content and is not measured
   on pipeline; positioning is AEO-specialist first with broader services as a
-  post-traction, subcontractable expansion. Sections B, C and D are not
-  decisions — see below.
+  post-traction, subcontractable expansion. **Also ratified 2026-08-12:** the
+  demand-signal and Phase 2 review-trigger bands, both independent of the
+  contract question. Sections B, C and D are not decisions — see below.
+- **Review triggers replace gates.** The numeric items are review triggers, not
+  gates: no prior Brandure funnel exists, so none is derived from measured
+  performance. Their function is to force a stop-and-reassess rather than
+  continuation on momentum. Each band carries a pre-committed response, and
+  three rules govern all of them — one re-test per trigger with a second
+  ambiguous result read as the bottom band; mitigating circumstances
+  pre-registered before the window opens or discounted; and per-unit rate
+  tracked as a leading indicator alongside the cumulative total.
 - **Delivery surface settled.** Delivery runs from Cowork; Claude Code builds
   and maintains this repo. The repo stays authoritative and Cowork consumes a
   packaged version. See `decisions/2026-08-11-delivery-surface.md`.
@@ -71,7 +80,10 @@ repo before building on anything here.
   everything below waits on it. **Selection rule:** a vertical must pass both
   the visibility gap and the demand signal, and where two verticals both pass,
   the stronger demand signal wins — see
-  `research/vertical-sprint/demand-signals.md`.
+  `research/vertical-sprint/demand-signals.md`, which carries the ratified
+  three-band demand review trigger: 15+ instances with 5+ in classes 1–2 is
+  viable as a first vertical, 8–14 with 3+ is held as reserve, under 8 is
+  education-led selling and unaffordable at 15–20 hours a week.
 - **ICP definition** — blocked on the vertical sprint. Cannot be written from
   first principles; needs evidence of which categories have weak, contestable
   AI answer surfaces.
@@ -145,20 +157,18 @@ repo recorded only what landed — so anything raised and left hanging was
 invisible by the next session. Clear items out as they are decided; do not let
 this become a backlog.
 
-- **Four channel-strategy gates — proposed, not ratified.** From Section B of
+- **Three channel-strategy items — proposed, not ratified.** From Section B of
   `decisions/2026-08-12-channel-strategy.md`. **Not settled; do not act on
   them as decided or restate them elsewhere as agreed.**
   1. The four-phase build structure (validate and instrument, publish and
      capture, outbound and founding clients, compound).
-  2. Phase 1 gate — 50 qualified email captures within 60 days of the research
-     index going live.
-  3. Phase 2 gate — 40 diagnostic-led outbound approaches into a single
-     vertical at an 8–10% booked-call rate.
-  4. The LinkedIn merge trigger — first signed case study or Snap exit,
-     whichever comes first.
+  2. The Phase 1 review trigger — email capture bands at 60 days from the
+     research index going live. Unratified because Phase 1 has not started.
+  3. The LinkedIn merge trigger — first signed case study or Snap exit,
+     whichever comes first. Blocked on the contract read.
 
-  The three numeric gates have no measured basis; there is no prior Brandure
-  funnel to derive them from. Ratify, replace or discard them — leaving them
+  The Phase 1 bands have no measured basis; there is no prior Brandure funnel
+  to derive them from. Ratify, replace or discard them — leaving them
   unchallenged is how a proposal becomes a target by default.
 - **Searchable tier verification.** Which tier carries white-label report
   entitlement, whether the Agency Partner Programme includes it, and — more
@@ -201,6 +211,10 @@ this become a backlog.
 - **A truncated or incomplete instruction is flagged as truncated**, not
   treated as the whole request. The reconciliation above only works against a
   request received intact.
+- **Numeric thresholds with no measured basis are review triggers, not gates.**
+  A gate implies pass/fail against a measured standard. Where no prior data
+  exists, say trigger, give each band a response committed in advance, and
+  pre-register mitigating circumstances before the window opens.
 - **Section boundaries in a decision record are load-bearing.** Where a record
   separates what was decided from what was proposed, do not merge, summarise
   across, or promote proposals by restating them elsewhere without the label.

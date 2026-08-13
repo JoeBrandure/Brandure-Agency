@@ -1,7 +1,7 @@
 # STATE.md — current position
 
-Last updated: 2026-08-12 (demand-listening method instrumented; citation-map
-narrowed; content log empty by decision)
+Last updated: 2026-08-12 (channel strategy recorded — Section A decided,
+Section B unratified and blocked on a contract read)
 
 Current position at a glance. Update this file whenever something moves between
 sections. It is the first thing to read at the start of a working session.
@@ -39,6 +39,14 @@ repo before building on anything here.
 - **`brandure-agency-citation-map` narrowed** to prospect sweeps and published
   index production, with an explicit exclusion from client engagements where
   Searchable's native cited-sources layer already covers it.
+- **Channel strategy recorded** at `decisions/2026-08-12-channel-strategy.md`.
+  **Section A only is decided:** Joe's personal LinkedIn publishes
+  category-level AI/AEO content with no Brandure CTA; the Brandure page
+  publishes research indexes with a single CTA offering a personalised AI
+  visibility report; TikTok carries founder-journey content and is not measured
+  on pipeline; positioning is AEO-specialist first with broader services as a
+  post-traction, subcontractable expansion. Sections B, C and D are not
+  decisions — see below.
 - **Delivery surface settled.** Delivery runs from Cowork; Claude Code builds
   and maintains this repo. The repo stays authoritative and Cowork consumes a
   packaged version. See `decisions/2026-08-11-delivery-surface.md`.
@@ -137,16 +145,21 @@ repo recorded only what landed — so anything raised and left hanging was
 invisible by the next session. Clear items out as they are decided; do not let
 this become a backlog.
 
-- **Channel strategy and gates — record does not exist.** An instruction on
-  2026-08-12 asked for the Phase 0 gate to be updated in
-  `decisions/2026-08-12-channel-strategy-and-gates.md` and in this file.
-  Neither exists: there is no such decision record and no Phase 0 gate anywhere
-  in the repo. The demand-over-visibility weighting it referred to has been
-  recorded in `research/vertical-sprint/demand-signals.md` and against the
-  vertical sprint entry above, so the substance is captured. What is missing is
-  the channel strategy itself — which channels, in what order, gated on what.
-  That has never been decided here and was not supplied, so it has not been
-  written.
+- **Four channel-strategy gates — proposed, not ratified.** From Section B of
+  `decisions/2026-08-12-channel-strategy.md`. **Not settled; do not act on
+  them as decided or restate them elsewhere as agreed.**
+  1. The four-phase build structure (validate and instrument, publish and
+     capture, outbound and founding clients, compound).
+  2. Phase 1 gate — 50 qualified email captures within 60 days of the research
+     index going live.
+  3. Phase 2 gate — 40 diagnostic-led outbound approaches into a single
+     vertical at an 8–10% booked-call rate.
+  4. The LinkedIn merge trigger — first signed case study or Snap exit,
+     whichever comes first.
+
+  The three numeric gates have no measured basis; there is no prior Brandure
+  funnel to derive them from. Ratify, replace or discard them — leaving them
+  unchallenged is how a proposal becomes a target by default.
 - **Searchable tier verification.** Which tier carries white-label report
   entitlement, whether the Agency Partner Programme includes it, and — more
   broadly — which endpoints the partner tier actually exposes. The API
@@ -163,6 +176,34 @@ this become a backlog.
 - **`registry/agents.md` Type column.** Every row reads `agent` in a file
   called agents.md, and it is the last use of "Type" vocabulary after the
   rename to Track. Cosmetic; drop it next time the file is touched.
+
+## Open actions on Joe
+
+- **Read the Snapchat employment contract** for outside-business-activity and
+  moonlighting clauses. Blocks finalising the LinkedIn merge trigger in Section
+  B of `decisions/2026-08-12-channel-strategy.md`. Any such clause is triggered
+  by the agency existing, not by whether a post links to it — so the absent CTA
+  on Joe's personal LinkedIn is a credibility decision, not a contractual
+  mitigation, and must not be relied on as one.
+- **Supply markets per vertical and competitor names** for the B2B SaaS and
+  hospitality prompt sets, so `research/vertical-sprint/prompts/` can be
+  instantiated.
+- **Supply the two Donnelly video URLs** for
+  `research/sources/2026-08-12-donnelly-searchable-playbook.md`.
+
+## Process
+
+- **Commit reports must state files created against files requested, including
+  omissions.** Every file asked for is accounted for explicitly — created, or
+  named as not created with the reason. A silent gap between what was asked and
+  what landed is the failure this rule exists to catch; it produced the missing
+  channel-strategy record between `7c31a7e` and `f9a96ad`.
+- **A truncated or incomplete instruction is flagged as truncated**, not
+  treated as the whole request. The reconciliation above only works against a
+  request received intact.
+- **Section boundaries in a decision record are load-bearing.** Where a record
+  separates what was decided from what was proposed, do not merge, summarise
+  across, or promote proposals by restating them elsewhere without the label.
 
 ## Standing notes
 

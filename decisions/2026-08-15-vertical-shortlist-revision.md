@@ -78,6 +78,25 @@ complaining, in their own words, unprompted. Applied here, reading 1 predicts
 buyer-side instances in signal classes 1–2; reading 2 predicts near-silence.
 Resolve after it runs, against the ratified bands.
 
+> **Update, 2026-08-15 — the pass has run. The hold stands.** See
+> `research/vertical-sprint/demand-pass-2026-08-15.md`.
+>
+> The pass did not resolve the question by the route anticipated above. It
+> found near-zero buyer-side complaint content in *every* vertical, so the
+> bands were not applied and the two readings were not separated by silence
+> versus signal — silence was universal and therefore uninformative.
+>
+> What it found instead, from trade survey data: 26% of manufacturing buyers
+> now rank AI Overviews in their top two preferred search returns, up from 8%
+> in 2024, but **31% do not use AI for work research at all** — the lowest
+> adoption of any vertical tested. That is genuine evidence of a real but
+> lagging channel, which is neither of the two clean readings above.
+>
+> **The pass recommends promoting industrial manufacturers from reserve to
+> primary. That recommendation is Claude's output and is not ratified.** Until
+> Joe ratifies it, this record's hold is unchanged and the vertical stays on
+> the reserve list.
+
 This is the case the two-axis framing in `demand-signals.md` was written for —
 a wide-open answer surface with unknown buyer demand — and it arrived faster
 than expected.

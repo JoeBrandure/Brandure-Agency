@@ -17,8 +17,16 @@ research/vertical-sprint/
 ├── prompts/             instantiated sets, one per sweep — frozen once run
 ├── results/             logged output, one file per vertical per sweep
 ├── scans/               archived ad-hoc scans, one directory per run
-└── demand-signals.md    the demand-listening pass
+├── demand-signals.md    the demand-listening method and ratified bands
+└── demand-pass-2026-08-15.md   the 15 Aug pass — substituted instrument
 ```
+
+**Read the two demand files together.** `demand-signals.md` holds the method
+and the bands. `demand-pass-2026-08-15.md` is the pass that ran, which
+substituted trade survey data because the forum instrument returned near-zero
+signal everywhere. Its scoring table, first-vertical recommendation and
+proposed method change are **Claude's output pending Joe's ratification, not
+decisions.**
 
 **`scans/` is not `runs/`.** Renamed from `runs/` on 2026-08-15 to remove the
 collision with the top-level `runs/` directory, which holds monthly skill-run

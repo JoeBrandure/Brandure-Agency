@@ -2,6 +2,40 @@
 
 Date: 2026-08-12
 
+## STATUS — instrument substituted, 2026-08-15
+
+**The 15 August demand pass did not use this method as its primary
+instrument.** See `research/vertical-sprint/demand-pass-2026-08-15.md`.
+
+**What happened.** The pass was specified to count buyer-side complaint
+instances against the bands below. It found almost none — in any vertical,
+including ones with overwhelming independent evidence of buyer demand. What it
+found in volume instead was supply-side saturation: specialist AEO agencies,
+tools and benchmark reports already targeting every vertical on the shortlist.
+
+**The bands were not applied, and applying them would have been wrong.** The
+threshold — 15 instances, 5+ in classes 1–2 — assumes an instrument that
+returns signal. This one returned near-zero everywhere, so the bands would have
+failed all six verticals uniformly, including B2B SaaS, where a Forrester survey
+of ~18,000 buyers reports 94% using AI during their most recent purchase. A test
+that fails a vertical with that evidence behind it is not measuring what it was
+built to measure.
+
+The pass substituted **trade and industry survey data** as the primary
+instrument. It is recorded as a substituted instrument, not a band evaluation.
+
+**The bands remain ratified and are not withdrawn.** They stay valid for any
+future pass in a vertical where forum signal actually exists. What the 15 August
+pass establishes is that marketing decision-makers rarely post publicly about
+visibility problems, so this instrument should not be the *primary* one for
+this category of question. The method below is unchanged and still correct for
+what it does.
+
+A method change is proposed in the demand pass file and **is not ratified** —
+see its Open Items.
+
+---
+
 The demand-listening pass. Companion to the prompt sprint in
 `research/vertical-sprint/README.md`, which measures a different thing.
 

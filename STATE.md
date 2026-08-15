@@ -1,7 +1,7 @@
 # STATE.md — current position
 
-Last updated: 2026-08-15 (Dubai scan Section A lifted; hospitality
-deprioritised; industrial manufacturers held pending the demand pass)
+Last updated: 2026-08-15 (demand pass complete — six open items pending
+ratification; no vertical selected)
 
 Current position at a glance. Update this file whenever something moves between
 sections. It is the first thing to read at the start of a working session.
@@ -35,7 +35,9 @@ repo before building on anything here.
 - **Demand-listening method instrumented** at
   `research/vertical-sprint/demand-signals.md`. Sources, buyer-side inclusion
   rule, four signal classes, and a three-band review trigger with a
-  pre-committed response per band. Not yet run.
+  pre-committed response per band. **Run 2026-08-15 and substituted** — the
+  instrument returned near-zero signal everywhere and the bands were not
+  applied. Method and bands retained for future use where forum signal exists.
 - **`brandure-agency-citation-map` narrowed** to prospect sweeps and published
   index production, with an explicit exclusion from client engagements where
   Searchable's native cited-sources layer already covers it.
@@ -61,11 +63,23 @@ repo before building on anything here.
   categories, 13 August 2026. **Half contaminated** — Gemini and Google Search
   ran on a signed-in profile — and n=1 throughout. Section A of its action list
   is lifted below; Sections B–E stay archived pending A2 and A3.
+- **Demand pass complete** — `research/vertical-sprint/demand-pass-2026-08-15.md`.
+  Ran on trade and industry survey data after the forum instrument in
+  `demand-signals.md` returned near-zero buyer-side signal in every vertical.
+  **The ratified bands were not applied**; the pass is recorded as a substituted
+  instrument, not a band evaluation, and the bands stand for future use where
+  forum signal exists. Its highest-value unplanned output was supply-side
+  competitor mapping.
+  **Nothing in it is decided.** The scoring table, the first-vertical
+  recommendation (aesthetic clinics, UAE), the UAE-first market sequence and the
+  proposed method change are all Claude's output pending Joe's ratification —
+  see Raised, not resolved.
 - **Vertical shortlist amended** by
   `decisions/2026-08-15-vertical-shortlist-revision.md`. Boutique and
   independent hospitality moves from primary to deprioritised. Aesthetic
   clinics unchanged and still primary. Industrial manufacturers **not**
-  promoted — held pending the demand pass.
+  promoted — the hold was pending the demand pass, which has now run and
+  recommends promotion; the recommendation is unratified, so the hold stands.
 - **Delivery surface settled.** Delivery runs from Cowork; Claude Code builds
   and maintains this repo. The repo stays authoritative and Cowork consumes a
   packaged version. See `decisions/2026-08-11-delivery-surface.md`.
@@ -81,6 +95,10 @@ repo before building on anything here.
 
 ## Blocked
 
+- **Vertical selection** — not made. The demand pass recommends aesthetic
+  clinics (UAE) as first vertical on a 9/10 tie-break against B2B SaaS. That is
+  a recommendation, not a decision, and no vertical selection record exists by
+  instruction. Blocked on Joe ratifying the scoring table.
 - **Vertical sprint** — designed and templated, not run. Needs no tooling, but
   no longer blocked on operator time alone: the prompt sets cannot be
   instantiated until Joe supplies markets per vertical and competitor names for
@@ -90,10 +108,11 @@ repo before building on anything here.
   everything below waits on it. **Selection rule:** a vertical must pass both
   the visibility gap and the demand signal, and where two verticals both pass,
   the stronger demand signal wins — see
-  `research/vertical-sprint/demand-signals.md`, which carries the ratified
-  three-band demand review trigger: 15+ instances with 5+ in classes 1–2 is
-  viable as a first vertical, 8–14 with 3+ is held as reserve, under 8 is
-  education-led selling and unaffordable at 15–20 hours a week.
+  `research/vertical-sprint/demand-signals.md` for the ratified three-band
+  trigger. **Note:** the 15 August pass did not apply those bands — it
+  substituted trade survey data — so the tie-break between aesthetic clinics
+  and B2B SaaS was made on the scoring table in
+  `research/vertical-sprint/demand-pass-2026-08-15.md`, which is unratified.
 - **ICP definition** — blocked on the vertical sprint. Cannot be written from
   first principles; needs evidence of which categories have weak, contestable
   AI answer surfaces.
@@ -109,10 +128,10 @@ repo before building on anything here.
 - **`brandure-agency-citation-map`** — needs the Bright Data account, which is
   not yet set up. No longer urgent: it runs on the owned layer only, and is now
   explicitly excluded from client engagements.
-- **Demand-listening pass** — method written, not runnable as specified. Needs
-  the Bright Data account and the `brightdata-plugin:brand-listening` skill,
-  neither confirmed available. Manual collection is viable at this volume — 15
-  instances — and is the sensible first version.
+- **Demand-listening pass** — complete, by substituted instrument. No longer
+  blocked, and the Bright Data / `brightdata-plugin:brand-listening` dependency
+  never bound: the pass ran on trade survey data instead. The forum instrument
+  remains unrun and would still need those tools if it is ever used.
 - **Service definition** — what is actually sold, and in what shape. Blocked
   on ICP and measured delivery cost.
 - **`brandure-agency-package`** — bundles `.claude/skills/` into a plugin
@@ -194,6 +213,30 @@ this become a backlog.
   reference shows tier-gating on at least shopping analytics and white-label
   reports, so documented capability does not imply available capability.
   Re-verify against a live account on access.
+- **Demand pass — six open items, none decided.** From
+  `research/vertical-sprint/demand-pass-2026-08-15.md`. **Pending Joe's
+  ratification. Do not act on any of these as settled, and do not restate them
+  elsewhere without the pending label.**
+  1. **Ratify the method change** — trade survey data as primary instrument,
+     forum scraping secondary, supply-side competitor mapping as an explicit
+     third output, and every search set run market-qualified.
+  2. **Ratify promotion of industrial manufacturers** from reserve to primary.
+     Until ratified the hold in
+     `decisions/2026-08-15-vertical-shortlist-revision.md` stands and the
+     vertical stays on the reserve list.
+  3. **Ratify the scoring table and first-vertical recommendation** — aesthetic
+     clinics (UAE), taking a tie-break against B2B SaaS at 9 each.
+  4. **Ratify the UAE-first / US-UK-second market sequence.**
+  5. **Verify Forrester, Gardner, Cox, Magenta and Microsoft figures against
+     primary sources** before any client-facing use. All were reached via
+     secondary reporting. This one is not a ratification — it is verification
+     work, and it gates external use of every figure in the pass.
+  6. **Vertical-level UAE buyer data remains absent.** Assess whether it can be
+     commissioned, inferred, or whether the 13 August Dubai scan is sufficient.
+     The UAE evidence in the pass is market-level only.
+
+  Note on the instruction that produced this entry: it referred to five open
+  items; the file lists six. All six are recorded.
 - **Where the run log lands.** Delivery runs from Cowork against a packaged
   copy of this repo, but the mandatory closing step appends to
   `runs/YYYY-MM.md` here. A log that lands in the package rather than the repo

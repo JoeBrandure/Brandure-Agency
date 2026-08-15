@@ -15,8 +15,16 @@ research/vertical-sprint/
 ├── README.md            method, shortlist, evidence
 ├── templates/           prompt templates, one per vertical — editable
 ├── prompts/             instantiated sets, one per sweep — frozen once run
-└── results/             logged output, one file per vertical per sweep
+├── results/             logged output, one file per vertical per sweep
+├── scans/               archived ad-hoc scans, one directory per run
+└── demand-signals.md    the demand-listening pass
 ```
+
+**`scans/` is not `runs/`.** Renamed from `runs/` on 2026-08-15 to remove the
+collision with the top-level `runs/` directory, which holds monthly skill-run
+logs per the mandatory closing step in `templates/skill-template.md`. Scans are
+research output; `runs/` is delivery telemetry. One directory per scan, named
+`YYYY-MM-DD-<market>/`.
 
 **`templates/` is editable.** Placeholders unresolved, no market, no competitor
 names. Change them as the method improves.
@@ -39,18 +47,32 @@ the next free number; never renumber.
 
 ## Shortlist
 
+Amended 2026-08-15 — see
+`decisions/2026-08-15-vertical-shortlist-revision.md`.
+
 **Primary — test these first, in this order:**
 
 1. Legal and professional services
 2. B2B SaaS
 3. Health, wellness and aesthetics
-4. Boutique and independent hospitality
 
 **Reserve — test only if the primaries disappoint:**
 
-- Manufacturing and industrial B2B
+- Manufacturing and industrial B2B — **held pending the demand pass.** The
+  13 August scan found a wide-open answer surface and recommended promoting it
+  to first priority. Not actioned: the scan measures supply-side vacuum and
+  cannot distinguish "nobody is competing yet" from "AI is not a discovery
+  channel here". `demand-signals.md` is the instrument that separates them.
 - Higher education
 - Automotive
+
+**Deprioritised:**
+
+- Boutique and independent hospitality — moved from primary 2026-08-15.
+  ChatGPT and Perplexity, both clean surfaces in the 13 August scan, ground on
+  Visit Dubai and Tripadvisor: a real consensus layer. Compounds with a client
+  unlikely to fund a retainer at the price floor.
+- Universities — anchored to QS, THE and KHDA.
 
 ## Method
 

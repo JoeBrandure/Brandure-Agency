@@ -2,6 +2,11 @@
 
 Date: 2026-08-08
 
+**Amended 2026-08-15 by `decisions/2026-08-15-vertical-shortlist-revision.md`.**
+Boutique and independent hospitality has moved from primary to deprioritised on
+evidence from the 13 August Dubai scan. Everything else below stands. Read the
+amendment alongside this record.
+
 ## Decision
 
 Test four primary verticals before committing to an ICP, in this order:

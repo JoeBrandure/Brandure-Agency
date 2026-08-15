@@ -1,8 +1,27 @@
 ---
 run: brandure-agency-vertical-sprint-run-001
-status: archived — live items lifted to STATE.md
+status: archived — Section A only lifted to STATE.md; Sections B–E remain
+  archived pending data verification
 immutable: true
+amended: 2026-08-15 — front matter only; body unchanged
 ---
+
+> **Front-matter amendment, 2026-08-15.** The original status line claimed live
+> items had been lifted to `STATE.md`. They had not — nothing from this scan
+> reached `STATE.md` at archive time. Corrected above. **Section A (A1–A4) is
+> now lifted. Sections B, C, D and E are not**, and must not be acted on until
+> A2 and A3 have run: Sections B and C rest on findings drawn from 14
+> contaminated cells at n=1.
+>
+> The `immutable: true` flag stands for the body, which is unedited. Front
+> matter was corrected because it asserted something untrue about the state of
+> another file.
+>
+> **Directory note.** This file lives under
+> `research/vertical-sprint/scans/`, renamed from `runs/` on 2026-08-15. The
+> top-level `runs/` directory is a separate thing entirely: monthly skill-run
+> logs, per the mandatory closing step in `templates/skill-template.md`. Scans
+> are research output; `runs/` is delivery telemetry.
 
 # Brandure — Action List from Dubai AEO Scan
 **Source:** `claude/aeo-scan-dubai-2026-08-13.md` (7 categories × 4 surfaces, 13 Aug 2026)

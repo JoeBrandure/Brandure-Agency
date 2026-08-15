@@ -1,6 +1,9 @@
 # Boutique hospitality — prompt template
 
-Primary vertical 4 of 4.
+**DEPRIORITISED 2026-08-15.** Moved out of the primary list by
+`decisions/2026-08-15-vertical-shortlist-revision.md`. The template is kept
+intact — it costs nothing to hold and the decision carries reversal conditions —
+but this vertical is not in the queue to be run.
 
 **Template, not an instance.** Edit this freely. Freezing applies to the
 instantiated set in `research/vertical-sprint/prompts/`, per the frozen-inputs

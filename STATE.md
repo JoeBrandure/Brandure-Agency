@@ -1,7 +1,7 @@
 # STATE.md — current position
 
-Last updated: 2026-08-12 (review-trigger bands ratified for demand signal and
-Phase 2; Phase 1 and merge trigger still unratified)
+Last updated: 2026-08-15 (Dubai scan Section A lifted; hospitality
+deprioritised; industrial manufacturers held pending the demand pass)
 
 Current position at a glance. Update this file whenever something moves between
 sections. It is the first thing to read at the start of a working session.
@@ -56,6 +56,16 @@ repo before building on anything here.
   ambiguous result read as the bottom band; mitigating circumstances
   pre-registered before the window opens or discounted; and per-unit rate
   tracked as a leading indicator alongside the cumulative total.
+- **Dubai AEO scan archived** at
+  `research/vertical-sprint/scans/2026-08-13-dubai/`. Four surfaces, seven
+  categories, 13 August 2026. **Half contaminated** — Gemini and Google Search
+  ran on a signed-in profile — and n=1 throughout. Section A of its action list
+  is lifted below; Sections B–E stay archived pending A2 and A3.
+- **Vertical shortlist amended** by
+  `decisions/2026-08-15-vertical-shortlist-revision.md`. Boutique and
+  independent hospitality moves from primary to deprioritised. Aesthetic
+  clinics unchanged and still primary. Industrial manufacturers **not**
+  promoted — held pending the demand pass.
 - **Delivery surface settled.** Delivery runs from Cowork; Claude Code builds
   and maintains this repo. The repo stays authoritative and Cowork consumes a
   packaged version. See `decisions/2026-08-11-delivery-surface.md`.
@@ -110,6 +120,14 @@ repo before building on anything here.
   none) and on the plugin layout not being scoped. Not urgent for that reason,
   but it sits between every delivery skill and the surface delivery runs from,
   so it stops being deferrable the moment the first skill is built.
+- **Prospect target-list building in aesthetic clinics and industrial
+  manufacturers — hard prerequisite: A3.** No target lists in either vertical
+  until the n=3 re-run is done. The two verticals the scan recommends
+  prospecting first are the same two whose headline findings — four disjoint
+  clinic sets, near-zero manufacturer overlap — are flagged as unverified at
+  n=1. Prospecting on them means opening conversations with a finding that
+  might be sampling variance, on exactly the categories where a prospect is
+  most likely to check.
 - **Baseline reconciliation — decide before the first client.** Prospect sweeps
   run on the owned layer, client tracking on Searchable. The two will not
   produce matching numbers, so the pitch figure and the first client report
@@ -189,6 +207,23 @@ this become a backlog.
 
 ## Open actions on Joe
 
+**From the 13 August Dubai scan — Section A only.** Sections B–E remain
+archived at `research/vertical-sprint/scans/2026-08-13-dubai/actions.md` and
+are not to be acted on until A2 and A3 have run.
+
+- **A1 — Enable Claude in Chrome for incognito.** `chrome://extensions` →
+  Claude in Chrome → Allow in Incognito. Two minutes. Blocks A2.
+- **A2 — Re-run the 14 contaminated cells** (Gemini and Google Search) on a
+  clean profile. ChatGPT and Perplexity are clean and do not need re-running.
+  **No Gemini or Google figure goes to a client until this is done.**
+- **A3 — Re-run at n=3 per prompt**, prioritising aesthetic clinics and
+  industrial manufacturers. These are the two "zero overlap" headline claims
+  and the two a prospect is most likely to challenge. **Hard prerequisite for
+  target-list building in both verticals** — see Blocked.
+- **A4 — Add a paid-tier comparison.** The scan ran free/default tiers. If paid
+  tiers and reasoning models ground on different sources, the thesis narrows to
+  free-tier users, which is material before pitching.
+
 - **Read the Snapchat employment contract** for outside-business-activity and
   moonlighting clauses. Blocks finalising the LinkedIn merge trigger in Section
   B of `decisions/2026-08-12-channel-strategy.md`. Any such clause is triggered
@@ -211,6 +246,11 @@ this become a backlog.
 - **A truncated or incomplete instruction is flagged as truncated**, not
   treated as the whole request. The reconciliation above only works against a
   request received intact.
+- **Dated records use the actual date of creation.** A record created on the
+  15th is dated the 15th, whatever date the session believes it is. Existing
+  records carrying 2026-08-12 are left as they are: a wrong date is less
+  damaging than retro-editing committed history, and a correction that rewrites
+  the past is harder to audit than a date that is simply off.
 - **Numeric thresholds with no measured basis are review triggers, not gates.**
   A gate implies pass/fail against a measured standard. Where no prior data
   exists, say trigger, give each band a response committed in advance, and

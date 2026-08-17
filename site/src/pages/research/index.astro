@@ -1,0 +1,43 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const pieces = (await getCollection('research')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+const fmt = new Intl.DateTimeFormat('en-GB', { dateStyle: 'long' });
+---
+
+<BaseLayout
+  title="Research"
+  description="Original research from Brandure on how AI answer engines treat specific categories and markets — which brands get named, and which sources the answers are built from."
+>
+  <h1>Research</h1>
+
+  <p class="lede">
+    We publish what we measure. Each piece is a scan of how answer engines
+    handle a specific category, with the method stated so it can be checked.
+  </p>
+
+  {
+    pieces.length === 0 ? (
+      <p>Nothing published yet.</p>
+    ) : (
+      <ul class="card-list">
+        {pieces.map((piece) => (
+          <li>
+            <p class="meta">
+              <time datetime={piece.data.date.toISOString().slice(0, 10)}>
+                {fmt.format(piece.data.date)}
+              </time>
+              <span class="tag">{piece.data.vertical}</span>
+              {piece.data.gated && <span class="tag">Email required</span>}
+            </p>
+            <h2><a href={`/research/${piece.id}`}>{piece.data.title}</a></h2>
+            <p>{piece.data.summary}</p>
+          </li>
+        ))}
+      </ul>
+    )
+  }
+</BaseLayout>

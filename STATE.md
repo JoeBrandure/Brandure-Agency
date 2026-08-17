@@ -1,7 +1,7 @@
 # STATE.md — current position
 
-Last updated: 2026-08-17 (A2 closed by the clean re-run; two headline findings
-moved between runs — A3 now urgent)
+Last updated: 2026-08-17 (brandure.io site scaffolded; A2 closed by the clean
+re-run; A3 now urgent)
 
 Current position at a glance. Update this file whenever something moves between
 sections. It is the first thing to read at the start of a working session.
@@ -88,6 +88,11 @@ repo before building on anything here.
   clinics unchanged and still primary. Industrial manufacturers **not**
   promoted — the hold was pending the demand pass, which has now run and
   recommends promotion; the recommendation is unratified, so the hold stands.
+- **brandure.io site scaffolded** at `site/`. Astro, static output, zero
+  client-side JS, no CMS. Eight pages, research collection from markdown with
+  a gated/ungated split, Netlify Forms email capture, sitemap, robots.txt and
+  JSON-LD on every page. Builds clean. **Not launch-ready** — see the three
+  placeholder blockers below.
 - **Delivery surface settled.** Delivery runs from Cowork; Claude Code builds
   and maintains this repo. The repo stays authoritative and Cowork consumes a
   packaged version. See `decisions/2026-08-11-delivery-surface.md`.
@@ -157,6 +162,19 @@ repo before building on anything here.
   n=1. Prospecting on them means opening conversations with a finding that
   might be sampling variance, on exactly the categories where a prospect is
   most likely to check.
+- **Site launch — blocked on three placeholders.** The build is complete; the
+  content is not.
+  1. **Pricing.** `/service` carries structure and scope but every figure reads
+     "On application". Pricing is blocked on ICP and on measured delivery
+     hours, so no rate card exists to publish. No number was invented.
+  2. **Terms.** `/terms` is a placeholder covering website use only. Not
+     lawyer-reviewed, and it does not cover client engagements.
+  3. **Research.** The one published piece is an explicit placeholder about
+     method. **Nothing from the Dubai scans is on the site**, and none of it
+     should go up until A3 is done — both runs are n=1 and two headline
+     findings moved between them.
+  Also outstanding: the `/thanks` download link points at a placeholder PDF,
+  and the LinkedIn URL in `site/src/consts.ts` is a guess.
 - **Baseline reconciliation — decide before the first client.** Prospect sweeps
   run on the owned layer, client tracking on Searchable. The two will not
   produce matching numbers, so the pitch figure and the first client report

@@ -23,6 +23,7 @@ alignment check and the standing rules. `STATE.md` carries the current position.
 | `research/` | Research output, one directory per project. `vertical-sprint/` holds the ICP work; `prospect-sweeps/` holds pre-sale measurement; `sources/` holds dated source notes on external material. |
 | `measurement/` | Client measurement standards. `methodology.md` is the operational standard for baselines, control sets and reporting. |
 | `growth/` | Agency growth operations. `content-log.md` logs published content for repurposing. |
+| `site/` | The brandure.io website — Astro, static output, zero client-side JS. `npm run dev` / `npm run build` from inside `site/`. |
 | `clients/` | One directory per client. Empty — no clients yet. |
 
 ## Conventions

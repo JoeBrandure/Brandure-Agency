@@ -1,0 +1,66 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE } from '../consts';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  /** Omit to fall back to the canonical URL for this page. */
+  canonical?: string;
+  /** Keep the page out of search indexes. */
+  noindex?: boolean;
+}
+
+const { title, description, canonical, noindex = false } = Astro.props;
+
+const canonicalURL = new URL(canonical ?? Astro.url.pathname, Astro.site);
+const pageTitle = title === SITE.name ? title : `${title} — ${SITE.name}`;
+
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: SITE.name,
+  legalName: SITE.legalName,
+  url: SITE.url,
+  email: SITE.email,
+  description: SITE.description,
+  sameAs: [SITE.linkedin],
+};
+---
+
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta name="twitter:card" content="summary" />
+
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(organizationSchema)}
+    />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <Header />
+    <main id="main">
+      <div class="wrap">
+        <slot />
+      </div>
+    </main>
+    <Footer />
+  </body>
+</html>

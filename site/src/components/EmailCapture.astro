@@ -1,0 +1,70 @@
+---
+/**
+ * Netlify Forms email capture. Static HTML only — Netlify detects the form
+ * at deploy time from the built markup, and the POST is handled by Netlify
+ * rather than by client-side JavaScript.
+ */
+interface Props {
+  /** Netlify form name. Unique per form so submissions stay separable. */
+  name: string;
+  heading: string;
+  blurb?: string;
+  cta?: string;
+  /** Which research piece this capture belongs to, recorded on the submission. */
+  piece?: string;
+}
+
+const {
+  name,
+  heading,
+  blurb,
+  cta = 'Send me the report',
+  piece,
+} = Astro.props;
+---
+
+<section class="gate" aria-labelledby={`${name}-heading`}>
+  <h2 id={`${name}-heading`}>{heading}</h2>
+  {blurb && <p>{blurb}</p>}
+
+  <form
+    name={name}
+    method="POST"
+    action="/thanks"
+    data-netlify="true"
+    netlify-honeypot="bot-field"
+  >
+    <input type="hidden" name="form-name" value={name} />
+    {piece && <input type="hidden" name="piece" value={piece} />}
+
+    <p class="hp">
+      <label>
+        Leave this field empty
+        <input name="bot-field" tabindex="-1" autocomplete="off" />
+      </label>
+    </p>
+
+    <p>
+      <label for={`${name}-email`}>Work email</label>
+      <input
+        id={`${name}-email`}
+        type="email"
+        name="email"
+        autocomplete="email"
+        required
+      />
+    </p>
+
+    <p>
+      <label for={`${name}-company`}>Company</label>
+      <input
+        id={`${name}-company`}
+        type="text"
+        name="company"
+        autocomplete="organization"
+      />
+    </p>
+
+    <p><button type="submit">{cta}</button></p>
+  </form>
+</section>

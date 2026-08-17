@@ -1,0 +1,81 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const pieces = (await getCollection('research')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+const latest = pieces.slice(0, 3);
+const fmt = new Intl.DateTimeFormat('en-GB', { dateStyle: 'long' });
+---
+
+<BaseLayout
+  title="Brandure"
+  description="Brandure is an AEO agency. We measure where brands appear in AI-generated answers — ChatGPT, Claude, Gemini, Perplexity — and do the work that changes it."
+>
+  <h1>Your buyers are asking an AI. You are not in the answer.</h1>
+
+  <p class="lede">
+    Brandure is an Answer Engine Optimisation agency. We measure where a brand
+    stands inside AI-generated answers, against named competitors, and then do
+    the work that moves it.
+  </p>
+
+  <h2>Search stopped being a list</h2>
+
+  <p>
+    A search engine returns ten links and lets the buyer choose. An answer
+    engine returns a recommendation and has already chosen. By the time your
+    category comes up in ChatGPT, Claude, Gemini or Perplexity, the shortlist
+    is made — and either you are on it or you are not.
+  </p>
+
+  <p>
+    That is a different problem from ranking, and it has different levers:
+    whether a model can resolve who you are, which third-party sources it draws
+    on when it answers, and whether your content can be lifted cleanly into a
+    reply.
+  </p>
+
+  <h2>Measurement first</h2>
+
+  <p>
+    We start by showing you the position you actually hold. A defined set of
+    buying-intent prompts, run across the major answer engines, recorded as
+    which brands get named, in what order, and which sources the answer was
+    built from.
+  </p>
+
+  <p>
+    It is a diagnosis, not a pitch deck. Sometimes it shows a category already
+    locked by two incumbents, in which case we will say so.
+    <a href="/service">See what an engagement covers</a>.
+  </p>
+
+  {
+    latest.length > 0 && (
+      <>
+        <h2>Research</h2>
+        <p>
+          We publish what we measure. Original scans of how answer engines treat
+          specific categories and markets.
+        </p>
+        <ul class="card-list">
+          {latest.map((piece) => (
+            <li>
+              <p class="meta">
+                <time datetime={piece.data.date.toISOString().slice(0, 10)}>
+                  {fmt.format(piece.data.date)}
+                </time>
+                <span class="tag">{piece.data.vertical}</span>
+              </p>
+              <h3><a href={`/research/${piece.id}`}>{piece.data.title}</a></h3>
+              <p>{piece.data.summary}</p>
+            </li>
+          ))}
+        </ul>
+        <p><a href="/research">All research</a></p>
+      </>
+    )
+  }
+</BaseLayout>

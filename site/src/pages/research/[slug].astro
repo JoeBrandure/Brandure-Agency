@@ -1,0 +1,49 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import EmailCapture from '../../components/EmailCapture.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const pieces = await getCollection('research');
+  return pieces.map((piece) => ({
+    params: { slug: piece.id },
+    props: { piece },
+  }));
+}
+
+const { piece } = Astro.props;
+const { Content } = await render(piece);
+const fmt = new Intl.DateTimeFormat('en-GB', { dateStyle: 'long' });
+const iso = piece.data.date.toISOString().slice(0, 10);
+---
+
+<BaseLayout title={piece.data.title} description={piece.data.summary}>
+  <article>
+    <header>
+      <p class="meta">
+        <time datetime={iso}>{fmt.format(piece.data.date)}</time>
+        <span class="tag">{piece.data.vertical}</span>
+      </p>
+      <h1>{piece.data.title}</h1>
+      <p class="lede">{piece.data.summary}</p>
+    </header>
+
+    {
+      piece.data.gated ? (
+        <EmailCapture
+          name="research-download"
+          piece={piece.id}
+          heading="Read the full report"
+          blurb="Enter your email and we will send the full report straight over. No sequence, no sales calls you did not ask for."
+        />
+      ) : (
+        <div class="prose">
+          <Content />
+        </div>
+      )
+    }
+  </article>
+
+  <hr />
+  <p><a href="/research">All research</a></p>
+</BaseLayout>

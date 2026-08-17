@@ -1,0 +1,17 @@
+---
+import { SITE } from '../consts';
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="wrap">
+    <ul>
+      <li><a href="/terms">Terms</a></li>
+      <li>
+        <a href={SITE.linkedin} rel="me noopener">LinkedIn</a>
+      </li>
+      <li><a href={`mailto:${SITE.email}`}>{SITE.email}</a></li>
+    </ul>
+    <p>&copy; {year} {SITE.legalName}</p>
+  </div>
+</footer>

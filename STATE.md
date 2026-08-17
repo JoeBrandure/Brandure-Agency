@@ -1,7 +1,7 @@
 # STATE.md — current position
 
-Last updated: 2026-08-17 (Defensibility axis proposed; first-vertical choice
-now turns on whether the 12 Aug selection rule is amended)
+Last updated: 2026-08-17 (A2 closed by the clean re-run; two headline findings
+moved between runs — A3 now urgent)
 
 Current position at a glance. Update this file whenever something moves between
 sections. It is the first thing to read at the start of a working session.
@@ -62,7 +62,15 @@ repo before building on anything here.
   `research/vertical-sprint/scans/2026-08-13-dubai/`. Four surfaces, seven
   categories, 13 August 2026. **Half contaminated** — Gemini and Google Search
   ran on a signed-in profile — and n=1 throughout. Section A of its action list
-  is lifted below; Sections B–E stay archived pending A2 and A3.
+  is lifted below; Sections B–E stay archived pending A3.
+- **A2 closed — clean re-run archived** at
+  `research/vertical-sprint/scans/2026-08-17-dubai-rerun/`, with `diff.md`.
+  14 cells, Gemini and Google Search only, incognito, signed out, Dubai geo,
+  n=1. **The 13 August contaminated cells are superseded by this run.** The
+  13 August **ChatGPT and Perplexity cells remain the current clean record** for
+  those two surfaces and were not re-run.
+  **Model confound:** signed-out Gemini served Flash-Lite where 13 August used
+  Flash, so differences may be model rather than personalisation.
 - **Demand pass complete** — `research/vertical-sprint/demand-pass-2026-08-15.md`.
   Ran on trade and industry survey data after the forum instrument in
   `demand-signals.md` returned near-zero buyer-side signal in every vertical.
@@ -235,8 +243,15 @@ this become a backlog.
      pre-registration exists to prevent — so it carries lower weight than a rule
      fixed in advance and should be judged on its grounds, not on the totals it
      produces.
-  4. **Conditional on 3 — ratify the first vertical.** Aesthetic clinics if the
-     amendment passes (14 on three axes). **B2B SaaS if the original rule is
+  4. **Conditional on 3 — ratify the first vertical.** **New as of 2026-08-17:
+     part of the evidence under this item has weakened.** The aesthetic clinics
+     recommendation rested in part on the 13 August "four surfaces, four
+     disjoint lists" finding; the clean re-run shows SKIN111 on three surfaces,
+     Glow Aesthetics on two and Lucia Clinic on two. Consensus is low, not
+     absent. The recommendation is **left unaltered** — changing it is Joe's
+     call — but the Prompt score of 5 for aesthetic clinics was partly built on
+     the stronger claim. Weigh this before ratifying.
+     Aesthetic clinics if the amendment passes (14 on three axes). **B2B SaaS if the original rule is
      held**, because under the 12 August rule demand breaks the 9–9 tie and B2B
      SaaS wins it 5 against 4.
 
@@ -278,13 +293,21 @@ are not to be acted on until A2 and A3 have run.
 
 - **A1 — Enable Claude in Chrome for incognito.** `chrome://extensions` →
   Claude in Chrome → Allow in Incognito. Two minutes. Blocks A2.
-- **A2 — Re-run the 14 contaminated cells** (Gemini and Google Search) on a
-  clean profile. ChatGPT and Perplexity are clean and do not need re-running.
-  **No Gemini or Google figure goes to a client until this is done.**
-- **A3 — Re-run at n=3 per prompt**, prioritising aesthetic clinics and
-  industrial manufacturers. These are the two "zero overlap" headline claims
-  and the two a prospect is most likely to challenge. **Hard prerequisite for
-  target-list building in both verticals** — see Blocked.
+- ☑ **A2 — DONE 2026-08-17.** The 14 contaminated cells re-run clean; see
+  `scans/2026-08-17-dubai-rerun/`. Superseded values now stand.
+- **A3 — Re-run at n=3 per prompt. Priority raised.** Prioritise aesthetic
+  clinics and industrial manufacturers. **Hard prerequisite for target-list
+  building in both verticals** — see Blocked. The re-run raised the stakes
+  rather than settling them: **two headline findings moved between two single
+  runs four days apart.** AI Overview coverage went from 1 of 7 to 4 of 7, and
+  the aesthetic-clinics zero-overlap finding collapsed to low-but-real overlap.
+  **No finding from either run should be published without repeat sampling** —
+  neither run's values are yet known to be stable.
+- **D2 talking point RETIRED.** "AI Overview fired on only 1 of 7 UAE queries"
+  is contradicted by the 17 August data, which recorded 4 of 7. **Must not be
+  used client-facing.** It was listed as a sales asset in Section D of the
+  13 August actions list, which is not lifted — recorded here so the number is
+  not picked up from the archive and used.
 - **A4 — Add a paid-tier comparison.** The scan ran free/default tiers. If paid
   tiers and reasoning models ground on different sources, the thesis narrows to
   free-tier users, which is material before pitching.

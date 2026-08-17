@@ -28,6 +28,13 @@ signal everywhere. Its scoring table, first-vertical recommendation and
 proposed method change are **Claude's output pending Joe's ratification, not
 decisions.**
 
+**Scans held.** `scans/2026-08-13-dubai/` — four surfaces, seven categories,
+half contaminated by a signed-in profile. `scans/2026-08-17-dubai-rerun/` — the
+clean re-run of the 14 contaminated Gemini and Google Search cells, plus
+`diff.md` comparing the two. The 17 Aug run **supersedes the 13 Aug Gemini and
+Google Search cells**; the 13 Aug ChatGPT and Perplexity cells remain the
+current clean record for those two surfaces and were not re-run.
+
 **`scans/` is not `runs/`.** Renamed from `runs/` on 2026-08-15 to remove the
 collision with the top-level `runs/` directory, which holds monthly skill-run
 logs per the mandatory closing step in `templates/skill-template.md`. Scans are

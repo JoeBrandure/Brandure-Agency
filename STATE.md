@@ -1,7 +1,7 @@
 # STATE.md — current position
 
-Last updated: 2026-08-15 (demand pass complete — six open items pending
-ratification; no vertical selected)
+Last updated: 2026-08-17 (Defensibility axis proposed; first-vertical choice
+now turns on whether the 12 Aug selection rule is amended)
 
 Current position at a glance. Update this file whenever something moves between
 sections. It is the first thing to read at the start of a working session.
@@ -95,10 +95,12 @@ repo before building on anything here.
 
 ## Blocked
 
-- **Vertical selection** — not made. The demand pass recommends aesthetic
-  clinics (UAE) as first vertical on a 9/10 tie-break against B2B SaaS. That is
-  a recommendation, not a decision, and no vertical selection record exists by
-  instruction. Blocked on Joe ratifying the scoring table.
+- **Vertical selection** — not made, and **the answer depends on which rule is
+  in force.** Under the ratified 2026-08-12 rule, demand breaks the 9–9 tie and
+  the first vertical is **B2B SaaS**. Under the proposed three-axis table with
+  Defensibility added, it is **aesthetic clinics** at 14. Blocked on Joe ruling
+  on the amendment first; the vertical follows from it and cannot be decided
+  independently.
 - **Vertical sprint** — designed and templated, not run. Needs no tooling, but
   no longer blocked on operator time alone: the prompt sets cannot be
   instantiated until Joe supplies markets per vertical and competitor names for
@@ -213,7 +215,7 @@ this become a backlog.
   reference shows tier-gating on at least shopping analytics and white-label
   reports, so documented capability does not imply available capability.
   Re-verify against a live account on access.
-- **Demand pass — six open items, none decided.** From
+- **Demand pass — seven open items, none decided.** From
   `research/vertical-sprint/demand-pass-2026-08-15.md`. **Pending Joe's
   ratification. Do not act on any of these as settled, and do not restate them
   elsewhere without the pending label.**
@@ -224,19 +226,39 @@ this become a backlog.
      Until ratified the hold in
      `decisions/2026-08-15-vertical-shortlist-revision.md` stands and the
      vertical stays on the reserve list.
-  3. **Ratify the scoring table and first-vertical recommendation** — aesthetic
-     clinics (UAE), taking a tie-break against B2B SaaS at 9 each.
-  4. **Ratify the UAE-first / US-UK-second market sequence.**
-  5. **Verify Forrester, Gardner, Cox, Magenta and Microsoft figures against
+  3. **Ratify or reject the Defensibility axis** as an amendment to the
+     2026-08-12 selection rule. Defensibility = can Brandure win here given zero
+     case studies and a Dubai base. Grounds: the two original axes assumed
+     competition sat in the answer surface; the pass found the binding
+     constraint is service-market competition plus the absence of case studies.
+     **The axis was proposed after scoring, not before** — the failure mode
+     pre-registration exists to prevent — so it carries lower weight than a rule
+     fixed in advance and should be judged on its grounds, not on the totals it
+     produces.
+  4. **Conditional on 3 — ratify the first vertical.** Aesthetic clinics if the
+     amendment passes (14 on three axes). **B2B SaaS if the original rule is
+     held**, because under the 12 August rule demand breaks the 9–9 tie and B2B
+     SaaS wins it 5 against 4.
+
+     **These cannot be ratified separately. Ratifying the scoring table amends
+     the selection rule** — the table's ranking is produced by the axis, so
+     accepting the ranking accepts the amendment whether or not it is stated.
+     The original two-axis recommendation broke the ratified rule by breaking
+     the tie on geographic defensibility, which the rule does not contain.
+  5. **Ratify the UAE-first / US-UK-second market sequence.**
+  6. **Verify Forrester, Gardner, Cox, Magenta and Microsoft figures against
      primary sources** before any client-facing use. All were reached via
      secondary reporting. This one is not a ratification — it is verification
      work, and it gates external use of every figure in the pass.
-  6. **Vertical-level UAE buyer data remains absent.** Assess whether it can be
+  7. **Vertical-level UAE buyer data remains absent.** Assess whether it can be
      commissioned, inferred, or whether the 13 August Dubai scan is sufficient.
      The UAE evidence in the pass is market-level only.
 
-  Note on the instruction that produced this entry: it referred to five open
-  items; the file lists six. All six are recorded.
+  Note on numbering: the 2026-08-17 instruction asked to replace "the fifth
+  open item" with two. The fifth item is source verification; the item it
+  described is the third, the scoring-table ratification. The third was split,
+  and source verification is retained unchanged — it gates client-facing use of
+  every figure in the pass. Seven items now, from six.
 - **Where the run log lands.** Delivery runs from Cowork against a packaged
   copy of this repo, but the mandatory closing step appends to
   `runs/YYYY-MM.md` here. A log that lands in the package rather than the repo
@@ -289,6 +311,15 @@ are not to be acted on until A2 and A3 have run.
 - **A truncated or incomplete instruction is flagged as truncated**, not
   treated as the whole request. The reconciliation above only works against a
   request received intact.
+- **Proposed changes to a ratified selection rule are raised before the
+  measurement or scoring they would affect, not after.** A criterion introduced
+  once results are known cannot be shown to be independent of those results —
+  the check that would establish it was skipped and cannot be run
+  retrospectively. This is the same discipline as pre-registering mitigating
+  circumstances, applied to the rule rather than to the excuse. Where an
+  instrument discovers a variable the rule did not anticipate, that is
+  legitimate grounds for an amendment, but the amendment is ratified explicitly
+  and the affected scoring is marked as carrying lower weight.
 - **Dated records use the actual date of creation.** A record created on the
   15th is dated the 15th, whatever date the session believes it is. Existing
   records carrying 2026-08-12 are left as they are: a wrong date is less

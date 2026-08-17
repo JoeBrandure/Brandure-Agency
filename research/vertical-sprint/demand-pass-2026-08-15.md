@@ -4,7 +4,8 @@ date: 2026-08-15
 status: complete
 method: trade and industry survey data, plus supply-side competitor scan
 verticals: 7 (5 researched, 2 deprioritised on prior evidence)
-pairs_with: research/vertical-sprint/scans/scan.md (13 Aug 2026)
+pairs_with: research/vertical-sprint/scans/2026-08-13-dubai/scan.md (13 Aug 2026)
+amended: 2026-08-17 — pairs_with path corrected; third scoring axis added below
 ---
 
 # Demand Pass — 15 Aug 2026
@@ -209,6 +210,89 @@ Profile and local earned media rather than US publication relationships, and the
 is no local incumbent on any of the four surfaces.
 
 **Recommended first vertical: aesthetic clinics (UAE).**
+
+---
+
+## SCORING — REVISED, three axes (added 2026-08-17)
+
+The two-axis table above is left as recorded. This section adds a third axis and
+supersedes the recommendation, subject to ratification.
+
+**Defensibility (out of 5): can Brandure win here given zero case studies and a
+Dubai base?**
+
+| Rank | Vertical | Prompt | Demand | Defensibility | Total |
+|---|---|---|---|---|---|
+| 1 | **Aesthetic clinics** | 5 | 4 | 5 | **14** |
+| 2= | **B2B SaaS** | 4 | 5 | 2 | **11** |
+| 2= | **Industrial manufacturers** | 5 | 3 | 3 | **11** |
+| 4 | **Legal / professional** | 3 | 4 | 3 | **10** |
+| 5 | **Automotive** | 3 | 3 | 2 | **8** |
+| 6 | **Boutique hospitality** | 2 | 2 | 2 | **6** |
+| 7 | **Higher education** | 1 | 2 | 1 | **4** |
+
+### The original recommendation broke the ratified selection rule
+
+Stated plainly, because it matters more than the recommendation itself.
+
+The selection rule ratified on 2026-08-12 is: a vertical must pass both
+criteria, and **where two verticals both pass, demand signal breaks the tie.**
+Aesthetic clinics and B2B SaaS both scored 9 on the two-axis table. Under the
+ratified rule, **B2B SaaS wins the tie-break on demand, 5 against 4.**
+
+The two-axis section above instead broke the tie on geographic defensibility —
+a consideration the rule does not contain. That is not a tie-break under the
+rule; it is a different rule applied without saying so.
+
+**The aesthetics recommendation therefore depends on the third axis being
+ratified as an amendment to the 12 August rule.** If the amendment is rejected
+and the original rule held, the first vertical is B2B SaaS.
+
+### The amendment was proposed after scoring, not before
+
+**This is the failure mode the pre-registration discipline exists to prevent.**
+The governing rules in `decisions/2026-08-12-channel-strategy.md` require
+mitigating circumstances to be named before a measurement window opens,
+precisely because a criterion introduced after the result is known cannot be
+assessed independently of that result. The same logic applies to a scoring axis.
+
+Adding an axis after seeing the scores means the axis cannot be shown to be
+free of the outcome it produces — not because anyone reasoned dishonestly, but
+because the check that would establish it was skipped and cannot be run
+retrospectively.
+
+**The recommendation therefore carries lower weight than one made under a rule
+fixed in advance**, and should be ratified or rejected on the strength of the
+grounds below rather than on the strength of the number 14.
+
+### Grounds for the amendment
+
+The two original axes were specified on the assumption that **competition sat
+in the answer surface** — that the question was which categories have weak,
+contestable AI answers.
+
+The demand pass found that assumption incomplete. The binding constraint is
+**service-market competition plus Brandure's lack of case studies**: in US/UK
+markets Brandure competes against specialists holding published case studies and
+original benchmark research, with none of its own, and no answer-surface
+weakness compensates for being unable to get a meeting.
+
+That is a variable the instrument discovered rather than one it was built to
+test. Which is a legitimate reason to amend a rule — and is also exactly why
+the amendment must be ratified explicitly rather than absorbed silently into a
+scoring table.
+
+### Consequences for the open items
+
+The open item "ratify the scoring table and first-vertical recommendation" no
+longer stands as one item. It splits, and the two parts cannot be ratified
+separately — see `STATE.md`. Ratifying the table *is* amending the selection
+rule.
+
+Note also that the revised table produces a new tie at 11 between B2B SaaS and
+industrial manufacturers. Under the 12 August tie-break, demand resolves it in
+B2B SaaS's favour, 5 against 3. Ranks 2 and 3 are marked `2=` above rather than
+silently ordered.
 
 ---
 

@@ -1,6 +1,10 @@
 # Skill template
 
-The pattern every Brandure skill inherits.
+The pattern every Brandure skill authored here inherits. Externally-authored
+skills are exempt from the naming, path-structure and frontmatter rules below
+and keep their upstream form — see
+`decisions/2026-08-17-external-skill-artefacts.md`. Everything else in this
+file, including the mandatory closing steps, still applies when one is run.
 
 A skill is a **directory**, not a file. Create
 `.claude/skills/brandure-agency-<name>/` and copy this template into it as
@@ -26,7 +30,10 @@ exception, including trivial ones.
 
 ## Frontmatter
 
-Every skill opens with YAML frontmatter. Three required fields:
+Every skill **authored here** opens with YAML frontmatter carrying three
+required fields. Externally-authored skills keep their upstream frontmatter
+unchanged and are exempt from this section — see
+`decisions/2026-08-17-external-skill-artefacts.md`.
 
 ```yaml
 ---
@@ -39,7 +46,8 @@ track: build | run
 ```
 
 `name` must match the **directory name** and carry the `brandure-agency-`
-prefix. The file inside is always `SKILL.md`.
+prefix. The file inside is always `SKILL.md`. An external skill keeps its
+upstream name in both places instead.
 
 `description` earns its place by being specific: "Samples buying-intent prompts
 across ChatGPT, Claude and Perplexity for a named brand and records which
@@ -166,6 +174,18 @@ must agree.
   drift, and the registry is what gets read when planning.
 - **Mark blockers in the registry with `(BLOCKED)`**, matching `STATE.md`. The
   registry is where a blocker is visible across all skills at once.
+
+**Carve-out — externally-authored skills.** For a skill exempted under
+`decisions/2026-08-17-external-skill-artefacts.md`, the rule above inverts:
+**the registry is authoritative for any repo metadata not present in upstream
+frontmatter.** `track` is the case that exists today — an external skill keeps
+its upstream frontmatter byte-for-byte, so `track` is not in the file and
+`registry/skills.md` is its only record.
+
+The inversion is scoped, not general. Upstream fields still belong to the
+skill file; the registry only owns what the file does not carry. Do not
+discount a registry value for an external skill on the grounds that the skill
+file is authoritative — for those fields it is silent, not contradicting.
 
 ## Reference files
 

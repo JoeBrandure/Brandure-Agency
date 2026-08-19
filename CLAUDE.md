@@ -138,8 +138,9 @@ State any drift found rather than silently correcting it.
 
 ## Naming convention
 
-Everything new is prefixed `brandure-agency-`. Skills, agents, and any artefact
-that could be invoked by name.
+Everything **authored here** is prefixed `brandure-agency-`. Skills, agents,
+and any artefact that could be invoked by name. Externally-authored skills are
+the exception — see the end of this section.
 
 - `brandure-agency-measure`, `brandure-agency-citation-map`, and so on.
 - The prefix is not decoration: it namespaces Brandure's assets against
@@ -158,6 +159,21 @@ that could be invoked by name.
 - Files that are documents rather than invocable assets (decision records,
   research notes, client folders) do not take the prefix. They use their own
   conventions — see README.md.
+
+**Read `registry/skills.md` before any skills work — building, editing,
+installing or invoking one.** It is the index of every skill, and for
+externally-authored skills it is more than an index: it is the only record of
+repo metadata their upstream frontmatter does not carry, `track` included. A
+skill file that shows no `track` is not untracked; the registry holds it.
+
+**Externally-authored skills are exempt from the prefix**, and from the
+template's path-structure and frontmatter rules. They keep their upstream name
+so the platform still resolves them, and their upstream bytes so the repo copy
+stays checkable against what is deployed. The exemption does not extend to
+location: they live at `.claude/skills/<upstream-name>/` like everything else,
+because an exemption argued on invocation reliability is void anywhere the
+harness cannot see the skill. See
+`decisions/2026-08-17-external-skill-artefacts.md`.
 
 ## Branch policy
 

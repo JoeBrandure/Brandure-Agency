@@ -88,23 +88,35 @@ skills live there and nowhere else.
 states that the skill file is authoritative and the registry column is an
 index. For external skills the registry is the *only* record of track, and is
 therefore authoritative for it. That inversion is deliberate and is the price
-of the frontmatter exemption. It has a consequence that is not yet resolved —
-see below.
+of the frontmatter exemption. It had a consequence for discoverability, closed
+the same day — see below.
 
-## Consequence — the registry becomes load-bearing, and nothing points at it
+## Consequence — the registry became load-bearing. Closed 2026-08-17.
 
-`CLAUDE.md` is the mandated entry point for every task in this repo and **does
-not mention `registry/skills.md` at all**. `README.md` points at it, but README
-is not mandated reading. `templates/skill-template.md` tells the reader the
-opposite of what now holds for external skills.
+Making the registry the sole carrier of `track` created a gap: `CLAUDE.md`, the
+mandated entry point for every task here, did not mention `registry/skills.md`
+at all, and `templates/skill-template.md` told the reader the opposite of what
+now holds. A session could read `CLAUDE.md`, open the skill, find no `track`,
+and have no signposted route to the place carrying it — or find the registry
+and discount it on the strength of the template's authority rule.
 
-So a session that reads `CLAUDE.md`, opens `.claude/skills/aeo-seo-geo-expert/`
-and finds no `track` has no signposted route to the place that carries it.
+**Both were closed in the same working session**, in that order of priority: a
+contradictory authority rule is worse than a missing pointer, because a reader
+who does find the registry could still be told to disregard it.
 
-**Recorded, not fixed.** The fix is a pointer in `CLAUDE.md` and a carve-out in
-the template's authority rule. Both are edits to standing rules and are Joe's
-call, not a tidy-up to fold into this commit. Logged in `STATE.md` under
-Raised, not resolved.
+- `templates/skill-template.md` — the reconciliation section now carries an
+  explicit carve-out. The inversion is scoped: upstream fields still belong to
+  the skill file, and the registry owns only what the file does not carry. For
+  those fields the skill file is silent, not contradicting.
+- `CLAUDE.md` — the naming convention section now requires
+  `registry/skills.md` to be read before any skills work, and states the
+  exemption and its limit.
+
+A sweep at the same time qualified every other standing rule that asserted the
+prefix, the template inheritance or the authority order as universal:
+`README.md` conventions, repo map and add-a-skill steps; the registry preamble;
+the template's frontmatter section and opening line; and an amendment header on
+`decisions/2026-08-08-naming-convention-brandure-agency.md`.
 
 ## What would reverse it
 

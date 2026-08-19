@@ -1,7 +1,7 @@
 # STATE.md — current position
 
-Last updated: 2026-08-17 (first skill installed — aeo-seo-geo-expert, external
-and exempt from three conventions; A3 still urgent)
+Last updated: 2026-08-17 (registry-signposting gap closed; aeo-seo-geo-expert
+installed; A3 still urgent)
 
 Current position at a glance. Update this file whenever something moves between
 sections. It is the first thing to read at the start of a working session.
@@ -95,6 +95,12 @@ repo before building on anything here.
   the harness on commit. Registered in `registry/skills.md` as `build, run` —
   the first dual-track skill and the first row where the registry is
   authoritative rather than an index.
+- **Registry-signposting gap closed.** `CLAUDE.md` now requires
+  `registry/skills.md` to be read before any skills work, and
+  `templates/skill-template.md` carries a scoped carve-out to its authority
+  rule so a registry value for an external skill is not discounted. A sweep
+  qualified every other rule that asserted the prefix, template inheritance or
+  authority order as universal.
 - **brandure.io site scaffolded** at `site/`. Astro, static output, zero
   client-side JS, no CMS. Eight pages, research collection from markdown with
   a gated/ungated split, Netlify Forms email capture, sitemap, robots.txt and
@@ -299,17 +305,6 @@ this become a backlog.
   described is the third, the scoring-table ratification. The third was split,
   and source verification is retained unchanged — it gates client-facing use of
   every figure in the pass. Seven items now, from six.
-- **Registry is load-bearing and nothing mandated points at it.** The
-  frontmatter exemption in `decisions/2026-08-17-external-skill-artefacts.md`
-  makes `registry/skills.md` the only record of `track` for external skills.
-  But `CLAUDE.md` — the mandated entry point for every task here — never
-  mentions the registry; `README.md` does, and is not mandated reading; and
-  `templates/skill-template.md` states the opposite rule, that the skill file
-  is authoritative and the registry is an index. A session that reads
-  `CLAUDE.md`, opens the skill and finds no `track` has no signposted route to
-  the place that carries it. **Flagged, not fixed** — the fix is a pointer in
-  `CLAUDE.md` plus a carve-out in the template's authority rule, both edits to
-  standing rules.
 - **Where the run log lands.** Delivery runs from Cowork against a packaged
   copy of this repo, but the mandatory closing step appends to
   `runs/YYYY-MM.md` here. A log that lands in the package rather than the repo

@@ -14,8 +14,10 @@ A skill that genuinely does both carries `build, run`. Introduced 2026-08-17
 for the first dual-track skill, and the only multi-value convention in this
 column.
 
-All skills inherit `templates/skill-template.md`, including the two mandatory
-closing steps (alignment check, then append to `runs/YYYY-MM.md`).
+All skills authored here inherit `templates/skill-template.md`, including the
+two mandatory closing steps (alignment check, then append to
+`runs/YYYY-MM.md`). Externally-authored skills do not inherit the template —
+see the section at the end of this file.
 
 Each skill is a directory — `.claude/skills/brandure-agency-<name>/SKILL.md` —
 so it can carry prompt sets, rubrics and output templates alongside the
@@ -25,7 +27,8 @@ upstream name and internal structure but sit in the same place — see the
 section at the end of this file.
 
 The Dependencies column below is an index. The skill file is authoritative;
-both are updated in the same commit. `(BLOCKED)` marks a dependency that is
+both are updated in the same commit. **Externally authored skills invert this**
+— see the section at the end of this file. `(BLOCKED)` marks a dependency that is
 currently blocking, matching `STATE.md`.
 
 ## Build

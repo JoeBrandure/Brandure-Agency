@@ -2,6 +2,12 @@
 
 Date: 2026-08-08
 
+**Amended 2026-08-17 by `decisions/2026-08-17-external-skill-artefacts.md`.**
+Externally-authored skills are exempt from the prefix, on the same
+invocation-reliability grounds this record uses to justify it: renaming an
+upstream skill breaks platform detection, and the directory name is the
+invocation string. Everything below stands for anything authored here.
+
 ## Decision
 
 Every new invocable asset is prefixed `brandure-agency-`. Skills, agents, and

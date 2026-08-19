@@ -6,9 +6,13 @@ the plan, `.claude/skills/` is the implementation.
 Status values: `not-built`, `drafted`, `in-use`, `retired`.
 
 Track: **build** skills create agency assets and win work. **run** skills
-deliver work and operate the agency. It is a frontmatter field on each skill,
-not a directory — see `decisions/2026-08-11-skills-location.md`. The section
-headings below carry the finer grouping.
+deliver work and operate the agency. Track is a frontmatter field on each
+skill, not a directory — see `decisions/2026-08-11-skills-location.md`. The
+section headings below carry the finer grouping.
+
+A skill that genuinely does both carries `build, run`. Introduced 2026-08-17
+for the first dual-track skill, and the only multi-value convention in this
+column.
 
 All skills inherit `templates/skill-template.md`, including the two mandatory
 closing steps (alignment check, then append to `runs/YYYY-MM.md`).
@@ -16,7 +20,9 @@ closing steps (alignment check, then append to `runs/YYYY-MM.md`).
 Each skill is a directory — `.claude/skills/brandure-agency-<name>/SKILL.md` —
 so it can carry prompt sets, rubrics and output templates alongside the
 instructions. All skills sit flat there regardless of track, because that is
-where Claude Code discovers them.
+where Claude Code discovers them. Externally-authored skills keep their
+upstream name and internal structure but sit in the same place — see the
+section at the end of this file.
 
 The Dependencies column below is an index. The skill file is authoritative;
 both are updated in the same commit. `(BLOCKED)` marks a dependency that is
@@ -68,3 +74,22 @@ Skills that run the business.
 | brandure-agency-capacity | run | not-built | Read `runs/` to derive actual hours by skill and client, against available hours. Answers whether the next engagement can be taken, and when subcontracting becomes necessary. | populated `runs/` logs |
 | brandure-agency-finance | run | not-built | Track revenue, costs (tooling, subcontractors), and effective hourly rate by engagement type. Feeds pricing. | pricing defined, brandure-agency-capacity |
 | brandure-agency-subcontract | run | not-built | Package a delivery skill into a brief a subcontractor can execute against, with a quality bar and an acceptance check. The release valve on the time constraint. | at least one delivery skill in use, brandure-agency-capacity |
+
+## Externally authored
+
+Skills authored outside this repo. They keep their upstream name, internal path
+structure and frontmatter byte-for-byte, so the repo copy stays verifiable
+against what is uploaded to the platform — see
+`decisions/2026-08-17-external-skill-artefacts.md`.
+
+**For these rows the registry is authoritative, not an index.** Track is
+recorded here and nowhere else, because the frontmatter exemption means it does
+not exist in the skill file. This is the reverse of the rule in
+`templates/skill-template.md`.
+
+Location is not exempt: they sit at `.claude/skills/<upstream-name>/` like
+every other skill.
+
+| Name | Track | Status | Purpose | Dependencies |
+|------|-------|--------|---------|--------------|
+| aeo-seo-geo-expert | build, run | drafted | Senior agency-side answer-engine strategist. Visibility audits, prompt strategy, citation mapping, entity and schema work, earned placement, measurement, and reading Searchable data. Mandate is Brandure's own visibility first, client delivery second — hence dual-track. | None blocking. Reads Searchable data where a client account exists (Searchable partner access BLOCKED), but is not gated on it for Brandure's own work. |

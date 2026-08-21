@@ -2,8 +2,11 @@
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import Analytics from '../components/Analytics.astro';
+import ThemeScript from '../components/ThemeScript.astro';
+import Reveal from '../components/Reveal.astro';
 import { SITE } from '../consts';
 import '@fontsource-variable/inter';
+import '@fontsource-variable/manrope';
 import '@fontsource/ibm-plex-mono/400.css';
 import '../styles/global.css';
 
@@ -55,9 +58,10 @@ const allSchemas = [websiteSchema, organizationSchema, ...schemas];
 ---
 
 <!doctype html>
-<html lang="en-GB">
+<html lang="en-GB" class="no-js">
   <head>
     <meta charset="utf-8" />
+    <ThemeScript />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
@@ -88,9 +92,8 @@ const allSchemas = [websiteSchema, organizationSchema, ...schemas];
   <body>
     <a class="skip" href="#main">Skip to content</a>
     <Header />
-    <main id="main">
-      <div class="wrap"><slot /></div>
-    </main>
+    <main id="main"><slot /></main>
     <Footer />
+    <Reveal />
   </body>
 </html>

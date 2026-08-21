@@ -1,7 +1,7 @@
 # STATE.md — current position
 
-Last updated: 2026-08-19 (brandure.io site rebuilt to brief, awaiting preview
-deploy and sign-off; A3 still urgent)
+Last updated: 2026-08-19 (site redesigned — light/dark, rhythm and scale;
+still not deployed; A3 still urgent)
 
 Current position at a glance. Update this file whenever something moves between
 sections. It is the first thing to read at the start of a working session.
@@ -101,6 +101,13 @@ repo before building on anything here.
   rule so a registry value for an external skill is not discounted. A sweep
   qualified every other rule that asserted the prefix, template inheritance or
   authority order as universal.
+- **Site redesigned** — rhythm and scale contrast, alternating full-bleed and
+  contained sections, two inverted bands, light and dark themes with a header
+  toggle and no flash on load. Manrope replaces the specified Satoshi, which is
+  distributed via Fontshare and unreachable from this environment. New routes:
+  `/method` (reserved for the named framework) and `/work` (sample case studies,
+  noindex). Both themes audited at 100 accessibility with axe; two colours from
+  the brief failed AA and were corrected. Machine-readable layer untouched.
 - **brandure.io site rebuilt to brief** at `site/`. Astro, static, no CMS.
   Four page types plus a 404. Zero JavaScript bundles — the only script is the
   cookieless PostHog snippet. Warm-paper palette defined once as tokens, self-

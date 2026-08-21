@@ -1,16 +1,29 @@
 ---
+import ThemeToggle from './ThemeToggle.astro';
 import { NAV, SITE } from '../consts';
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 ---
-<header class="site-header">
+<header class="site-header" id="site-header">
   <div class="wrap">
-    <!-- Placeholder wordmark in the site's own typeface. A real mark drops
-         into this reserved space without a layout change. -->
     <a class="wordmark" href="/" aria-label={`${SITE.name} — home`}>BRANDURE</a>
-    <nav class="site-nav" aria-label="Primary">
-      {NAV.map((i) => (
-        <a href={i.href} aria-current={path === i.href || path.startsWith(`${i.href}/`) ? 'page' : undefined}>{i.label}</a>
-      ))}
-    </nav>
+    <div class="header-right">
+      <nav class="site-nav" aria-label="Primary">
+        {NAV.map((i) => (
+          <a href={i.href} aria-current={path === i.href || path.startsWith(`${i.href}/`) ? 'page' : undefined}>{i.label}</a>
+        ))}
+      </nav>
+      <ThemeToggle />
+      <a class="btn header-cta" href="/#report">Free report</a>
+    </div>
   </div>
 </header>
+<script is:inline>
+  (function () {
+    var h = document.getElementById('site-header');
+    if (!h) return;
+    var tick = false;
+    function upd() { h.dataset.scrolled = window.scrollY > 12 ? 'true' : 'false'; tick = false; }
+    addEventListener('scroll', function () { if (!tick) { tick = true; requestAnimationFrame(upd); } }, { passive: true });
+    upd();
+  })();
+</script>

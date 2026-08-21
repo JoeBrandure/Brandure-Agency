@@ -1,0 +1,70 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../consts';
+import { ENGINES } from '../data/content';
+
+/* Route reserved for the named methodology. Content follows later — a named
+   framework is a citable entity and does AEO work as well as positioning. */
+const stages = [
+  { k: 'S', name: 'Surface', d: 'Establish which engines matter for this category and how each one currently answers it.' },
+  { k: 'C', name: 'Cause', d: 'Separate entity failure from source absence from settled preference. Different problems, different fixes.' },
+  { k: 'A', name: 'Act', d: 'Entity corrections, answer-shaped content, and placement into the sources that actually get cited.' },
+  { k: 'N', name: 'Null', d: 'A control set held deliberately unoptimised, so movement can be attributed rather than claimed.' },
+];
+---
+<BaseLayout
+  title="Method"
+  description="The SCAN method: surface, cause, act, null. How Brandure structures an answer engine optimisation engagement so results can be attributed rather than asserted."
+>
+  <section class="hero">
+    <div class="wrap-narrow">
+      <p class="eyebrow">Method</p>
+      <h1 class="statement" style="font-size:var(--step-4)">SCAN</h1>
+      <p class="lede">
+        Four stages. The fourth is the one most agencies skip, and it is the
+        only reason to believe the other three worked.
+      </p>
+      <p><span class="sample-flag">Placeholder</span> &nbsp;The framework name and full write-up are reserved. This page holds the route and the structure.</p>
+    </div>
+  </section>
+
+  <section class="section section--inv">
+    <div class="wrap reveal">
+      <div class="grid grid--4">
+        {stages.map((s) => (
+          <div class="card">
+            <span class="mono" style="color:var(--cyan);font-size:var(--step-2)">{s.k}</span>
+            <h2 style="font-size:var(--step-1);margin:0.4rem 0 0.35rem">{s.name}</h2>
+            <p style="margin:0;font-size:var(--step--1)">{s.d}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap-narrow reveal">
+      <h2>Why the null stage exists</h2>
+      <p>
+        Answer engines move on their own. Models update, competitors act,
+        indexes refresh. A brand can rise across a quarter having done nothing
+        at all, and fall having done everything right.
+      </p>
+      <p>
+        So every engagement carries a set of prompts we deliberately leave
+        untouched. If the tracked set moves and the control set does not, the
+        work is the likeliest explanation. If both move together, the category
+        moved and we say so.
+      </p>
+      <p>
+        It is the difference between a number that went up and a result. We
+        would rather report a small attributable gain than a large
+        unattributable one.
+      </p>
+      <h2>What gets measured</h2>
+      <p>Each of {ENGINES.length} engines separately, never blended:</p>
+      <ul>{ENGINES.map((e) => <li>{e}</li>)}</ul>
+      <p><a class="textlink" href="/service">See how an engagement runs &rarr;</a></p>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,43 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PlaceholderArt from '../../components/PlaceholderArt.astro';
+import { CASES } from '../../data/cases';
+
+export function getStaticPaths() {
+  return CASES.map((c) => ({ params: { slug: c.slug }, props: { c } }));
+}
+const { c } = Astro.props;
+---
+<BaseLayout title={c.name} description={`Sample case study scaffolding for ${c.name}. No real client work — layout only.`} noindex>
+  <section class="hero">
+    <div class="wrap-narrow">
+      <nav aria-label="Breadcrumb" class="meta"><a href="/work">Case studies</a></nav>
+      <p class="eyebrow">{c.sector}</p>
+      <h1 class="statement" style="font-size:var(--step-4)">{c.name}</h1>
+      <p><span class="sample-flag">Sample</span> &nbsp;Invented example. No real client, no real figures.</p>
+    </div>
+  </section>
+
+  <section class="section section--tight section--sunk">
+    <div class="wrap reveal">
+      <div class="figure-row">
+        <div class="figure"><span class="figure__n">Before</span><span class="figure__l">{c.baseline}</span></div>
+        <div class="figure"><span class="figure__n">After</span><span class="figure__l">{c.after}</span></div>
+        <div class="figure"><span class="figure__n">Control</span><span class="figure__l">{c.control}</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap-narrow reveal">
+      <PlaceholderArt variant={c.art} ratio="16x9" label={c.name} />
+      <h2 style="margin-top:2rem">Baseline</h2>
+      <p>Placeholder. A real write-up states the frozen prompt set, the market, the date and the number of runs per prompt before it states anything else.</p>
+      <h2>What we did</h2>
+      <p>Placeholder. Entity corrections, answer-shaped content, and the specific third-party sources targeted for placement.</p>
+      <h2>What moved, and what did not</h2>
+      <p>Placeholder. Tracked set against control set, with raw counts. A rise on both means the category moved, not the work.</p>
+      <p><a class="textlink" href="/#report">Request a report for your own category &rarr;</a></p>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ReportForm from '../components/ReportForm.astro';
+import { OFFERS, ENGINES } from '../data/content';
 import { SITE } from '../consts';
 
 const serviceSchema = {
@@ -18,74 +19,101 @@ const serviceSchema = {
 ---
 <BaseLayout
   title="Service"
-  description="How a Brandure engagement runs: what gets audited across four answer engines, what gets delivered, and what a client actually receives at each stage."
+  description="How a Brandure engagement runs: what gets audited across four answer engines, what gets delivered at each stage, and what a client actually receives."
   schemas={[serviceSchema]}
 >
-  <p class="eyebrow">Service</p>
-  <h1>What the work actually is</h1>
+  <section class="hero">
+    <div class="wrap-narrow">
+      <p class="eyebrow">Service</p>
+      <h1 class="statement" style="font-size:var(--step-4)">Measure first. Always.</h1>
+      <p class="lede">Without a baseline there is no way to show that anything done afterwards worked — and no honest way to charge for it.</p>
+      <div class="hero-actions"><a class="btn" href="#report">Get a free report</a><a class="textlink" href="/method">The method &rarr;</a></div>
+    </div>
+  </section>
 
-  <p class="lede">
-    Every engagement starts with a measurement, because without a baseline
-    there is no way to show that anything done afterwards worked.
-  </p>
+  <section class="section section--tight section--sunk">
+    <div class="wrap reveal">
+      <p class="eyebrow">Deliverables</p>
+      <h2 style="margin-top:0">What you receive, stage by stage</h2>
+      <div class="table-scroll" tabindex="0" role="region" aria-label="Deliverables by stage">
+        <table>
+          <thead><tr><th scope="col">Stage</th><th scope="col">What happens</th><th scope="col">What you receive</th><th scope="col">Timing</th></tr></thead>
+          <tbody>
+            <tr><th scope="row"><span class="row-label">Baseline</span><span class="row-note">week 1</span></th>
+              <td>Prompt set agreed and frozen. All four engines run from clean sessions.</td>
+              <td>The frozen prompt set, plus who was named on each engine, in what order, with every domain cited.</td>
+              <td>5 working days</td></tr>
+            <tr><th scope="row"><span class="row-label">Diagnosis</span><span class="row-note">week 2</span></th>
+              <td>Separate entity failure from source absence from settled preference.</td>
+              <td>Which cause applies per engine, and the prioritised list of what would move it.</td>
+              <td>5 working days</td></tr>
+            <tr><th scope="row"><span class="row-label">Execution</span><span class="row-note">ongoing</span></th>
+              <td>Entity and structured-data corrections, answer-shaped content, placement outreach.</td>
+              <td>The changes themselves, plus a placement plan naming target sources in priority order.</td>
+              <td>Continuous</td></tr>
+            <tr><th scope="row"><span class="row-label">Re-measurement</span><span class="row-note">monthly</span></th>
+              <td>Identical frozen prompt set, alongside an untouched control set.</td>
+              <td>Before and after on both sets, the divergence stated plainly, and the raw counts behind every figure.</td>
+              <td>Monthly</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <figcaption>Timings are indicative and depend on category size and the number of prompts tracked.</figcaption>
+    </div>
+  </section>
 
-  <h2>1. Baseline</h2>
-  <p>
-    We agree a prompt set with you — the questions a buyer types when they are
-    choosing, not researching. Market is agreed explicitly rather than assumed:
-    adding a city to a query your buyers never localise produces a different
-    test, not a sharper one.
-  </p>
-  <p>
-    Each prompt runs across ChatGPT, Claude, Gemini and Google, from clean
-    sessions with personalisation off. A signed-in run measures your own search
-    history rather than the market.
-  </p>
-  <p><strong>You receive:</strong> the frozen prompt set, and a table of who was named on each engine, in what order, with the domains each answer cited.</p>
+  <section class="section">
+    <div class="wrap-narrow reveal">
+      <p class="eyebrow">Stage one</p>
+      <h2>Baseline</h2>
+      <p>We agree a prompt set with you — the questions a buyer types when they are choosing, not researching. Market is agreed explicitly rather than assumed: adding a city to a query your buyers never localise produces a different test, not a sharper one.</p>
+      <p>Each prompt runs across {ENGINES.join(', ')}, from clean sessions with personalisation off. A signed-in run measures your own search history rather than the market.</p>
 
-  <h2>2. Diagnosis</h2>
-  <p>
-    Absence has causes and they are not interchangeable. A model may fail to
-    resolve your brand as an entity — it does not know what you are. It may be
-    grounding the category on third-party sources you have no presence in. Or
-    it may have a settled preference that content alone will not shift.
-  </p>
-  <p><strong>You receive:</strong> which of those applies per engine, and what follows from it.</p>
+      <p class="eyebrow" style="margin-top:2.5rem">Stage two</p>
+      <h2>Diagnosis</h2>
+      <p>Absence has causes and they are not interchangeable. A model may fail to resolve your brand as an entity — it does not know what you are. It may be grounding the category on third-party sources you have no presence in. Or it may have a settled preference that content alone will not shift.</p>
 
-  <h2>3. Execution</h2>
-  <p>
-    Entity and structured-data work on your own properties, so a model can
-    resolve who you are and what you sell. Content built to be lifted into an
-    answer — direct claims, clean structure, explicit comparisons. And
-    placement into the third-party sources the models actually draw on.
-  </p>
-  <p>
-    That last one usually carries the most weight and is the least comfortable,
-    because it is earned rather than published. Most citations in AI answers
-    come from sources a brand does not own, which is why placement is core to
-    the work rather than an add-on.
-  </p>
-  <p><strong>You receive:</strong> the changes themselves, plus a placement plan naming target sources in priority order.</p>
+      <p class="eyebrow" style="margin-top:2.5rem">Stage three</p>
+      <h2>Execution</h2>
+      <p>Entity and structured-data work on your own properties, content built to be lifted into an answer, and placement into the third-party sources the models actually draw on.</p>
+      <p>That last one usually carries the most weight and is the least comfortable, because it is earned rather than published. Most citations in AI answers come from sources a brand does not own, which is why placement is core to the work rather than an add-on.</p>
 
-  <h2>4. Re-measurement</h2>
-  <p>
-    Against the identical frozen prompt set, alongside a control set of prompts
-    we deliberately leave untouched for the length of the engagement.
-  </p>
-  <p>
-    Answer engines move on their own — models update, competitors act, indexes
-    refresh. The control set is what separates our effect from theirs. Without
-    it you have a number that went up and no way to attribute it, which is not
-    evidence.
-  </p>
-  <p><strong>You receive:</strong> before and after on both sets, with the divergence between them stated plainly, and the raw counts behind every figure.</p>
+      <p class="eyebrow" style="margin-top:2.5rem">Stage four</p>
+      <h2>Re-measurement</h2>
+      <p>Against the identical frozen prompt set, alongside a control set of prompts we deliberately leave untouched for the length of the engagement. Without it you have a number that went up and no way to attribute it, which is not evidence.</p>
+    </div>
+  </section>
 
-  <h2>What we will tell you</h2>
-  <p>
-    If the baseline shows a category already settled on two incumbents with no
-    visible route in, we will say so and decline the work. A measurement that
-    only ever produces a reason to hire us is not a measurement.
-  </p>
+  <section class="section section--inv">
+    <div class="wrap reveal">
+      <p class="eyebrow">Engagements</p>
+      <h2>Two ways in</h2>
+      <div class="grid grid--2" style="margin-top:2rem">
+        {OFFERS.map((o) => (
+          <div class="card offer">
+            <h3 style="margin-bottom:0.2rem">{o.name}</h3>
+            <span class="offer__price">{o.price}</span>
+            <span class="offer__unit">{o.unit}</span>
+            <p style="font-size:var(--step--1)">{o.summary}</p>
+            <ul>{o.includes.map((i) => <li>{i}</li>)}</ul>
+            <a class:list={['btn', !o.primary && 'btn--ghost']} href="#report">{o.cta}</a>
+          </div>
+        ))}
+      </div>
+      <p style="margin-top:1.4rem"><span class="sample-flag">Sample pricing</span> &nbsp;Figures are placeholders for layout.</p>
+    </div>
+  </section>
 
-  <ReportForm id="report" heading="Start with the free report" />
+  <section class="section">
+    <div class="wrap-narrow reveal">
+      <h2>What we will tell you</h2>
+      <p>If the baseline shows a category already settled on two incumbents with no visible route in, we will say so and decline the work. A measurement that only ever produces a reason to hire us is not a measurement.</p>
+    </div>
+  </section>
+
+  <section class="section section--sunk" id="report">
+    <div class="wrap-narrow reveal">
+      <ReportForm id="report-form" heading="Start with the free report" />
+    </div>
+  </section>
 </BaseLayout>

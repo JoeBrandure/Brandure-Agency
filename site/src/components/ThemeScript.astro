@@ -1,0 +1,20 @@
+---
+/**
+ * Runs before first paint, so the correct theme is applied without a flash.
+ * Blocking and inline by necessity — deferring it is what causes the flash.
+ * Reads a stored choice first, falls back to the OS preference.
+ */
+---
+<script is:inline>
+  (function () {
+    try {
+      var stored = localStorage.getItem('theme');
+      var dark = stored ? stored === 'dark'
+        : window.matchMedia('(prefers-color-scheme: dark)').matches;
+      document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+    } catch (e) {
+      document.documentElement.setAttribute('data-theme', 'light');
+    }
+    document.documentElement.classList.remove('no-js');
+  })();
+</script>

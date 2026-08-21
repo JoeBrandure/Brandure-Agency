@@ -3,27 +3,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import ReportForm from '../components/ReportForm.astro';
 import ComparisonTable from '../components/ComparisonTable.astro';
 import { SITE } from '../consts';
+import { FAQS, PROOF, OFFERS, ENGINES } from '../data/content';
 import { getCollection } from 'astro:content';
 
 const pieces = (await getCollection('research'))
-  .filter((p) => !p.data.placeholder)
   .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf())
   .slice(0, 3);
-
-const faqs = [
-  {
-    q: 'How is this different from SEO?',
-    a: 'Search returns a list and lets you choose. An answer engine returns a recommendation and has already chosen. Ranking third on a page still gets you seen; being third in a model’s judgement usually means not being mentioned at all. The levers differ too — whether a model can resolve who you are, and which third-party sources it grounds on when it answers.',
-  },
-  {
-    q: 'Which engines do you measure?',
-    a: 'ChatGPT, Claude, Gemini and Google AI Overviews, each treated as a separate surface. They disagree with each other more than most people expect, so a single score across all four hides the thing you need to know.',
-  },
-  {
-    q: 'Can you guarantee we appear in AI answers?',
-    a: 'No, and neither can anyone else. Answer engines change their grounding behaviour without notice. What we can do is measure the position you hold now, act on the causes we can influence, and measure again against a control set so you can see what the work actually moved.',
-  },
-];
 
 const serviceSchema = {
   '@context': 'https://schema.org',
@@ -36,23 +21,22 @@ const serviceSchema = {
   areaServed: SITE.areaServed.map((c) => ({ '@type': 'Country', identifier: c })),
   url: `${SITE.url}/service`,
 };
-
 const faqSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
-  mainEntity: faqs.map((f) => ({
+  mainEntity: FAQS.map((f) => ({
     '@type': 'Question',
     name: f.q,
     acceptedAnswer: { '@type': 'Answer', text: f.a },
   })),
 };
 
-/* Illustrative shape only — no findings claimed. Values are marked as such. */
+/* Illustrative shape only — invented statuses, stated as such on the page. */
 const demoRows = [
   { label: 'Best employment lawyer in [city]', note: 'buying intent', cells: [
     { status: 'present' as const, citation: 'directory listing' },
     { status: 'absent' as const },
-    { status: 'partial' as const, citation: 'mentioned, not ranked' },
+    { status: 'partial' as const, citation: 'named, not ranked' },
     { status: 'absent' as const },
   ]},
   { label: 'Alternatives to [incumbent]', note: 'comparison', cells: [
@@ -61,96 +45,206 @@ const demoRows = [
     { status: 'absent' as const },
     { status: 'partial' as const, citation: 'listed sixth' },
   ]},
+  { label: 'Who are the top [category] firms', note: 'discovery', cells: [
+    { status: 'present' as const, citation: 'trade press' },
+    { status: 'present' as const, citation: 'trade press' },
+    { status: 'absent' as const },
+    { status: 'partial' as const, citation: 'local pack only' },
+  ]},
+  { label: '[brand] vs [competitor]', note: 'head to head', cells: [
+    { status: 'absent' as const },
+    { status: 'partial' as const, citation: 'competitor page' },
+    { status: 'absent' as const },
+    { status: 'absent' as const },
+  ]},
+];
+
+const heroTiles = [
+  { n: '01', t: 'Measured', d: 'Four engines, clean sessions, recorded one by one.' },
+  { n: '02', t: 'Diagnosed', d: 'Absence has causes. They are not the same cause.' },
+  { n: '03', t: 'Executed', d: 'Entity, content and earned placement.' },
+  { n: '04', t: 'Proved', d: 'Re-measured against a control set.' },
 ];
 ---
 
 <BaseLayout
   title={SITE.name}
-  description="Brandure measures where your brand appears in AI-generated answers across ChatGPT, Claude, Gemini and Google — then does the work that changes it. Request a free visibility report."
+  description="Brandure measures where your brand appears in AI-generated answers across ChatGPT, Perplexity, Gemini and Google — then does the work that changes it. Request a free visibility report."
   schemas={[serviceSchema, faqSchema]}
 >
-  <p class="eyebrow">Answer engine optimisation</p>
-  <h1>Your buyers are asking an AI. You are not in the answer.</h1>
-
-  <p class="lede">
-    We measure where your brand stands inside AI-generated answers, against the
-    competitors you actually lose to, and then do the work that moves it.
-  </p>
-
-  <h2>Search stopped being a list</h2>
-
-  <p>
-    A search engine returns ten links and lets the buyer choose. An answer
-    engine returns a recommendation and has already chosen. By the time your
-    category comes up in ChatGPT, Claude, Gemini or Google, the shortlist is
-    made — and either you are on it or you are not.
-  </p>
-
-  <p>
-    Ranking third on a results page still gets you seen. Coming third in a
-    model's judgement usually means not being named at all. That is a different
-    problem from ranking, with different levers.
-  </p>
-
-  <h2>Four surfaces, four different answers</h2>
-
-  <p>
-    The four engines disagree with each other far more than most people expect.
-    The same question, asked the same day, returns different brands and cites
-    different sources on each. So "we show up in ChatGPT" tells you almost
-    nothing about the other three quarters of the surface area.
-  </p>
-
-  <p>
-    We report each engine separately, because a single blended score hides the
-    only thing worth knowing: which surface you are missing from, and why.
-  </p>
-
-  <ComparisonTable
-    caption="How a visibility report is laid out"
-    columns={['ChatGPT', 'Claude', 'Gemini', 'Google AI Overview']}
-    rows={demoRows}
-    footnote="Layout illustration only. The statuses above are made up to show the format — they are not findings about any real brand. Real reports carry the prompt set, the date, the market and the sample size."
-  />
-
-  <h2>What you get</h2>
-
-  <div class="cols">
-    <div>
-      <h3>The position you actually hold</h3>
-      <p>A defined set of buying-intent prompts, run across all four engines from clean sessions, recorded as which brands are named, in what order, and which sources the answer was built from.</p>
-    </div>
-    <div>
-      <h3>The cause, not just the score</h3>
-      <p>Absence has causes and they are not the same. A model may be unable to resolve your brand. It may ground on third-party sources you have no presence in. The fix differs in each case.</p>
-    </div>
-    <div>
-      <h3>Evidence it moved</h3>
-      <p>Re-measurement against the same frozen prompt set, alongside a control set we deliberately leave untouched — so you can tell our effect from the category drifting on its own.</p>
-    </div>
-  </div>
-
-  <h2>Common questions</h2>
-  {faqs.map((f) => (<><h3>{f.q}</h3><p>{f.a}</p></>))}
-
-  {pieces.length > 0 && (
-    <>
-      <h2>Research</h2>
-      <p>We publish what we measure, with the method attached so it can be checked.</p>
-      <ul class="piece-list">
-        {pieces.map((p) => (
-          <li>
-            <p class="meta"><time datetime={p.data.published.toISOString().slice(0, 10)}>{p.data.published.toISOString().slice(0, 10)}</time><span class="tag">{p.data.vertical}</span></p>
-            <h3><a href={`/research/${p.id}`}>{p.data.title}</a></h3>
-            <p>{p.data.description}</p>
-          </li>
+  <!-- 2. Hero — full bleed, asymmetric, gradient wash -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <p class="eyebrow">Answer engine optimisation</p>
+        <h1 class="statement">Your buyers asked an AI. You were not the answer.</h1>
+        <p class="lede">
+          We measure where you stand inside AI-generated answers, against the
+          competitors you actually lose to — then do the work that moves it.
+        </p>
+        <div class="hero-actions">
+          <a class="btn" href="#report">Get a free visibility report</a>
+          <a class="textlink" href="/service">See how the work runs &rarr;</a>
+        </div>
+      </div>
+      <div class="hero-tiles">
+        {heroTiles.map((t) => (
+          <div class="card card--hover">
+            <span class="mono" style="color:var(--blue)">{t.n}</span>
+            <p class="tile-title">{t.t}</p>
+            <p style="margin:0;font-size:var(--step--1);color:var(--muted)">{t.d}</p>
+          </div>
         ))}
-      </ul>
-      <p><a href="/research">All research</a></p>
-    </>
-  )}
+      </div>
+    </div>
+  </section>
 
-  <ReportForm id="report" />
+  <!-- 3. Proof band — tinted, dense, wide -->
+  <section class="section section--tight section--sunk">
+    <div class="wrap reveal">
+      <div class="figure-row">
+        {PROOF.map((p) => (
+          <div class="figure">
+            <span class="figure__n">{p.n}</span>
+            <span class="figure__l">{p.label}</span>
+          </div>
+        ))}
+      </div>
+      <p class="figure__src" style="margin-top:1.5rem">
+        Figures describe our own first category scan and its method, not client outcomes. Dubai, August 2026.
+      </p>
+    </div>
+  </section>
 
-  <p><a href="/service">How an engagement runs</a></p>
+  <!-- 4. The problem — narrow, airy, plain surface -->
+  <section class="section">
+    <div class="wrap-narrow reveal">
+      <p class="eyebrow">The problem</p>
+      <h2>Absence is the failure state, and it is invisible</h2>
+      <p>
+        A search engine returns ten links and lets the buyer choose. An answer
+        engine returns a conclusion and has already chosen. By the time your
+        category comes up, the shortlist is made.
+      </p>
+      <p>
+        Nobody tells you when you are left out. There is no rank to slip, no
+        impression count to fall. The buyer asks, gets three names, and none of
+        them is yours — and the first you hear of it is a quarter of soft
+        pipeline nobody can explain.
+      </p>
+    </div>
+  </section>
+
+  <!-- 5. Four surfaces — INVERTED band, dense table, full bleed. Centrepiece. -->
+  <section class="section section--inv">
+    <div class="wrap reveal">
+      <p class="eyebrow">The four-surface point</p>
+      <h2 class="statement" style="font-size:var(--step-4)">One question. Four different answers.</h2>
+      <p class="lede" style="max-width:44rem">
+        The engines disagree with each other far more than most people expect.
+        Same question, same day, different brands named and different sources
+        cited. "We show up in ChatGPT" tells you nothing about the other three
+        quarters of the surface area.
+      </p>
+      <ComparisonTable
+        caption="How a visibility report is laid out"
+        columns={[...ENGINES]}
+        rows={demoRows}
+        footnote="Layout illustration. Every status above is invented to show the format — none is a finding about a real brand. Real reports carry the verbatim prompt set, the market, the date and the number of runs per prompt."
+      />
+    </div>
+  </section>
+
+  <!-- 6. How it works — plain surface, horizontal steps -->
+  <section class="section">
+    <div class="wrap reveal">
+      <p class="eyebrow">How it works</p>
+      <h2>Four stages, and the last one is the point</h2>
+      <ol class="steps">
+        <li><h3>Baseline</h3><p>A frozen prompt set, run across all four engines from clean sessions. Market agreed, never assumed.</p></li>
+        <li><h3>Diagnose</h3><p>Whether a model cannot resolve you, cannot find you in its sources, or simply prefers someone else.</p></li>
+        <li><h3>Execute</h3><p>Entity and structured-data work, answer-shaped content, and placement into the sources models actually cite.</p></li>
+        <li><h3>Re-measure</h3><p>Same prompts, plus a control set left untouched — so the change can be attributed rather than asserted.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- 7. Offers — tinted band, cards, prices -->
+  <section class="section section--sunk">
+    <div class="wrap reveal">
+      <p class="eyebrow">Engagements</p>
+      <h2>Two ways in</h2>
+      <p class="lede">Capacity is deliberately capped. The audit is the front door and stands on its own.</p>
+      <div class="grid grid--2" style="margin-top:2rem">
+        {OFFERS.map((o) => (
+          <div class="card offer">
+            <h3 style="margin-bottom:0.2rem">{o.name}</h3>
+            <span class="offer__price">{o.price}</span>
+            <span class="offer__unit">{o.unit}</span>
+            <p style="font-size:var(--step--1)">{o.summary}</p>
+            <ul>{o.includes.map((i) => <li>{i}</li>)}</ul>
+            <a class:list={['btn', !o.primary && 'btn--ghost']} href={o.primary ? '#report' : '/service'}>{o.cta}</a>
+          </div>
+        ))}
+      </div>
+      <p style="margin-top:1.4rem"><span class="sample-flag">Sample pricing</span> &nbsp;Figures are placeholders for layout. Real pricing is set before launch.</p>
+    </div>
+  </section>
+
+  <!-- 8. Research teaser — plain surface, editorial cards -->
+  <section class="section">
+    <div class="wrap reveal">
+      <p class="eyebrow">Research</p>
+      <h2>We publish what we measure</h2>
+      <p class="lede">Method attached, so any finding can be checked or repeated rather than taken on trust.</p>
+      <div class="grid grid--3" style="margin-top:2rem">
+        {pieces.map((p) => (
+          <a class="card card--link" href={`/research/${p.id}`}>
+            <p class="meta">
+              <time datetime={p.data.published.toISOString().slice(0, 10)}>{p.data.published.toISOString().slice(0, 10)}</time>
+              <span class="tag">{p.data.vertical}</span>
+              {p.data.placeholder && <span class="tag tag--draft">Placeholder</span>}
+            </p>
+            <h3 style="font-size:var(--step-1)">{p.data.title}</h3>
+            <p style="font-size:var(--step--1);color:var(--muted)">{p.data.description}</p>
+          </a>
+        ))}
+      </div>
+      <p style="margin-top:1.6rem"><a class="textlink" href="/research">All research &rarr;</a></p>
+    </div>
+  </section>
+
+  <!-- 9. Objections — narrow, dense accordion -->
+  <section class="section section--sunk">
+    <div class="wrap-narrow reveal">
+      <p class="eyebrow">Objections</p>
+      <h2>The questions we get asked</h2>
+      <div class="qa" style="margin-top:1.75rem">
+        {FAQS.map((f, i) => (
+          <details open={i === 0}>
+            <summary>{f.q}</summary>
+            <p>{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. CTA — INVERTED band, full section -->
+  <section class="section section--inv" id="report">
+    <div class="wrap">
+      <div class="hero-grid">
+        <div class="reveal">
+          <p class="eyebrow">Free report</p>
+          <h2 class="statement" style="font-size:var(--step-4)">Find out what the engines say about you.</h2>
+          <p class="lede">
+            We run your category across all four surfaces and send you what comes
+            back — who gets named, in what order, and which sources the answers
+            were built from. No charge, no obligation, no sequence.
+          </p>
+        </div>
+        <ReportForm id="report-form" inverted />
+      </div>
+    </div>
+  </section>
 </BaseLayout>

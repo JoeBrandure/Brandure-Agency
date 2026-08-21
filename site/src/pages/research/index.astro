@@ -11,35 +11,43 @@ const anyReal = all.some((p) => !p.data.placeholder);
   title="Research"
   description="Original measurement of how AI answer engines treat specific categories and markets — which brands get named, which sources the answers are grounded on, and how much the engines disagree."
 >
-  <p class="eyebrow">Research</p>
-  <h1>Published research</h1>
-
-  <p class="lede">
-    We publish what we measure, method attached, so any finding here can be
-    checked or repeated rather than taken on trust.
-  </p>
-
-  {!anyReal && (
-    <div class="note">
-      <p><strong>No research published yet.</strong> The entries below are placeholder scaffolding showing the format. They carry no findings, and are excluded from search indexing, the sitemap and the feed until real pieces replace them.</p>
+  <section class="hero">
+    <div class="wrap-narrow">
+      <p class="eyebrow">Research</p>
+      <h1 class="statement" style="font-size:var(--step-4)">We publish what we measure.</h1>
+      <p class="lede">Method attached to every piece, so a finding can be checked or repeated rather than taken on trust.</p>
     </div>
-  )}
+  </section>
 
-  {all.length === 0 ? (
-    <p>Nothing published yet.</p>
-  ) : (
-    <ul class="piece-list">
-      {all.map((p) => (
-        <li>
-          <p class="meta">
-            <time datetime={p.data.published.toISOString().slice(0, 10)}>{p.data.published.toISOString().slice(0, 10)}</time>
-            <span class="tag">{p.data.vertical}</span>
-            {p.data.placeholder && <span class="tag tag--draft">Placeholder</span>}
-          </p>
-          <h2><a href={`/research/${p.id}`}>{p.data.title}</a></h2>
-          <p>{p.data.description}</p>
-        </li>
-      ))}
-    </ul>
-  )}
+  <section class="section">
+    <div class="wrap">
+      {!anyReal && (
+        <div class="card" style="border-style:dashed;margin-bottom:2rem">
+          <p style="margin:0"><span class="sample-flag">Placeholder</span> &nbsp;<strong>No research published yet.</strong> The entries below are scaffolding showing the format. They carry no findings and are excluded from search indexing, the sitemap and the feed until real pieces replace them.</p>
+        </div>
+      )}
+
+      {all.length === 0 ? (
+        <p>Nothing published yet.</p>
+      ) : (
+        <ul class="piece-list">
+          {all.map((p) => (
+            <li class="reveal">
+              <p class="meta">
+                <time datetime={p.data.published.toISOString().slice(0, 10)}>{p.data.published.toISOString().slice(0, 10)}</time>
+              </p>
+              <div>
+                <p class="meta">
+                  <span class="tag">{p.data.vertical}</span>
+                  {p.data.placeholder && <span class="tag tag--draft">Placeholder</span>}
+                </p>
+                <h2><a href={`/research/${p.id}`}>{p.data.title}</a></h2>
+                <p style="color:var(--muted)">{p.data.description}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  </section>
 </BaseLayout>

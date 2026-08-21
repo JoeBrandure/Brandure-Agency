@@ -142,16 +142,30 @@ No mail on this one, so it is lower risk. Same domain-alias method.
 ## What was measured
 
 Recorded from actual runs, not estimates. Lighthouse 12.8.2, desktop preset,
-against the built site.
+against the built site. **Run locally — the site is still not deployed, so
+these are not preview-URL numbers.**
 
-| Page | Performance | Accessibility | Best practices | SEO |
-|---|---|---|---|---|
-| Home | 100 | 100 | 96 | 100 |
-| Research piece (indexable) | 100 | 100 | 96 | 100 |
-| Research piece (placeholder) | 100 | 100 | 96 | 66 |
+| Page | Theme | Performance | Accessibility | Best practices | SEO |
+|---|---|---|---|---|---|
+| Home | light | 100 | 100 | 96 | 100 |
+| Home | dark | 100 | 100 | 96 | 100 |
+| Service | light | 100 | 100 | 96 | 100 |
+| Service | dark | 100 | 100 | 96 | 100 |
+| Method | light | 100 | 100 | 96 | 100 |
+| Research piece (indexable) | light | 100 | 100 | 96 | 100 |
+| Research piece (placeholder) | light | 100 | 100 | 96 | 66 |
 
-First contentful paint 0.3s, largest contentful paint 0.3s, total blocking
-time 0ms, cumulative layout shift 0.023.
+First contentful paint 0.4s, largest contentful paint 0.4s, total blocking
+time 70ms, cumulative layout shift 0.001.
+
+Motion cost nothing measurable: performance stayed at 100 after the redesign.
+Blocking time rose from 0ms to 70ms, which is the theme and reveal scripts
+parsing, and is well inside the 200ms threshold.
+
+The dark theme was audited by building a copy with `data-theme="dark"` pinned
+on every page and running the same audit against it, so axe checked the real
+rendered dark colours rather than the tokens alone. Its colour-contrast audit
+passes on both pages tested.
 
 **Two scores need explaining rather than fixing.**
 
@@ -163,23 +177,34 @@ on the real site. Re-check after the first live deploy.
 marks any page blocked from indexing down. The identical page scores **100**
 with `placeholder: false`, which was tested directly rather than assumed.
 
-### Colour contrast, measured against the paper background
+### Colour contrast, measured on the rendered page
 
-| Colour | Ratio | WCAG AA |
+Both themes, taken from the built site rather than from the token values.
+
+| Element | Light | Dark |
 |---|---|---|
-| Body ink | 16.82:1 | pass |
-| Secondary text | 6.64:1 | pass |
-| Accent (plum) | 8.40:1 | pass |
-| Status present | 6.05:1 | pass |
-| Status partial | 5.54:1 | pass |
-| Status absent | 6.71:1 | pass |
+| Statement headline | 17.20:1 | 16.58:1 |
+| Body lede | 5.63:1 | 7.77:1 |
+| Eyebrow label | 10.41:1 | 7.56:1 |
+| Proof figure label | 5.21:1 | 7.23:1 |
+| Status present | 6.10:1 | 10.08:1 |
+| Status partial | 5.51:1 | 9.80:1 |
+| Status absent | 6.66:1 | 7.32:1 |
+| Primary button text | 10.77:1 | 7.62:1 |
 
-**The three status colours are nearly identical in greyscale** — measured
-lightness 80, 95 and 78, a gap of 2 between two of them. Colour alone therefore
-cannot carry meaning in print or for colourblind readers. Every status cell
-also carries a distinct glyph (● filled, ◐ half, ○ empty) and a written label,
-so the table reads correctly with colour removed entirely. This was checked by
-rendering the tables in greyscale, not assumed.
+**Two values from the brief failed AA and were changed.** Cyan `#12A5B8`
+measured 2.86:1 on the off-white surface — below the 3:1 floor even for icons,
+let alone text. It is now `#0C7A88` at 4.88:1 for any text or icon use, with
+the original kept as `--cyan-vivid` for decorative gradient washes only. Status
+partial `#A6761D` measured 3.88:1 and is now `#856013` at 5.51:1. Both keep
+the original hue family.
+
+**The three status colours remain nearly identical in greyscale** — light
+lightness values 86, 98 and 86, a gap of zero between present and absent. Colour
+alone cannot carry meaning in print or for colourblind readers, in either theme.
+Every status cell therefore also carries a distinct glyph (● filled, ◐ half,
+○ empty) and a written label. Verified by rendering the inverted band in
+greyscale, not assumed.
 
 ---
 
@@ -189,8 +214,17 @@ rendering the tables in greyscale, not assumed.
 - **The only JavaScript on the site** is the analytics snippet. Everything else
   is plain HTML and CSS, which is what makes it fast and easy for AI crawlers
   to read.
-- **Fonts are self-hosted** — Inter for text, IBM Plex Mono for data. No
-  requests to Google or anyone else.
+- **Fonts are self-hosted** — Manrope for headlines, Inter for body, IBM Plex
+  Mono for data and labels. No requests to Google or anyone else.
+  **Satoshi was specified but could not be used**: it is distributed through
+  Fontshare, which is unreachable from this build environment. Manrope is the
+  closest widely-available geometric sans and is what the site ships. Swap it
+  later by replacing one import if Satoshi becomes available.
+- **Light and dark themes.** The toggle sits in the header. It defaults to the
+  operating system preference; a manual choice is stored and wins from then on.
+  A small blocking script in the head applies the theme before first paint, so
+  there is no flash of the wrong theme — deferring that script is exactly what
+  causes the flash.
 - **Analytics is PostHog, cookieless.** It stores nothing on a visitor's
   device, so the site needs no cookie banner in the UK, EU or UAE. The
   trade-off is that visitors are counted per visit rather than per person.
@@ -225,4 +259,13 @@ rendering the tables in greyscale, not assumed.
   Collecting names and emails from UK and EU visitors normally calls for a
   proper notice — worth a decision before launch.
 - **Nothing is deployed.** No Netlify site exists yet and no domain has been
-  pointed.
+  pointed, so there is no preview URL and no production link.
+- **Canonical URLs carry a `.html` extension** — `/index.html` rather than `/`
+  — while the sitemap lists clean URLs. The two disagree, which is a real
+  search-visibility defect. It predates this design pass and was left alone
+  deliberately: the machine-readable layer is a separate fix.
+- **Case studies and pricing are invented.** `/work` uses generic sample names
+  with no implied client relationship and is excluded from search indexing.
+  Prices are sample figures marked as such on the page.
+- **The method page is a reserved route.** Structure only; the framework name
+  and write-up follow later.

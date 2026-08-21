@@ -1,0 +1,49 @@
+---
+/**
+ * Placeholder imagery, generated in code from the palette. No stock photos,
+ * no external requests, no abstract "AI" imagery. Correct aspect ratios so
+ * real assets drop in without reflow.
+ */
+interface Props {
+  variant?: 'grid' | 'panel' | 'bars';
+  ratio?: '16x9' | '4x3';
+  label?: string;
+}
+const { variant = 'grid', ratio = '16x9', label = 'Placeholder' } = Astro.props;
+const id = `ph-${Math.random().toString(36).slice(2, 8)}`;
+---
+<div class:list={['ph', `ph--${ratio}`]} role="img" aria-label={`${label} — placeholder graphic`}>
+  <svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <defs>
+      <linearGradient id={id} x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="var(--violet)" stop-opacity="0.20" />
+        <stop offset="55%" stop-color="var(--blue)" stop-opacity="0.13" />
+        <stop offset="100%" stop-color="var(--cyan-vivid)" stop-opacity="0.18" />
+      </linearGradient>
+    </defs>
+    <rect width="320" height="180" fill={`url(#${id})`} />
+    {variant === 'grid' && (
+      <g stroke="var(--border)" stroke-width="0.6" opacity="0.85">
+        {[36, 72, 108, 144].map((y) => <line x1="16" y1={y} x2="304" y2={y} />)}
+        {[80, 144, 208, 272].map((x) => <line x1={x} y1="16" x2={x} y2="164" />)}
+      </g>
+    )}
+    {variant === 'panel' && (
+      <g>
+        <rect x="18" y="18" width="284" height="26" rx="5" fill="var(--surface)" opacity="0.75" />
+        <rect x="28" y="28" width="88" height="6" rx="3" fill="var(--blue)" opacity="0.55" />
+        <rect x="18" y="54" width="136" height="108" rx="6" fill="var(--surface)" opacity="0.6" />
+        <rect x="166" y="54" width="136" height="50" rx="6" fill="var(--surface)" opacity="0.6" />
+        <rect x="166" y="112" width="136" height="50" rx="6" fill="var(--surface)" opacity="0.6" />
+      </g>
+    )}
+    {variant === 'bars' && (
+      <g>
+        {[[40, 60], [86, 96], [132, 44], [178, 120], [224, 78], [270, 104]].map(([x, h]) => (
+          <rect x={x - 14} y={160 - h} width="28" height={h} rx="4" fill="var(--blue)" opacity="0.35" />
+        ))}
+        <line x1="16" y1="160" x2="304" y2="160" stroke="var(--border)" stroke-width="1" />
+      </g>
+    )}
+  </svg>
+</div>

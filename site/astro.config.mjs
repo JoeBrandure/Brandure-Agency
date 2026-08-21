@@ -32,6 +32,8 @@ export default defineConfig({
       filter: (page) => {
         const p = new URL(page).pathname.replace(/\/$/, '') || '/';
         if (p.startsWith('/og/') || p === '/404') return false;
+        // Case studies are sample scaffolding and carry noindex until real.
+        if (p === '/work' || p.startsWith('/work/')) return false;
         return !excluded.has(p);
       },
     }),

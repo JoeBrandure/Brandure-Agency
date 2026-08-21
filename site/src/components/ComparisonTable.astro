@@ -1,0 +1,65 @@
+---
+import StatusCell from './StatusCell.astro';
+
+/**
+ * The hardest case on the site: a dense answer-surface comparison, one row
+ * per prompt, one column per engine, with a citation subline under each cell.
+ *
+ * Scrolls inside its own container rather than forcing the page sideways.
+ * Head row is sticky within that scroller on wide tables.
+ */
+export interface Cell {
+  status: 'present' | 'partial' | 'absent';
+  label?: string;
+  /** Where the answer was grounded. Rendered in mono beneath the status. */
+  citation?: string;
+}
+export interface Row {
+  label: string;
+  /** Optional qualifier under the row label — market, date, sample. */
+  note?: string;
+  cells: Cell[];
+}
+interface Props {
+  caption: string;
+  /** Column headings after the first, which is always the row label column. */
+  columns: string[];
+  rows: Row[];
+  /** Method, sample size, date — anything needed to read the table honestly. */
+  footnote?: string;
+}
+const { caption, columns, rows, footnote } = Astro.props;
+---
+
+<figure class="table-figure">
+  <div class="table-scroll" tabindex="0" role="region" aria-label={caption}>
+    <table>
+      <caption>{caption}</caption>
+      <thead>
+        <tr>
+          <th scope="col">Prompt</th>
+          {columns.map((c) => <th scope="col">{c}</th>)}
+        </tr>
+      </thead>
+      <tbody>
+        {
+          rows.map((row) => (
+            <tr>
+              <th scope="row">
+                <span class="row-label">{row.label}</span>
+                {row.note && <span class="row-note">{row.note}</span>}
+              </th>
+              {row.cells.map((cell) => (
+                <td>
+                  <StatusCell status={cell.status} label={cell.label} />
+                  {cell.citation && <span class="cite">{cell.citation}</span>}
+                </td>
+              ))}
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+  {footnote && <figcaption>{footnote}</figcaption>}
+</figure>

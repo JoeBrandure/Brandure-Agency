@@ -1,7 +1,7 @@
 # STATE.md — current position
 
-Last updated: 2026-08-17 (registry-signposting gap closed; aeo-seo-geo-expert
-installed; A3 still urgent)
+Last updated: 2026-08-19 (brandure.io site rebuilt to brief, awaiting preview
+deploy and sign-off; A3 still urgent)
 
 Current position at a glance. Update this file whenever something moves between
 sections. It is the first thing to read at the start of a working session.
@@ -101,11 +101,17 @@ repo before building on anything here.
   rule so a registry value for an external skill is not discounted. A sweep
   qualified every other rule that asserted the prefix, template inheritance or
   authority order as universal.
-- **brandure.io site scaffolded** at `site/`. Astro, static output, zero
-  client-side JS, no CMS. Eight pages, research collection from markdown with
-  a gated/ungated split, Netlify Forms email capture, sitemap, robots.txt and
-  JSON-LD on every page. Builds clean. **Not launch-ready** — see the three
-  placeholder blockers below.
+- **brandure.io site rebuilt to brief** at `site/`. Astro, static, no CMS.
+  Four page types plus a 404. Zero JavaScript bundles — the only script is the
+  cookieless PostHog snippet. Warm-paper palette defined once as tokens, self-
+  hosted Inter and IBM Plex Mono, build-time OG images, RSS, generated
+  `llms.txt`, JSON-LD on every page (15 blocks, zero validation errors).
+  **No email gate anywhere** — all research open, per brief.
+  Measured, not asserted: Lighthouse 100/100/96/100 on home; every status
+  colour AA on paper; the three status hues are near-identical in greyscale
+  (L 80/95/78) so each cell carries a glyph and label as redundant encoding,
+  verified by rendering the 7x4 table in greyscale.
+  **Nothing is deployed and no domain is pointed** — see below.
 - **Delivery surface settled.** Delivery runs from Cowork; Claude Code builds
   and maintains this repo. The repo stays authoritative and Cowork consumes a
   packaged version. See `decisions/2026-08-11-delivery-surface.md`.
@@ -175,7 +181,18 @@ repo before building on anything here.
   n=1. Prospecting on them means opening conversations with a finding that
   might be sampling variance, on exactly the categories where a prospect is
   most likely to check.
-- **Site launch — blocked on three placeholders.** The build is complete; the
+- **Site launch — awaiting preview deploy and sign-off.** No Netlify site
+  exists yet; no domain points anywhere. The DNS work is deliberately not
+  started: `brandureai.com` carries live Google Workspace mail, and the
+  runbook in `site/README.md` requires capturing MX/SPF/DKIM/DMARC before the
+  change and confirming a test email arrives after it. Nothing touches a live
+  domain without Joe's explicit approval.
+- **No privacy notice.** The brief caps the site at four page types and
+  requires approval for a fifth, so the report form carries a one-line
+  plain-English statement instead of a linked notice. Collecting names and
+  emails from UK and EU visitors normally calls for a proper one. Needs a
+  decision before launch.
+- **Site content — blocked on three placeholders.** The build is complete; the
   content is not.
   1. **Pricing.** `/service` carries structure and scope but every figure reads
      "On application". Pricing is blocked on ICP and on measured delivery

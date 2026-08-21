@@ -2,42 +2,44 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 
-const pieces = (await getCollection('research')).sort(
-  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+const all = (await getCollection('research')).sort(
+  (a, b) => b.data.published.valueOf() - a.data.published.valueOf(),
 );
-const fmt = new Intl.DateTimeFormat('en-GB', { dateStyle: 'long' });
+const anyReal = all.some((p) => !p.data.placeholder);
 ---
-
 <BaseLayout
   title="Research"
-  description="Original research from Brandure on how AI answer engines treat specific categories and markets — which brands get named, and which sources the answers are built from."
+  description="Original measurement of how AI answer engines treat specific categories and markets — which brands get named, which sources the answers are grounded on, and how much the engines disagree."
 >
-  <h1>Research</h1>
+  <p class="eyebrow">Research</p>
+  <h1>Published research</h1>
 
   <p class="lede">
-    We publish what we measure. Each piece is a scan of how answer engines
-    handle a specific category, with the method stated so it can be checked.
+    We publish what we measure, method attached, so any finding here can be
+    checked or repeated rather than taken on trust.
   </p>
 
-  {
-    pieces.length === 0 ? (
-      <p>Nothing published yet.</p>
-    ) : (
-      <ul class="card-list">
-        {pieces.map((piece) => (
-          <li>
-            <p class="meta">
-              <time datetime={piece.data.date.toISOString().slice(0, 10)}>
-                {fmt.format(piece.data.date)}
-              </time>
-              <span class="tag">{piece.data.vertical}</span>
-              {piece.data.gated && <span class="tag">Email required</span>}
-            </p>
-            <h2><a href={`/research/${piece.id}`}>{piece.data.title}</a></h2>
-            <p>{piece.data.summary}</p>
-          </li>
-        ))}
-      </ul>
-    )
-  }
+  {!anyReal && (
+    <div class="note">
+      <p><strong>No research published yet.</strong> The entries below are placeholder scaffolding showing the format. They carry no findings, and are excluded from search indexing, the sitemap and the feed until real pieces replace them.</p>
+    </div>
+  )}
+
+  {all.length === 0 ? (
+    <p>Nothing published yet.</p>
+  ) : (
+    <ul class="piece-list">
+      {all.map((p) => (
+        <li>
+          <p class="meta">
+            <time datetime={p.data.published.toISOString().slice(0, 10)}>{p.data.published.toISOString().slice(0, 10)}</time>
+            <span class="tag">{p.data.vertical}</span>
+            {p.data.placeholder && <span class="tag tag--draft">Placeholder</span>}
+          </p>
+          <h2><a href={`/research/${p.id}`}>{p.data.title}</a></h2>
+          <p>{p.data.description}</p>
+        </li>
+      ))}
+    </ul>
+  )}
 </BaseLayout>

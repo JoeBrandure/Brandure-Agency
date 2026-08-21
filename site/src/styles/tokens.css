@@ -1,0 +1,42 @@
+/* Brandure design tokens — the single source for every colour and scale.
+   No one-off colours anywhere in the build. Contrast ratios measured against
+   --paper and recorded in site/README.md. */
+:root {
+  color-scheme: light;
+
+  /* Surface and ink */
+  --paper:        #FAF7F2; /* warm paper, not white */
+  --paper-sunk:   #F3EEE5; /* recessed panels, table head */
+  --ink:          #1A1613; /* 16.82:1 on paper */
+  --muted:        #5F574E; /*  6.64:1 on paper */
+  --rule:         #E4DCD0; /* hairlines only, never text */
+  --rule-strong:  #CFC4B4; /* table structure */
+
+  /* Accent — plum. Hue 332deg: clear of ChatGPT 165, Perplexity 187,
+     Gemini 217, Google red 5, Claude 15. 8.40:1 on paper. Used sparingly. */
+  --accent:       #7A2E52;
+  --accent-sunk:  #F2E8ED;
+
+  /* RESERVED — data status only. Never decorative.
+     These are near-identical in greyscale (L=80/95/78), so every status is
+     also carried by a glyph and a text label. Colour is redundant encoding. */
+  --status-present: #1F6B45; /* 6.05:1 */
+  --status-partial: #8A5A0B; /* 5.54:1 */
+  --status-absent:  #A32B25; /* 6.71:1 */
+
+  /* Type: one text face, one mono. Two weights only. */
+  --font-text: 'Inter Variable', 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', monospace;
+  --w-normal: 400;
+  --w-bold: 600;
+
+  --step--2: 0.75rem;   /* 12px — table sublines */
+  --step--1: 0.8125rem; /* 13px — the legibility floor the palette is tested at */
+  --step-0:  1rem;
+  --step-1:  1.1875rem;
+  --step-2:  1.5rem;
+  --step-3:  clamp(1.9rem, 1.4rem + 2.2vw, 2.75rem);
+
+  --measure: 34rem;
+  --wrap: 72rem;
+}

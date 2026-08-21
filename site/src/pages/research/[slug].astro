@@ -1,49 +1,94 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import EmailCapture from '../../components/EmailCapture.astro';
+import { SITE } from '../../consts';
 import { getCollection, render } from 'astro:content';
 
 export async function getStaticPaths() {
   const pieces = await getCollection('research');
-  return pieces.map((piece) => ({
-    params: { slug: piece.id },
-    props: { piece },
-  }));
+  return pieces.map((piece) => ({ params: { slug: piece.id }, props: { piece } }));
 }
 
 const { piece } = Astro.props;
-const { Content } = await render(piece);
-const fmt = new Intl.DateTimeFormat('en-GB', { dateStyle: 'long' });
-const iso = piece.data.date.toISOString().slice(0, 10);
----
+const { Content, headings } = await render(piece);
+const d = piece.data;
+const pub = d.published.toISOString();
+const upd = (d.updated ?? d.published).toISOString();
+const url = `${SITE.url}/research/${piece.id}`;
 
-<BaseLayout title={piece.data.title} description={piece.data.summary}>
-  <article>
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  '@id': `${url}#article`,
+  headline: d.title,
+  description: d.description,
+  datePublished: pub,
+  dateModified: upd,
+  inLanguage: 'en-GB',
+  author: { '@id': `${SITE.url}/#organization` },
+  publisher: { '@id': `${SITE.url}/#organization` },
+  mainEntityOfPage: { '@type': 'WebPage', '@id': url },
+  about: d.vertical,
+  isAccessibleForFree: true,
+};
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: SITE.url },
+    { '@type': 'ListItem', position: 2, name: 'Research', item: `${SITE.url}/research` },
+    { '@type': 'ListItem', position: 3, name: d.title, item: url },
+  ],
+};
+---
+<BaseLayout
+  title={d.title}
+  description={d.description}
+  noindex={d.placeholder}
+  schemas={d.placeholder ? [] : [articleSchema, breadcrumbSchema]}
+  ogImage={`/og/research/${piece.id}.png`}
+>
+  <nav aria-label="Breadcrumb" class="meta">
+    <a href="/">Home</a> <span aria-hidden="true">/</span> <a href="/research">Research</a>
+  </nav>
+
+  <article class="narrow">
     <header>
       <p class="meta">
-        <time datetime={iso}>{fmt.format(piece.data.date)}</time>
-        <span class="tag">{piece.data.vertical}</span>
+        <span>Published <time datetime={pub.slice(0, 10)}>{pub.slice(0, 10)}</time></span>
+        {d.updated && <span>Updated <time datetime={upd.slice(0, 10)}>{upd.slice(0, 10)}</time></span>}
+        <span class="tag">{d.vertical}</span>
+        {d.placeholder && <span class="tag tag--draft">Placeholder</span>}
       </p>
-      <h1>{piece.data.title}</h1>
-      <p class="lede">{piece.data.summary}</p>
+      <h1>{d.title}</h1>
+      <p class="lede">{d.description}</p>
     </header>
 
-    {
-      piece.data.gated ? (
-        <EmailCapture
-          name="research-download"
-          piece={piece.id}
-          heading="Read the full report"
-          blurb="Enter your email and we will send the full report straight over. No sequence, no sales calls you did not ask for."
-        />
-      ) : (
-        <div class="prose">
-          <Content />
-        </div>
-      )
-    }
+    {d.placeholder && (
+      <div class="note" role="note">
+        <p><strong>This is placeholder scaffolding, not research.</strong> It exists to show the template. It contains no findings, and is excluded from search indexing, the sitemap and the feed. Delete the file to remove it.</p>
+      </div>
+    )}
+
+    <div class="prose"><Content /></div>
+
+    {d.sources.length > 0 && (
+      <section class="sources" aria-labelledby="sources-h">
+        <h2 id="sources-h">Sources</h2>
+        <ol>
+          {d.sources.map((s) => (
+            <li>{s.url ? <a href={s.url} rel="noopener">{s.label}</a> : s.label}</li>
+          ))}
+        </ol>
+      </section>
+    )}
   </article>
 
   <hr />
+  <p>
+    Brandure does this measurement for clients as an engagement.
+    <a href="/service">See how the work runs</a>, or
+    <a href="/#report">request a free report for your own category</a>.
+  </p>
   <p><a href="/research">All research</a></p>
 </BaseLayout>

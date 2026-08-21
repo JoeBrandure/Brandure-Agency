@@ -1,24 +1,80 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import ReportForm from '../components/ReportForm.astro';
+import ComparisonTable from '../components/ComparisonTable.astro';
+import { SITE } from '../consts';
 import { getCollection } from 'astro:content';
 
-const pieces = (await getCollection('research')).sort(
-  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
-);
-const latest = pieces.slice(0, 3);
-const fmt = new Intl.DateTimeFormat('en-GB', { dateStyle: 'long' });
+const pieces = (await getCollection('research'))
+  .filter((p) => !p.data.placeholder)
+  .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf())
+  .slice(0, 3);
+
+const faqs = [
+  {
+    q: 'How is this different from SEO?',
+    a: 'Search returns a list and lets you choose. An answer engine returns a recommendation and has already chosen. Ranking third on a page still gets you seen; being third in a model’s judgement usually means not being mentioned at all. The levers differ too — whether a model can resolve who you are, and which third-party sources it grounds on when it answers.',
+  },
+  {
+    q: 'Which engines do you measure?',
+    a: 'ChatGPT, Claude, Gemini and Google AI Overviews, each treated as a separate surface. They disagree with each other more than most people expect, so a single score across all four hides the thing you need to know.',
+  },
+  {
+    q: 'Can you guarantee we appear in AI answers?',
+    a: 'No, and neither can anyone else. Answer engines change their grounding behaviour without notice. What we can do is measure the position you hold now, act on the causes we can influence, and measure again against a control set so you can see what the work actually moved.',
+  },
+];
+
+const serviceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  '@id': `${SITE.url}/#service`,
+  name: 'Answer engine optimisation',
+  serviceType: 'Answer engine optimisation',
+  description: SITE.description,
+  provider: { '@id': `${SITE.url}/#organization` },
+  areaServed: SITE.areaServed.map((c) => ({ '@type': 'Country', identifier: c })),
+  url: `${SITE.url}/service`,
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+
+/* Illustrative shape only — no findings claimed. Values are marked as such. */
+const demoRows = [
+  { label: 'Best employment lawyer in [city]', note: 'buying intent', cells: [
+    { status: 'present' as const, citation: 'directory listing' },
+    { status: 'absent' as const },
+    { status: 'partial' as const, citation: 'mentioned, not ranked' },
+    { status: 'absent' as const },
+  ]},
+  { label: 'Alternatives to [incumbent]', note: 'comparison', cells: [
+    { status: 'absent' as const },
+    { status: 'present' as const, citation: 'own comparison page' },
+    { status: 'absent' as const },
+    { status: 'partial' as const, citation: 'listed sixth' },
+  ]},
+];
 ---
 
 <BaseLayout
-  title="Brandure"
-  description="Brandure is an AEO agency. We measure where brands appear in AI-generated answers — ChatGPT, Claude, Gemini, Perplexity — and do the work that changes it."
+  title={SITE.name}
+  description="Brandure measures where your brand appears in AI-generated answers across ChatGPT, Claude, Gemini and Google — then does the work that changes it. Request a free visibility report."
+  schemas={[serviceSchema, faqSchema]}
 >
+  <p class="eyebrow">Answer engine optimisation</p>
   <h1>Your buyers are asking an AI. You are not in the answer.</h1>
 
   <p class="lede">
-    Brandure is an Answer Engine Optimisation agency. We measure where a brand
-    stands inside AI-generated answers, against named competitors, and then do
-    the work that moves it.
+    We measure where your brand stands inside AI-generated answers, against the
+    competitors you actually lose to, and then do the work that moves it.
   </p>
 
   <h2>Search stopped being a list</h2>
@@ -26,56 +82,75 @@ const fmt = new Intl.DateTimeFormat('en-GB', { dateStyle: 'long' });
   <p>
     A search engine returns ten links and lets the buyer choose. An answer
     engine returns a recommendation and has already chosen. By the time your
-    category comes up in ChatGPT, Claude, Gemini or Perplexity, the shortlist
-    is made — and either you are on it or you are not.
+    category comes up in ChatGPT, Claude, Gemini or Google, the shortlist is
+    made — and either you are on it or you are not.
   </p>
 
   <p>
-    That is a different problem from ranking, and it has different levers:
-    whether a model can resolve who you are, which third-party sources it draws
-    on when it answers, and whether your content can be lifted cleanly into a
-    reply.
+    Ranking third on a results page still gets you seen. Coming third in a
+    model's judgement usually means not being named at all. That is a different
+    problem from ranking, with different levers.
   </p>
 
-  <h2>Measurement first</h2>
+  <h2>Four surfaces, four different answers</h2>
 
   <p>
-    We start by showing you the position you actually hold. A defined set of
-    buying-intent prompts, run across the major answer engines, recorded as
-    which brands get named, in what order, and which sources the answer was
-    built from.
+    The four engines disagree with each other far more than most people expect.
+    The same question, asked the same day, returns different brands and cites
+    different sources on each. So "we show up in ChatGPT" tells you almost
+    nothing about the other three quarters of the surface area.
   </p>
 
   <p>
-    It is a diagnosis, not a pitch deck. Sometimes it shows a category already
-    locked by two incumbents, in which case we will say so.
-    <a href="/service">See what an engagement covers</a>.
+    We report each engine separately, because a single blended score hides the
+    only thing worth knowing: which surface you are missing from, and why.
   </p>
 
-  {
-    latest.length > 0 && (
-      <>
-        <h2>Research</h2>
-        <p>
-          We publish what we measure. Original scans of how answer engines treat
-          specific categories and markets.
-        </p>
-        <ul class="card-list">
-          {latest.map((piece) => (
-            <li>
-              <p class="meta">
-                <time datetime={piece.data.date.toISOString().slice(0, 10)}>
-                  {fmt.format(piece.data.date)}
-                </time>
-                <span class="tag">{piece.data.vertical}</span>
-              </p>
-              <h3><a href={`/research/${piece.id}`}>{piece.data.title}</a></h3>
-              <p>{piece.data.summary}</p>
-            </li>
-          ))}
-        </ul>
-        <p><a href="/research">All research</a></p>
-      </>
-    )
-  }
+  <ComparisonTable
+    caption="How a visibility report is laid out"
+    columns={['ChatGPT', 'Claude', 'Gemini', 'Google AI Overview']}
+    rows={demoRows}
+    footnote="Layout illustration only. The statuses above are made up to show the format — they are not findings about any real brand. Real reports carry the prompt set, the date, the market and the sample size."
+  />
+
+  <h2>What you get</h2>
+
+  <div class="cols">
+    <div>
+      <h3>The position you actually hold</h3>
+      <p>A defined set of buying-intent prompts, run across all four engines from clean sessions, recorded as which brands are named, in what order, and which sources the answer was built from.</p>
+    </div>
+    <div>
+      <h3>The cause, not just the score</h3>
+      <p>Absence has causes and they are not the same. A model may be unable to resolve your brand. It may ground on third-party sources you have no presence in. The fix differs in each case.</p>
+    </div>
+    <div>
+      <h3>Evidence it moved</h3>
+      <p>Re-measurement against the same frozen prompt set, alongside a control set we deliberately leave untouched — so you can tell our effect from the category drifting on its own.</p>
+    </div>
+  </div>
+
+  <h2>Common questions</h2>
+  {faqs.map((f) => (<><h3>{f.q}</h3><p>{f.a}</p></>))}
+
+  {pieces.length > 0 && (
+    <>
+      <h2>Research</h2>
+      <p>We publish what we measure, with the method attached so it can be checked.</p>
+      <ul class="piece-list">
+        {pieces.map((p) => (
+          <li>
+            <p class="meta"><time datetime={p.data.published.toISOString().slice(0, 10)}>{p.data.published.toISOString().slice(0, 10)}</time><span class="tag">{p.data.vertical}</span></p>
+            <h3><a href={`/research/${p.id}`}>{p.data.title}</a></h3>
+            <p>{p.data.description}</p>
+          </li>
+        ))}
+      </ul>
+      <p><a href="/research">All research</a></p>
+    </>
+  )}
+
+  <ReportForm id="report" />
+
+  <p><a href="/service">How an engagement runs</a></p>
 </BaseLayout>

@@ -1,5 +1,8 @@
-# Netlify build config. The Astro site lives in site/ so the rest of the
-# repo (agency documentation) is not part of the deploy.
+# Netlify configuration for brandure.io.
+#
+# The Astro site lives in site/. Everything else in this repo is the agency's
+# system of record and is not part of the deploy.
+
 [build]
   base = "site"
   command = "npm run build"
@@ -8,9 +11,65 @@
 [build.environment]
   NODE_VERSION = "22"
 
+# --- Security and caching -----------------------------------------------
 [[headers]]
   for = "/*"
   [headers.values]
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
     X-Frame-Options = "DENY"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=(), interest-cohort=()"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
+
+[[headers]]
+  for = "/og/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/_astro/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/llms.txt"
+  [headers.values]
+    Content-Type = "text/plain; charset=utf-8"
+
+# --- Canonical host ------------------------------------------------------
+# One canonical version: apex, no www. Netlify serves HTTPS and redirects
+# HTTP automatically once the certificate is issued.
+[[redirects]]
+  from = "https://www.brandure.io/*"
+  to = "https://brandure.io/:splat"
+  status = 301
+  force = true
+
+# --- Legacy domains ------------------------------------------------------
+# These rules only take effect once each domain is added as a domain alias
+# on this Netlify site. Adding an alias changes that domain's WEB records
+# only. See "Pointing the legacy domains" in site/README.md before touching
+# brandureai.com — it carries live Google Workspace mail.
+[[redirects]]
+  from = "https://brandureai.com/*"
+  to = "https://brandure.io/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://www.brandureai.com/*"
+  to = "https://brandure.io/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://branduredigital.com/*"
+  to = "https://brandure.io/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://www.branduredigital.com/*"
+  to = "https://brandure.io/:splat"
+  status = 301
+  force = true

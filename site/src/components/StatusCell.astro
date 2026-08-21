@@ -1,0 +1,23 @@
+---
+/**
+ * Data status in a comparison table. One of three reserved meanings.
+ *
+ * Colour is REDUNDANT encoding, never the only signal: the three reserved
+ * hues sit within 2 points of each other in greyscale, so each status also
+ * carries a distinct glyph (filled / half / empty) and a text label. The
+ * table therefore reads correctly in print, in greyscale, and for readers
+ * who cannot distinguish the hues.
+ */
+interface Props {
+  status: 'present' | 'partial' | 'absent';
+  /** Overrides the default label where a category needs its own wording. */
+  label?: string;
+}
+const { status, label } = Astro.props;
+const glyph = { present: '●', partial: '◐', absent: '○' }[status];
+const fallback = { present: 'Cited', partial: 'Partial', absent: 'Absent' }[status];
+---
+<span class:list={['status', `status--${status}`]}>
+  <span class="status__glyph" aria-hidden="true">{glyph}</span>
+  <span class="status__label">{label ?? fallback}</span>
+</span>

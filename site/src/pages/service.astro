@@ -1,135 +1,91 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import ReportForm from '../components/ReportForm.astro';
+import { SITE } from '../consts';
 
-/**
- * PLACEHOLDER PRICING.
- *
- * Pricing and service definition are both recorded as BLOCKED in STATE.md:
- * there is no rate card, no retainer structure, and no measured delivery
- * hours per engagement to derive one from. The tiers below carry structure
- * and scope only — every figure is deliberately left as "On application"
- * rather than invented. Fill in from a real rate card before launch.
- */
-const tiers = [
-  {
-    name: 'Answer Surface Audit',
-    price: null,
-    summary:
-      'A one-off diagnosis. Where you stand in AI answers today, against a named competitor set, and what is causing it.',
-    includes: [
-      'Buying-intent prompt set, defined with you',
-      'Run across ChatGPT, Claude, Gemini and Perplexity',
-      'Brands named and in what order, per prompt, per engine',
-      'The sources each answer was built from',
-      'Entity check — whether models can resolve who you are',
-      'A prioritised list of what would move the position',
-    ],
-  },
-  {
-    name: 'Sprint',
-    price: null,
-    summary:
-      'Fixed scope, fixed length. The audit, then the highest-leverage fixes executed, then a re-measure against the same prompt set.',
-    includes: [
-      'Everything in the audit',
-      'Entity and structured-data corrections',
-      'Answer-shaped content for the prompts that matter',
-      'Third-party placement plan',
-      'Re-measure on the frozen prompt set, with a control group',
-    ],
-  },
-  {
-    name: 'Retainer',
-    price: null,
-    summary:
-      'Ongoing. Tracked position, continuous placement and content work, and reporting that separates our impact from everything else moving.',
-    includes: [
-      'Continuous tracking on a fixed prompt set',
-      'Control prompts, deliberately unoptimised, to isolate causation',
-      'Monthly reporting with raw metrics, not just a score',
-      'Placement and content execution',
-      'Quarterly review against the baseline',
-    ],
-  },
-];
+const serviceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  '@id': `${SITE.url}/service#service`,
+  name: 'Answer engine optimisation',
+  serviceType: 'Answer engine optimisation',
+  description:
+    'Answer surface measurement, diagnosis, entity and content work, third-party placement, and re-measurement against a control set.',
+  provider: { '@id': `${SITE.url}/#organization` },
+  areaServed: SITE.areaServed.map((c) => ({ '@type': 'Country', identifier: c })),
+  url: `${SITE.url}/service`,
+};
 ---
-
 <BaseLayout
   title="Service"
-  description="What Brandure does: an answer surface audit, a fixed-scope sprint, or an ongoing retainer. Measurement first, then the work that moves the position."
+  description="How a Brandure engagement runs: what gets audited across four answer engines, what gets delivered, and what a client actually receives at each stage."
+  schemas={[serviceSchema]}
 >
-  <h1>Service</h1>
+  <p class="eyebrow">Service</p>
+  <h1>What the work actually is</h1>
 
   <p class="lede">
     Every engagement starts with a measurement, because without a baseline
-    there is no way to show that anything we did afterwards worked.
+    there is no way to show that anything done afterwards worked.
   </p>
 
-  <h2>How the work runs</h2>
-
-  <h3>1. Baseline</h3>
+  <h2>1. Baseline</h2>
   <p>
-    We agree a set of buying-intent prompts — the questions a real buyer types
-    when they are choosing, not researching. We run them across the major
-    answer engines from clean sessions, and record what comes back: which
-    brands are named, in what order, and which domains the answer cites.
+    We agree a prompt set with you — the questions a buyer types when they are
+    choosing, not researching. Market is agreed explicitly rather than assumed:
+    adding a city to a query your buyers never localise produces a different
+    test, not a sharper one.
   </p>
-
-  <h3>2. Diagnosis</h3>
   <p>
-    Absence has causes, and they are not all the same. A model may be unable to
-    resolve your brand as an entity. It may be grounding the category on
-    third-party sources you have no presence in. It may have a clear preference
-    it will not be argued out of. The fix differs in each case.
+    Each prompt runs across ChatGPT, Claude, Gemini and Google, from clean
+    sessions with personalisation off. A signed-in run measures your own search
+    history rather than the market.
   </p>
+  <p><strong>You receive:</strong> the frozen prompt set, and a table of who was named on each engine, in what order, with the domains each answer cited.</p>
 
-  <h3>3. Execution</h3>
+  <h2>2. Diagnosis</h2>
   <p>
-    Entity and structured-data work on your own properties, content built to be
-    lifted into an answer, and placement into the third-party sources the
-    models actually draw on. Most citations in AI answers come from earned
-    media rather than brand-owned domains, so placement is core to the work
-    rather than an add-on.
+    Absence has causes and they are not interchangeable. A model may fail to
+    resolve your brand as an entity — it does not know what you are. It may be
+    grounding the category on third-party sources you have no presence in. Or
+    it may have a settled preference that content alone will not shift.
   </p>
+  <p><strong>You receive:</strong> which of those applies per engine, and what follows from it.</p>
 
-  <h3>4. Re-measure</h3>
+  <h2>3. Execution</h2>
   <p>
-    Against the same frozen prompt set, alongside a control set we deliberately
-    leave untouched. Answer engines move on their own — models update,
-    competitors act, indexes refresh. The control set is what separates our
-    effect from theirs. Without it there is a correlation and no result.
+    Entity and structured-data work on your own properties, so a model can
+    resolve who you are and what you sell. Content built to be lifted into an
+    answer — direct claims, clean structure, explicit comparisons. And
+    placement into the third-party sources the models actually draw on.
   </p>
-
-  <h2 id="pricing">Pricing</h2>
-
   <p>
-    Three ways to engage. Scope is fixed in writing before anything starts.
+    That last one usually carries the most weight and is the least comfortable,
+    because it is earned rather than published. Most citations in AI answers
+    come from sources a brand does not own, which is why placement is core to
+    the work rather than an add-on.
+  </p>
+  <p><strong>You receive:</strong> the changes themselves, plus a placement plan naming target sources in priority order.</p>
+
+  <h2>4. Re-measurement</h2>
+  <p>
+    Against the identical frozen prompt set, alongside a control set of prompts
+    we deliberately leave untouched for the length of the engagement.
+  </p>
+  <p>
+    Answer engines move on their own — models update, competitors act, indexes
+    refresh. The control set is what separates our effect from theirs. Without
+    it you have a number that went up and no way to attribute it, which is not
+    evidence.
+  </p>
+  <p><strong>You receive:</strong> before and after on both sets, with the divergence between them stated plainly, and the raw counts behind every figure.</p>
+
+  <h2>What we will tell you</h2>
+  <p>
+    If the baseline shows a category already settled on two incumbents with no
+    visible route in, we will say so and decline the work. A measurement that
+    only ever produces a reason to hire us is not a measurement.
   </p>
 
-  <ul class="tiers">
-    {
-      tiers.map((tier) => (
-        <li>
-          <h3>{tier.name}</h3>
-          <span class="price">
-            {tier.price ?? 'On application'}
-            {!tier.price && <span class="tbd">Rate card in preparation</span>}
-          </span>
-          <p>{tier.summary}</p>
-          <ul>
-            {tier.includes.map((item) => (
-              <li>{item}</li>
-            ))}
-          </ul>
-        </li>
-      ))
-    }
-  </ul>
-
-  <p class="note">
-    Capacity is deliberately limited. Brandure takes a small number of
-    engagements at a time so that each one gets the hours it needs.
-  </p>
-
-  <p><a href="/contact">Ask about an engagement</a></p>
+  <ReportForm id="report" heading="Start with the free report" />
 </BaseLayout>

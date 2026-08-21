@@ -1,0 +1,57 @@
+---
+/**
+ * Free visibility report request. Netlify Forms — no third-party embed, no
+ * client-side handler. The honeypot plus Netlify's built-in spam filtering
+ * cover abuse. Submission confirmation is shown on the page via the success
+ * parameter rather than a redirect to a separate page.
+ */
+interface Props { id: string; heading?: string; blurb?: string; }
+const {
+  id,
+  heading = 'Request a free visibility report',
+  blurb = 'We run your category across ChatGPT, Claude, Gemini and Google, and send you what comes back — who gets named, in what order, and which sources the answers are built from. No charge, no obligation.',
+} = Astro.props;
+const submitted = Astro.url.searchParams.get('submitted') === 'true';
+---
+<section class="form-panel" id={id} aria-labelledby={`${id}-h`}>
+  <h2 id={`${id}-h`}>{heading}</h2>
+
+  {submitted ? (
+    <div class="note" role="status">
+      <p><strong>Request received.</strong> We will come back to you at the address you gave, usually within two working days.</p>
+    </div>
+  ) : (
+    <>
+      <p>{blurb}</p>
+      <form name="report-request" method="POST" action={`${Astro.url.pathname}?submitted=true#${id}`}
+            data-netlify="true" netlify-honeypot="company-website-2" data-track="report">
+        <input type="hidden" name="form-name" value="report-request" />
+        <p class="hp"><label>Leave this empty<input name="company-website-2" tabindex="-1" autocomplete="off" /></label></p>
+
+        <div class="field">
+          <label for={`${id}-name`}>Name</label>
+          <input id={`${id}-name`} type="text" name="name" autocomplete="name" required />
+        </div>
+        <div class="field">
+          <label for={`${id}-email`}>Work email</label>
+          <input id={`${id}-email`} type="email" name="email" autocomplete="email" required />
+        </div>
+        <div class="field">
+          <label for={`${id}-company`}>Company</label>
+          <input id={`${id}-company`} type="text" name="company" autocomplete="organization" required />
+        </div>
+        <div class="field">
+          <label for={`${id}-url`}>Website</label>
+          <input id={`${id}-url`} type="url" name="website" placeholder="https://" autocomplete="url" required />
+        </div>
+        <div class="field">
+          <label for={`${id}-category`}>Category you compete in</label>
+          <input id={`${id}-category`} type="text" name="category" required />
+          <span class="hint">However your buyers would describe it — "employment law in Dubai", "AI note-taking tools".</span>
+        </div>
+        <p><button type="submit">Request the report</button></p>
+        <p class="hint">We use your details to run the report and reply. Nothing else, and we do not pass them on.</p>
+      </form>
+    </>
+  )}
+</section>

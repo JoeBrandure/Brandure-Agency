@@ -74,10 +74,15 @@ const heroTiles = [
 >
   <!-- 2. Hero — full bleed, asymmetric, gradient wash -->
   <section class="hero">
+    <div class="mesh" aria-hidden="true">
+      <div class="mesh__blob mesh__blob--1"></div>
+      <div class="mesh__blob mesh__blob--2"></div>
+      <div class="mesh__blob mesh__blob--3"></div>
+    </div>
     <div class="wrap hero-grid">
-      <div>
+      <div data-load>
         <p class="eyebrow">Answer engine optimisation</p>
-        <h1 class="statement">Your buyers asked an AI. You were not the answer.</h1>
+        <h1 class="statement" data-split>Your buyers asked an AI. You were not the answer.</h1>
         <p class="lede">
           We measure where you stand inside AI-generated answers, against the
           competitors you actually lose to — then do the work that moves it.
@@ -87,9 +92,9 @@ const heroTiles = [
           <a class="textlink" href="/service">See how the work runs &rarr;</a>
         </div>
       </div>
-      <div class="hero-tiles">
+      <div class="hero-tiles" data-stagger>
         {heroTiles.map((t) => (
-          <div class="card card--hover">
+          <div class="card card--tilt">
             <span class="mono" style="color:var(--blue)">{t.n}</span>
             <p class="tile-title">{t.t}</p>
             <p style="margin:0;font-size:var(--step--1);color:var(--muted)">{t.d}</p>
@@ -101,11 +106,11 @@ const heroTiles = [
 
   <!-- 3. Proof band — tinted, dense, wide -->
   <section class="section section--tight section--sunk">
-    <div class="wrap reveal">
-      <div class="figure-row">
+    <div class="wrap">
+      <div class="figure-row" data-stagger>
         {PROOF.map((p) => (
           <div class="figure">
-            <span class="figure__n">{p.n}</span>
+            <span class="figure__n" data-count={p.n}>{p.n}</span>
             <span class="figure__l">{p.label}</span>
           </div>
         ))}
@@ -118,7 +123,7 @@ const heroTiles = [
 
   <!-- 4. The problem — narrow, airy, plain surface -->
   <section class="section">
-    <div class="wrap-narrow reveal">
+    <div class="wrap-narrow" data-reveal>
       <p class="eyebrow">The problem</p>
       <h2>Absence is the failure state, and it is invisible</h2>
       <p>
@@ -137,9 +142,9 @@ const heroTiles = [
 
   <!-- 5. Four surfaces — INVERTED band, dense table, full bleed. Centrepiece. -->
   <section class="section section--inv">
-    <div class="wrap reveal">
+    <div class="wrap" data-reveal>
       <p class="eyebrow">The four-surface point</p>
-      <h2 class="statement" style="font-size:var(--step-4)">One question. Four different answers.</h2>
+      <h2 class="statement" style="font-size:var(--step-4)" data-split>One question. Four different answers.</h2>
       <p class="lede" style="max-width:44rem">
         The engines disagree with each other far more than most people expect.
         Same question, same day, different brands named and different sources
@@ -157,10 +162,10 @@ const heroTiles = [
 
   <!-- 6. How it works — plain surface, horizontal steps -->
   <section class="section">
-    <div class="wrap reveal">
+    <div class="wrap" data-reveal>
       <p class="eyebrow">How it works</p>
       <h2>Four stages, and the last one is the point</h2>
-      <ol class="steps">
+      <ol class="steps" data-stagger>
         <li><h3>Baseline</h3><p>A frozen prompt set, run across all four engines from clean sessions. Market agreed, never assumed.</p></li>
         <li><h3>Diagnose</h3><p>Whether a model cannot resolve you, cannot find you in its sources, or simply prefers someone else.</p></li>
         <li><h3>Execute</h3><p>Entity and structured-data work, answer-shaped content, and placement into the sources models actually cite.</p></li>
@@ -171,11 +176,11 @@ const heroTiles = [
 
   <!-- 7. Offers — tinted band, cards, prices -->
   <section class="section section--sunk">
-    <div class="wrap reveal">
+    <div class="wrap" data-reveal>
       <p class="eyebrow">Engagements</p>
       <h2>Two ways in</h2>
       <p class="lede">Capacity is deliberately capped. The audit is the front door and stands on its own.</p>
-      <div class="grid grid--2" style="margin-top:2rem">
+      <div class="grid grid--2" style="margin-top:2rem" data-stagger>
         {OFFERS.map((o) => (
           <div class="card offer">
             <h3 style="margin-bottom:0.2rem">{o.name}</h3>
@@ -193,13 +198,13 @@ const heroTiles = [
 
   <!-- 8. Research teaser — plain surface, editorial cards -->
   <section class="section">
-    <div class="wrap reveal">
+    <div class="wrap" data-reveal>
       <p class="eyebrow">Research</p>
       <h2>We publish what we measure</h2>
       <p class="lede">Method attached, so any finding can be checked or repeated rather than taken on trust.</p>
-      <div class="grid grid--3" style="margin-top:2rem">
+      <div class="grid grid--3" style="margin-top:2rem" data-stagger>
         {pieces.map((p) => (
-          <a class="card card--link" href={`/research/${p.id}`}>
+          <a class="card card--link card--tilt" href={`/research/${p.id}`}>
             <p class="meta">
               <time datetime={p.data.published.toISOString().slice(0, 10)}>{p.data.published.toISOString().slice(0, 10)}</time>
               <span class="tag">{p.data.vertical}</span>
@@ -216,10 +221,10 @@ const heroTiles = [
 
   <!-- 9. Objections — narrow, dense accordion -->
   <section class="section section--sunk">
-    <div class="wrap-narrow reveal">
+    <div class="wrap-narrow" data-reveal>
       <p class="eyebrow">Objections</p>
       <h2>The questions we get asked</h2>
-      <div class="qa" style="margin-top:1.75rem">
+      <div class="qa" style="margin-top:1.75rem" data-stagger>
         {FAQS.map((f, i) => (
           <details open={i === 0}>
             <summary>{f.q}</summary>
@@ -236,7 +241,7 @@ const heroTiles = [
       <div class="hero-grid">
         <div class="reveal">
           <p class="eyebrow">Free report</p>
-          <h2 class="statement" style="font-size:var(--step-4)">Find out what the engines say about you.</h2>
+          <h2 class="statement" style="font-size:var(--step-4)" data-split>Find out what the engines say about you.</h2>
           <p class="lede">
             We run your category across all four surfaces and send you what comes
             back — who gets named, in what order, and which sources the answers

@@ -14,7 +14,7 @@ const anyReal = all.some((p) => !p.data.placeholder);
   <section class="hero">
     <div class="wrap-narrow">
       <p class="eyebrow">Research</p>
-      <h1 class="statement" style="font-size:var(--step-4)">We publish what we measure.</h1>
+      <h1 class="statement" style="font-size:var(--step-4)" data-split>We publish what we measure.</h1>
       <p class="lede">Method attached to every piece, so a finding can be checked or repeated rather than taken on trust.</p>
     </div>
   </section>
@@ -30,9 +30,9 @@ const anyReal = all.some((p) => !p.data.placeholder);
       {all.length === 0 ? (
         <p>Nothing published yet.</p>
       ) : (
-        <ul class="piece-list">
+        <ul class="piece-list" data-stagger>
           {all.map((p) => (
-            <li class="reveal">
+            <li>
               <p class="meta">
                 <time datetime={p.data.published.toISOString().slice(0, 10)}>{p.data.published.toISOString().slice(0, 10)}</time>
               </p>

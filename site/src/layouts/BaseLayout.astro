@@ -3,12 +3,13 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import Analytics from '../components/Analytics.astro';
 import ThemeScript from '../components/ThemeScript.astro';
-import Reveal from '../components/Reveal.astro';
+import Motion from '../components/Motion.astro';
 import { SITE } from '../consts';
 import '@fontsource-variable/inter';
 import '@fontsource-variable/manrope';
 import '@fontsource/ibm-plex-mono/400.css';
 import '../styles/global.css';
+import '../styles/motion.css';
 
 interface Props {
   title: string;
@@ -90,10 +91,11 @@ const allSchemas = [websiteSchema, organizationSchema, ...schemas];
     <Analytics />
   </head>
   <body>
+    <div class="scroll-progress" aria-hidden="true"></div>
     <a class="skip" href="#main">Skip to content</a>
     <Header />
     <main id="main"><slot /></main>
     <Footer />
-    <Reveal />
+    <Motion />
   </body>
 </html>

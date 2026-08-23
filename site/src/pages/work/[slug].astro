@@ -13,13 +13,13 @@ const { c } = Astro.props;
     <div class="wrap-narrow">
       <nav aria-label="Breadcrumb" class="meta"><a href="/work">Case studies</a></nav>
       <p class="eyebrow">{c.sector}</p>
-      <h1 class="statement" style="font-size:var(--step-4)">{c.name}</h1>
+      <h1 class="statement" style="font-size:var(--step-4)" data-split>{c.name}</h1>
       <p><span class="sample-flag">Sample</span> &nbsp;Invented example. No real client, no real figures.</p>
     </div>
   </section>
 
   <section class="section section--tight section--sunk">
-    <div class="wrap reveal">
+    <div class="wrap" data-reveal>
       <div class="figure-row">
         <div class="figure"><span class="figure__n">Before</span><span class="figure__l">{c.baseline}</span></div>
         <div class="figure"><span class="figure__n">After</span><span class="figure__l">{c.after}</span></div>
@@ -29,8 +29,12 @@ const { c } = Astro.props;
   </section>
 
   <section class="section">
-    <div class="wrap-narrow reveal">
+    <div class="wrap-narrow" data-reveal>
       <PlaceholderArt variant={c.art} ratio="16x9" label={c.name} />
+      <div class="grid grid--2" style="margin-top:1.1rem" data-stagger>
+        <PlaceholderArt variant="specimen" ratio="4x3" label="Type specimen" />
+        <PlaceholderArt variant="bars" ratio="4x3" label="Citation share" />
+      </div>
       <h2 style="margin-top:2rem">Baseline</h2>
       <p>Placeholder. A real write-up states the frozen prompt set, the market, the date and the number of runs per prompt before it states anything else.</p>
       <h2>What we did</h2>

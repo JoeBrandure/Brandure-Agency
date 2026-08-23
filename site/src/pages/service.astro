@@ -25,14 +25,14 @@ const serviceSchema = {
   <section class="hero">
     <div class="wrap-narrow">
       <p class="eyebrow">Service</p>
-      <h1 class="statement" style="font-size:var(--step-4)">Measure first. Always.</h1>
+      <h1 class="statement" style="font-size:var(--step-4)" data-split>Measure first. Always.</h1>
       <p class="lede">Without a baseline there is no way to show that anything done afterwards worked — and no honest way to charge for it.</p>
       <div class="hero-actions"><a class="btn" href="#report">Get a free report</a><a class="textlink" href="/method">The method &rarr;</a></div>
     </div>
   </section>
 
   <section class="section section--tight section--sunk">
-    <div class="wrap reveal">
+    <div class="wrap" data-reveal>
       <p class="eyebrow">Deliverables</p>
       <h2 style="margin-top:0">What you receive, stage by stage</h2>
       <div class="table-scroll" tabindex="0" role="region" aria-label="Deliverables by stage">
@@ -63,7 +63,7 @@ const serviceSchema = {
   </section>
 
   <section class="section">
-    <div class="wrap-narrow reveal">
+    <div class="wrap-narrow" data-reveal>
       <p class="eyebrow">Stage one</p>
       <h2>Baseline</h2>
       <p>We agree a prompt set with you — the questions a buyer types when they are choosing, not researching. Market is agreed explicitly rather than assumed: adding a city to a query your buyers never localise produces a different test, not a sharper one.</p>
@@ -85,10 +85,10 @@ const serviceSchema = {
   </section>
 
   <section class="section section--inv">
-    <div class="wrap reveal">
+    <div class="wrap" data-reveal>
       <p class="eyebrow">Engagements</p>
       <h2>Two ways in</h2>
-      <div class="grid grid--2" style="margin-top:2rem">
+      <div class="grid grid--2" style="margin-top:2rem" data-stagger>
         {OFFERS.map((o) => (
           <div class="card offer">
             <h3 style="margin-bottom:0.2rem">{o.name}</h3>
@@ -105,14 +105,14 @@ const serviceSchema = {
   </section>
 
   <section class="section">
-    <div class="wrap-narrow reveal">
+    <div class="wrap-narrow" data-reveal>
       <h2>What we will tell you</h2>
       <p>If the baseline shows a category already settled on two incumbents with no visible route in, we will say so and decline the work. A measurement that only ever produces a reason to hire us is not a measurement.</p>
     </div>
   </section>
 
   <section class="section section--sunk" id="report">
-    <div class="wrap-narrow reveal">
+    <div class="wrap-narrow" data-reveal>
       <ReportForm id="report-form" heading="Start with the free report" />
     </div>
   </section>

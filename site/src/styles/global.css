@@ -385,18 +385,7 @@ input:focus-visible { border-color: var(--focus); }
 .prose > :first-child { margin-top: 0; }
 .prose h2 { margin-top: 2.5rem; }
 
-/* ---------- Motion ---------- */
-
-.reveal { opacity: 0; transform: translateY(12px); transition: opacity 480ms ease, transform 480ms ease; }
-.reveal.is-in { opacity: 1; transform: none; }
-/* Never hide content if JS does not run. */
-.no-js .reveal { opacity: 1; transform: none; }
-
-@media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  *, *::before, *::after { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
-  .reveal { opacity: 1; transform: none; }
-}
+/* Motion lives in motion.css. */
 
 /* ---------- Print ---------- */
 
@@ -410,6 +399,6 @@ input:focus-visible { border-color: var(--focus); }
   table { min-width: 0; font-size: 8.5pt; }
   thead th { position: static; }
   .status--present, .status--partial, .status--absent { color: #000 !important; }
-  .reveal { opacity: 1 !important; transform: none !important; }
+  .mesh { display: none !important; }
   a { text-decoration: none; color: #000; }
 }

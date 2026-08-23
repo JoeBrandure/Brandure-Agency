@@ -151,16 +151,15 @@ these are not preview-URL numbers.**
 | Home | dark | 100 | 100 | 96 | 100 |
 | Service | light | 100 | 100 | 96 | 100 |
 | Service | dark | 100 | 100 | 96 | 100 |
-| Method | light | 100 | 100 | 96 | 100 |
-| Research piece (indexable) | light | 100 | 100 | 96 | 100 |
 | Research piece (placeholder) | light | 100 | 100 | 96 | 66 |
 
-First contentful paint 0.4s, largest contentful paint 0.4s, total blocking
-time 70ms, cumulative layout shift 0.001.
+First contentful paint 0.4s, largest contentful paint 0.5s, total blocking
+time 30ms, cumulative layout shift 0.001.
 
-Motion cost nothing measurable: performance stayed at 100 after the redesign.
-Blocking time rose from 0ms to 70ms, which is the theme and reveal scripts
-parsing, and is well inside the 200ms threshold.
+Motion cost nothing measurable. Performance held at 100 across both themes
+after the full motion pass, and blocking time **fell** from 70ms to 30ms —
+consolidating three separate inline scripts into one runtime more than paid
+for everything that was added.
 
 The dark theme was audited by building a copy with `data-theme="dark"` pinned
 on every page and running the same audit against it, so axe checked the real
@@ -231,6 +230,23 @@ greyscale, not assumed.
   Page views and form submissions only.
 - **Colours and type sizes are defined once** in `src/styles/tokens.css`. There
   are no one-off colours anywhere.
+- **Motion** lives in `src/styles/motion.css` and one runtime,
+  `src/components/Motion.astro`. Staggered section reveals, per-word mask
+  reveals on headlines, count-ups on the proof figures, the comparison table
+  building row by row, a drifting gradient mesh behind the hero, magnetic
+  buttons, card tilt, a nav underline sweep and a scroll-progress bar.
+
+  Three rules hold it together. **Transform and opacity only** — nothing
+  animated here triggers layout. **Reduced motion turns everything off
+  cleanly**, including the mesh and the count-ups, which snap to their final
+  values rather than freezing part-way. **Nothing delays reading**: with
+  JavaScript disabled the page renders complete and static, verified by
+  loading it with scripting off and checking that all 53 animated elements sit
+  at full opacity.
+
+  Headline splitting keeps spaces as real text nodes, so a screen reader still
+  reads a natural sentence rather than a list of fragments. Pointer effects are
+  skipped entirely on coarse pointers.
 
 ### Where things are
 

@@ -1,0 +1,145 @@
+---
+/**
+ * The whole motion runtime. One inline script, no dependencies.
+ *
+ * Everything is additive. If this never runs, CSS keeps `.no-js` on the root
+ * and the page renders complete and static. If the visitor prefers reduced
+ * motion, the script exits before doing anything except settling final states,
+ * and the stylesheet neutralises the rest.
+ *
+ * Transform and opacity only — no property here triggers layout.
+ */
+---
+<script is:inline>
+  (function () {
+    var root = document.documentElement;
+    var reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    /* Reduced motion: settle everything to its final state and stop. */
+    function settle() {
+      document.querySelectorAll('[data-reveal],[data-stagger],[data-load],.table-figure,.split')
+        .forEach(function (el) { el.classList.add('is-in'); });
+      document.querySelectorAll('[data-count]').forEach(function (el) {
+        el.textContent = el.getAttribute('data-count');
+      });
+    }
+    if (reduced.matches) { settle(); return; }
+
+    /* ---- Headline mask reveal, split per word ----
+       Spaces are preserved as real text nodes so screen readers still read a
+       natural sentence rather than a list of fragments. */
+    document.querySelectorAll('[data-split]').forEach(function (el) {
+      var words = el.textContent.trim().split(/\s+/);
+      var frag = document.createDocumentFragment();
+      words.forEach(function (word, i) {
+        var mask = document.createElement('span');
+        mask.className = 'w';
+        var inner = document.createElement('i');
+        inner.textContent = word;
+        inner.style.setProperty('--w', String(i));
+        mask.appendChild(inner);
+        frag.appendChild(mask);
+        if (i < words.length - 1) frag.appendChild(document.createTextNode(' '));
+      });
+      el.textContent = '';
+      el.className += ' split';
+      el.appendChild(frag);
+    });
+
+    /* ---- Table rows carry their own stagger index ---- */
+    document.querySelectorAll('.table-figure tbody tr').forEach(function (tr, i) {
+      tr.style.setProperty('--r', String(i));
+    });
+
+    /* ---- Count-ups ---- */
+    function countUp(el) {
+      var target = parseFloat(el.getAttribute('data-count'));
+      if (isNaN(target)) { el.textContent = el.getAttribute('data-count'); return; }
+      var dur = 1100, t0 = 0;
+      function step(ts) {
+        if (!t0) t0 = ts;
+        var p = Math.min((ts - t0) / dur, 1);
+        var eased = 1 - Math.pow(1 - p, 3);
+        el.textContent = String(Math.round(target * eased));
+        if (p < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+
+    /* ---- One observer drives every entrance ---- */
+    var targets = document.querySelectorAll('[data-reveal],[data-stagger],[data-split],.table-figure');
+    if (!('IntersectionObserver' in window)) { settle(); return; }
+
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        e.target.classList.add('is-in');
+        e.target.querySelectorAll('[data-count]').forEach(countUp);
+        io.unobserve(e.target);
+      });
+    }, { rootMargin: '0px 0px -10% 0px', threshold: 0.08 });
+
+    targets.forEach(function (el) { io.observe(el); });
+
+    /* Hero enters on load rather than on scroll — it is already in view. */
+    requestAnimationFrame(function () {
+      document.querySelectorAll('.hero [data-load], .hero [data-split]').forEach(function (el) {
+        el.classList.add('is-in');
+      });
+    });
+
+    /* ---- Scroll progress ---- */
+    var bar = document.querySelector('.scroll-progress');
+    var header = document.getElementById('site-header');
+    var ticking = false;
+    function onScroll() {
+      var h = document.documentElement;
+      var max = h.scrollHeight - h.clientHeight;
+      if (bar) bar.style.transform = 'scaleX(' + (max > 0 ? h.scrollTop / max : 0) + ')';
+      if (header) header.dataset.scrolled = h.scrollTop > 12 ? 'true' : 'false';
+      ticking = false;
+    }
+    addEventListener('scroll', function () {
+      if (!ticking) { ticking = true; requestAnimationFrame(onScroll); }
+    }, { passive: true });
+    onScroll();
+
+    /* ---- Pointer effects: magnetic buttons, card tilt ----
+       Skipped entirely on coarse pointers, where there is no cursor to pull
+       toward and the handlers would only cost battery. */
+    if (window.matchMedia('(pointer: fine)').matches) {
+      document.querySelectorAll('.btn').forEach(function (b) {
+        b.addEventListener('pointermove', function (ev) {
+          var r = b.getBoundingClientRect();
+          var dx = (ev.clientX - (r.left + r.width / 2)) / (r.width / 2);
+          var dy = (ev.clientY - (r.top + r.height / 2)) / (r.height / 2);
+          b.style.setProperty('--mx', (dx * 5).toFixed(2) + 'px');
+          b.style.setProperty('--my', (dy * 4).toFixed(2) + 'px');
+        });
+        b.addEventListener('pointerleave', function () {
+          b.style.setProperty('--mx', '0px');
+          b.style.setProperty('--my', '0px');
+        });
+      });
+
+      document.querySelectorAll('.card--tilt').forEach(function (c) {
+        c.addEventListener('pointermove', function (ev) {
+          var r = c.getBoundingClientRect();
+          var dx = (ev.clientX - (r.left + r.width / 2)) / (r.width / 2);
+          var dy = (ev.clientY - (r.top + r.height / 2)) / (r.height / 2);
+          c.style.setProperty('--ry', (dx * 3.2).toFixed(2) + 'deg');
+          c.style.setProperty('--rx', (-dy * 3.2).toFixed(2) + 'deg');
+          c.style.setProperty('--lift', '-4px');
+        });
+        c.addEventListener('pointerleave', function () {
+          c.style.setProperty('--rx', '0deg');
+          c.style.setProperty('--ry', '0deg');
+          c.style.setProperty('--lift', '0px');
+        });
+      });
+    }
+
+    /* If the visitor turns reduced-motion on mid-session, settle immediately. */
+    reduced.addEventListener('change', function (e) { if (e.matches) settle(); });
+  })();
+</script>

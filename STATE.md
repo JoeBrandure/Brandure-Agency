@@ -1,7 +1,7 @@
 # STATE.md — current position
 
-Last updated: 2026-08-19 (site redesigned — light/dark, rhythm and scale;
-still not deployed; A3 still urgent)
+Last updated: 2026-08-19 (site motion and visual pass; still not deployed;
+A3 still urgent)
 
 Current position at a glance. Update this file whenever something moves between
 sections. It is the first thing to read at the start of a working session.
@@ -101,6 +101,14 @@ repo before building on anything here.
   rule so a registry value for an external skill is not discounted. A sweep
   qualified every other rule that asserted the prefix, template inheritance or
   authority order as universal.
+- **Motion and visual pass.** Staggered reveals, per-word headline masks,
+  count-ups, row-by-row table build, drifting hero mesh, magnetic buttons,
+  card tilt, nav sweep, scroll progress. Transform and opacity only; reduced
+  motion and no-JS both render the page complete and static, verified. All
+  four Lighthouse runs held 100 performance and 100 accessibility, and
+  blocking time fell 70ms to 30ms. Placeholder art extended to six code-built
+  variants — mesh, grid, panel, bars, type specimen, table fragment. No
+  photography anywhere. Machine-readable layer untouched again.
 - **Site redesigned** — rhythm and scale contrast, alternating full-bleed and
   contained sections, two inverted bands, light and dark themes with a header
   toggle and no flash on load. Manrope replaces the specified Satoshi, which is

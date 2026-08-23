@@ -1,0 +1,259 @@
+/* Brandure motion layer.
+   Transform and opacity only — nothing that triggers layout or paint.
+   Everything here is additive: with JavaScript off, or reduced-motion on,
+   the page renders complete and static. Nothing delays reading. */
+
+/* ---------- Scroll progress ---------- */
+
+.scroll-progress {
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: 2px;
+  z-index: 60;
+  background: linear-gradient(90deg, var(--blue), var(--violet) 55%, var(--cyan-vivid));
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  will-change: transform;
+  pointer-events: none;
+}
+.no-js .scroll-progress { display: none; }
+
+/* ---------- Reveal: staggered children ---------- */
+
+[data-reveal] > * {
+  opacity: 0;
+  transform: translate3d(0, 14px, 0);
+  transition:
+    opacity 620ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    transform 620ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  transition-delay: calc(var(--stagger, 80ms) * var(--i, 0));
+}
+[data-reveal].is-in > * { opacity: 1; transform: none; }
+
+/* Stagger index without JavaScript. */
+[data-reveal] > *:nth-child(1)  { --i: 0; }
+[data-reveal] > *:nth-child(2)  { --i: 1; }
+[data-reveal] > *:nth-child(3)  { --i: 2; }
+[data-reveal] > *:nth-child(4)  { --i: 3; }
+[data-reveal] > *:nth-child(5)  { --i: 4; }
+[data-reveal] > *:nth-child(6)  { --i: 5; }
+[data-reveal] > *:nth-child(7)  { --i: 6; }
+[data-reveal] > *:nth-child(8)  { --i: 7; }
+[data-reveal] > *:nth-child(n+9) { --i: 8; }
+
+/* Grids stagger their own cells rather than moving as one block. */
+[data-stagger] > * {
+  opacity: 0;
+  transform: translate3d(0, 16px, 0);
+  transition:
+    opacity 560ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    transform 560ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  transition-delay: calc(var(--stagger, 70ms) * var(--i, 0));
+}
+.is-in [data-stagger] > *, [data-stagger].is-in > * { opacity: 1; transform: none; }
+[data-stagger] > *:nth-child(1)  { --i: 0; }
+[data-stagger] > *:nth-child(2)  { --i: 1; }
+[data-stagger] > *:nth-child(3)  { --i: 2; }
+[data-stagger] > *:nth-child(4)  { --i: 3; }
+[data-stagger] > *:nth-child(5)  { --i: 4; }
+[data-stagger] > *:nth-child(6)  { --i: 5; }
+[data-stagger] > *:nth-child(n+7) { --i: 6; }
+
+/* ---------- Headline mask reveal, per word ---------- */
+
+.split { display: inline; }
+.split .w {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  padding-bottom: 0.06em; /* room for descenders inside the mask */
+}
+.split .w > i {
+  display: inline-block;
+  font-style: inherit;
+  transform: translate3d(0, 105%, 0);
+  transition: transform 780ms cubic-bezier(0.19, 1, 0.22, 1);
+  transition-delay: calc(38ms * var(--w, 0));
+}
+.split.is-in .w > i { transform: none; }
+
+/* ---------- Table builds row by row ---------- */
+
+tbody tr {
+  opacity: 0;
+  transform: translate3d(0, 10px, 0);
+  transition:
+    opacity 480ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    transform 480ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  transition-delay: calc(85ms * var(--r, 0));
+}
+.table-figure.is-in tbody tr, .no-js tbody tr { opacity: 1; transform: none; }
+
+/* ---------- Hero: drifting gradient mesh ---------- */
+
+.mesh {
+  position: absolute;
+  inset: -18%;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  contain: strict;
+}
+.mesh__blob {
+  position: absolute;
+  width: 46vw;
+  height: 46vw;
+  min-width: 22rem;
+  min-height: 22rem;
+  border-radius: 50%;
+  filter: blur(64px);
+  opacity: 0.55;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+}
+.mesh__blob--1 { top: -8%;  left: -6%;  background: radial-gradient(circle at 50% 50%, var(--violet), transparent 68%); animation: drift-1 34s ease-in-out infinite alternate; }
+.mesh__blob--2 { top: 6%;   right: -10%; background: radial-gradient(circle at 50% 50%, var(--blue), transparent 68%);   animation: drift-2 41s ease-in-out infinite alternate; }
+.mesh__blob--3 { bottom: -22%; left: 28%; background: radial-gradient(circle at 50% 50%, var(--cyan-vivid), transparent 68%); animation: drift-3 47s ease-in-out infinite alternate; }
+:root[data-theme='dark'] .mesh__blob { opacity: 0.34; }
+
+@keyframes drift-1 {
+  0%   { transform: translate3d(0, 0, 0) scale(1); }
+  50%  { transform: translate3d(6vw, 4vh, 0) scale(1.12); }
+  100% { transform: translate3d(-3vw, 7vh, 0) scale(0.96); }
+}
+@keyframes drift-2 {
+  0%   { transform: translate3d(0, 0, 0) scale(1.05); }
+  50%  { transform: translate3d(-7vw, 6vh, 0) scale(0.92); }
+  100% { transform: translate3d(-2vw, -4vh, 0) scale(1.1); }
+}
+@keyframes drift-3 {
+  0%   { transform: translate3d(0, 0, 0) scale(0.95); }
+  50%  { transform: translate3d(8vw, -6vh, 0) scale(1.15); }
+  100% { transform: translate3d(-5vw, -2vh, 0) scale(1); }
+}
+
+/* ---------- Placeholder art: drifting mesh variant ---------- */
+
+.ph-b1 { transform-origin: 22% 33%; animation: ph-drift-1 26s ease-in-out infinite alternate; }
+.ph-b2 { transform-origin: 78% 72%; animation: ph-drift-2 31s ease-in-out infinite alternate; }
+.ph-b3 { transform-origin: 56% 22%; animation: ph-drift-3 37s ease-in-out infinite alternate; }
+
+@keyframes ph-drift-1 { from { transform: translate(0, 0) scale(1); } to { transform: translate(18px, 12px) scale(1.14); } }
+@keyframes ph-drift-2 { from { transform: translate(0, 0) scale(1.08); } to { transform: translate(-22px, -10px) scale(0.94); } }
+@keyframes ph-drift-3 { from { transform: translate(0, 0) scale(0.96); } to { transform: translate(12px, -16px) scale(1.1); } }
+
+/* ---------- Hero entrance on load ---------- */
+
+.hero [data-load] > * {
+  opacity: 0;
+  transform: translate3d(0, 18px, 0);
+  transition:
+    opacity 700ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    transform 700ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  transition-delay: calc(90ms * var(--i, 0));
+}
+.hero [data-load].is-in > * { opacity: 1; transform: none; }
+
+/* ---------- Magnetic buttons ---------- */
+
+.btn {
+  will-change: transform;
+  transform: translate3d(var(--mx, 0px), var(--my, 0px), 0);
+}
+.btn:hover {
+  transform: translate3d(var(--mx, 0px), calc(var(--my, 0px) - 1px), 0);
+  box-shadow: 0 16px 34px -8px var(--btn-shadow);
+}
+.btn--violet:hover { box-shadow: 0 16px 34px -8px var(--btn-2-shadow); }
+.btn--ghost:hover { box-shadow: none; }
+
+/* ---------- Card tilt ---------- */
+
+.card--tilt {
+  transform-style: preserve-3d;
+  transform:
+    perspective(700px)
+    rotateX(var(--rx, 0deg))
+    rotateY(var(--ry, 0deg))
+    translate3d(0, var(--lift, 0px), 0);
+  transition: transform 220ms cubic-bezier(0.22, 0.61, 0.36, 1), box-shadow 220ms ease;
+}
+.card--tilt:hover { box-shadow: var(--shadow-lift); }
+
+/* ---------- Nav underline sweep ---------- */
+
+.site-nav a {
+  position: relative;
+  text-decoration: none;
+  padding-bottom: 2px;
+}
+.site-nav a::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 1.5px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  transition: transform 300ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.site-nav a:hover::after,
+.site-nav a:focus-visible::after { transform: scaleX(1); }
+.site-nav a[aria-current='page']::after { transform: scaleX(1); opacity: 0.45; }
+.site-nav a:hover, .site-nav a[aria-current='page'] { text-decoration: none; }
+
+/* ---------- Header compress and blur ---------- */
+
+.site-header {
+  transition:
+    padding 260ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    background 260ms ease,
+    border-color 260ms ease,
+    box-shadow 260ms ease;
+}
+.site-header[data-scrolled='true'] {
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  backdrop-filter: blur(16px) saturate(1.4);
+  background: color-mix(in srgb, var(--surface) 72%, transparent);
+  box-shadow: 0 1px 0 0 var(--border), 0 10px 30px -22px rgba(0, 0, 0, 0.5);
+}
+
+/* ---------- Reduced motion: everything off, cleanly ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  .scroll-progress { display: none; }
+
+  [data-reveal] > *,
+  [data-stagger] > *,
+  .hero [data-load] > *,
+  tbody tr {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .split .w { overflow: visible; padding-bottom: 0; }
+  .split .w > i { transform: none !important; transition: none !important; }
+
+  .mesh__blob {
+    animation: none !important;
+    transform: none !important;
+    opacity: 0.4;
+  }
+  .ph-b1, .ph-b2, .ph-b3 { animation: none !important; transform: none !important; }
+
+  .btn, .card--tilt {
+    transform: none !important;
+    transition: none !important;
+  }
+  .site-nav a::after { transition: none !important; }
+  .site-header { transition: none !important; }
+}
+
+/* No JavaScript: show everything. */
+.no-js [data-reveal] > *,
+.no-js [data-stagger] > *,
+.no-js .hero [data-load] > *,
+.no-js tbody tr { opacity: 1; transform: none; }

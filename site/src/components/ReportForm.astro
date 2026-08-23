@@ -24,7 +24,7 @@ const submitted = Astro.url.searchParams.get('submitted') === 'true';
     </div>
   ) : (
     <>
-      {!inverted && <p style="font-size:var(--step--1)">{blurb}</p>}
+      {!inverted && <p style="font-size:var(--small)">{blurb}</p>}
       <form name="report-request" method="POST" action={`${Astro.url.pathname}?submitted=true#${id}`}
             data-netlify="true" netlify-honeypot="company-website-2" data-track="report">
         <input type="hidden" name="form-name" value="report-request" />

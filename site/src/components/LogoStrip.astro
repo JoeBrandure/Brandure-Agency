@@ -1,0 +1,55 @@
+---
+import { readdirSync } from 'node:fs';
+import { BRANDS } from '../data/brands';
+
+/**
+ * Greyscale marquee. Pauses on hover; the hovered logo returns to colour.
+ *
+ * Real files are picked up from `public/logos/` by name at build time. Drop
+ * `lurio.svg` into that folder and it replaces the placeholder on the next
+ * build with no code change. Where no file is present, a greyscale wordmark
+ * is drawn at the same optical height so the strip's rhythm is already right.
+ *
+ * Logos are normalised on optical height, not a fixed box — a wide wordmark
+ * and a square mark should read as the same visual weight, which a fixed box
+ * does not achieve.
+ */
+let present: string[] = [];
+try {
+  present = readdirSync('./public/logos');
+} catch {
+  present = [];
+}
+
+const items = BRANDS.map((b) => {
+  const file = present.find((f) => f.replace(/\.[^.]+$/, '') === b.slug);
+  return { ...b, file: file ? `/logos/${file}` : null };
+});
+
+/* Duplicated once so the marquee loops seamlessly. The copy is hidden from
+   assistive tech so the list is not announced twice. */
+const track = [...items, ...items];
+---
+
+<section class="section section--tight logos" aria-labelledby="logos-h">
+  <div class="wrap">
+    <p class="eyebrow" id="logos-h">Trusted by</p>
+  </div>
+
+  <div class="marquee" data-marquee>
+    <ul class="marquee__track" role="list">
+      {track.map((b, i) => (
+        <li class="marquee__item" aria-hidden={i >= items.length ? 'true' : undefined}>
+          {b.file ? (
+            <img src={b.file} alt={b.name} loading="lazy" decoding="async"
+                 width="200" height="48" style={`--optical:${b.optical}`} />
+          ) : (
+            <span class="wordmark-ph" style={`--optical:${b.optical}`}>
+              <span class="wordmark-ph__text">{b.name}</span>
+            </span>
+          )}
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>

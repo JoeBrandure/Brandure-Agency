@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ReportForm from '../components/ReportForm.astro';
 import ComparisonTable from '../components/ComparisonTable.astro';
+import LogoStrip from '../components/LogoStrip.astro';
 import { SITE } from '../consts';
 import { FAQS, PROOF, OFFERS, ENGINES } from '../data/content';
 import { getCollection } from 'astro:content';
@@ -59,6 +60,13 @@ const demoRows = [
   ]},
 ];
 
+const STAGES = [
+  { t: 'Baseline', d: 'A frozen prompt set, run across all four engines from clean sessions. Market agreed, never assumed.' },
+  { t: 'Diagnose', d: 'Whether a model cannot resolve you, cannot find you in its sources, or simply prefers someone else.' },
+  { t: 'Execute', d: 'Entity and structured-data work, answer-shaped content, and placement into the sources models actually cite.' },
+  { t: 'Re-measure', d: 'Same prompts, plus a control set left untouched — so the change can be attributed rather than asserted.' },
+];
+
 const heroTiles = [
   { n: '01', t: 'Measured', d: 'Four engines, clean sessions, recorded one by one.' },
   { n: '02', t: 'Diagnosed', d: 'Absence has causes. They are not the same cause.' },
@@ -95,14 +103,16 @@ const heroTiles = [
       <div class="hero-tiles" data-stagger>
         {heroTiles.map((t) => (
           <div class="card card--tilt">
-            <span class="mono" style="color:var(--blue)">{t.n}</span>
+            <span class="mono" style="color:var(--accent)">{t.n}</span>
             <p class="tile-title">{t.t}</p>
-            <p style="margin:0;font-size:var(--step--1);color:var(--muted)">{t.d}</p>
+            <p style="margin:0;font-size:var(--small);color:var(--muted)">{t.d}</p>
           </div>
         ))}
       </div>
     </div>
   </section>
+
+  <LogoStrip />
 
   <!-- 3. Proof band — tinted, dense, wide -->
   <section class="section section--tight section--sunk">
@@ -140,38 +150,50 @@ const heroTiles = [
     </div>
   </section>
 
-  <!-- 5. Four surfaces — INVERTED band, dense table, full bleed. Centrepiece. -->
-  <section class="section section--inv">
-    <div class="wrap" data-reveal>
-      <p class="eyebrow">The four-surface point</p>
-      <h2 class="statement" style="font-size:var(--step-4)" data-split>One question. Four different answers.</h2>
-      <p class="lede" style="max-width:44rem">
-        The engines disagree with each other far more than most people expect.
-        Same question, same day, different brands named and different sources
-        cited. "We show up in ChatGPT" tells you nothing about the other three
-        quarters of the surface area.
-      </p>
-      <ComparisonTable
-        caption="How a visibility report is laid out"
-        columns={[...ENGINES]}
-        rows={demoRows}
-        footnote="Layout illustration. Every status above is invented to show the format — none is a finding about a real brand. Real reports carry the verbatim prompt set, the market, the date and the number of runs per prompt."
-      />
+  <!-- 5. Four surfaces — INVERTED, pinned, rows scrub in. Centrepiece. -->
+  <section class="pin section--inv" data-scrub-zone>
+    <div class="spotlight" aria-hidden="true"></div>
+    <div class="pin__stage">
+      <div class="wrap">
+        <p class="eyebrow">The four-surface point</p>
+        <h2 class="statement statement--sub" data-split data-scrub>One question. Four different answers.</h2>
+        <p class="lede">
+          The engines disagree with each other far more than most people
+          expect. Same question, same day, different brands named and different
+          sources cited.
+        </p>
+        <ComparisonTable
+          caption="How a visibility report is laid out"
+          columns={[...ENGINES]}
+          rows={demoRows}
+          footnote="Layout illustration. Every status above is invented to show the format — none is a finding about a real brand. Real reports carry the verbatim prompt set, the market, the date and the number of runs per prompt."
+        />
+      </div>
     </div>
+    <div class="pin__runway" aria-hidden="true"></div>
   </section>
 
-  <!-- 6. How it works — plain surface, horizontal steps -->
-  <section class="section">
-    <div class="wrap" data-reveal>
-      <p class="eyebrow">How it works</p>
-      <h2>Four stages, and the last one is the point</h2>
-      <ol class="steps" data-stagger>
-        <li><h3>Baseline</h3><p>A frozen prompt set, run across all four engines from clean sessions. Market agreed, never assumed.</p></li>
-        <li><h3>Diagnose</h3><p>Whether a model cannot resolve you, cannot find you in its sources, or simply prefers someone else.</p></li>
-        <li><h3>Execute</h3><p>Entity and structured-data work, answer-shaped content, and placement into the sources models actually cite.</p></li>
-        <li><h3>Re-measure</h3><p>Same prompts, plus a control set left untouched — so the change can be attributed rather than asserted.</p></li>
+  <!-- 6. How it works — horizontal rail driven by vertical scroll -->
+  <section class="rail" data-scrub-zone>
+    <div class="rail__stage">
+      <div class="wrap">
+        <p class="eyebrow">How it works</p>
+        <h2>Four stages, and the last one is the point</h2>
+        <svg class="divider-draw draw" viewBox="0 0 1000 1" preserveAspectRatio="none" aria-hidden="true">
+          <line x1="0" y1="0.5" x2="1000" y2="0.5" />
+        </svg>
+      </div>
+      <ol class="rail__track" style="margin-top:2rem">
+        {STAGES.map((st, i) => (
+          <li class="rail__card card card--tilt">
+            <span class="mono" style="color:var(--accent)">{String(i + 1).padStart(2, '0')}</span>
+            <h3 style="margin:0.4rem 0 0.4rem">{st.t}</h3>
+            <p style="margin:0;font-size:var(--small);color:var(--muted)">{st.d}</p>
+          </li>
+        ))}
       </ol>
     </div>
+    <div class="rail__runway" aria-hidden="true"></div>
   </section>
 
   <!-- 7. Offers — tinted band, cards, prices -->
@@ -186,7 +208,7 @@ const heroTiles = [
             <h3 style="margin-bottom:0.2rem">{o.name}</h3>
             <span class="offer__price">{o.price}</span>
             <span class="offer__unit">{o.unit}</span>
-            <p style="font-size:var(--step--1)">{o.summary}</p>
+            <p style="font-size:var(--small)">{o.summary}</p>
             <ul>{o.includes.map((i) => <li>{i}</li>)}</ul>
             <a class:list={['btn', !o.primary && 'btn--ghost']} href={o.primary ? '#report' : '/service'}>{o.cta}</a>
           </div>
@@ -210,8 +232,8 @@ const heroTiles = [
               <span class="tag">{p.data.vertical}</span>
               {p.data.placeholder && <span class="tag tag--draft">Placeholder</span>}
             </p>
-            <h3 style="font-size:var(--step-1)">{p.data.title}</h3>
-            <p style="font-size:var(--step--1);color:var(--muted)">{p.data.description}</p>
+            <h3 style="font-size:var(--h3)">{p.data.title}</h3>
+            <p style="font-size:var(--small);color:var(--muted)">{p.data.description}</p>
           </a>
         ))}
       </div>
@@ -237,11 +259,12 @@ const heroTiles = [
 
   <!-- 10. CTA — INVERTED band, full section -->
   <section class="section section--inv" id="report">
+    <div class="spotlight" aria-hidden="true"></div>
     <div class="wrap">
       <div class="hero-grid">
         <div class="reveal">
           <p class="eyebrow">Free report</p>
-          <h2 class="statement" style="font-size:var(--step-4)" data-split>Find out what the engines say about you.</h2>
+          <h2 class="statement statement--sub" data-split>Find out what the engines say about you.</h2>
           <p class="lede">
             We run your category across all four surfaces and send you what comes
             back — who gets named, in what order, and which sources the answers

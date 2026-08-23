@@ -176,6 +176,25 @@ on the real site. Re-check after the first live deploy.
 marks any page blocked from indexing down. The identical page scores **100**
 with `placeholder: false`, which was tested directly rather than assumed.
 
+### Logo strip
+
+Five entries under "Trusted by". **None of the five logo files could be
+fetched** — the build environment's proxy denies all five hosts — so each
+renders as a greyscale wordmark placeholder at the correct optical height.
+
+**To add a real logo: drop the file into `site/public/logos/` named after its
+slug** — `lurio.svg`, `growthmind.svg`, `fresh.png`, `viveonix.*`,
+`littlelockets.*`. The component picks it up by name on the next build with no
+code change. Slugs and intended sources are listed in `src/data/brands.ts`.
+
+Logos are normalised on optical height rather than a fixed box, so a wide
+wordmark and a square mark read at the same visual weight. Adjust the per-brand
+`optical` multiplier in `brands.ts` if one sits heavy or light.
+
+**Heading wording is unconfirmed.** "Trusted by" asserts client relationships;
+the repo records none. If these are not AEO clients the heading needs changing
+before launch.
+
 ### Colour contrast, measured on the rendered page
 
 Both themes, taken from the built site rather than from the token values.
@@ -191,12 +210,14 @@ Both themes, taken from the built site rather than from the token values.
 | Status absent | 6.66:1 | 7.32:1 |
 | Primary button text | 10.77:1 | 7.62:1 |
 
-**Two values from the brief failed AA and were changed.** Cyan `#12A5B8`
-measured 2.86:1 on the off-white surface — below the 3:1 floor even for icons,
-let alone text. It is now `#0C7A88` at 4.88:1 for any text or icon use, with
-the original kept as `--cyan-vivid` for decorative gradient washes only. Status
-partial `#A6761D` measured 3.88:1 and is now `#856013` at 5.51:1. Both keep
-the original hue family.
+**One constraint the palette forces.** Cobalt measures only **2.98:1 on the
+deep inverted surface** `#0B1F5C`, so it must never carry text or links on a
+dark band — those use `--accent-inv` (teal, 8.43:1) instead. The token file
+says so at the point of definition.
+
+`#12D3E8` is **decorative only** — 1.76:1 on the light surface. It is named
+`--teal-vivid` and appears in gradient washes and placeholder art, never as
+text.
 
 **The three status colours remain nearly identical in greyscale** — light
 lightness values 86, 98 and 86, a gap of zero between present and absent. Colour

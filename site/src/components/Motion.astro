@@ -22,6 +22,9 @@
       document.querySelectorAll('[data-count]').forEach(function (el) {
         el.textContent = el.getAttribute('data-count');
       });
+      document.querySelectorAll('[data-scrub-zone]').forEach(function (el) {
+        el.style.setProperty('--p', '1');
+      });
     }
     if (reduced.matches) { settle(); return; }
 
@@ -67,7 +70,9 @@
     }
 
     /* ---- One observer drives every entrance ---- */
-    var targets = document.querySelectorAll('[data-reveal],[data-stagger],[data-split],.table-figure');
+    var targets = document.querySelectorAll(
+      '[data-reveal],[data-stagger],[data-split],.table-figure:not(.pin .table-figure)'
+    );
     if (!('IntersectionObserver' in window)) { settle(); return; }
 
     var io = new IntersectionObserver(function (entries) {
@@ -136,6 +141,95 @@
           c.style.setProperty('--ry', '0deg');
           c.style.setProperty('--lift', '0px');
         });
+      });
+    }
+
+    /* ---- Scroll-linked scrubbing ----
+       Each [data-scrub-zone] gets a --p from 0 to 1 as it passes through the
+       viewport. One rAF-throttled pass writes every value; nothing here reads
+       layout inside the loop except cached rects, refreshed on resize. */
+    var zones = [].slice.call(document.querySelectorAll('[data-scrub-zone]'));
+    var rails = [].slice.call(document.querySelectorAll('.rail'));
+    var meshLayers = [].slice.call(document.querySelectorAll('.mesh'));
+    var draws = [].slice.call(document.querySelectorAll('.draw'));
+
+    /* Line-draw needs each path's own length. */
+    draws.forEach(function (d) {
+      [].slice.call(d.querySelectorAll('path,line')).forEach(function (el) {
+        var len = el.getTotalLength ? el.getTotalLength() : 400;
+        el.style.setProperty('--len', String(Math.ceil(len) || 400));
+      });
+    });
+
+    /* Rows carry their index and count so the CSS can stagger the scrub. */
+    document.querySelectorAll('.pin tbody').forEach(function (tb) {
+      var trs = tb.querySelectorAll('tr');
+      tb.closest('.pin').style.setProperty('--rows', String(trs.length));
+    });
+
+    var cache = [];
+    function measure() {
+      cache = zones.map(function (z) {
+        var r = z.getBoundingClientRect();
+        return { el: z, top: r.top + window.scrollY, height: r.height };
+      });
+      rails.forEach(function (rail) {
+        var track = rail.querySelector('.rail__track');
+        var stage = rail.querySelector('.rail__stage');
+        if (!track || !stage) return;
+        var shift = Math.max(0, track.scrollWidth - stage.clientWidth);
+        rail.style.setProperty('--rail-shift', shift + 'px');
+      });
+    }
+
+    function scrub() {
+      var vh = window.innerHeight;
+      for (var i = 0; i < cache.length; i++) {
+        var c = cache[i];
+        var travel = Math.max(1, c.height - vh);
+        var p = (window.scrollY - c.top) / travel;
+        c.el.style.setProperty('--p', String(Math.max(0, Math.min(1, p))));
+      }
+      meshLayers.forEach(function (m) {
+        var r = m.getBoundingClientRect();
+        m.style.setProperty('--sy', (-r.top * 0.5).toFixed(1) + 'px');
+      });
+    }
+
+    /* Several things can invalidate geometry at once — load, webfonts, the
+       ResizeObserver. Coalesce them into a single pass per frame so the
+       forced reflows do not stack. */
+    var pendingMeasure = false;
+    function remeasure() {
+      if (pendingMeasure) return;
+      pendingMeasure = true;
+      requestAnimationFrame(function () { pendingMeasure = false; measure(); scrub(); });
+    }
+    measure();
+    scrub();
+    addEventListener('resize', remeasure, { passive: true });
+    addEventListener('load', remeasure);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(remeasure);
+    if ('ResizeObserver' in window) {
+      var ro = new ResizeObserver(remeasure);
+      ro.observe(document.body);
+    }
+
+    /* Fold scrubbing into the existing scroll pass rather than adding another. */
+    var baseScroll = onScroll;
+    onScroll = function () { baseScroll(); scrub(); };
+    addEventListener('scroll', function () {
+      if (!ticking) { ticking = true; requestAnimationFrame(onScroll); }
+    }, { passive: true });
+
+    /* ---- Cursor-following light on dark sections ---- */
+    if (window.matchMedia('(pointer: fine)').matches) {
+      document.querySelectorAll('.section--inv').forEach(function (sec) {
+        sec.addEventListener('pointermove', function (ev) {
+          var r = sec.getBoundingClientRect();
+          sec.style.setProperty('--cx', (((ev.clientX - r.left) / r.width) * 100).toFixed(1) + '%');
+          sec.style.setProperty('--cy', (((ev.clientY - r.top) / r.height) * 100).toFixed(1) + '%');
+        }, { passive: true });
       });
     }
 

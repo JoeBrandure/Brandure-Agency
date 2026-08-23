@@ -19,7 +19,7 @@ const stages = [
   <section class="hero">
     <div class="wrap-narrow">
       <p class="eyebrow">Method</p>
-      <h1 class="statement" style="font-size:var(--step-4)" data-split>SCAN</h1>
+      <h1 class="statement statement--sub" data-split>SCAN</h1>
       <p class="lede">
         Four stages. The fourth is the one most agencies skip, and it is the
         only reason to believe the other three worked.
@@ -33,9 +33,9 @@ const stages = [
       <div class="grid grid--4" data-stagger>
         {stages.map((s) => (
           <div class="card">
-            <span class="mono" style="color:var(--cyan);font-size:var(--step-2)">{s.k}</span>
-            <h2 style="font-size:var(--step-1);margin:0.4rem 0 0.35rem">{s.name}</h2>
-            <p style="margin:0;font-size:var(--step--1)">{s.d}</p>
+            <span class="mono" style="color:var(--accent-inv);font-size:var(--h3)">{s.k}</span>
+            <h2 style="font-size:var(--h3);margin:0.4rem 0 0.35rem">{s.name}</h2>
+            <p style="margin:0;font-size:var(--small)">{s.d}</p>
           </div>
         ))}
       </div>

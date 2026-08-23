@@ -11,7 +11,7 @@ import { CASES } from '../../data/cases';
   <section class="hero">
     <div class="wrap-narrow">
       <p class="eyebrow">Case studies</p>
-      <h1 class="statement" style="font-size:var(--step-4)" data-split>The work, with the numbers attached.</h1>
+      <h1 class="statement statement--sub" data-split>The work, with the numbers attached.</h1>
       <p class="lede">Every write-up carries the day-zero baseline, the control set and the raw counts. Nothing else is publishable.</p>
     </div>
   </section>
@@ -26,8 +26,8 @@ import { CASES } from '../../data/cases';
           <a class="card card--link card--tilt" href={`/work/${c.slug}`}>
             <PlaceholderArt variant={c.art} ratio="16x9" label={c.name} />
             <p class="meta" style="margin-top:0.9rem"><span class="tag">{c.sector}</span><span class="tag tag--draft">Sample</span></p>
-            <h2 style="font-size:var(--step-1)">{c.name}</h2>
-            <p style="font-size:var(--step--1);color:var(--muted)">{c.summary}</p>
+            <h2 style="font-size:var(--h3)">{c.name}</h2>
+            <p style="font-size:var(--small);color:var(--muted)">{c.summary}</p>
           </a>
         ))}
       </div>

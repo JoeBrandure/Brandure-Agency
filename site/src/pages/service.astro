@@ -25,7 +25,7 @@ const serviceSchema = {
   <section class="hero">
     <div class="wrap-narrow">
       <p class="eyebrow">Service</p>
-      <h1 class="statement" style="font-size:var(--step-4)" data-split>Measure first. Always.</h1>
+      <h1 class="statement statement--sub" data-split>Measure first. Always.</h1>
       <p class="lede">Without a baseline there is no way to show that anything done afterwards worked — and no honest way to charge for it.</p>
       <div class="hero-actions"><a class="btn" href="#report">Get a free report</a><a class="textlink" href="/method">The method &rarr;</a></div>
     </div>
@@ -33,7 +33,7 @@ const serviceSchema = {
 
   <section class="section section--tight section--sunk">
     <div class="wrap" data-reveal>
-      <p class="eyebrow">Deliverables</p>
+      <div class="sticky-head"><p class="eyebrow">Deliverables</p></div>
       <h2 style="margin-top:0">What you receive, stage by stage</h2>
       <div class="table-scroll" tabindex="0" role="region" aria-label="Deliverables by stage">
         <table>
@@ -64,21 +64,21 @@ const serviceSchema = {
 
   <section class="section">
     <div class="wrap-narrow" data-reveal>
-      <p class="eyebrow">Stage one</p>
+      <div class="sticky-head"><p class="eyebrow">Stage one</p></div>
       <h2>Baseline</h2>
       <p>We agree a prompt set with you — the questions a buyer types when they are choosing, not researching. Market is agreed explicitly rather than assumed: adding a city to a query your buyers never localise produces a different test, not a sharper one.</p>
       <p>Each prompt runs across {ENGINES.join(', ')}, from clean sessions with personalisation off. A signed-in run measures your own search history rather than the market.</p>
 
-      <p class="eyebrow" style="margin-top:2.5rem">Stage two</p>
+      <div class="sticky-head"><p class="eyebrow">Stage two</p></div>
       <h2>Diagnosis</h2>
       <p>Absence has causes and they are not interchangeable. A model may fail to resolve your brand as an entity — it does not know what you are. It may be grounding the category on third-party sources you have no presence in. Or it may have a settled preference that content alone will not shift.</p>
 
-      <p class="eyebrow" style="margin-top:2.5rem">Stage three</p>
+      <div class="sticky-head"><p class="eyebrow">Stage three</p></div>
       <h2>Execution</h2>
       <p>Entity and structured-data work on your own properties, content built to be lifted into an answer, and placement into the third-party sources the models actually draw on.</p>
       <p>That last one usually carries the most weight and is the least comfortable, because it is earned rather than published. Most citations in AI answers come from sources a brand does not own, which is why placement is core to the work rather than an add-on.</p>
 
-      <p class="eyebrow" style="margin-top:2.5rem">Stage four</p>
+      <div class="sticky-head"><p class="eyebrow">Stage four</p></div>
       <h2>Re-measurement</h2>
       <p>Against the identical frozen prompt set, alongside a control set of prompts we deliberately leave untouched for the length of the engagement. Without it you have a number that went up and no way to attribute it, which is not evidence.</p>
     </div>
@@ -94,7 +94,7 @@ const serviceSchema = {
             <h3 style="margin-bottom:0.2rem">{o.name}</h3>
             <span class="offer__price">{o.price}</span>
             <span class="offer__unit">{o.unit}</span>
-            <p style="font-size:var(--step--1)">{o.summary}</p>
+            <p style="font-size:var(--small)">{o.summary}</p>
             <ul>{o.includes.map((i) => <li>{i}</li>)}</ul>
             <a class:list={['btn', !o.primary && 'btn--ghost']} href="#report">{o.cta}</a>
           </div>

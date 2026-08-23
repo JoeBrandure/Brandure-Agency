@@ -1,7 +1,7 @@
 # STATE.md — current position
 
-Last updated: 2026-08-19 (site motion and visual pass; still not deployed;
-A3 still urgent)
+Last updated: 2026-08-23 (deploy pass — cobalt palette, display type scale,
+scroll-linked motion, logo strip; A3 still urgent)
 
 Current position at a glance. Update this file whenever something moves between
 sections. It is the first thing to read at the start of a working session.
@@ -101,6 +101,21 @@ repo before building on anything here.
   rule so a registry value for an external skill is not discounted. A sweep
   qualified every other rule that asserted the prefix, template inheritance or
   authority order as universal.
+- **Deploy pass — colour, type, scroll-linked motion, logo strip.** Cobalt
+  `#2F5BFF` replaces the flat navy; deep `#0B1F5C` for inverted bands. Display
+  scale runs to 7.5rem against 1rem body, capped at 18ch per line. Motion is
+  now scroll-linked rather than triggered: the four-surface section pins and
+  scrubs its rows in, process steps run a horizontal rail driven by vertical
+  scroll, headline masks scrub, plus cursor-following light on dark bands,
+  SVG line-draw, parallax mesh layers, sticky section headers and native View
+  Transitions. Logo strip added under "Trusted by" — **all five logo files
+  were unfetchable (proxy denies the hosts), so all five are greyscale
+  wordmark placeholders**; drop a file into `site/public/logos/` named by slug
+  and it replaces one with no code change.
+  **Flagged, not resolved:** "Trusted by" asserts client relationships that
+  `CLAUDE.md` and `clients/` say do not exist. Joe was asked to confirm the
+  wording. Both themes still 100 accessibility; home light 100 performance
+  after debouncing the geometry remeasure, which had cost 170ms of blocking.
 - **Motion and visual pass.** Staggered reveals, per-word headline masks,
   count-ups, row-by-row table build, drifting hero mesh, magnetic buttons,
   card tilt, nav sweep, scroll progress. Transform and opacity only; reduced

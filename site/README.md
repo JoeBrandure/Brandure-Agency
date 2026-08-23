@@ -295,8 +295,15 @@ greyscale, not assumed.
   fifth needs approval, so the form carries a short plain-English line instead.
   Collecting names and emails from UK and EU visitors normally calls for a
   proper notice — worth a decision before launch.
-- **Nothing is deployed.** No Netlify site exists yet and no domain has been
-  pointed, so there is no preview URL and no production link.
+- **The site is live at `brandure.netlify.app`**, auto-deploying from `main`
+  through the GitHub integration. Never deploy from a local directory. Netlify
+  writes — forms, passwords, domains, env vars — are Joe's to make.
+- **No custom domain is pointed.** `brandure.io` still needs the DNS step, and
+  `brandureai.com` carries live mail — follow the runbook above before
+  touching it.
+- **The site is publicly reachable with no password**, which is worth a
+  deliberate decision rather than a default while it still carries placeholder
+  content.
 - **Canonical URLs carry a `.html` extension** — `/index.html` rather than `/`
   — while the sitemap lists clean URLs. The two disagree, which is a real
   search-visibility defect. It predates this design pass and was left alone

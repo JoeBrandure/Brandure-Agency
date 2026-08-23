@@ -1,7 +1,7 @@
 # STATE.md — current position
 
-Last updated: 2026-08-23 (deploy pass — cobalt palette, display type scale,
-scroll-linked motion, logo strip; A3 still urgent)
+Last updated: 2026-08-23 (deploy pass live; Netlify Forms confirmed working;
+A3 still urgent)
 
 Current position at a glance. Update this file whenever something moves between
 sections. It is the first thing to read at the start of a working session.
@@ -101,6 +101,15 @@ repo before building on anything here.
   rule so a registry value for an external skill is not discounted. A sweep
   qualified every other rule that asserted the prefix, template inheritance or
   authority order as universal.
+- **Site is live and the form works.** `bc865e0` deployed to
+  `brandure.netlify.app` via the GitHub integration. Netlify Forms confirmed
+  active 2026-08-23: form `report-request` detected, honeypot recognised, and
+  all five fields registered with correct types (name/text, email/email,
+  company/text, website/url, category/text). Zero submissions so far.
+  **Correcting an earlier report:** this was flagged three times as "Forms not
+  enabled". Detection was always on — a Netlify form only registers once a
+  deploy containing the markup has been scanned, and no such deploy existed
+  yet. It was never a blocker.
 - **Deploy pass — colour, type, scroll-linked motion, logo strip.** Cobalt
   `#2F5BFF` replaces the flat navy; deep `#0B1F5C` for inverted bands. Display
   scale runs to 7.5rem against 1rem body, capped at 18ch per line. Motion is

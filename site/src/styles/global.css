@@ -220,7 +220,10 @@ a.card:hover, .card--hover:hover { transform: translateY(-3px); box-shadow: var(
   font-size: clamp(2rem, 1.2rem + 2.4vw, 2.9rem);
   line-height: 1; letter-spacing: -0.035em; color: var(--accent);
 }
-.metric__arrow { font-size: 0.5em; transform: translateY(-0.15em); }
+/* The unit sits in its own span so the count-up, which rewrites the number's
+   textContent every frame, cannot eat it. Slightly smaller so the figure
+   itself stays the thing you read first. */
+.metric__suffix { font-size: 0.62em; letter-spacing: -0.02em; }
 .metric__l { font-size: var(--small); color: var(--muted); margin: 0.5rem 0 0; max-width: none; line-height: 1.45; }
 
 /* ---------- Problem grid ----------
@@ -267,6 +270,39 @@ a.card:hover, .card--hover:hover { transform: translateY(-3px); box-shadow: var(
   background: radial-gradient(34rem 20rem at 88% -20%, rgba(255, 255, 255, 0.14), transparent 65%);
 }
 .cta-card > * { position: relative; z-index: 1; }
+
+/* A slow diagonal sheen. Transform on an oversized layer inside an
+   overflow-hidden card — no gradient interpolation, no paint on the card
+   itself, so it stays on the compositor like everything else here. */
+/* The glint is CLIPPED to the right of the copy and cannot reach it.
+   A full-width sweep was tried first and measured: at 13% white it lightened
+   the gradient under the lede enough to drop white text to 3.85:1, confirmed
+   by disabling the layer and watching the same measurement return to 5.04:1.
+   Weakening it to hold AA everywhere put it at roughly 5% white, which is
+   invisible. Containing it instead keeps the effect at full strength over the
+   half of the card that carries no text.
+
+   The copy ends at 66.6% of the card and the button starts at 75.8%, both
+   measured on the rendered page. The clip starts at 70%. */
+.cta-card__glint {
+  position: absolute;
+  inset: 0 0 0 66%;
+  overflow: hidden;
+  z-index: 0;
+  pointer-events: none;
+  /* The clip alone left a hard vertical seam where the glint region began.
+     Fading it in over the first third of the box removes the edge and adds
+     margin between the effect and the copy. */
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 34%);
+  mask-image: linear-gradient(90deg, transparent, #000 34%);
+}
+.cta-card__sheen {
+  position: absolute;
+  top: -60%; bottom: -60%; left: -70%; width: 55%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.22), transparent);
+  transform: translate3d(0, 0, 0) rotate(14deg);
+  will-change: transform;
+}
 .cta-card h2 { color: #fff; margin: 0 0 0.5rem; max-width: 18ch; }
 /* Full white, not tinted — the palest gradient stop leaves 4.68:1 of
    headroom and no more, so there is none to spend on transparency. */
@@ -638,14 +674,21 @@ input:focus-visible { border-color: var(--focus); }
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
   mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
 }
+/* The set is repeated four times rather than twice. At two copies the track
+   was narrower than a wide viewport, so it sat left-aligned against the
+   container with dead space to the right — which is what read as "not
+   centred". Four copies always overflow, and min-width plus justify-content
+   centre it in the case where they somehow do not. */
 .marquee__track {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: clamp(2.5rem, 6vw, 5.5rem);
   list-style: none;
   margin: 0;
   padding: 0;
   width: max-content;
+  min-width: 100%;
 }
 .marquee__item { margin: 0; max-width: none; flex: 0 0 auto; }
 

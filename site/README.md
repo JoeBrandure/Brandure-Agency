@@ -179,6 +179,34 @@ on the real site. Re-check after the first live deploy.
 marks any page blocked from indexing down. The identical page scores **100**
 with `placeholder: false`, which was tested directly rather than assumed.
 
+### The hero statistics — where they come from
+
+Three of the four are one study, cited on the page: **Pew Research Center,
+"Do people click on links in Google AI summaries?", 22 July 2025** — 68,879
+Google searches by 900+ US adults, browser-tracked through March 2025.
+
+| Figure | Claim |
+|---|---|
+| 8% | of Google visits end in a click on a result when an AI summary is present — 15% without one |
+| 1% | end in a click on a link inside the summary itself |
+| 53% | of searches of ten words or more return an AI summary |
+| 4 | answer engines Brandure measures separately — ours, not Pew's |
+
+**They describe Google AI Overviews specifically**, and the page says so.
+Stretching a Google-only sample to cover ChatGPT and Perplexity would be the
+exact move this agency sells against.
+
+**One number was deliberately left out.** Gartner's "search engine volume will
+drop 25% by 2026" (Feb 2024) is the single most-quoted figure in this category.
+Its deadline has now passed without it happening. Quoting a failed prediction
+on a site that sells measurement would be self-defeating.
+
+**Sourcing caveat for whoever maintains this.** `pewresearch.org` is
+unreachable from the build environment, so the figures were confirmed from two
+independent search passes that agreed on every value and on the sample, rather
+than read off the primary source. Worth one direct check against the Pew page
+before launch.
+
 ### Logo strip
 
 Five entries under "Trusted by". All five files are now in
@@ -251,6 +279,16 @@ when the text is the luminance extreme, which is a trap worth naming.
 | Pill label | 6.91:1 | 6.10:1 |
 | Table row label | 13.95:1 | 12.55:1 |
 | Citation line | 8.00:1 | 7.27:1 |
+
+**A moving highlight is still a background.** The CTA card's glint originally
+swept the full width of the card. At 13% white it lightened the gradient under
+the copy enough to drop white text to **3.85:1** — confirmed by disabling the
+layer and watching the same measurement return to 5.04:1. Weakening it to hold
+AA everywhere put it at roughly 5% white, which is invisible. It is now clipped
+to the right of the copy, where the card carries no text, and runs at full
+strength there. Verified by freezing the animation at 51 phases across its
+cycle and sampling the background under every text box at each one: **worst
+case 4.99:1**. An effect that only holds AA at rest is not passing.
 
 **The brand gradient is deliberately literal, not token-driven.** `--cobalt`
 and `--violet` lift in dark theme so they stay legible *as text on a dark
@@ -329,6 +367,21 @@ greyscale, not assumed.
   Headline splitting keeps spaces as real text nodes, so a screen reader still
   reads a natural sentence rather than a list of fragments. Pointer effects are
   skipped entirely on coarse pointers.
+
+  **The CTA card is the page's loudest moment** and gets more than the standard
+  entrance: it rises further, settles from 96%, its shadow blooms as it lands,
+  a clipped glint sweeps its right side every seven seconds, and the button
+  carries a ring that breathes once every four. All transform and opacity.
+
+  **The logo marquee carries four copies of the set, not two.** At two it was
+  narrower than a wide viewport, so it sat left-aligned with dead space beside
+  it — which is what read as "not centred". Four always overflow. It runs at
+  38s per set, down from 52s.
+
+  **Section labels are gone.** The pill above every heading — "The problem",
+  "Engagements", "How it works" — read as slide furniture. Only two remain:
+  the logo strip's "Trusted by", which labels a row that is otherwise
+  unexplained, and nothing in the hero.
 
   **Two effects were removed rather than tuned.** The 3D card tilt sheared
   left-aligned copy off its baseline under the cursor, fighting every alignment

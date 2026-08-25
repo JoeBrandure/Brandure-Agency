@@ -28,9 +28,12 @@ const items = BRANDS.map((b) => {
   return { ...b, file: file ? `/logos/${file}` : null };
 });
 
-/* Duplicated once so the marquee loops seamlessly. The copy is hidden from
-   assistive tech so the list is not announced twice. */
-const track = [...items, ...items];
+/* Four copies, not two. Five logos duplicated once did not fill a wide
+   viewport, so the row sat left-aligned with dead space beside it. Four
+   always overflow, which is what makes a marquee read as centred. The CSS
+   shifts 25% per cycle, so one copy = one seamless loop.
+   Only the first set is exposed to assistive tech. */
+const track = [...items, ...items, ...items, ...items];
 ---
 
 <section class="section--inv logos" aria-labelledby="logos-h">

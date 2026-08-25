@@ -4,7 +4,7 @@ import ReportForm from '../components/ReportForm.astro';
 import ComparisonTable from '../components/ComparisonTable.astro';
 import LogoStrip from '../components/LogoStrip.astro';
 import { SITE } from '../consts';
-import { FAQS, PROOF, PROBLEMS, OFFERS, ENGINES } from '../data/content';
+import { FAQS, HERO_STATS, PROBLEMS, OFFERS, ENGINES } from '../data/content';
 import { getCollection } from 'astro:content';
 
 const pieces = (await getCollection('research'))
@@ -82,11 +82,11 @@ const STAGES = [
     </div>
     <div class="wrap hero-grid">
       <div data-load>
-        <p class="pill"><span class="pill__dot"></span>Answer engine optimisation</p>
         <h1 class="statement" data-split>Your buyers asked an AI. You were not the answer.</h1>
         <p class="lede">
-          We measure where you stand inside AI-generated answers, against the
-          competitors you actually lose to — then do the work that moves it.
+          Your SEO still works. It just stops paying when the answer arrives
+          before the links. We measure where you stand inside AI answers, then
+          do the work that gets you named.
         </p>
         <div class="hero-actions">
           <a class="btn" href="#report">Get a free visibility report</a>
@@ -96,17 +96,20 @@ const STAGES = [
 
       <div>
         <div class="metric-grid" data-stagger>
-          {PROOF.map((p) => (
+          {HERO_STATS.map((s) => (
             <div class="metric">
-              <span class="metric__chip">{p.chip}</span>
-              <span class="metric__n" data-count={p.n}>{p.n}</span>
-              <p class="metric__l">{p.label}</p>
+              <span class="metric__chip">{s.chip}</span>
+              <span class="metric__n">
+                <span data-count={s.n}>{s.n}</span>{s.suffix && <span class="metric__suffix">{s.suffix}</span>}
+              </span>
+              <p class="metric__l">{s.label}</p>
             </div>
           ))}
         </div>
         <p class="figure__src mt-1">
-          Our own first category scan and its method — not client outcomes.
-          Dubai, August 2026.
+          First three: Pew Research Center, 22 July 2025 — 68,879 Google
+          searches by 900+ US adults, March 2025. Google AI Overviews
+          specifically, not AI answers in general.
         </p>
       </div>
     </div>
@@ -119,10 +122,9 @@ const STAGES = [
   <section class="section">
     <div class="wrap" data-reveal>
       <div class="section-head">
-        <p class="pill"><span class="pill__dot"></span>The problem</p>
-        <h2>Absence is the failure state, and it is invisible</h2>
+        <h2>You are not coming up in AI answers, so you are losing buyers you never see</h2>
         <p class="lede">
-          Four things are going wrong at once, and none of them shows up in a
+          Here is what is usually going wrong, and why none of it shows up in a
           dashboard you already look at.
         </p>
       </div>
@@ -149,15 +151,16 @@ const STAGES = [
   <section class="section section--tight">
     <div class="wrap" data-reveal>
       <div class="cta-card">
+        <span class="cta-card__glint" aria-hidden="true"><span class="cta-card__sheen"></span></span>
         <div>
           <h2>We fix all four, in that order</h2>
           <p class="lede">
-            Measure the position, diagnose the cause, do the work, then measure
-            again against a control set. Nothing is claimed that was not
-            measured twice.
+            Find out where you stand, work out why, fix it, then measure again —
+            alongside a set of questions we deliberately leave alone, so you can
+            see what the work actually did.
           </p>
         </div>
-        <a class="btn" href="#report">Get a free visibility report</a>
+        <a class="btn cta-card__btn" href="#report">Get a free visibility report</a>
       </div>
     </div>
   </section>
@@ -168,7 +171,6 @@ const STAGES = [
     <div class="pin__stage">
       <div class="wrap">
         <div class="section-head">
-          <p class="pill"><span class="pill__dot"></span>The four-surface point</p>
           <h2 class="statement statement--sub" data-split data-scrub>One question. Four different answers.</h2>
           <p class="lede">
             The engines disagree with each other far more than most people
@@ -195,7 +197,6 @@ const STAGES = [
   <section class="section process">
     <div class="wrap" data-reveal>
       <div class="section-head">
-        <p class="pill"><span class="pill__dot"></span>How it works</p>
         <h2>Four stages, and the last one is the point</h2>
       </div>
       <ol class="process__track" data-stagger>
@@ -214,7 +215,6 @@ const STAGES = [
   <section class="section section--sunk" id="pricing">
     <div class="wrap" data-reveal>
       <div class="section-head">
-        <p class="pill"><span class="pill__dot"></span>Engagements</p>
         <h2>Two ways in</h2>
         <p class="lede">Capacity is deliberately capped. The audit is the front door and stands on its own.</p>
       </div>
@@ -246,7 +246,6 @@ const STAGES = [
   <section class="section">
     <div class="wrap" data-reveal>
       <div class="section-head">
-        <p class="pill"><span class="pill__dot"></span>Research</p>
         <h2>We publish what we measure</h2>
         <p class="lede">Method attached, so any finding can be checked or repeated rather than taken on trust.</p>
       </div>
@@ -271,7 +270,6 @@ const STAGES = [
   <section class="section section--sunk">
     <div class="wrap-narrow" data-reveal>
       <div class="section-head">
-        <p class="pill"><span class="pill__dot"></span>Objections</p>
         <h2>The questions we get asked</h2>
       </div>
       <div class="qa" data-stagger>
@@ -291,7 +289,6 @@ const STAGES = [
     <div class="wrap">
       <div class="hero-grid">
         <div data-reveal>
-          <p class="pill"><span class="pill__dot"></span>Free report</p>
           <h2 class="statement statement--sub" data-split>Find out what the engines say about you.</h2>
           <p class="lede">
             We run your category across all four surfaces and send you what comes

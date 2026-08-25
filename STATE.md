@@ -1,7 +1,7 @@
 # STATE.md — current position
 
-Last updated: 2026-08-25 (home page restructured to reference layout; real
-logos in; palette unchanged; A3 still urgent)
+Last updated: 2026-08-25 (home restructured, then hero stats sourced to Pew and
+copy plainened; A3 still urgent)
 
 Current position at a glance. Update this file whenever something moves between
 sections. It is the first thing to read at the start of a working session.
@@ -110,6 +110,39 @@ repo before building on anything here.
   enabled". Detection was always on — a Netlify form only registers once a
   deploy containing the markup has been scanned, and no such deploy existed
   yet. It was never a blocker.
+- **Copy and motion revision on the home page** (2026-08-25, after review).
+  - **Hero statistics replaced.** The four cards described our own method
+    (categories scanned, cells recorded) — of no interest to a visitor who has
+    not heard of AEO. They now make the category argument, and three of the
+    four are one cited study: **Pew Research Center, 22 July 2025**, 68,879
+    Google searches by 900+ US adults, March 2025. 8% of visits end in a click
+    when an AI summary is present against 15% without; 1% click a link inside
+    the summary; 53% of ten-word-plus searches return one. Stated on the page
+    as **Google AI Overviews specifically**, not AI answers in general.
+  - **Gartner's "search volume down 25% by 2026" was deliberately not used.**
+    It is the most-quoted figure in the category and its deadline has passed
+    without it happening. Publishing a failed prediction on a site selling
+    measurement would be self-defeating.
+  - **Sourcing caveat:** `pewresearch.org` is unreachable from the build
+    environment. Figures were confirmed from two independent search passes that
+    agreed on every value and on the sample, not read off the primary source.
+    **Open action: one direct check against the Pew page before launch.**
+  - **Problem grid rewritten in plain language.** Entity resolution, grounding
+    and control sets are out; "the AI chooses for them", "your website is not
+    what decides" are in.
+  - **Section-label pills removed** everywhere except the logo strip's
+    "Trusted by". They read as slide furniture.
+  - **Logo marquee: four copies, not two**, so it fills a wide viewport instead
+    of sitting left-aligned with dead space. 38s per set, down from 52s.
+  - **CTA card given a real entrance** — rises further, settles from 96%,
+    shadow blooms — plus a sweeping glint and a breathing ring on the button.
+  - **One defect found and fixed by measuring:** the glint originally swept the
+    full card and dropped white text to **3.85:1** as it crossed the copy.
+    Clipped to the right of the text and re-verified by freezing the animation
+    at 51 phases and sampling under every text box — **worst case 4.99:1**.
+    An effect that only holds AA at rest is not passing.
+  - Lighthouse still 100 / 100 / 96 / 100, blocking time 0ms. Reduced motion
+    and JS-off both settle 0 of 43 animated elements mid-animation.
 - **Layout and motion pass — home page restructured to a reference layout.**
   Brief was to mirror `growthagency.co`'s flow, fix misalignment, and make the
   animations world-class but easy to follow, **without touching the palette**.

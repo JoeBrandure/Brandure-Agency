@@ -29,48 +29,85 @@ export const FAQS = [
 ] as const;
 
 /**
- * Hero metric cards. Every one of these is real, sourced and dated — they
- * describe the method and the first run, not outcomes for any client.
- * See research/vertical-sprint/scans/ in the agency repo.
+ * Hero statistics. These make the case for the category — why an answer
+ * engine is a different problem from a search engine — rather than
+ * describing our own method, which is what a visitor who has never heard of
+ * AEO needs first.
  *
- * NOTE ON SHAPE: the layout these sit in normally carries a percentage and a
- * rising arrow. These are counts, not movements, so neither is used. A
- * trailing ↗ on "7 categories" would assert a direction nothing here
- * measured, and the cards would be reading as client results — which the
- * agency does not have.
+ * SOURCING. The first three are one study, cited precisely: Pew Research
+ * Center, "Do people click on links in Google AI summaries?", 22 July 2025 —
+ * 68,879 Google searches by 900+ US adults, browser-tracked through March
+ * 2025. One source, one sample, one date, stated on the page.
+ *
+ * They describe GOOGLE AI OVERVIEWS SPECIFICALLY, not AI answers in general,
+ * and the copy says so. Stretching a Google-only sample to cover ChatGPT and
+ * Perplexity would be the exact move this agency sells against.
+ *
+ * NOT USED, deliberately: Gartner's "search volume will drop 25% by 2026"
+ * (Feb 2024) is the most-quoted figure in this category and is now past its
+ * own deadline without happening. Quoting a failed prediction on a site that
+ * sells measurement would be self-defeating.
+ *
+ * NO ARROWS, NO CLIENT RESULTS. The layout these sit in normally carries a
+ * rising arrow beside a client's percentage. Ours carry published research
+ * about the category. There are no client outcomes to show.
  */
-export const PROOF = [
-  { n: '4',  chip: 'Engines',    label: 'answer engines measured separately, never blended into one score' },
-  { n: '7',  chip: 'Categories', label: 'scanned in the first Dubai run, 13 August 2026' },
-  { n: '28', chip: 'Cells',      label: 'prompt-and-engine results recorded in that run' },
-  { n: '14', chip: 'Re-run',     label: 'of those cells repeated on a clean profile four days later' },
+export const HERO_STATS = [
+  {
+    chip: 'Clicks',
+    n: '8',
+    suffix: '%',
+    label: 'of Google visits end in a click on a result when an AI summary is on the page. Without one it is 15%.',
+  },
+  {
+    chip: 'Traffic',
+    n: '1',
+    suffix: '%',
+    label: 'of visits end in a click on a link inside the summary itself. Being cited is not a traffic channel — being named is the win.',
+  },
+  {
+    chip: 'Intent',
+    n: '53',
+    suffix: '%',
+    label: 'of searches ten words or longer return an AI summary. That is how people search when they are choosing.',
+  },
+  {
+    chip: 'Coverage',
+    n: '4',
+    suffix: '',
+    label: 'answer engines measured separately — ChatGPT, Perplexity, Gemini, Google AI Overviews. Never one blended score.',
+  },
 ] as const;
 
 /**
- * The problem grid. Cause and consequence stated separately, because the
- * consequence is the part a buyer recognises and the cause is the part that
- * decides what work is needed.
+ * The problem grid, in plain language.
+ *
+ * The earlier version used the field's own vocabulary — entity resolution,
+ * grounding, third-party sources, control sets. That reads as competence to
+ * someone already in AEO and as noise to the person actually buying, who has
+ * simply noticed they are not coming up. Cause and consequence stay split,
+ * because the consequence is the half a buyer recognises.
  */
 export const PROBLEMS = [
   {
-    t: 'You are not on the shortlist',
-    p: 'A search engine returns ten links and lets the buyer choose. An answer engine returns three names and has already chosen.',
-    e: 'Buyers who never see you also never bounce. Nothing in your analytics records the loss, so the first sign is a quarter of soft pipeline nobody can explain.',
+    t: 'The AI chooses for them',
+    p: 'Google hands over ten links and lets someone pick. ChatGPT hands over three names and has already picked.',
+    e: 'If you are not one of the three you are not in the running — and nothing in your analytics shows it, because there is no visit to miss.',
   },
   {
-    t: 'The four engines disagree',
-    p: 'ChatGPT, Perplexity, Gemini and Google AI Overviews name different brands and cite different sources for the same question on the same day.',
-    e: 'A single blended “AI visibility score” averages four different realities into one number, and hides the only thing you could have acted on.',
+    t: 'Every AI says something different',
+    p: 'Ask ChatGPT, Perplexity, Gemini and Google the same question on the same day and different companies come back.',
+    e: 'One overall “AI score” averages four different answers into a number that cannot tell you which one to go and fix.',
   },
   {
-    t: 'Most citations are not yours',
-    p: 'Models ground their answers on third-party sources — directories, trade press, forums — far more than on a brand’s own site.',
-    e: 'Publishing more pages on your own domain can leave the answer completely unchanged, which is why the work is earned rather than published.',
+    t: 'Your website is not what decides',
+    p: 'These answers are built mostly from other people’s pages — directories, press, review sites, forums — not from yours.',
+    e: 'You can add twenty pages to your own site and the answer will not move. Getting mentioned elsewhere is what moves it.',
   },
   {
     t: 'Nobody can tell you why',
-    p: 'Absence has at least three separate causes: the model cannot resolve who you are, it cannot find you in its sources, or it simply prefers someone else.',
-    e: 'They need different work, so an agency quoting a retainer before diagnosing which one applies is pricing a guess.',
+    p: 'There are three reasons an AI leaves you out: it does not know who you are, it cannot find you anywhere it trusts, or it simply prefers someone else.',
+    e: 'Each one needs completely different work. Anyone quoting a monthly fee before finding out which applies is guessing.',
   },
 ] as const;
 

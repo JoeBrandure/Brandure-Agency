@@ -194,6 +194,52 @@ tbody tr {
 .btn--violet:hover { box-shadow: 0 14px 30px -8px var(--btn-2-shadow); }
 .btn--ghost:hover { box-shadow: none; }
 
+/* ---------- The gradient CTA card ----------
+   This is the page's single loudest moment, so it gets more than the standard
+   entrance: it rises further, settles from 96%, and its shadow blooms as it
+   lands. Everything is still transform and opacity.
+
+   The sheen sweeps once every 7s with a long pause at each end, so it reads as
+   an occasional glint rather than a loop demanding attention. */
+
+.cta-card {
+  transition:
+    transform var(--dur-3) var(--ease-out),
+    box-shadow var(--dur-3) var(--ease-out);
+  box-shadow: 0 24px 60px -34px var(--btn-shadow);
+}
+[data-reveal] > .cta-card {
+  transform: translate3d(0, calc(var(--rise) * 2.2), 0) scale(0.96);
+  box-shadow: 0 0 0 -34px var(--btn-shadow);
+}
+[data-reveal].is-in > .cta-card {
+  transform: none;
+  box-shadow: 0 34px 80px -34px var(--btn-shadow);
+}
+.cta-card:hover { transform: translate3d(0, -3px, 0); box-shadow: 0 42px 90px -34px var(--btn-shadow); }
+
+.cta-card__sheen { animation: cta-sheen 7s var(--ease) infinite; }
+@keyframes cta-sheen {
+  0%, 62%  { transform: translate3d(0, 0, 0) rotate(14deg); }
+  100%     { transform: translate3d(360%, 0, 0) rotate(14deg); } /* clears the clip box */
+}
+
+/* The button on it gets a soft ring that breathes once every four seconds —
+   enough to draw the eye back to the only clickable thing in the block. */
+.cta-card__btn { position: relative; }
+.cta-card__btn::after {
+  content: '';
+  position: absolute; inset: 0;
+  border-radius: inherit;
+  box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.55);
+  animation: cta-ring 4s var(--ease) infinite;
+  pointer-events: none;
+}
+@keyframes cta-ring {
+  0%, 70%, 100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+  82%           { box-shadow: 0 0 0 7px rgba(255, 255, 255, 0.28); }
+}
+
 /* ---------- Card hover ----------
    The 3D tilt is gone. It was the one effect on the page that moved type off
    its baseline, so a card of left-aligned copy sheared under the cursor and
@@ -255,11 +301,14 @@ tbody tr {
 
 /* ---------- Logo marquee ---------- */
 
-.marquee__track { animation: marquee 52s linear infinite; }
+/* The track carries four copies of the set, so shifting 25% moves exactly one
+   set and loops seamlessly. 38s per set, down from 52s — noticeably moving
+   without becoming something the eye has to chase. */
+.marquee__track { animation: marquee 38s linear infinite; }
 .marquee:hover .marquee__track { animation-play-state: paused; }
 @keyframes marquee {
   from { transform: translate3d(0, 0, 0); }
-  to   { transform: translate3d(-50%, 0, 0); } /* track is duplicated once */
+  to   { transform: translate3d(-25%, 0, 0); }
 }
 .no-js .marquee__track { animation-play-state: running; }
 
@@ -367,10 +416,13 @@ tbody tr {
   .mesh__layer { transform: none !important; }
   .ph-b1, .ph-b2, .ph-b3 { animation: none !important; transform: none !important; }
 
-  .btn, .card--tilt, .metric, .problem {
+  .btn, .card--tilt, .metric, .problem, .cta-card {
     transform: none !important;
     transition: none !important;
   }
+  [data-reveal] > .cta-card { box-shadow: 0 24px 60px -34px var(--btn-shadow) !important; }
+  .cta-card__glint { display: none !important; }
+  .cta-card__btn::after { animation: none !important; box-shadow: none !important; }
   .site-nav a::after { transition: none !important; }
   .site-header { transition: none !important; }
 
@@ -397,6 +449,7 @@ tbody tr {
 .no-js [data-stagger] > *,
 .no-js .hero [data-load] > *,
 .no-js tbody tr { opacity: 1; transform: none; }
+.no-js [data-reveal] > .cta-card { box-shadow: 0 34px 80px -34px var(--btn-shadow); }
 .no-js .pin__runway { height: 0; }
 .no-js .pin__stage { position: static; min-height: 0; }
 .no-js .pin .table-figure tbody tr { opacity: 1; transform: none; }

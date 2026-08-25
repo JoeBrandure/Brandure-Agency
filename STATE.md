@@ -1,7 +1,7 @@
 # STATE.md — current position
 
-Last updated: 2026-08-23 (deploy pass live; Netlify Forms confirmed working;
-A3 still urgent)
+Last updated: 2026-08-25 (home page restructured to reference layout; real
+logos in; palette unchanged; A3 still urgent)
 
 Current position at a glance. Update this file whenever something moves between
 sections. It is the first thing to read at the start of a working session.
@@ -110,6 +110,48 @@ repo before building on anything here.
   enabled". Detection was always on — a Netlify form only registers once a
   deploy containing the markup has been scanned, and no such deploy existed
   yet. It was never a blocker.
+- **Layout and motion pass — home page restructured to a reference layout.**
+  Brief was to mirror `growthagency.co`'s flow, fix misalignment, and make the
+  animations world-class but easy to follow, **without touching the palette**.
+  The palette is unchanged: every token value is as it was, and the only colour
+  addition is `--grad-brand`, built from three existing brand hexes.
+  - **Section stack now:** hero (statement left, four measured figures as
+    metric cards right) → logo strip → centred intro plus a 2×2 cause-and-effect
+    problem grid → full-bleed gradient CTA card → pinned four-surface table →
+    four process cards across → two-column pricing with gradient card heads →
+    research → objections → report form.
+  - **Six real misalignments fixed**, each verified rather than assumed: the
+    display headline was capped at 7.5rem inside a ~41rem hero column and wrapped
+    a nine-word line onto five ragged lines; the header nav floated wherever
+    flexbox left room, and on a phone stacked to three rows; the pill label was
+    inline-level and `.split` set headings to `display:inline`, so the first word
+    of the h1 sat on the pill's line; in-page anchors landed under the sticky
+    header; the mesh parallax was written every frame and painted nothing,
+    because the drift `animation` overrode the transform it was set on; and the
+    header at 72% opacity lost its dark nav text over the two dark bands.
+  - **Two effects removed rather than tuned.** The 3D card tilt sheared
+    left-aligned copy off its baseline under the cursor. The horizontal process
+    rail was pinned across 220vh of runway to move its track a **measured
+    136px** — a screen and a half of scrolling for almost nothing.
+  - **One curve, one duration scale, one stagger step** across the whole site,
+    replacing four easing curves and eight durations.
+  - **Logo strip moved to the dark band, and the artwork forced it:** Lurio's
+    fill is `#fff7ed` and Viveonix's wordmark is a white knockout, so both are
+    invisible on `#FCFBF8`. Per-brand `tone` handles the rest; Growthmind's
+    opaque dark tile is inverted rather than knocked out.
+  - **Measured after:** Lighthouse home 100 / 100 / 96 / 100, **total blocking
+    time 0ms**. Reduced-motion and JS-off both settle 0 of 45 animated elements
+    mid-animation. All new furniture AA in both themes, gradient text included,
+    measured on rendered pixels. Canonicals, sitemap, robots, llms.txt, schema
+    and the form are byte-identical — confirmed by diff, not by intent.
+  - **Flagged:** the reference centres section headings, and the earlier
+    typography brief said everything left-aligned with no centred body text.
+    Resolved by centring only pill, heading and lede as a unit — no body copy,
+    card, table or hero text is centred. Also: the reference's metric cards
+    carry client percentages with rising arrows; ours carry counts from our own
+    first scan, with neither a percentage nor an arrow, because there are no
+    client results to show and an arrow would assert a direction nothing
+    measured.
 - **Deploy pass — colour, type, scroll-linked motion, logo strip.** Cobalt
   `#2F5BFF` replaces the flat navy; deep `#0B1F5C` for inverted bands. Display
   scale runs to 7.5rem against 1rem body, capped at 18ch per line. Motion is
@@ -117,10 +159,11 @@ repo before building on anything here.
   scrubs its rows in, process steps run a horizontal rail driven by vertical
   scroll, headline masks scrub, plus cursor-following light on dark bands,
   SVG line-draw, parallax mesh layers, sticky section headers and native View
-  Transitions. Logo strip added under "Trusted by" — **all five logo files
-  were unfetchable (proxy denies the hosts), so all five are greyscale
-  wordmark placeholders**; drop a file into `site/public/logos/` named by slug
-  and it replaces one with no code change.
+  Transitions. Logo strip added under "Trusted by" — at the time **all five
+  logo files were unfetchable (proxy denies the hosts), so all five were
+  greyscale wordmark placeholders**. Superseded: the five real files landed
+  2026-08-25 and are in `site/public/logos/`. The horizontal rail and the card
+  tilt described here have since been removed — see the layout pass above.
   **Flagged, not resolved:** "Trusted by" asserts client relationships that
   `CLAUDE.md` and `clients/` say do not exist. Joe was asked to confirm the
   wording. Both themes still 100 accessibility; home light 100 performance

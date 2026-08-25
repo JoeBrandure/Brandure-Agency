@@ -3,16 +3,18 @@ import { readdirSync } from 'node:fs';
 import { BRANDS } from '../data/brands';
 
 /**
- * Greyscale marquee. Pauses on hover; the hovered logo returns to colour.
+ * Greyscale marquee on the inverted band. Pauses on hover; the hovered logo
+ * lifts to full strength.
  *
- * Real files are picked up from `public/logos/` by name at build time. Drop
- * `lurio.svg` into that folder and it replaces the placeholder on the next
- * build with no code change. Where no file is present, a greyscale wordmark
- * is drawn at the same optical height so the strip's rhythm is already right.
+ * Files are picked up from `public/logos/` by name at build time. Where no
+ * file is present a wordmark placeholder is drawn at the same optical height,
+ * so the strip's rhythm is right either way — which also means a missing file
+ * produces a page that looks finished. If a logo is expected and not showing,
+ * check the folder before believing the build.
  *
  * Logos are normalised on optical height, not a fixed box — a wide wordmark
  * and a square mark should read as the same visual weight, which a fixed box
- * does not achieve.
+ * does not achieve. See brands.ts for the per-brand multiplier and tone.
  */
 let present: string[] = [];
 try {
@@ -31,18 +33,18 @@ const items = BRANDS.map((b) => {
 const track = [...items, ...items];
 ---
 
-<section class="section section--tight logos" aria-labelledby="logos-h">
+<section class="section--inv logos" aria-labelledby="logos-h">
   <div class="wrap">
-    <p class="eyebrow" id="logos-h">Trusted by</p>
+    <p class="pill" id="logos-h"><span class="pill__dot"></span>Trusted by</p>
   </div>
 
   <div class="marquee" data-marquee>
     <ul class="marquee__track" role="list">
       {track.map((b, i) => (
-        <li class="marquee__item" aria-hidden={i >= items.length ? 'true' : undefined}>
+        <li class="marquee__item" data-tone={b.tone} aria-hidden={i >= items.length ? 'true' : undefined}>
           {b.file ? (
             <img src={b.file} alt={b.name} loading="lazy" decoding="async"
-                 width="200" height="48" style={`--optical:${b.optical}`} />
+                 width={b.w} height={b.h} style={`--optical:${b.optical}`} />
           ) : (
             <span class="wordmark-ph" style={`--optical:${b.optical}`}>
               <span class="wordmark-ph__text">{b.name}</span>

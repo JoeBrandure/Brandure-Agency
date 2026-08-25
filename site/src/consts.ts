@@ -16,8 +16,13 @@ export const POSTHOG = {
   host: 'https://eu.i.posthog.com',
 } as const;
 
+/* Four items, not the six the reference layout carries. The two that would
+   pad it out — /work and a separate pricing page — are invented case studies
+   and unsettled numbers, and putting either in the primary nav would be
+   asserting something the agency cannot yet back. */
 export const NAV = [
   { href: '/service', label: 'Service' },
   { href: '/method', label: 'Method' },
   { href: '/research', label: 'Research' },
+  { href: '/#pricing', label: 'Pricing' },
 ] as const;

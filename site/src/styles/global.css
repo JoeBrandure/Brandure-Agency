@@ -1,7 +1,13 @@
 @import './tokens.css';
 
 *, *::before, *::after { box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+/* scroll-padding stops every in-page anchor (#report, #pricing) landing
+   underneath the sticky header — the target heading was arriving hidden. */
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--header-h) + 0.75rem);
+}
 
 body {
   margin: 0;
@@ -105,26 +111,61 @@ code, kbd, .mono { font-family: var(--font-mono); font-size: 0.9em; }
 }
 .hero > * { position: relative; }
 
-/* Asymmetric hero: statement left, stat grid right. Not centred. */
+/* Asymmetric hero: statement left, metric grid right. Not centred.
+   Columns are close to even because the right column now carries four cards
+   rather than four bare labels, and starves at 1fr against 1.35fr. */
 .hero-grid {
   display: grid;
   gap: clamp(2rem, 4vw, 3.5rem);
-  align-items: start;
+  align-items: center;
 }
 @media (min-width: 62rem) {
-  .hero-grid { grid-template-columns: 1.35fr 1fr; }
+  .hero-grid { grid-template-columns: 1.1fr 1fr; }
 }
 
-.tile-title {
-  font-family: var(--font-display); font-weight: 700;
-  font-size: var(--h3); letter-spacing: -0.012em;
-  margin: 0.35rem 0 0.3rem; color: var(--ink);
+.hero-actions { display: flex; flex-wrap: wrap; gap: 0.85rem; align-items: center; margin-top: 1.75rem; }
+.hero .lede { margin-bottom: 0; }
+
+/* ---------- Pills ----------
+   The reference layout leans on a rounded outlined label above every block.
+   It does the job the eyebrow rule was doing, but reads as a badge rather
+   than a heading, which is what lets a heading below it be centred without
+   the whole stack feeling like a poster. */
+
+/* flex, not inline-flex, with a fitted width. inline-flex made the pill an
+   inline-level box, and `.split` sets the headline that follows it to
+   display:inline — so the first word of the h1 flowed onto the pill's own
+   line. Block-level here forces the break regardless of what follows. */
+.pill {
+  display: flex; width: fit-content; align-items: center; gap: 0.55rem;
+  font-family: var(--font-mono); font-size: var(--label);
+  letter-spacing: var(--ls-label); text-transform: uppercase;
+  color: var(--muted);
+  border: 1px solid var(--border); border-radius: var(--pill);
+  padding: 0.4rem 0.9rem; margin: 0 0 1.1rem; max-width: none;
+  background: color-mix(in srgb, var(--surface) 70%, transparent);
 }
+.pill__dot { width: 0.35rem; height: 0.35rem; border-radius: 50%; background: var(--accent); flex: 0 0 auto; }
+.pill__sep { opacity: 0.4; }
+.pill strong { color: var(--ink); font-weight: 600; }
+.section--inv .pill { color: var(--muted-inv); border-color: var(--border-inv); background: rgba(255, 255, 255, 0.06); }
+.section--inv .pill strong { color: var(--ink-inv); }
+.section--inv .pill__dot { background: var(--accent-inv); }
 
-.hero-tiles { display: grid; gap: 1rem; grid-template-columns: 1fr; }
-@media (min-width: 30rem) { .hero-tiles { grid-template-columns: 1fr 1fr; } }
+/* ---------- Centred section intro ----------
+   Pill, heading and lede centre as a unit. Body copy, cards, tables and the
+   hero stay left-aligned — the earlier typography rule was "no centred body
+   text", and this keeps to it: nothing here is body text. */
 
-.hero-actions { display: flex; flex-wrap: wrap; gap: 0.85rem 1.25rem; align-items: center; margin-top: 1.6rem; }
+.section-head {
+  display: flex; flex-direction: column; align-items: center;
+  text-align: center; margin: 0 auto clamp(2.25rem, 4vw, 3.25rem);
+  max-width: 52rem;
+}
+.section-head h2 { text-align: center; max-width: 20ch; margin-bottom: 0.5rem; }
+.section-head .lede { text-align: center; max-width: 54ch; margin-bottom: 0; }
+.section-head--left { align-items: flex-start; text-align: left; margin-inline: 0; }
+.section-head--left h2, .section-head--left .lede { text-align: left; }
 
 /* ---------- Cards ---------- */
 
@@ -148,6 +189,93 @@ a.card:hover, .card--hover:hover { transform: translateY(-3px); box-shadow: var(
 .grid--2 { grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); }
 .grid--3 { grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); }
 .grid--4 { grid-template-columns: repeat(auto-fit, minmax(12.5rem, 1fr)); }
+
+/* ---------- Hero metric cards ----------
+   The reference puts four result cards beside the headline. Ours carry the
+   figures from our own first category scan, sourced and dated underneath —
+   not client outcomes, because there are none to report. */
+
+.metric-grid { display: grid; gap: 0.9rem; grid-template-columns: 1fr; }
+@media (min-width: 30rem) { .metric-grid { grid-template-columns: 1fr 1fr; } }
+
+.metric {
+  background: var(--surface-card);
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 1.1rem 1.15rem 1.2rem;
+  box-shadow: var(--shadow-card);
+  display: flex; flex-direction: column; gap: 0.15rem;
+}
+.metric__chip {
+  align-self: flex-start;
+  font-family: var(--font-mono); font-size: var(--label); letter-spacing: 0.06em;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 11%, transparent);
+  border-radius: var(--radius-sm); padding: 0.15rem 0.45rem;
+  margin-bottom: 0.55rem;
+}
+.metric__n {
+  display: flex; align-items: baseline; gap: 0.3rem;
+  font-family: var(--font-display); font-weight: 700;
+  font-size: clamp(2rem, 1.2rem + 2.4vw, 2.9rem);
+  line-height: 1; letter-spacing: -0.035em; color: var(--accent);
+}
+.metric__arrow { font-size: 0.5em; transform: translateY(-0.15em); }
+.metric__l { font-size: var(--small); color: var(--muted); margin: 0.5rem 0 0; max-width: none; line-height: 1.45; }
+
+/* ---------- Problem grid ----------
+   Two by two. Each card states the problem and the effect in separate tinted
+   panels so the pair reads as cause and consequence rather than one blob. */
+
+.problem-grid { display: grid; gap: 1.1rem; grid-template-columns: 1fr; }
+@media (min-width: 48rem) { .problem-grid { grid-template-columns: 1fr 1fr; } }
+
+.problem { display: flex; flex-direction: column; gap: 0.75rem; }
+/* Panels share the leftover height so a short card in a row does not leave a
+   block of dead space under its last panel. */
+.problem__panel { flex: 1; }
+.problem h3 { font-size: var(--h3); margin: 0 0 0.35rem; }
+.problem__panel {
+  border-radius: var(--radius-sm);
+  padding: 0.8rem 0.95rem;
+  background: var(--surface-sunk);
+  border-left: 2px solid var(--border);
+}
+.section--sunk .problem__panel { background: var(--surface); }
+.problem__panel--effect { border-left-color: var(--accent); background: var(--grad-tint); }
+.problem__k {
+  display: block; font-family: var(--font-mono); font-size: var(--label);
+  letter-spacing: var(--ls-label); text-transform: uppercase;
+  color: var(--muted); margin-bottom: 0.3rem;
+}
+.problem__panel--effect .problem__k { color: var(--accent); }
+.problem__panel p { margin: 0; font-size: var(--small); max-width: none; }
+
+/* ---------- Full-bleed gradient CTA card ---------- */
+
+.cta-card {
+  position: relative; overflow: hidden;
+  border-radius: var(--radius-lg);
+  background: var(--grad-brand);
+  color: #fff;
+  padding: clamp(2rem, 4.5vw, 3.25rem);
+  display: grid; gap: 1.5rem; align-items: center;
+}
+@media (min-width: 52rem) { .cta-card { grid-template-columns: 1fr auto; gap: 2.5rem; } }
+.cta-card::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(34rem 20rem at 88% -20%, rgba(255, 255, 255, 0.14), transparent 65%);
+}
+.cta-card > * { position: relative; z-index: 1; }
+.cta-card h2 { color: #fff; margin: 0 0 0.5rem; max-width: 18ch; }
+/* Full white, not tinted — the palest gradient stop leaves 4.68:1 of
+   headroom and no more, so there is none to spend on transparency. */
+.cta-card p, .cta-card .lede { color: #fff; margin: 0; max-width: 48ch; }
+.cta-card .btn {
+  background: #fff; color: #2140B8; /* 8.43:1 */
+  box-shadow: 0 8px 24px -8px rgba(0, 0, 0, 0.35); white-space: nowrap;
+}
+.cta-card .btn:hover { background: #fff; }
 
 /* Icon tile in hero cards */
 .tile-icon {
@@ -224,6 +352,24 @@ a.card:hover, .card--hover:hover { transform: translateY(-3px); box-shadow: var(
 .figure__src { font-family: var(--font-mono); font-size: var(--label); color: var(--muted); display: block; margin-top: 0.3rem; }
 .section--inv .figure__src { color: var(--muted-inv); }
 
+/* ---------- Process: four stages across ----------
+   A rule runs behind the row and each card sits on it, so the sequence reads
+   as one line rather than four separate boxes. */
+
+.process__track {
+  position: relative;
+  list-style: none; margin: 0; padding: 0;
+  display: grid; gap: 1.1rem;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 40rem) { .process__track { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 62rem) { .process__track { grid-template-columns: repeat(4, 1fr); } }
+/* No connecting rule behind the row: the cards are translucent, so a line
+   drawn behind them showed straight through the card faces and read as an
+   artefact rather than a connector. The numbered chips carry the sequence. */
+.process__step { position: relative; max-width: none; margin: 0; }
+.process__step h3 { font-size: var(--h3); margin: 0.45rem 0 0.4rem; }
+
 /* Numbered process steps */
 .steps { counter-reset: step; list-style: none; padding: 0; margin: 2rem 0 0; display: grid; gap: 1.1rem; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); }
 .steps > li { counter-increment: step; max-width: none; margin: 0; border-top: 1px solid var(--border); padding-top: 1rem; }
@@ -237,12 +383,44 @@ a.card:hover, .card--hover:hover { transform: translateY(-3px); box-shadow: var(
 .steps h3 { font-size: var(--h3); margin: 0 0 0.4rem; }
 .steps p { font-size: var(--small); margin: 0; max-width: none; }
 
-/* Pricing */
-.offer { display: flex; flex-direction: column; height: 100%; }
-.offer__price { font-family: var(--font-display); font-weight: 700; font-size: var(--h2); letter-spacing: -0.02em; display: block; margin: 0.2rem 0 0.1rem; }
-.offer__unit { font-size: var(--small); color: var(--muted); display: block; margin-bottom: 0.9rem; }
-.offer ul { font-size: var(--small); margin: 0 0 1.2rem; }
+/* ---------- Pricing ----------
+   Two cards, each with a gradient header carrying the name and the price, and
+   a plain body carrying what is included. The header is the only place the
+   brand gradient appears at card scale, so the price is the loudest thing in
+   the section — which is the point of stating it at all. */
+
+.price-grid { display: grid; gap: 1.25rem; grid-template-columns: 1fr; align-items: stretch; }
+@media (min-width: 52rem) { .price-grid { grid-template-columns: 1fr 1fr; } }
+
+.offer {
+  display: flex; flex-direction: column; height: 100%;
+  padding: 0; overflow: hidden;
+}
+.offer__head {
+  background: var(--grad-brand);
+  color: #fff;
+  padding: 1.4rem 1.5rem 1.5rem;
+}
+.offer__head h3 { color: #fff; margin: 0 0 0.6rem; font-size: var(--h3); }
+.offer__price {
+  font-family: var(--font-display); font-weight: 700;
+  font-size: clamp(2rem, 1.3rem + 2.2vw, 2.75rem); letter-spacing: -0.03em;
+  line-height: 1; display: block; color: #fff;
+}
+.offer__unit { font-size: var(--small); color: #fff; display: block; margin-top: 0.5rem; opacity: 0.95; }
+.offer__body { padding: 1.35rem 1.5rem 1.5rem; display: flex; flex-direction: column; flex: 1; }
+.offer__body > p { font-size: var(--small); }
+.offer ul { font-size: var(--small); margin: 0 0 1.4rem; padding-left: 0; list-style: none; }
+.offer ul li { position: relative; padding-left: 1.5rem; margin-bottom: 0.5rem; max-width: none; }
+.offer ul li::before {
+  content: '';
+  position: absolute; left: 0; top: 0.5em;
+  width: 0.7rem; height: 0.7rem; border-radius: 50%;
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
+  box-shadow: inset 0 0 0 2px var(--accent);
+}
 .offer .btn { margin-top: auto; align-self: flex-start; }
+.section--inv .offer { background: rgba(255, 255, 255, 0.06); }
 .sample-flag {
   font-family: var(--font-mono); font-size: var(--label);
   color: var(--violet); border: 1px dashed var(--violet);
@@ -324,19 +502,44 @@ figcaption { font-size: var(--label); font-family: var(--font-mono); color: var(
   padding: 0.95rem 0;
 }
 .site-header[data-scrolled='true'] { padding: 0.55rem 0; border-bottom-color: var(--border); }
-.site-header .wrap { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+
+/* Three tracks so the nav is optically centred in the bar regardless of how
+   wide the wordmark and the right-hand group happen to be. Flexbox with
+   space-between put it wherever the two ends left room, which is the header
+   misalignment that shows up as the nav drifting right. */
+.header-bar {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 1rem;
+  min-height: 2.4rem;
+}
 .wordmark {
   font-family: var(--font-display); font-weight: 700; letter-spacing: 0.13em;
   font-size: 0.9375rem; text-decoration: none; color: var(--ink);
   display: inline-flex; align-items: center; min-height: 1.75rem;
+  justify-self: start;
 }
-.header-right { display: flex; align-items: center; gap: 0.5rem 1.35rem; }
-.site-nav { display: flex; gap: 1.35rem; font-size: var(--small); }
-.site-nav a { color: var(--ink); text-decoration: none; }
-.site-nav a:hover, .site-nav a[aria-current='page'] { text-decoration: underline; text-underline-offset: 0.3em; }
-.header-cta { display: none; }
+.header-right { display: flex; align-items: center; gap: 0.6rem; justify-self: end; }
+.site-nav { display: flex; gap: 1.5rem; font-size: var(--small); justify-self: center; }
+.site-nav a { color: var(--ink); text-decoration: none; white-space: nowrap; }
+.site-nav a:hover, .site-nav a[aria-current='page'] { text-decoration: none; }
+.header-cta { display: none; padding: 0.5rem 1.1rem; border-radius: var(--pill); font-size: var(--small); }
 @media (min-width: 48rem) { .header-cta { display: inline-flex; } }
-@media (max-width: 34rem) { .site-nav { gap: 0.9rem; font-size: var(--label); } }
+
+/* Below the three-track breakpoint the nav wraps under the bar rather than
+   crushing between the ends. Placement is explicit: with auto-placement the
+   full-width nav claimed row two and pushed the toggle onto a third row, so
+   the header ate 120px of a phone screen before any content. */
+@media (max-width: 47.99rem) {
+  .header-bar { grid-template-columns: 1fr auto; row-gap: 0.55rem; }
+  .wordmark    { grid-row: 1; grid-column: 1; }
+  .header-right { grid-row: 1; grid-column: 2; }
+  .site-nav    { grid-row: 2; grid-column: 1 / -1; justify-self: start; gap: 1.1rem; font-size: var(--label); }
+}
+/* The CTA is the point of the header, so it stays visible on a phone too —
+   only the very narrowest widths drop it. */
+@media (min-width: 23rem) { .header-cta { display: inline-flex; } }
 
 .theme-toggle {
   display: inline-grid; place-items: center;
@@ -389,6 +592,18 @@ input:focus-visible { border-color: var(--focus); }
 .prose > :first-child { margin-top: 0; }
 .prose h2 { margin-top: 2.5rem; }
 
+/* ---------- Small utilities ----------
+   Named rather than written inline. Every one of these replaced a
+   `style="margin-top:…"` patch that had drifted out of step between pages. */
+
+.mt-0    { margin-top: 0; }
+.mt-1    { margin-top: 1.25rem; }
+.mt-2    { margin-top: 2rem; }
+.mb-0    { margin-bottom: 0; }
+.note-sm { font-size: var(--small); color: var(--muted); }
+.stack > * + * { margin-top: 1rem; }
+.center-row { display: flex; justify-content: center; }
+
 /* Motion lives in motion.css. */
 
 /* ---------- Print ---------- */
@@ -407,10 +622,15 @@ input:focus-visible { border-color: var(--focus); }
   a { text-decoration: none; color: #000; }
 }
 
-/* ---------- Logo strip ---------- */
+/* ---------- Logo strip ----------
+   On the inverted band, not the light surface. Two of the five supplied marks
+   (Lurio, Viveonix) are white-knockout artwork drawn for dark backgrounds —
+   on #FCFBF8 they render as an outline and a blank space. A dark band is the
+   only surface all five are legible on without editing anyone's logo. */
 
-.logos { border-block: 1px solid var(--border); }
-.logos .eyebrow { margin-bottom: 1.4rem; }
+.logos { padding-block: clamp(2rem, 3.5vw, 3rem); }
+.logos .pill { margin-bottom: 1.6rem; }
+.logos .wrap { display: flex; justify-content: center; }
 
 .marquee {
   position: relative;
@@ -429,25 +649,36 @@ input:focus-visible { border-color: var(--focus); }
 }
 .marquee__item { margin: 0; max-width: none; flex: 0 0 auto; }
 
-/* Normalised on optical height, not a fixed box. */
+/* Normalised on optical height, not a fixed box.
+   Two tones, set per brand in brands.ts:
+     knockout — colour artwork flattened to white, so it sits on the band at
+                the same weight as the marks that were drawn white already;
+     asis     — artwork that is already light, or a dark icon tile that
+                inverting would turn into a solid white block. */
 .marquee__item img {
   display: block;
   height: calc(2.25rem * var(--optical, 1));
   width: auto;
-  max-width: 12rem;
+  max-width: 11rem;
   object-fit: contain;
-  filter: grayscale(1) contrast(0.85) opacity(0.55);
-  transition: filter 260ms ease, transform 260ms ease;
+  opacity: 0.72;
+  transition: opacity var(--dur-1) var(--ease), transform var(--dur-1) var(--ease);
 }
+.marquee__item[data-tone='knockout'] img { filter: brightness(0) invert(1); }
+.marquee__item[data-tone='asis'] img { filter: grayscale(1) brightness(1.15); }
+/* Flips the opaque tile light and the mark inside it dark. Knocking this one
+   out would produce a solid white square, which is worse than the dark blob
+   it was drawn as. */
+.marquee__item[data-tone='invert'] img { filter: grayscale(1) invert(1); border-radius: var(--radius-sm); }
 .wordmark-ph {
   display: inline-flex;
   align-items: center;
   height: calc(2.25rem * var(--optical, 1));
   padding: 0 0.9rem;
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-inv);
   border-radius: var(--radius-sm);
-  filter: grayscale(1) opacity(0.55);
-  transition: filter 260ms ease, transform 260ms ease, border-color 260ms ease;
+  opacity: 0.72;
+  transition: opacity var(--dur-1) var(--ease), transform var(--dur-1) var(--ease), border-color var(--dur-1) var(--ease);
 }
 .wordmark-ph__text {
   font-family: var(--font-display);
@@ -455,11 +686,11 @@ input:focus-visible { border-color: var(--focus); }
   font-size: calc(0.95rem * var(--optical, 1));
   letter-spacing: -0.02em;
   white-space: nowrap;
-  color: var(--muted);
+  color: var(--muted-inv);
 }
 
-/* Individual logo returns to colour on hover. */
+/* Individual logo lifts to full strength on hover. */
 .marquee__item:hover img,
-.marquee__item:hover .wordmark-ph { filter: none; transform: translateY(-2px); }
-.marquee__item:hover .wordmark-ph { border-color: var(--accent); }
-.marquee__item:hover .wordmark-ph__text { color: var(--accent); }
+.marquee__item:hover .wordmark-ph { opacity: 1; transform: translateY(-2px); }
+.marquee__item:hover .wordmark-ph { border-color: var(--accent-inv); }
+.marquee__item:hover .wordmark-ph__text { color: var(--accent-inv); }

@@ -57,9 +57,26 @@
   --status-partial: #856013;
   --status-absent:  #9A3B32;
 
+  /* Washes and gradients are built from the colours above — no new hues.
+     Gradients are decorative surfaces only; text sitting on one gets its
+     contrast checked against the darkest stop, not the average. */
+  /* Deliberately literal, not token references. --cobalt and --violet lift in
+     dark theme so they stay legible AS TEXT on a dark surface; used as a
+     GRADIENT FILL that lift would make it too pale to carry white type. These
+     three stops are the light-theme brand values and hold in both themes.
+     White on the lightest stop (--violet) measures 4.68:1 — AA at body size
+     — so no point on the ramp drops below it. */
+  --grad-brand: linear-gradient(112deg, #2140B8 0%, #2F5BFF 46%, #7C5AE8 100%);
+  --grad-tint:  linear-gradient(135deg,
+                  color-mix(in srgb, var(--cobalt) 9%, transparent),
+                  color-mix(in srgb, var(--violet) 9%, transparent));
+
   /* Geometry */
   --radius:    0.75rem;
+  --radius-lg: 1.5rem;
   --radius-sm: 0.375rem;
+  --pill:      999px;
+  --header-h:  4.5rem; /* every sticky offset derives from this, not a guess */
   --shadow-card: 0 1px 2px rgba(20, 24, 31, 0.04), 0 8px 24px rgba(20, 24, 31, 0.07);
   --shadow-lift: 0 2px 6px rgba(20, 24, 31, 0.07), 0 18px 44px rgba(20, 24, 31, 0.12);
 
@@ -70,7 +87,10 @@
   --font-text:    'Inter Variable', 'Inter', ui-sans-serif, system-ui, sans-serif;
   --font-mono:    'IBM Plex Mono', ui-monospace, monospace;
 
-  --display:   clamp(3.5rem, 8vw, 7.5rem);
+  /* Display is sized to the column it actually sits in — the hero's left
+     column is ~41rem at full width, so a 7.5rem cap wrapped a nine-word
+     headline onto five ragged lines. Capped where 18ch still fits in two. */
+  --display:   clamp(2.5rem, 4.4vw, 4rem);
   --h2:        clamp(2.25rem, 4.5vw, 4rem);
   --h3:        clamp(1.375rem, 1.9vw, 1.75rem);
   --lede:      clamp(1.125rem, 1.6vw, 1.5rem);
@@ -91,6 +111,20 @@
   --measure-display: 18ch; /* forced wrap on display headlines */
   --wrap: 76rem;
   --wrap-narrow: 48rem;
+
+  /* ---- Motion ----
+     One curve, one duration scale, one stagger step for the entire site.
+     Before this there were four easing curves and eight durations in play,
+     which is what made the page feel busy rather than considered: each
+     element arrived on a rhythm of its own. Anything that animates picks
+     from here. */
+  --ease:     cubic-bezier(0.22, 0.61, 0.36, 1); /* general */
+  --ease-out: cubic-bezier(0.16, 1, 0.30, 1);    /* entrances — decisive, settles fast */
+  --dur-1:    180ms; /* hover, state change */
+  --dur-2:    420ms; /* entrance */
+  --dur-3:    620ms; /* headline reveal */
+  --stagger:  55ms;  /* one step between siblings */
+  --rise:     10px;  /* how far anything travels on entry */
 }
 
 /* Dark — same hue family, lifted so accents stay legible. All re-measured. */

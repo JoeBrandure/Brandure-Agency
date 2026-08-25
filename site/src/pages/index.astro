@@ -4,7 +4,7 @@ import ReportForm from '../components/ReportForm.astro';
 import ComparisonTable from '../components/ComparisonTable.astro';
 import LogoStrip from '../components/LogoStrip.astro';
 import { SITE } from '../consts';
-import { FAQS, PROOF, OFFERS, ENGINES } from '../data/content';
+import { FAQS, PROOF, PROBLEMS, OFFERS, ENGINES } from '../data/content';
 import { getCollection } from 'astro:content';
 
 const pieces = (await getCollection('research'))
@@ -66,13 +66,6 @@ const STAGES = [
   { t: 'Execute', d: 'Entity and structured-data work, answer-shaped content, and placement into the sources models actually cite.' },
   { t: 'Re-measure', d: 'Same prompts, plus a control set left untouched — so the change can be attributed rather than asserted.' },
 ];
-
-const heroTiles = [
-  { n: '01', t: 'Measured', d: 'Four engines, clean sessions, recorded one by one.' },
-  { n: '02', t: 'Diagnosed', d: 'Absence has causes. They are not the same cause.' },
-  { n: '03', t: 'Executed', d: 'Entity, content and earned placement.' },
-  { n: '04', t: 'Proved', d: 'Re-measured against a control set.' },
-];
 ---
 
 <BaseLayout
@@ -80,16 +73,16 @@ const heroTiles = [
   description="Brandure measures where your brand appears in AI-generated answers across ChatGPT, Perplexity, Gemini and Google — then does the work that changes it. Request a free visibility report."
   schemas={[serviceSchema, faqSchema]}
 >
-  <!-- 2. Hero — full bleed, asymmetric, gradient wash -->
+  <!-- 1. Hero — statement left, real measured figures right -->
   <section class="hero">
     <div class="mesh" aria-hidden="true">
-      <div class="mesh__blob mesh__blob--1"></div>
-      <div class="mesh__blob mesh__blob--2"></div>
-      <div class="mesh__blob mesh__blob--3"></div>
+      <div class="mesh__layer mesh__layer--1"><div class="mesh__blob mesh__blob--1"></div></div>
+      <div class="mesh__layer mesh__layer--2"><div class="mesh__blob mesh__blob--2"></div></div>
+      <div class="mesh__layer mesh__layer--3"><div class="mesh__blob mesh__blob--3"></div></div>
     </div>
     <div class="wrap hero-grid">
       <div data-load>
-        <p class="eyebrow">Answer engine optimisation</p>
+        <p class="pill"><span class="pill__dot"></span>Answer engine optimisation</p>
         <h1 class="statement" data-split>Your buyers asked an AI. You were not the answer.</h1>
         <p class="lede">
           We measure where you stand inside AI-generated answers, against the
@@ -97,56 +90,75 @@ const heroTiles = [
         </p>
         <div class="hero-actions">
           <a class="btn" href="#report">Get a free visibility report</a>
-          <a class="textlink" href="/service">See how the work runs &rarr;</a>
+          <a class="btn btn--violet" href="/service">See how the work runs</a>
         </div>
       </div>
-      <div class="hero-tiles" data-stagger>
-        {heroTiles.map((t) => (
-          <div class="card card--tilt">
-            <span class="mono" style="color:var(--accent)">{t.n}</span>
-            <p class="tile-title">{t.t}</p>
-            <p style="margin:0;font-size:var(--small);color:var(--muted)">{t.d}</p>
-          </div>
-        ))}
+
+      <div>
+        <div class="metric-grid" data-stagger>
+          {PROOF.map((p) => (
+            <div class="metric">
+              <span class="metric__chip">{p.chip}</span>
+              <span class="metric__n" data-count={p.n}>{p.n}</span>
+              <p class="metric__l">{p.label}</p>
+            </div>
+          ))}
+        </div>
+        <p class="figure__src mt-1">
+          Our own first category scan and its method — not client outcomes.
+          Dubai, August 2026.
+        </p>
       </div>
     </div>
   </section>
 
+  <!-- 2. Logo strip — inverted band, pill label -->
   <LogoStrip />
 
-  <!-- 3. Proof band — tinted, dense, wide -->
-  <section class="section section--tight section--sunk">
-    <div class="wrap">
-      <div class="figure-row" data-stagger>
-        {PROOF.map((p) => (
-          <div class="figure">
-            <span class="figure__n" data-count={p.n}>{p.n}</span>
-            <span class="figure__l">{p.label}</span>
+  <!-- 3. The problem — centred intro, 2x2 cause-and-effect grid -->
+  <section class="section">
+    <div class="wrap" data-reveal>
+      <div class="section-head">
+        <p class="pill"><span class="pill__dot"></span>The problem</p>
+        <h2>Absence is the failure state, and it is invisible</h2>
+        <p class="lede">
+          Four things are going wrong at once, and none of them shows up in a
+          dashboard you already look at.
+        </p>
+      </div>
+
+      <div class="problem-grid" data-stagger>
+        {PROBLEMS.map((p) => (
+          <div class="card problem">
+            <h3>{p.t}</h3>
+            <div class="problem__panel">
+              <span class="problem__k">The problem</span>
+              <p>{p.p}</p>
+            </div>
+            <div class="problem__panel problem__panel--effect">
+              <span class="problem__k">The effect</span>
+              <p>{p.e}</p>
+            </div>
           </div>
         ))}
       </div>
-      <p class="figure__src" style="margin-top:1.5rem">
-        Figures describe our own first category scan and its method, not client outcomes. Dubai, August 2026.
-      </p>
     </div>
   </section>
 
-  <!-- 4. The problem — narrow, airy, plain surface -->
-  <section class="section">
-    <div class="wrap-narrow" data-reveal>
-      <p class="eyebrow">The problem</p>
-      <h2>Absence is the failure state, and it is invisible</h2>
-      <p>
-        A search engine returns ten links and lets the buyer choose. An answer
-        engine returns a conclusion and has already chosen. By the time your
-        category comes up, the shortlist is made.
-      </p>
-      <p>
-        Nobody tells you when you are left out. There is no rank to slip, no
-        impression count to fall. The buyer asks, gets three names, and none of
-        them is yours — and the first you hear of it is a quarter of soft
-        pipeline nobody can explain.
-      </p>
+  <!-- 4. Gradient CTA card — the turn from problem to service -->
+  <section class="section section--tight">
+    <div class="wrap" data-reveal>
+      <div class="cta-card">
+        <div>
+          <h2>We fix all four, in that order</h2>
+          <p class="lede">
+            Measure the position, diagnose the cause, do the work, then measure
+            again against a control set. Nothing is claimed that was not
+            measured twice.
+          </p>
+        </div>
+        <a class="btn" href="#report">Get a free visibility report</a>
+      </div>
     </div>
   </section>
 
@@ -155,13 +167,15 @@ const heroTiles = [
     <div class="spotlight" aria-hidden="true"></div>
     <div class="pin__stage">
       <div class="wrap">
-        <p class="eyebrow">The four-surface point</p>
-        <h2 class="statement statement--sub" data-split data-scrub>One question. Four different answers.</h2>
-        <p class="lede">
-          The engines disagree with each other far more than most people
-          expect. Same question, same day, different brands named and different
-          sources cited.
-        </p>
+        <div class="section-head">
+          <p class="pill"><span class="pill__dot"></span>The four-surface point</p>
+          <h2 class="statement statement--sub" data-split data-scrub>One question. Four different answers.</h2>
+          <p class="lede">
+            The engines disagree with each other far more than most people
+            expect. Same question, same day, different brands named and
+            different sources cited.
+          </p>
+        </div>
         <ComparisonTable
           caption="How a visibility report is laid out"
           columns={[...ENGINES]}
@@ -173,58 +187,70 @@ const heroTiles = [
     <div class="pin__runway" aria-hidden="true"></div>
   </section>
 
-  <!-- 6. How it works — horizontal rail driven by vertical scroll -->
-  <section class="rail" data-scrub-zone>
-    <div class="rail__stage">
-      <div class="wrap">
-        <p class="eyebrow">How it works</p>
+  <!-- 6. How it works — four stages across, connected by a rule that draws in.
+       This was a horizontal rail pinned across 220vh of runway. Measured, it
+       moved the track 136px in total: a screen and a half of scrolling for
+       almost no payoff, and a stage that held the reader in place while it
+       delivered it. Four cards in a row say the same thing in one glance. -->
+  <section class="section process">
+    <div class="wrap" data-reveal>
+      <div class="section-head">
+        <p class="pill"><span class="pill__dot"></span>How it works</p>
         <h2>Four stages, and the last one is the point</h2>
-        <svg class="divider-draw draw" viewBox="0 0 1000 1" preserveAspectRatio="none" aria-hidden="true">
-          <line x1="0" y1="0.5" x2="1000" y2="0.5" />
-        </svg>
       </div>
-      <ol class="rail__track" style="margin-top:2rem">
+      <ol class="process__track" data-stagger>
         {STAGES.map((st, i) => (
-          <li class="rail__card card card--tilt">
-            <span class="mono" style="color:var(--accent)">{String(i + 1).padStart(2, '0')}</span>
-            <h3 style="margin:0.4rem 0 0.4rem">{st.t}</h3>
-            <p style="margin:0;font-size:var(--small);color:var(--muted)">{st.d}</p>
+          <li class="card process__step">
+            <span class="metric__chip">{String(i + 1).padStart(2, '0')}</span>
+            <h3 class="mt-0">{st.t}</h3>
+            <p class="note-sm mb-0">{st.d}</p>
           </li>
         ))}
       </ol>
     </div>
-    <div class="rail__runway" aria-hidden="true"></div>
   </section>
 
-  <!-- 7. Offers — tinted band, cards, prices -->
-  <section class="section section--sunk">
+  <!-- 7. Pricing — two cards, gradient headers, prices stated -->
+  <section class="section section--sunk" id="pricing">
     <div class="wrap" data-reveal>
-      <p class="eyebrow">Engagements</p>
-      <h2>Two ways in</h2>
-      <p class="lede">Capacity is deliberately capped. The audit is the front door and stands on its own.</p>
-      <div class="grid grid--2" style="margin-top:2rem" data-stagger>
+      <div class="section-head">
+        <p class="pill"><span class="pill__dot"></span>Engagements</p>
+        <h2>Two ways in</h2>
+        <p class="lede">Capacity is deliberately capped. The audit is the front door and stands on its own.</p>
+      </div>
+
+      <div class="price-grid" data-stagger>
         {OFFERS.map((o) => (
           <div class="card offer">
-            <h3 style="margin-bottom:0.2rem">{o.name}</h3>
-            <span class="offer__price">{o.price}</span>
-            <span class="offer__unit">{o.unit}</span>
-            <p style="font-size:var(--small)">{o.summary}</p>
-            <ul>{o.includes.map((i) => <li>{i}</li>)}</ul>
-            <a class:list={['btn', !o.primary && 'btn--ghost']} href={o.primary ? '#report' : '/service'}>{o.cta}</a>
+            <div class="offer__head">
+              <h3>{o.name}</h3>
+              <span class="offer__price">{o.price}</span>
+              <span class="offer__unit">{o.unit}</span>
+            </div>
+            <div class="offer__body">
+              <p>{o.summary}</p>
+              <ul>{o.includes.map((i) => <li>{i}</li>)}</ul>
+              <a class:list={['btn', !o.primary && 'btn--ghost']} href={o.primary ? '#report' : '/service'}>{o.cta}</a>
+            </div>
           </div>
         ))}
       </div>
-      <p style="margin-top:1.4rem"><span class="sample-flag">Sample pricing</span> &nbsp;Figures are placeholders for layout. Real pricing is set before launch.</p>
+
+      <p class="center-row mt-2">
+        <span class="note-sm"><span class="sample-flag">Sample pricing</span> &nbsp;Figures are placeholders for layout. Real pricing is set before launch.</span>
+      </p>
     </div>
   </section>
 
-  <!-- 8. Research teaser — plain surface, editorial cards -->
+  <!-- 8. Research teaser -->
   <section class="section">
     <div class="wrap" data-reveal>
-      <p class="eyebrow">Research</p>
-      <h2>We publish what we measure</h2>
-      <p class="lede">Method attached, so any finding can be checked or repeated rather than taken on trust.</p>
-      <div class="grid grid--3" style="margin-top:2rem" data-stagger>
+      <div class="section-head">
+        <p class="pill"><span class="pill__dot"></span>Research</p>
+        <h2>We publish what we measure</h2>
+        <p class="lede">Method attached, so any finding can be checked or repeated rather than taken on trust.</p>
+      </div>
+      <div class="grid grid--3" data-stagger>
         {pieces.map((p) => (
           <a class="card card--link card--tilt" href={`/research/${p.id}`}>
             <p class="meta">
@@ -232,21 +258,23 @@ const heroTiles = [
               <span class="tag">{p.data.vertical}</span>
               {p.data.placeholder && <span class="tag tag--draft">Placeholder</span>}
             </p>
-            <h3 style="font-size:var(--h3)">{p.data.title}</h3>
-            <p style="font-size:var(--small);color:var(--muted)">{p.data.description}</p>
+            <h3>{p.data.title}</h3>
+            <p class="note-sm mb-0">{p.data.description}</p>
           </a>
         ))}
       </div>
-      <p style="margin-top:1.6rem"><a class="textlink" href="/research">All research &rarr;</a></p>
+      <p class="center-row mt-2"><a class="textlink" href="/research">All research &rarr;</a></p>
     </div>
   </section>
 
   <!-- 9. Objections — narrow, dense accordion -->
   <section class="section section--sunk">
     <div class="wrap-narrow" data-reveal>
-      <p class="eyebrow">Objections</p>
-      <h2>The questions we get asked</h2>
-      <div class="qa" style="margin-top:1.75rem" data-stagger>
+      <div class="section-head">
+        <p class="pill"><span class="pill__dot"></span>Objections</p>
+        <h2>The questions we get asked</h2>
+      </div>
+      <div class="qa" data-stagger>
         {FAQS.map((f, i) => (
           <details open={i === 0}>
             <summary>{f.q}</summary>
@@ -262,8 +290,8 @@ const heroTiles = [
     <div class="spotlight" aria-hidden="true"></div>
     <div class="wrap">
       <div class="hero-grid">
-        <div class="reveal">
-          <p class="eyebrow">Free report</p>
+        <div data-reveal>
+          <p class="pill"><span class="pill__dot"></span>Free report</p>
           <h2 class="statement statement--sub" data-split>Find out what the engines say about you.</h2>
           <p class="lede">
             We run your category across all four surfaces and send you what comes

@@ -8,14 +8,22 @@
  * and the stylesheet neutralises the rest.
  *
  * Transform and opacity only — no property here triggers layout.
+ *
+ * One scroll listener drives everything: the progress bar, the header state,
+ * the scrub values and the mesh parallax. There were three before — two here
+ * and one in Header.astro — all doing the same rAF dance against the same
+ * event.
  */
 ---
 <script is:inline>
   (function () {
     var root = document.documentElement;
     var reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+    var header = document.getElementById('site-header');
 
-    /* Reduced motion: settle everything to its final state and stop. */
+    /* Reduced motion: settle everything to its final state and stop. The
+       header still needs its scrolled state — that is a border and a blur,
+       not motion. */
     function settle() {
       document.querySelectorAll('[data-reveal],[data-stagger],[data-load],.table-figure,.split')
         .forEach(function (el) { el.classList.add('is-in'); });
@@ -26,7 +34,17 @@
         el.style.setProperty('--p', '1');
       });
     }
-    if (reduced.matches) { settle(); return; }
+
+    function headerState() {
+      if (header) header.dataset.scrolled = root.scrollTop > 12 ? 'true' : 'false';
+    }
+
+    if (reduced.matches) {
+      settle();
+      headerState();
+      addEventListener('scroll', headerState, { passive: true });
+      return;
+    }
 
     /* ---- Headline mask reveal, split per word ----
        Spaces are preserved as real text nodes so screen readers still read a
@@ -58,7 +76,7 @@
     function countUp(el) {
       var target = parseFloat(el.getAttribute('data-count'));
       if (isNaN(target)) { el.textContent = el.getAttribute('data-count'); return; }
-      var dur = 1100, t0 = 0;
+      var dur = 850, t0 = 0;
       function step(ts) {
         if (!t0) t0 = ts;
         var p = Math.min((ts - t0) / dur, 1);
@@ -73,7 +91,7 @@
     var targets = document.querySelectorAll(
       '[data-reveal],[data-stagger],[data-split],.table-figure:not(.pin .table-figure)'
     );
-    if (!('IntersectionObserver' in window)) { settle(); return; }
+    if (!('IntersectionObserver' in window)) { settle(); headerState(); return; }
 
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
@@ -88,59 +106,42 @@
 
     /* Hero enters on load rather than on scroll — it is already in view. */
     requestAnimationFrame(function () {
-      document.querySelectorAll('.hero [data-load], .hero [data-split]').forEach(function (el) {
-        el.classList.add('is-in');
-      });
+      document.querySelectorAll('.hero [data-load], .hero [data-split], .hero [data-stagger]')
+        .forEach(function (el) {
+          el.classList.add('is-in');
+          el.querySelectorAll('[data-count]').forEach(countUp);
+        });
     });
 
-    /* ---- Scroll progress ---- */
-    var bar = document.querySelector('.scroll-progress');
-    var header = document.getElementById('site-header');
-    var ticking = false;
-    function onScroll() {
-      var h = document.documentElement;
-      var max = h.scrollHeight - h.clientHeight;
-      if (bar) bar.style.transform = 'scaleX(' + (max > 0 ? h.scrollTop / max : 0) + ')';
-      if (header) header.dataset.scrolled = h.scrollTop > 12 ? 'true' : 'false';
-      ticking = false;
-    }
-    addEventListener('scroll', function () {
-      if (!ticking) { ticking = true; requestAnimationFrame(onScroll); }
-    }, { passive: true });
-    onScroll();
-
-    /* ---- Pointer effects: magnetic buttons, card tilt ----
+    /* ---- Pointer effects: magnetic buttons ----
        Skipped entirely on coarse pointers, where there is no cursor to pull
-       toward and the handlers would only cost battery. */
-    if (window.matchMedia('(pointer: fine)').matches) {
+       toward and the handlers would only cost battery. The 3D card tilt that
+       used to live here is gone: it sheared left-aligned copy off its
+       baseline under the cursor, which fought every alignment decision
+       around it. Cards now lift, in CSS, with no handler at all. */
+    var fine = window.matchMedia('(pointer: fine)').matches;
+    if (fine) {
       document.querySelectorAll('.btn').forEach(function (b) {
         b.addEventListener('pointermove', function (ev) {
           var r = b.getBoundingClientRect();
           var dx = (ev.clientX - (r.left + r.width / 2)) / (r.width / 2);
           var dy = (ev.clientY - (r.top + r.height / 2)) / (r.height / 2);
-          b.style.setProperty('--mx', (dx * 5).toFixed(2) + 'px');
-          b.style.setProperty('--my', (dy * 4).toFixed(2) + 'px');
-        });
+          b.style.setProperty('--mx', (dx * 3).toFixed(2) + 'px');
+          b.style.setProperty('--my', (dy * 2).toFixed(2) + 'px');
+        }, { passive: true });
         b.addEventListener('pointerleave', function () {
           b.style.setProperty('--mx', '0px');
           b.style.setProperty('--my', '0px');
         });
       });
 
-      document.querySelectorAll('.card--tilt').forEach(function (c) {
-        c.addEventListener('pointermove', function (ev) {
-          var r = c.getBoundingClientRect();
-          var dx = (ev.clientX - (r.left + r.width / 2)) / (r.width / 2);
-          var dy = (ev.clientY - (r.top + r.height / 2)) / (r.height / 2);
-          c.style.setProperty('--ry', (dx * 3.2).toFixed(2) + 'deg');
-          c.style.setProperty('--rx', (-dy * 3.2).toFixed(2) + 'deg');
-          c.style.setProperty('--lift', '-4px');
-        });
-        c.addEventListener('pointerleave', function () {
-          c.style.setProperty('--rx', '0deg');
-          c.style.setProperty('--ry', '0deg');
-          c.style.setProperty('--lift', '0px');
-        });
+      /* Cursor-following light on dark sections. */
+      document.querySelectorAll('.section--inv').forEach(function (sec) {
+        sec.addEventListener('pointermove', function (ev) {
+          var r = sec.getBoundingClientRect();
+          sec.style.setProperty('--cx', (((ev.clientX - r.left) / r.width) * 100).toFixed(1) + '%');
+          sec.style.setProperty('--cy', (((ev.clientY - r.top) / r.height) * 100).toFixed(1) + '%');
+        }, { passive: true });
       });
     }
 
@@ -149,9 +150,9 @@
        viewport. One rAF-throttled pass writes every value; nothing here reads
        layout inside the loop except cached rects, refreshed on resize. */
     var zones = [].slice.call(document.querySelectorAll('[data-scrub-zone]'));
-    var rails = [].slice.call(document.querySelectorAll('.rail'));
-    var meshLayers = [].slice.call(document.querySelectorAll('.mesh'));
+    var meshes = [].slice.call(document.querySelectorAll('.mesh'));
     var draws = [].slice.call(document.querySelectorAll('.draw'));
+    var bar = document.querySelector('.scroll-progress');
 
     /* Line-draw needs each path's own length. */
     draws.forEach(function (d) {
@@ -173,28 +174,33 @@
         var r = z.getBoundingClientRect();
         return { el: z, top: r.top + window.scrollY, height: r.height };
       });
-      rails.forEach(function (rail) {
-        var track = rail.querySelector('.rail__track');
-        var stage = rail.querySelector('.rail__stage');
-        if (!track || !stage) return;
-        var shift = Math.max(0, track.scrollWidth - stage.clientWidth);
-        rail.style.setProperty('--rail-shift', shift + 'px');
-      });
     }
 
-    function scrub() {
+    /* The single scroll pass. Everything scroll-driven happens here. */
+    function frame() {
+      var y = window.scrollY;
+      var max = root.scrollHeight - root.clientHeight;
+      if (bar) bar.style.transform = 'scaleX(' + (max > 0 ? y / max : 0) + ')';
+      if (header) header.dataset.scrolled = y > 12 ? 'true' : 'false';
+
       var vh = window.innerHeight;
       for (var i = 0; i < cache.length; i++) {
         var c = cache[i];
         var travel = Math.max(1, c.height - vh);
-        var p = (window.scrollY - c.top) / travel;
+        var p = (y - c.top) / travel;
         c.el.style.setProperty('--p', String(Math.max(0, Math.min(1, p))));
       }
-      meshLayers.forEach(function (m) {
+      meshes.forEach(function (m) {
         var r = m.getBoundingClientRect();
         m.style.setProperty('--sy', (-r.top * 0.5).toFixed(1) + 'px');
       });
+      ticking = false;
     }
+
+    var ticking = false;
+    addEventListener('scroll', function () {
+      if (!ticking) { ticking = true; requestAnimationFrame(frame); }
+    }, { passive: true });
 
     /* Several things can invalidate geometry at once — load, webfonts, the
        ResizeObserver. Coalesce them into a single pass per frame so the
@@ -203,34 +209,16 @@
     function remeasure() {
       if (pendingMeasure) return;
       pendingMeasure = true;
-      requestAnimationFrame(function () { pendingMeasure = false; measure(); scrub(); });
+      requestAnimationFrame(function () { pendingMeasure = false; measure(); frame(); });
     }
     measure();
-    scrub();
+    frame();
     addEventListener('resize', remeasure, { passive: true });
     addEventListener('load', remeasure);
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(remeasure);
     if ('ResizeObserver' in window) {
       var ro = new ResizeObserver(remeasure);
       ro.observe(document.body);
-    }
-
-    /* Fold scrubbing into the existing scroll pass rather than adding another. */
-    var baseScroll = onScroll;
-    onScroll = function () { baseScroll(); scrub(); };
-    addEventListener('scroll', function () {
-      if (!ticking) { ticking = true; requestAnimationFrame(onScroll); }
-    }, { passive: true });
-
-    /* ---- Cursor-following light on dark sections ---- */
-    if (window.matchMedia('(pointer: fine)').matches) {
-      document.querySelectorAll('.section--inv').forEach(function (sec) {
-        sec.addEventListener('pointermove', function (ev) {
-          var r = sec.getBoundingClientRect();
-          sec.style.setProperty('--cx', (((ev.clientX - r.left) / r.width) * 100).toFixed(1) + '%');
-          sec.style.setProperty('--cy', (((ev.clientY - r.top) / r.height) * 100).toFixed(1) + '%');
-        }, { passive: true });
-      });
     }
 
     /* If the visitor turns reduced-motion on mid-session, settle immediately. */

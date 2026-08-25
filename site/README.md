@@ -141,25 +141,28 @@ No mail on this one, so it is lower risk. Same domain-alias method.
 
 ## What was measured
 
-Recorded from actual runs, not estimates. Lighthouse 12.8.2, desktop preset,
-against the built site. **Run locally — the site is still not deployed, so
-these are not preview-URL numbers.**
+Recorded from actual runs, not estimates. Lighthouse 12, desktop preset,
+against the built site served locally. The live site is at
+`brandure.netlify.app`, which this build environment cannot reach, so these
+are local numbers.
 
-| Page | Theme | Performance | Accessibility | Best practices | SEO |
-|---|---|---|---|---|---|
-| Home | light | 100 | 100 | 96 | 100 |
-| Home | dark | 100 | 100 | 96 | 100 |
-| Service | light | 100 | 100 | 96 | 100 |
-| Service | dark | 100 | 100 | 96 | 100 |
-| Research piece (placeholder) | light | 100 | 100 | 96 | 66 |
+| Page | Performance | Accessibility | Best practices | SEO |
+|---|---|---|---|---|
+| Home | 100 | 100 | 96 | 100 |
 
-First contentful paint 0.4s, largest contentful paint 0.5s, total blocking
-time 30ms, cumulative layout shift 0.001.
+First contentful paint 0.5s, largest contentful paint 0.6s, **total blocking
+time 0ms**, cumulative layout shift 0.014.
 
-Motion cost nothing measurable. Performance held at 100 across both themes
-after the full motion pass, and blocking time **fell** from 70ms to 30ms —
-consolidating three separate inline scripts into one runtime more than paid
-for everything that was added.
+Motion still costs nothing measurable. Blocking time is now zero: the layout
+pass removed a whole pinned section and its 220vh runway, and folded the last
+duplicate scroll listener — the header had its own, doing the same work as
+the runtime — into the single scroll pass.
+
+Two audits sit below 1.0 and are worth naming rather than hiding:
+`modern-image-formats` and `uses-responsive-images`, both driven by the supplied
+logo files. `viveonix.webp` is 3840×2160 and 102KB for a mark that renders 54px
+tall. It does not move any score at this size, but it is 170KB of logos for one
+strip — see the logo section below.
 
 The dark theme was audited by building a copy with `data-theme="dark"` pinned
 on every page and running the same audit against it, so axe checked the real
@@ -178,37 +181,85 @@ with `placeholder: false`, which was tested directly rather than assumed.
 
 ### Logo strip
 
-Five entries under "Trusted by". **None of the five logo files could be
-fetched** — the build environment's proxy denies all five hosts — so each
-renders as a greyscale wordmark placeholder at the correct optical height.
+Five entries under "Trusted by". All five files are now in
+`site/public/logos/` and rendering.
 
-**To add a real logo: drop the file into `site/public/logos/` named after its
-slug** — `lurio.svg`, `growthmind.svg`, `fresh.png`, `viveonix.*`,
-`littlelockets.*`. The component picks it up by name on the next build with no
-code change. Slugs and intended sources are listed in `src/data/brands.ts`.
+**The strip sits on the dark band, and that was forced by the artwork.** Two of
+the five are white-knockout marks drawn for dark backgrounds — Lurio's fill is
+`#fff7ed`, and Viveonix's wordmark is white with a black outline. On the light
+surface `#FCFBF8` the first is invisible and the second is a hollow outline. A
+dark band is the only surface all five read on without editing anyone's logo.
+
+Each brand carries a `tone` in `src/data/brands.ts`:
+
+| Tone | Applied to | What it does |
+|---|---|---|
+| `knockout` | Fresh, Little Lockets | Colour artwork on transparent, flattened to white |
+| `asis` | Lurio, Viveonix | Already light — desaturated only |
+| `invert` | Growthmind | Opaque dark tile flipped light, mark inside flipped dark |
+
+Growthmind is the awkward one: a 96×96 icon on an opaque `#191e19` tile. Knocked
+out it becomes a solid white square; left alone it is a dark blob on a dark
+band. Inverting it gives a light tile with a dark mark, which reads.
 
 Logos are normalised on optical height rather than a fixed box, so a wide
-wordmark and a square mark read at the same visual weight. Adjust the per-brand
-`optical` multiplier in `brands.ts` if one sits heavy or light.
+wordmark and a square mark read at the same visual weight. The multipliers were
+set from what each mark measured **on the rendered band**, not from its file
+dimensions — several sit on canvases far larger than the artwork, so aspect
+ratio alone predicts the wrong size. Lurio at 1.0 was roughly twice the weight
+of everything else and now runs at 0.62.
 
-**Heading wording is unconfirmed.** "Trusted by" asserts client relationships;
-the repo records none. If these are not AEO clients the heading needs changing
-before launch.
+**Two of the files are much larger than they need to be.** `viveonix.webp` is
+3840×2160 (102KB) for a 54px render; `littlelockets.png` is 600×296 (48KB).
+Downscaling them would cut the strip's weight by most of 150KB. They were left
+as supplied rather than re-encoded, because re-cutting someone else's brand
+artwork is a decision, not a build step. Worth doing before launch.
+
+**Heading wording.** "Trusted by" asserts client relationships and the repo
+records none. Proceeding with it was instructed directly, so it stands, but the
+contradiction is on the record here rather than resolved silently.
 
 ### Colour contrast, measured on the rendered page
 
-Both themes, taken from the built site rather than from the token values.
+**The palette did not change in this pass.** Every token value is as it was;
+what follows is the new furniture measured against it.
+
+Taken from the built site rather than from the token values. Elements sitting
+on a gradient were measured by screenshotting the page with every glyph set to
+`transparent`, cropping to the text element's own bounding box, and taking the
+worst pixel in it — percentile sampling cannot separate text from background
+when the text is the luminance extreme, which is a trap worth naming.
 
 | Element | Light | Dark |
 |---|---|---|
-| Statement headline | 17.20:1 | 16.58:1 |
-| Body lede | 5.63:1 | 7.77:1 |
-| Eyebrow label | 10.41:1 | 7.56:1 |
-| Proof figure label | 5.21:1 | 7.23:1 |
-| Status present | 6.10:1 | 10.08:1 |
-| Status partial | 5.51:1 | 9.80:1 |
-| Status absent | 6.66:1 | 7.32:1 |
-| Primary button text | 10.77:1 | 7.62:1 |
+| Statement headline | 17.20:1 | 17.03:1 |
+| Body lede | 5.63:1 | 7.98:1 |
+| Pill label | 5.63:1 | 7.98:1 |
+| Metric number and chip | 5.13:1 | 6.43:1 |
+| Problem "effect" key | 5.13:1 | 6.43:1 |
+| Nav link, wordmark | 17.20:1 | 17.03:1 |
+| **On the brand gradient** | | |
+| CTA card heading | 5.04:1 | 5.04:1 |
+| CTA card body | 5.08:1 | 5.08:1 |
+| Offer name | 4.81:1 | 4.81:1 |
+| Offer price | 4.75:1 | 4.75:1 |
+| Offer unit line | 4.72:1 | 4.72:1 |
+| CTA card button | 8.43:1 | 8.43:1 |
+| **On the inverted band** | | |
+| Statement | 14.84:1 | 13.49:1 |
+| Lede | 8.57:1 | 7.79:1 |
+| Pill label | 6.91:1 | 6.10:1 |
+| Table row label | 13.95:1 | 12.55:1 |
+| Citation line | 8.00:1 | 7.27:1 |
+
+**The brand gradient is deliberately literal, not token-driven.** `--cobalt`
+and `--violet` lift in dark theme so they stay legible *as text on a dark
+surface*; used as a gradient *fill* that lift would leave them too pale to
+carry white type. `--grad-brand` therefore hard-codes the three light-theme
+stops and holds in both themes. White on the palest stop measures 4.68:1 by
+calculation and 4.72:1 on the rendered page — so nothing on the ramp drops
+below AA, and there is no headroom left to spend on transparency. The card
+copy is full white for that reason, not tinted.
 
 **One constraint the palette forces.** Cobalt measures only **2.98:1 on the
 deep inverted surface** `#0B1F5C`, so it must never carry text or links on a
@@ -253,21 +304,39 @@ greyscale, not assumed.
   are no one-off colours anywhere.
 - **Motion** lives in `src/styles/motion.css` and one runtime,
   `src/components/Motion.astro`. Staggered section reveals, per-word mask
-  reveals on headlines, count-ups on the proof figures, the comparison table
-  building row by row, a drifting gradient mesh behind the hero, magnetic
-  buttons, card tilt, a nav underline sweep and a scroll-progress bar.
+  reveals on headlines, count-ups on the hero figures, the comparison table
+  building row by row as you scroll through a pinned section, a drifting
+  gradient mesh behind the hero, magnetic buttons, a nav underline sweep and a
+  scroll-progress bar.
+
+  **One curve, one scale.** Every duration comes from `--dur-1/2/3`, every
+  easing from `--ease` or `--ease-out`, every entrance travels `--rise` and
+  steps by `--stagger`. There were four easing curves and eight durations in
+  play before, which is what made a page of individually reasonable effects
+  read as busy: each element arrived on a rhythm of its own and the eye had
+  nothing to lock onto. Nothing is slower than 620ms and no staggered sequence
+  takes more than about half a second.
 
   Three rules hold it together. **Transform and opacity only** — nothing
   animated here triggers layout. **Reduced motion turns everything off
   cleanly**, including the mesh and the count-ups, which snap to their final
   values rather than freezing part-way. **Nothing delays reading**: with
-  JavaScript disabled the page renders complete and static, verified by
-  loading it with scripting off and checking that all 53 animated elements sit
-  at full opacity.
+  JavaScript disabled the page renders complete and static. Both paths were
+  checked by loading the page in each and confirming that **0 of 45 animated
+  elements** sat mid-animation, the pinned section was unpinned, its runway
+  collapsed to zero, and every count-up showed its final value.
 
   Headline splitting keeps spaces as real text nodes, so a screen reader still
   reads a natural sentence rather than a list of fragments. Pointer effects are
   skipped entirely on coarse pointers.
+
+  **Two effects were removed rather than tuned.** The 3D card tilt sheared
+  left-aligned copy off its baseline under the cursor, fighting every alignment
+  decision around it; cards now lift, in CSS, with no handler at all. And the
+  horizontal process rail was pinned across 220vh of runway to move its track
+  a measured 136px — a screen and a half of scrolling for almost no payoff,
+  while holding the reader in place to deliver it. Four cards in a row say the
+  same thing in one glance.
 
 ### Where things are
 

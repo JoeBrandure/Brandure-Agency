@@ -24,7 +24,7 @@ const serviceSchema = {
 >
   <section class="hero">
     <div class="wrap-narrow">
-      <p class="eyebrow">Service</p>
+      <p class="pill"><span class="pill__dot"></span>Service</p>
       <h1 class="statement statement--sub" data-split>Measure first. Always.</h1>
       <p class="lede">Without a baseline there is no way to show that anything done afterwards worked — and no honest way to charge for it.</p>
       <div class="hero-actions"><a class="btn" href="#report">Get a free report</a><a class="textlink" href="/method">The method &rarr;</a></div>
@@ -34,7 +34,7 @@ const serviceSchema = {
   <section class="section section--tight section--sunk">
     <div class="wrap" data-reveal>
       <div class="sticky-head"><p class="eyebrow">Deliverables</p></div>
-      <h2 style="margin-top:0">What you receive, stage by stage</h2>
+      <h2 class="mt-0">What you receive, stage by stage</h2>
       <div class="table-scroll" tabindex="0" role="region" aria-label="Deliverables by stage">
         <table>
           <thead><tr><th scope="col">Stage</th><th scope="col">What happens</th><th scope="col">What you receive</th><th scope="col">Timing</th></tr></thead>
@@ -86,21 +86,27 @@ const serviceSchema = {
 
   <section class="section section--inv">
     <div class="wrap" data-reveal>
-      <p class="eyebrow">Engagements</p>
-      <h2>Two ways in</h2>
-      <div class="grid grid--2" style="margin-top:2rem" data-stagger>
+      <div class="section-head">
+        <p class="pill"><span class="pill__dot"></span>Engagements</p>
+        <h2>Two ways in</h2>
+      </div>
+      <div class="price-grid" data-stagger>
         {OFFERS.map((o) => (
           <div class="card offer">
-            <h3 style="margin-bottom:0.2rem">{o.name}</h3>
-            <span class="offer__price">{o.price}</span>
-            <span class="offer__unit">{o.unit}</span>
-            <p style="font-size:var(--small)">{o.summary}</p>
-            <ul>{o.includes.map((i) => <li>{i}</li>)}</ul>
-            <a class:list={['btn', !o.primary && 'btn--ghost']} href="#report">{o.cta}</a>
+            <div class="offer__head">
+              <h3>{o.name}</h3>
+              <span class="offer__price">{o.price}</span>
+              <span class="offer__unit">{o.unit}</span>
+            </div>
+            <div class="offer__body">
+              <p>{o.summary}</p>
+              <ul>{o.includes.map((i) => <li>{i}</li>)}</ul>
+              <a class:list={['btn', !o.primary && 'btn--ghost']} href="#report">{o.cta}</a>
+            </div>
           </div>
         ))}
       </div>
-      <p style="margin-top:1.4rem"><span class="sample-flag">Sample pricing</span> &nbsp;Figures are placeholders for layout.</p>
+      <p class="center-row mt-2"><span class="note-sm"><span class="sample-flag">Sample pricing</span> &nbsp;Figures are placeholders for layout.</span></p>
     </div>
   </section>
 

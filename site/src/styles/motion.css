@@ -1,7 +1,15 @@
 /* Brandure motion layer.
    Transform and opacity only — nothing that triggers layout or paint.
    Everything here is additive: with JavaScript off, or reduced-motion on,
-   the page renders complete and static. Nothing delays reading. */
+   the page renders complete and static. Nothing delays reading.
+
+   ONE CURVE, ONE SCALE. Every duration comes from --dur-1/2/3, every easing
+   from --ease or --ease-out, every entrance travels --rise and steps by
+   --stagger. The previous pass had four easing curves and eight durations
+   running at once, which is what made a page of individually reasonable
+   effects read as busy: each element arrived on a rhythm of its own and the
+   eye had nothing to lock onto. Nothing below is slower than 620ms, and no
+   sequence of staggered siblings takes longer than about 0.5s to complete. */
 
 /* ---------- Scroll progress ---------- */
 
@@ -22,11 +30,11 @@
 
 [data-reveal] > * {
   opacity: 0;
-  transform: translate3d(0, 14px, 0);
+  transform: translate3d(0, var(--rise), 0);
   transition:
-    opacity 620ms cubic-bezier(0.22, 0.61, 0.36, 1),
-    transform 620ms cubic-bezier(0.22, 0.61, 0.36, 1);
-  transition-delay: calc(var(--stagger, 80ms) * var(--i, 0));
+    opacity var(--dur-2) var(--ease-out),
+    transform var(--dur-2) var(--ease-out);
+  transition-delay: calc(var(--stagger) * var(--i, 0));
 }
 [data-reveal].is-in > * { opacity: 1; transform: none; }
 
@@ -37,18 +45,18 @@
 [data-reveal] > *:nth-child(4)  { --i: 3; }
 [data-reveal] > *:nth-child(5)  { --i: 4; }
 [data-reveal] > *:nth-child(6)  { --i: 5; }
-[data-reveal] > *:nth-child(7)  { --i: 6; }
-[data-reveal] > *:nth-child(8)  { --i: 7; }
-[data-reveal] > *:nth-child(n+9) { --i: 8; }
+[data-reveal] > *:nth-child(n+7) { --i: 6; }
 
-/* Grids stagger their own cells rather than moving as one block. */
+/* Grids stagger their own cells rather than moving as one block.
+   Cards scale up the last two per cent instead of sliding further — a card
+   is a surface, and surfaces settling read calmer than surfaces arriving. */
 [data-stagger] > * {
   opacity: 0;
-  transform: translate3d(0, 16px, 0);
+  transform: translate3d(0, var(--rise), 0) scale(0.985);
   transition:
-    opacity 560ms cubic-bezier(0.22, 0.61, 0.36, 1),
-    transform 560ms cubic-bezier(0.22, 0.61, 0.36, 1);
-  transition-delay: calc(var(--stagger, 70ms) * var(--i, 0));
+    opacity var(--dur-2) var(--ease-out),
+    transform var(--dur-2) var(--ease-out);
+  transition-delay: calc(var(--stagger) * var(--i, 0));
 }
 .is-in [data-stagger] > *, [data-stagger].is-in > * { opacity: 1; transform: none; }
 [data-stagger] > *:nth-child(1)  { --i: 0; }
@@ -56,12 +64,17 @@
 [data-stagger] > *:nth-child(3)  { --i: 2; }
 [data-stagger] > *:nth-child(4)  { --i: 3; }
 [data-stagger] > *:nth-child(5)  { --i: 4; }
-[data-stagger] > *:nth-child(6)  { --i: 5; }
-[data-stagger] > *:nth-child(n+7) { --i: 6; }
+[data-stagger] > *:nth-child(n+6) { --i: 5; }
 
-/* ---------- Headline mask reveal, per word ---------- */
+/* ---------- Headline mask reveal, per word ----------
+   26ms per word, so a nine-word headline completes in ~0.83s rather than the
+   1.1s the previous 38ms step took. Long enough to read as deliberate, short
+   enough that the reader is never waiting for the sentence to finish. */
 
-.split { display: inline; }
+/* The split class lands on the heading itself. It used to set display:inline
+   there, which turned an h1 into inline content and let it share a line with
+   whatever preceded it. The masks are inline-block and flow correctly inside
+   a normal block heading, so the override was never needed. */
 .split .w {
   display: inline-block;
   overflow: hidden;
@@ -72,8 +85,8 @@
   display: inline-block;
   font-style: inherit;
   transform: translate3d(0, 105%, 0);
-  transition: transform 780ms cubic-bezier(0.19, 1, 0.22, 1);
-  transition-delay: calc(38ms * var(--w, 0));
+  transition: transform var(--dur-3) var(--ease-out);
+  transition-delay: calc(26ms * var(--w, 0));
 }
 .split.is-in .w > i { transform: none; }
 
@@ -81,15 +94,20 @@
 
 tbody tr {
   opacity: 0;
-  transform: translate3d(0, 10px, 0);
+  transform: translate3d(0, var(--rise), 0);
   transition:
-    opacity 480ms cubic-bezier(0.22, 0.61, 0.36, 1),
-    transform 480ms cubic-bezier(0.22, 0.61, 0.36, 1);
-  transition-delay: calc(85ms * var(--r, 0));
+    opacity var(--dur-2) var(--ease-out),
+    transform var(--dur-2) var(--ease-out);
+  transition-delay: calc(var(--stagger) * var(--r, 0));
 }
 .table-figure.is-in tbody tr, .no-js tbody tr { opacity: 1; transform: none; }
 
-/* ---------- Hero: drifting gradient mesh ---------- */
+/* ---------- Hero: drifting gradient mesh ----------
+   Drift and parallax are applied on two nested elements. They were both set
+   on .mesh__blob before, where the `animation` shorthand overrode the
+   parallax transform outright — so --sy was being written every frame and
+   painting nothing. The wrapper carries the scroll offset, the blob carries
+   the drift, and the two compose. */
 
 .mesh {
   position: absolute;
@@ -99,6 +117,11 @@ tbody tr {
   overflow: hidden;
   contain: strict;
 }
+.mesh__layer { position: absolute; inset: 0; will-change: transform; }
+.mesh__layer--1 { transform: translate3d(0, calc(var(--sy, 0px) * 0.10), 0); }
+.mesh__layer--2 { transform: translate3d(0, calc(var(--sy, 0px) * 0.18), 0); }
+.mesh__layer--3 { transform: translate3d(0, calc(var(--sy, 0px) * 0.28), 0); }
+
 .mesh__blob {
   position: absolute;
   width: 46vw;
@@ -146,39 +169,48 @@ tbody tr {
 
 .hero [data-load] > * {
   opacity: 0;
-  transform: translate3d(0, 18px, 0);
+  transform: translate3d(0, calc(var(--rise) * 1.4), 0);
   transition:
-    opacity 700ms cubic-bezier(0.22, 0.61, 0.36, 1),
-    transform 700ms cubic-bezier(0.22, 0.61, 0.36, 1);
-  transition-delay: calc(90ms * var(--i, 0));
+    opacity var(--dur-3) var(--ease-out),
+    transform var(--dur-3) var(--ease-out);
+  transition-delay: calc(var(--stagger) * var(--i, 0));
 }
 .hero [data-load].is-in > * { opacity: 1; transform: none; }
 
-/* ---------- Magnetic buttons ---------- */
+/* ---------- Magnetic buttons ----------
+   Pull reduced from 5px to 3px. At the old strength the button visibly
+   chased the cursor, which draws attention to the effect rather than to the
+   button; at 3px it reads as the control being slightly alive. */
 
 .btn {
   will-change: transform;
   transform: translate3d(var(--mx, 0px), var(--my, 0px), 0);
+  transition: transform var(--dur-1) var(--ease), box-shadow var(--dur-1) var(--ease), background var(--dur-1) var(--ease);
 }
 .btn:hover {
   transform: translate3d(var(--mx, 0px), calc(var(--my, 0px) - 1px), 0);
-  box-shadow: 0 16px 34px -8px var(--btn-shadow);
+  box-shadow: 0 14px 30px -8px var(--btn-shadow);
 }
-.btn--violet:hover { box-shadow: 0 16px 34px -8px var(--btn-2-shadow); }
+.btn--violet:hover { box-shadow: 0 14px 30px -8px var(--btn-2-shadow); }
 .btn--ghost:hover { box-shadow: none; }
 
-/* ---------- Card tilt ---------- */
+/* ---------- Card hover ----------
+   The 3D tilt is gone. It was the one effect on the page that moved type off
+   its baseline, so a card of left-aligned copy sheared under the cursor and
+   fought every alignment decision around it. A lift and an accent border do
+   the same job — the card is interactive — without touching the text. */
 
-.card--tilt {
-  transform-style: preserve-3d;
-  transform:
-    perspective(700px)
-    rotateX(var(--rx, 0deg))
-    rotateY(var(--ry, 0deg))
-    translate3d(0, var(--lift, 0px), 0);
-  transition: transform 220ms cubic-bezier(0.22, 0.61, 0.36, 1), box-shadow 220ms ease;
+.card--tilt, .metric, .problem {
+  transition:
+    transform var(--dur-1) var(--ease),
+    box-shadow var(--dur-1) var(--ease),
+    border-color var(--dur-1) var(--ease);
 }
-.card--tilt:hover { box-shadow: var(--shadow-lift); }
+.card--tilt:hover, .metric:hover {
+  transform: translate3d(0, -3px, 0);
+  box-shadow: var(--shadow-lift);
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
+}
 
 /* ---------- Nav underline sweep ---------- */
 
@@ -195,30 +227,120 @@ tbody tr {
   background: currentColor;
   transform: scaleX(0);
   transform-origin: 0 50%;
-  transition: transform 300ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  transition: transform var(--dur-2) var(--ease);
 }
 .site-nav a:hover::after,
 .site-nav a:focus-visible::after { transform: scaleX(1); }
 .site-nav a[aria-current='page']::after { transform: scaleX(1); opacity: 0.45; }
-.site-nav a:hover, .site-nav a[aria-current='page'] { text-decoration: none; }
 
 /* ---------- Header compress and blur ---------- */
 
 .site-header {
   transition:
-    padding 260ms cubic-bezier(0.22, 0.61, 0.36, 1),
-    background 260ms ease,
-    border-color 260ms ease,
-    box-shadow 260ms ease;
+    padding var(--dur-2) var(--ease),
+    background var(--dur-2) var(--ease),
+    border-color var(--dur-2) var(--ease),
+    box-shadow var(--dur-2) var(--ease);
 }
 .site-header[data-scrolled='true'] {
   -webkit-backdrop-filter: blur(16px) saturate(1.4);
   backdrop-filter: blur(16px) saturate(1.4);
-  background: color-mix(in srgb, var(--surface) 72%, transparent);
+  /* 92%, not 72%. The page has two full-bleed dark bands; at 72% the navy
+     read through the blur and the dark nav text on it lost most of its
+     contrast. The blur still does its work at 92% — the translucency was
+     buying atmosphere at the cost of legibility. */
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
   box-shadow: 0 1px 0 0 var(--border), 0 10px 30px -22px rgba(0, 0, 0, 0.5);
 }
 
-/* ---------- Reduced motion: everything off, cleanly ---------- */
+/* ---------- Logo marquee ---------- */
+
+.marquee__track { animation: marquee 52s linear infinite; }
+.marquee:hover .marquee__track { animation-play-state: paused; }
+@keyframes marquee {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-50%, 0, 0); } /* track is duplicated once */
+}
+.no-js .marquee__track { animation-play-state: running; }
+
+/* ================= Scroll-linked motion =================
+   Driven by a scroll progress value written to a custom property, so the
+   animation scrubs with the scroll position rather than firing once.
+
+   Runways are shorter than they were — 140vh and 220vh meant the reader
+   scrolled well over a screen with nothing new arriving, which is the exact
+   opposite of easy to follow. Each now runs just long enough to complete its
+   own sequence. */
+
+/* ---- Pinned four-surface section ---- */
+
+.pin { position: relative; }
+.pin__stage {
+  position: sticky;
+  top: var(--header-h);
+  min-height: calc(100svh - var(--header-h));
+  display: flex; align-items: center;
+  padding-block: clamp(2rem, 4vw, 3.5rem);
+}
+/* Scroll distance that drives the scrub. Collapses when unpinned. */
+.pin__runway { height: 90vh; }
+
+/* Rows scrub in against --p (0..1) rather than a one-shot transition.
+   Written as .pin .table-figure tbody tr so it outweighs the generic
+   `.table-figure.is-in tbody tr { opacity: 1 }` entrance rule, which has the
+   same specificity and would otherwise win on source order. */
+.pin .table-figure tbody tr {
+  /* Scrub completes by p≈0.7 so the last row lands well before the section
+     unpins, rather than arriving as it leaves. */
+  --rp: clamp(0, calc((var(--p, 1) / 0.7 * var(--rows, 4) - var(--r, 0)) * 1.6), 1);
+  opacity: var(--rp);
+  transform: translate3d(0, calc((1 - var(--rp)) * 10px), 0);
+  transition: none;
+}
+
+/* ---- Display headline scrubs against scroll ---- */
+.split[data-scrub] .w > i {
+  transform: translate3d(0, calc((1 - clamp(0, calc(var(--p, 1) * 2.2 - var(--w, 0) * 0.05), 1)) * 105%), 0);
+  transition: none;
+}
+
+/* ---- Cursor-following radial light on dark sections ---- */
+.section--inv { position: relative; isolation: isolate; }
+.section--inv .spotlight {
+  position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: radial-gradient(28rem 28rem at var(--cx, 50%) var(--cy, 40%), var(--glow), transparent 70%);
+  opacity: 0; transition: opacity var(--dur-3) var(--ease);
+}
+.section--inv:hover .spotlight { opacity: 1; }
+
+/* ---- SVG line-draw ---- */
+.draw path, .draw line {
+  stroke-dasharray: var(--len, 400);
+  stroke-dashoffset: calc(var(--len, 400) * (1 - var(--p, 1)));
+}
+.divider-draw { display: block; width: 100%; height: 1px; overflow: visible; }
+.divider-draw line { stroke: var(--border); stroke-width: 1; }
+.section--inv .divider-draw line { stroke: var(--border-inv); }
+
+/* ---- Sticky section headers handing off ---- */
+.sticky-head {
+  position: sticky; top: var(--header-h); z-index: 2;
+  padding-block: 0.5rem;
+  background: linear-gradient(var(--surface) 70%, transparent);
+}
+.section--sunk .sticky-head { background: linear-gradient(var(--surface-sunk) 70%, transparent); }
+
+/* ---- View Transitions ---- */
+@view-transition { navigation: auto; }
+::view-transition-old(root) { animation: vt-out var(--dur-1) cubic-bezier(0.4, 0, 1, 1) both; }
+::view-transition-new(root) { animation: vt-in var(--dur-2) var(--ease-out) both; }
+@keyframes vt-out { to { opacity: 0; transform: translate3d(0, -6px, 0); } }
+@keyframes vt-in { from { opacity: 0; transform: translate3d(0, 8px, 0); } }
+
+/* ================= Degradation =================
+   Two paths, both tested rather than assumed: reduced motion on, and
+   JavaScript off. In each case the page must render complete and readable
+   with nothing mid-animation and nothing pinned. */
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
@@ -242,146 +364,42 @@ tbody tr {
     transform: none !important;
     opacity: 0.4;
   }
+  .mesh__layer { transform: none !important; }
   .ph-b1, .ph-b2, .ph-b3 { animation: none !important; transform: none !important; }
 
-  .btn, .card--tilt {
+  .btn, .card--tilt, .metric, .problem {
     transform: none !important;
     transition: none !important;
   }
   .site-nav a::after { transition: none !important; }
   .site-header { transition: none !important; }
-}
 
-/* No JavaScript: show everything. */
-.no-js [data-reveal] > *,
-.no-js [data-stagger] > *,
-.no-js .hero [data-load] > *,
-.no-js tbody tr { opacity: 1; transform: none; }
-
-/* ---------- Logo marquee ---------- */
-
-.marquee__track { animation: marquee 46s linear infinite; }
-.marquee:hover .marquee__track { animation-play-state: paused; }
-@keyframes marquee {
-  from { transform: translate3d(0, 0, 0); }
-  to   { transform: translate3d(-50%, 0, 0); } /* track is duplicated once */
-}
-@media (prefers-reduced-motion: reduce) {
   .marquee__track { animation: none !important; transform: none !important; }
   .marquee {
     overflow-x: auto;
     -webkit-mask-image: none;
     mask-image: none;
   }
-}
-.no-js .marquee__track { animation-play-state: running; }
 
-/* ================= Scroll-linked motion =================
-   Driven by a scroll progress value written to a custom property, so the
-   animation scrubs with the scroll position rather than firing once. All of
-   it is transform and opacity. */
-
-/* ---- Pinned four-surface section ---- */
-
-.pin { position: relative; }
-.pin__stage { position: sticky; top: 0; min-height: 100svh; display: flex; align-items: center; padding-block: 4rem; }
-/* Scroll distance that drives the scrub. Collapses when unpinned. */
-.pin__runway { height: 140vh; }
-
-/* Rows scrub in against --p (0..1) rather than a one-shot transition.
-   Written as .pin .table-figure tbody tr so it outweighs the generic
-   `.table-figure.is-in tbody tr { opacity: 1 }` entrance rule, which has the
-   same specificity and would otherwise win on source order. */
-.pin .table-figure tbody tr {
-  /* Scrub completes by p≈0.8 so the final row lands before the section
-     unpins, rather than arriving as it leaves. */
-  --rp: clamp(0, calc((var(--p, 1) / 0.8 * var(--rows, 4) - var(--r, 0)) * 1.4), 1);
-  opacity: var(--rp);
-  transform: translate3d(0, calc((1 - var(--rp)) * 14px), 0);
-  transition: none;
-}
-
-/* ---- Display headline scrubs against scroll ---- */
-.split[data-scrub] .w > i {
-  transform: translate3d(0, calc((1 - clamp(0, calc(var(--p, 1) * 1.5 - var(--w, 0) * 0.06), 1)) * 105%), 0);
-  transition: none;
-}
-
-/* ---- Horizontal process rail, driven by vertical scroll ---- */
-
-.rail { position: relative; }
-.rail__runway { height: 220vh; }
-.rail__stage { position: sticky; top: 0; min-height: 100svh; display: flex; flex-direction: column; justify-content: center; overflow: hidden; }
-.rail__track {
-  display: flex;
-  gap: clamp(1.25rem, 3vw, 2.5rem);
-  padding-inline: max(1.25rem, calc((100vw - var(--wrap)) / 2));
-  transform: translate3d(calc(var(--p, 0) * var(--rail-shift, 0px) * -1), 0, 0);
-  will-change: transform;
-}
-.rail__card { flex: 0 0 clamp(16rem, 26vw, 22rem); }
-
-/* ---- Cursor-following radial light on dark sections ---- */
-.section--inv { position: relative; isolation: isolate; }
-.section--inv .spotlight {
-  position: absolute; inset: 0; z-index: -1; pointer-events: none;
-  background: radial-gradient(28rem 28rem at var(--cx, 50%) var(--cy, 40%), var(--glow), transparent 70%);
-  opacity: 0; transition: opacity 420ms ease;
-}
-.section--inv:hover .spotlight { opacity: 1; }
-
-/* ---- SVG line-draw ---- */
-.draw path, .draw line {
-  stroke-dasharray: var(--len, 400);
-  stroke-dashoffset: calc(var(--len, 400) * (1 - var(--p, 1)));
-}
-.divider-draw { display: block; width: 100%; height: 1px; overflow: visible; }
-.divider-draw line { stroke: var(--border); stroke-width: 1; }
-.section--inv .divider-draw line { stroke: var(--border-inv); }
-
-/* ---- Parallax mesh: one rate per layer ---- */
-.mesh__blob--1 { transform: translate3d(0, calc(var(--sy, 0px) * 0.10), 0); }
-.mesh__blob--2 { transform: translate3d(0, calc(var(--sy, 0px) * 0.20), 0); }
-.mesh__blob--3 { transform: translate3d(0, calc(var(--sy, 0px) * 0.32), 0); }
-/* Drift keyframes compose with parallax via a wrapper, so both can run. */
-.mesh__layer { position: absolute; inset: 0; will-change: transform; }
-
-/* ---- Sticky section headers handing off ---- */
-.sticky-head {
-  position: sticky; top: 3.5rem; z-index: 2;
-  padding-block: 0.5rem;
-  background: linear-gradient(var(--surface) 70%, transparent);
-}
-.section--sunk .sticky-head { background: linear-gradient(var(--surface-sunk) 70%, transparent); }
-
-/* ---- View Transitions ---- */
-@view-transition { navigation: auto; }
-::view-transition-old(root) { animation: vt-out 220ms cubic-bezier(0.4, 0, 1, 1) both; }
-::view-transition-new(root) { animation: vt-in 320ms cubic-bezier(0, 0, 0.2, 1) both; }
-@keyframes vt-out { to { opacity: 0; transform: translate3d(0, -8px, 0); } }
-@keyframes vt-in { from { opacity: 0; transform: translate3d(0, 10px, 0); } }
-
-/* ================= Degradation ================= */
-
-@media (prefers-reduced-motion: reduce) {
-  .pin__runway, .rail__runway { height: 0 !important; }
-  .pin__stage, .rail__stage { position: static !important; min-height: 0 !important; }
+  .pin__runway { height: 0 !important; }
+  .pin__stage { position: static !important; min-height: 0 !important; }
   .pin .table-figure tbody tr { opacity: 1 !important; transform: none !important; }
   .split[data-scrub] .w > i { transform: none !important; }
-  .rail__track { transform: none !important; flex-wrap: wrap; }
   .section--inv .spotlight { display: none !important; }
   .draw path, .draw line { stroke-dashoffset: 0 !important; }
-  .mesh__blob--1, .mesh__blob--2, .mesh__blob--3 { transform: none !important; }
   .sticky-head { position: static !important; background: none !important; }
   @view-transition { navigation: none; }
   ::view-transition-old(root), ::view-transition-new(root) { animation: none !important; }
 }
 
-/* No JavaScript: nothing pins, nothing scrubs, everything is readable. */
-.no-js .pin__runway, .no-js .rail__runway { height: 0; }
-.no-js .pin__stage, .no-js .rail__stage { position: static; min-height: 0; }
+/* No JavaScript: show everything, pin nothing. */
+.no-js [data-reveal] > *,
+.no-js [data-stagger] > *,
+.no-js .hero [data-load] > *,
+.no-js tbody tr { opacity: 1; transform: none; }
+.no-js .pin__runway { height: 0; }
+.no-js .pin__stage { position: static; min-height: 0; }
 .no-js .pin .table-figure tbody tr { opacity: 1; transform: none; }
 .no-js .split[data-scrub] .w > i { transform: none; }
-.no-js .rail__track { transform: none; flex-wrap: wrap; }
 .no-js .draw path, .no-js .draw line { stroke-dashoffset: 0; }
 .no-js .sticky-head { position: static; }

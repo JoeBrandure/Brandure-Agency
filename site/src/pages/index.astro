@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ReportForm from '../components/ReportForm.astro';
-import ComparisonTable from '../components/ComparisonTable.astro';
+import PromptRotator from '../components/PromptRotator.astro';
 import LogoStrip from '../components/LogoStrip.astro';
 import { SITE } from '../consts';
 import { FAQS, FAQS_HOME, HERO_MODE, HERO_STATS, HERO_CASES, PROBLEMS, STAGES, OFFERS, ENGINES } from '../data/content';
@@ -51,40 +51,6 @@ const faqSchema = {
     acceptedAnswer: { '@type': 'Answer', text: f.a },
   })),
 };
-
-/* Illustrative shape only — invented statuses, stated as such on the page.
-   Five cells per row now, in ENGINES order: ChatGPT, Claude, Perplexity,
-   Gemini, Google AI Overview. */
-const demoRows = [
-  { label: 'Best employment lawyer in [city]', note: 'buying intent', cells: [
-    { status: 'present' as const, citation: 'directory listing' },
-    { status: 'absent' as const },
-    { status: 'absent' as const },
-    { status: 'partial' as const, citation: 'named, not ranked' },
-    { status: 'absent' as const },
-  ]},
-  { label: 'Alternatives to [incumbent]', note: 'comparison', cells: [
-    { status: 'absent' as const },
-    { status: 'partial' as const, citation: 'listed fourth' },
-    { status: 'present' as const, citation: 'own comparison page' },
-    { status: 'absent' as const },
-    { status: 'partial' as const, citation: 'listed sixth' },
-  ]},
-  { label: 'Who are the top [category] firms', note: 'discovery', cells: [
-    { status: 'present' as const, citation: 'trade press' },
-    { status: 'present' as const, citation: 'trade press' },
-    { status: 'present' as const, citation: 'trade press' },
-    { status: 'absent' as const },
-    { status: 'partial' as const, citation: 'local pack only' },
-  ]},
-  { label: '[brand] vs [competitor]', note: 'head to head', cells: [
-    { status: 'absent' as const },
-    { status: 'absent' as const },
-    { status: 'partial' as const, citation: 'competitor page' },
-    { status: 'absent' as const },
-    { status: 'absent' as const },
-  ]},
-];
 
 ---
 
@@ -210,27 +176,20 @@ const demoRows = [
     </div>
   </section>
 
-  <!-- 5. Five surfaces. Light, like every other section.
-       This was a full-bleed navy band. Every other section on the page sits on
-       --surface, so the band was the one place the background changed under
-       the reader mid-scroll. It is now the same surface as everything above
-       and below it, and the table carries the emphasis instead of the
-       background doing it. -->
+  <!-- 5. Five surfaces. Real prompts by sector, rotating.
+       This was four bracketed placeholder rows. A placeholder prompt shows the
+       table's shape and nothing else; a real one shows what the product is,
+       which is the point of the section. -->
   <section class="section section--sunk">
     <div class="wrap" data-reveal>
       <div class="section-head">
         <h2 class="statement statement--sub">One question. Five different answers.</h2>
         <p class="lede">
           Same question, same day, five engines. Different companies named,
-          different sources behind them. This is the report you get.
+          different sources behind them. Pick a sector.
         </p>
       </div>
-      <ComparisonTable
-        caption="How a visibility report is laid out"
-        columns={[...ENGINES]}
-        rows={demoRows}
-        footnote="Layout illustration. Every status above is invented to show the format — none is a finding about a real brand. Real reports carry the verbatim prompt set, the market, the date and the number of runs per prompt."
-      />
+      <PromptRotator />
     </div>
   </section>
 

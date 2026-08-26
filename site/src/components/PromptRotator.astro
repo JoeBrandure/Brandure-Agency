@@ -1,0 +1,199 @@
+---
+import StatusCell from './StatusCell.astro';
+import { PROMPT_SETS } from '../data/promptsets';
+import { ENGINES } from '../data/content';
+
+/**
+ * Seven prompt sets, one per scanned sector, in one table that swaps between
+ * them. It advances on its own and can be driven by the tabs.
+ *
+ * WHY A COMPONENT AND NOT A GIF. A GIF of this would be a fixed-width raster —
+ * blurry on a retina screen, unreadable on a phone, invisible to a screen
+ * reader, uncopyable, and several hundred kilobytes for something the browser
+ * can draw from a few hundred bytes of markup. This is the same idea built so
+ * it stays sharp, stays selectable, and can be paused and stepped through.
+ *
+ * Auto-advance rules, chosen so it informs rather than teases:
+ *   - 7 seconds per set, long enough to read four prompts and their verdicts;
+ *   - it stops the moment anyone hovers, focuses or clicks a tab, and does not
+ *     restart, because a reader who has taken control should keep it;
+ *   - it never starts under prefers-reduced-motion, and it never starts before
+ *     the section is on screen.
+ *
+ * Tabs are real buttons in a tablist, so the whole thing works from the
+ * keyboard with arrow keys. With JavaScript off every set is rendered and the
+ * first is shown — no blank box.
+ */
+---
+
+<div class="rotator" data-rotator>
+  <div class="rotator__bar">
+    <div class="rotator__tabs" role="tablist" aria-label="Example prompt sets by sector">
+      {PROMPT_SETS.map((s, i) => (
+        <button
+          class="rotator__tab"
+          role="tab"
+          type="button"
+          id={`tab-${s.id}`}
+          aria-controls={`panel-${s.id}`}
+          aria-selected={i === 0 ? 'true' : 'false'}
+          tabindex={i === 0 ? 0 : -1}
+          data-index={i}
+        >{s.sector}</button>
+      ))}
+    </div>
+    <button class="rotator__pause" type="button" data-pause aria-label="Pause the rotation">
+      <span class="rotator__pause-i" aria-hidden="true"></span>
+      <span class="rotator__pause-t">Pause</span>
+    </button>
+  </div>
+
+  <span class="rotator__progress" aria-hidden="true"><span data-progress></span></span>
+
+  {PROMPT_SETS.map((s, i) => (
+    <section
+      class="rotator__panel"
+      role="tabpanel"
+      id={`panel-${s.id}`}
+      aria-labelledby={`tab-${s.id}`}
+      hidden={i !== 0}
+    >
+      <p class="rotator__note">
+        <span class="rotator__market">{s.market ?? 'No market'}</span>
+        {s.note}
+      </p>
+
+      <div class="table-scroll" tabindex="0" role="region" aria-label={`${s.sector} example prompts across ${ENGINES.length} answer engines`}>
+        <table class="surface-table">
+          <thead>
+            <tr>
+              <th scope="col">Prompt</th>
+              <th scope="col" class="col-intent">Intent</th>
+              {ENGINES.map((e) => <th scope="col">{e}</th>)}
+              <th scope="col" class="col-score">Named</th>
+            </tr>
+          </thead>
+          <tbody>
+            {s.rows.map((row) => {
+              const named = row.cells.filter((c) => c.status !== 'absent').length;
+              return (
+                <tr>
+                  <th scope="row"><span class="row-label">{row.prompt}</span></th>
+                  <td class="col-intent"><span class="intent">{row.intent}</span></td>
+                  {row.cells.map((cell) => (
+                    <td class={`cell cell--${cell.status}`}>
+                      <StatusCell status={cell.status} />
+                      {cell.citation && <span class="cite">{cell.citation}</span>}
+                    </td>
+                  ))}
+                  <td class="col-score">
+                    <span class="score" style={`--score:${named / row.cells.length}`}>
+                      <span class="score__n">{named}<span class="score__of">/{row.cells.length}</span></span>
+                      <span class="score__bar" aria-hidden="true"><span></span></span>
+                    </span>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  ))}
+
+  <p class="rotator__foot">
+    <strong>The prompts are real.</strong> Every status beside them is invented
+    to show the format — none is a finding about a named brand. A real report
+    carries the verbatim prompt set, the market, the date, and the number of
+    runs behind every cell.
+  </p>
+</div>
+
+<script is:inline>
+  (function () {
+    var root = document.querySelector('[data-rotator]');
+    if (!root) return;
+    var tabs = [].slice.call(root.querySelectorAll('[role="tab"]'));
+    var panels = [].slice.call(root.querySelectorAll('[role="tabpanel"]'));
+    var progress = root.querySelector('[data-progress]');
+    var pauseBtn = root.querySelector('[data-pause]');
+    var reduced = matchMedia('(prefers-reduced-motion: reduce)');
+    var HOLD = 7000;
+
+    var index = 0;
+    var timer = null;
+    var stopped = false;
+
+    function show(i) {
+      index = ((i % tabs.length) + tabs.length) % tabs.length;
+      tabs.forEach(function (t, n) {
+        var on = n === index;
+        t.setAttribute('aria-selected', on ? 'true' : 'false');
+        t.tabIndex = on ? 0 : -1;
+      });
+      panels.forEach(function (p, n) { p.hidden = n !== index; });
+      restartProgress();
+    }
+
+    function restartProgress() {
+      if (!progress) return;
+      progress.style.transition = 'none';
+      progress.style.transform = 'scaleX(0)';
+      /* Force the reset to land before the run starts, or the browser
+         collapses both writes into one frame and nothing animates. */
+      void progress.offsetWidth;
+      if (stopped) return;
+      progress.style.transition = 'transform ' + HOLD + 'ms linear';
+      progress.style.transform = 'scaleX(1)';
+    }
+
+    function start() {
+      if (stopped || timer) return;
+      timer = setInterval(function () { show(index + 1); }, HOLD);
+      restartProgress();
+    }
+    function halt(permanent) {
+      if (timer) { clearInterval(timer); timer = null; }
+      if (permanent) stopped = true;
+      if (progress) {
+        var w = progress.getBoundingClientRect().width;
+        var parent = progress.parentElement.getBoundingClientRect().width || 1;
+        progress.style.transition = 'none';
+        progress.style.transform = 'scaleX(' + (w / parent) + ')';
+      }
+      if (permanent && pauseBtn) pauseBtn.hidden = true;
+    }
+
+    /* Taking control stops it for good — a reader who has clicked should not
+       have the thing move under them a few seconds later. */
+    tabs.forEach(function (t, n) {
+      t.addEventListener('click', function () { halt(true); show(n); t.focus(); });
+      t.addEventListener('keydown', function (e) {
+        var d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+        if (!d) return;
+        e.preventDefault();
+        halt(true);
+        show(index + d);
+        tabs[index].focus();
+      });
+    });
+    if (pauseBtn) pauseBtn.addEventListener('click', function () { halt(true); });
+
+    /* Hover and focus pause it; leaving resumes, unless it was stopped. */
+    root.addEventListener('pointerenter', function () { if (!stopped) halt(false); });
+    root.addEventListener('pointerleave', function () { if (!stopped) start(); });
+    root.addEventListener('focusin', function () { if (!stopped) halt(false); });
+
+    if (reduced.matches) { halt(true); return; }
+
+    /* Never runs off screen. */
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) { if (e.isIntersecting) start(); else halt(false); });
+      }, { threshold: 0.25 });
+      io.observe(root);
+    } else {
+      start();
+    }
+  })();
+</script>

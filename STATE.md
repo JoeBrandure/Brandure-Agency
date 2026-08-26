@@ -1,7 +1,7 @@
 # STATE.md — current position
 
-Last updated: 2026-08-25 (Claude added as a fifth engine; per-theme logo
-variants; table and stages redesigned; A3 still urgent)
+Last updated: 2026-08-25 (prompt rotator built; service page rebuilt;
+Viveonix logo fixed; A3 still urgent)
 
 Current position at a glance. Update this file whenever something moves between
 sections. It is the first thing to read at the start of a working session.
@@ -110,6 +110,46 @@ repo before building on anything here.
   enabled". Detection was always on — a Netlify form only registers once a
   deploy containing the markup has been scanned, and no such deploy existed
   yet. It was never a blocker.
+- **Fifth review pass on the site** (2026-08-25).
+  - **Prompt rotator built** — `src/components/PromptRotator.astro` and
+    `src/data/promptsets.ts`. Seven sector prompt sets, real prompts with real
+    locations, rotating on a 7-second hold with tabs, a pause control, keyboard
+    arrow support and a progress bar. It replaces four bracketed placeholder
+    rows: a placeholder prompt shows the table's shape and nothing else.
+    **Built as a component rather than the GIF that was asked for** — a GIF
+    would be a fixed-width raster, blurry on retina, unreadable on a phone,
+    invisible to a screen reader and hundreds of kilobytes. Same idea, sharper
+    and controllable. Appears on the home page and again on `/service`.
+    **Market is explicit per set**: the B2B SaaS set deliberately carries none
+    and says why, per the standing rule.
+  - **Service page rebuilt.** Hero with three standing facts; a five-row
+    "this is not an SEO retainer" comparison; the four stages restated as
+    artefacts received rather than activity performed, each with an "And
+    plainly" line carrying the uncomfortable thing we say at that stage; the
+    prompt rotator; pricing; and the refusal as its own moment.
+  - **Viveonix logo fixed.** The first light variant recoloured the white fill
+    to ink but left the black outline, merging both into a heavy blob — and
+    the strip's `brightness(0)` did the same to the original. The transform now
+    recolours the white fill and **removes** the outline, leaving clean
+    letterforms, and the strip points at that variant too.
+  - **A real bug found by building the rotator:** `tbody tr { opacity: 0 }` was
+    a global rule cleared only by a class the motion runtime adds to
+    `.table-figure`. Every other table on the site was therefore invisible —
+    the rotator rendered as an empty box. Scoped to `.table-figure`. A global
+    `opacity: 0` that depends on something else adding a class is a trap.
+  - **Two more layout bugs, both found by measuring:** `table-layout: fixed`
+    takes its columns from the first row, so the widths set on tbody cells were
+    ignored and the engine columns were unequal; and `.deliv__item` setting
+    `--sa` further down the sheet overrode every per-stage accent, so all four
+    service stages came out cobalt.
+  - **Table typography made consistent** — it had four families and sizes
+    inside one table (mono head, sans row labels, mono citations, mono notes),
+    which is what made it hard to scan.
+  - **One contrast failure caught by Lighthouse:** cobalt on the comparison
+    head band measured 4.19:1 at 13px. Switched to `--cobalt-deep`, the token
+    that exists for exactly that. Service back to 100 accessibility.
+  - **Stages hover sped up** — the dim was inheriting the 420ms entrance
+    transition, far too slow to keep up with a cursor moving between cards.
 - **Fourth review pass on the site** (2026-08-25).
   - **Claude added as a fifth engine.** It was missing and is one of the five
     that matter. `ENGINES` is the single source; every "four engines" /

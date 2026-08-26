@@ -23,8 +23,13 @@ try {
   present = [];
 }
 
+/* Prefer the `-light` variant where one exists. Viveonix's original is a white
+   knockout with a black outline, and flattening that with brightness(0) merges
+   fill and outline into an illegible blob; the light variant has the outline
+   removed, so it silhouettes cleanly. */
+const byName = (n: string) => present.find((f) => f.replace(/\.[^.]+$/, '') === n);
 const items = BRANDS.map((b) => {
-  const file = present.find((f) => f.replace(/\.[^.]+$/, '') === b.slug);
+  const file = byName(`${b.slug}-light`) ?? byName(b.slug);
   return { ...b, file: file ? `/logos/${file}` : null };
 });
 

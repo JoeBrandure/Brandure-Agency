@@ -696,6 +696,16 @@ table {
   border-collapse: separate; border-spacing: 0;
   width: 100%; min-width: 54rem; font-size: var(--small);
 }
+/* Fixed layout so the five engine columns are actually equal. With `auto` the
+   browser sizes each to its own content, so a column holding "own comparison
+   page" came out visibly wider than one holding "Absent" — the boxes were
+   different sizes for no reason a reader could see.
+   The widths go on the HEAD row: table-layout:fixed takes its columns from the
+   first row, so a width set on a tbody cell is ignored. */
+.surface-table { table-layout: fixed; min-width: 64rem; }
+.surface-table thead th:first-child { width: 20rem; }
+.surface-table thead th.col-intent { width: 6.25rem; }
+.surface-table thead th.col-score { width: 5.25rem; }
 
 /* ---------- Answer-surface table ----------
    Five engines across, one prompt per row. Read left to right it is a list of
@@ -706,13 +716,16 @@ table {
    read, and every row ends with its own tally because nobody scanning five
    columns holds the count themselves. */
 
+/* One family throughout. The head was mono uppercase, the row labels sans,
+   the citations mono and the notes mono at a fourth size — four typefaces and
+   sizes inside one table, which is what made it hard to scan. */
 thead th {
   background: var(--surface-sunk);
   border-bottom: 1px solid var(--border);
-  padding: 0.85rem 1rem;
-  font-family: var(--font-mono); font-size: var(--label);
-  letter-spacing: 0.06em; text-transform: uppercase;
-  color: var(--muted); font-weight: 400; white-space: nowrap;
+  padding: 0.8rem 0.9rem;
+  font-size: 0.8125rem;
+  letter-spacing: 0.01em;
+  color: var(--muted); font-weight: 600; white-space: nowrap;
 }
 .section--inv thead th { background: rgba(255, 255, 255, 0.05); border-bottom-color: var(--border-inv); color: var(--muted-inv); }
 
@@ -746,8 +759,8 @@ tbody tr:hover th[scope='row'], tbody tr:hover td { background: color-mix(in srg
 .cell--partial { background: color-mix(in srgb, var(--status-partial) 8%, transparent); }
 .cell--absent  { background: color-mix(in srgb, var(--status-absent) 5%, transparent); }
 
-.row-label { display: block; font-weight: 600; font-size: 1.0625rem; }
-.row-note { display: block; font-family: var(--font-mono); font-size: var(--label); color: var(--muted); margin-top: 0.15rem; }
+.row-label { display: block; font-weight: 600; font-size: 0.9375rem; line-height: 1.4; }
+.row-note { display: block; font-size: 0.8125rem; color: var(--muted); margin-top: 0.2rem; }
 .section--inv .row-note { color: var(--muted-inv); }
 
 /* Status as a chip. Glyph and label both stay — colour is redundant encoding,
@@ -767,10 +780,20 @@ tbody tr:hover th[scope='row'], tbody tr:hover td { background: color-mix(in srg
 .status__label { font-weight: 600; }
 
 /* Per-row tally. */
-.col-score { width: 6.5rem; text-align: right; }
+.col-score { text-align: right; }
+.col-intent { white-space: nowrap; }
+.intent {
+  display: inline-block;
+  font-size: 0.75rem; font-weight: 600; letter-spacing: 0.01em;
+  color: var(--muted);
+  background: var(--surface-sunk);
+  border-radius: var(--radius-sm);
+  padding: 0.18rem 0.45rem;
+}
+.section--inv .intent { background: rgba(255, 255, 255, 0.08); color: var(--muted-inv); }
 th.col-score { text-align: right; }
 .score { display: inline-flex; flex-direction: column; align-items: flex-end; gap: 0.35rem; }
-.score__n { font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; letter-spacing: -0.02em; line-height: 1; }
+.score__n { font-family: var(--font-display); font-weight: 700; font-size: 1rem; letter-spacing: -0.02em; line-height: 1; }
 .score__of { font-size: 0.72em; color: var(--muted); font-weight: 600; }
 .section--inv .score__of { color: var(--muted-inv); }
 .score__bar { display: block; width: 3.25rem; height: 4px; border-radius: 4px; background: var(--border); overflow: hidden; }
@@ -781,14 +804,12 @@ th.col-score { text-align: right; }
   background: linear-gradient(90deg, var(--cobalt), var(--violet));
 }
 
-.cite { display: block; font-family: var(--font-mono); font-size: 0.8125rem; color: var(--muted); margin-top: 0.4rem; line-height: 1.45; }
+.cite { display: block; font-size: 0.8125rem; color: var(--muted); margin-top: 0.35rem; line-height: 1.4; }
 .section--inv .cite { color: var(--muted-inv); }
 
 .status--present { color: var(--status-present); }
 .status--partial { color: var(--status-partial); }
 .status--absent  { color: var(--status-absent); }
-.cite { display: block; font-family: var(--font-mono); font-size: 0.8125rem; color: var(--muted); margin-top: 0.3rem; line-height: 1.45; }
-.section--inv .cite { color: var(--muted-inv); }
 /* Runs the full width of the table it belongs to. It was capped at --measure
    (62ch), which set it in a narrow four-line column under a full-width table
    and made it look like a stray block rather than a caption. */
@@ -924,6 +945,197 @@ input:focus-visible { border-color: var(--focus); }
 .faq-group h2 { max-width: none; font-size: var(--h3); margin-bottom: 1rem; scroll-margin-top: calc(var(--header-h) + 1rem); }
 
 .hero--short { padding-block: clamp(2.5rem, 5vw, 4rem) clamp(1.5rem, 3vw, 2.5rem); }
+
+/* ---------- Service page ---------- */
+
+/* Hero: statement left, three standing facts right. */
+.svc-hero { display: grid; gap: clamp(2rem, 4vw, 3.5rem); align-items: center; }
+@media (min-width: 62rem) { .svc-hero { grid-template-columns: 1.25fr 1fr; } }
+
+.svc-facts { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; }
+.svc-facts li {
+  display: grid; grid-template-columns: 3.5rem 1fr; gap: 0 1rem; align-items: center;
+  margin: 0; max-width: none;
+  padding: 1rem 1.1rem;
+  background: var(--surface-card);
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  border: 1px solid var(--border); border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+}
+.svc-facts__n {
+  font-family: var(--font-display); font-weight: 800;
+  font-size: 2.4rem; line-height: 1; letter-spacing: -0.04em;
+  text-align: center;
+  background: linear-gradient(100deg, var(--cobalt), var(--violet));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.svc-facts__l { font-size: var(--small); color: var(--muted); line-height: 1.45; }
+
+/* ---------- Search engine vs answer engine ----------
+   A comparison, not a table: two columns of claims with one axis label per
+   row. It stacks on a phone with the column name repeated inside each cell,
+   because a two-column comparison that collapses without its headers is
+   unreadable. */
+
+.compare { border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; background: var(--surface); }
+.compare__head, .compare__row { display: grid; grid-template-columns: 1fr; }
+@media (min-width: 48rem) {
+  .compare__head, .compare__row { grid-template-columns: 12rem 1fr 1fr; }
+}
+.compare__head { display: none; }
+@media (min-width: 48rem) {
+  .compare__head { display: grid; background: var(--surface-sunk); border-bottom: 1px solid var(--border); }
+}
+.compare__t { padding: 0.85rem 1.1rem; font-size: 0.8125rem; font-weight: 600; }
+.compare__t--seo { color: var(--muted); }
+/* --cobalt-deep, not --accent. Cobalt on the tinted head band measured
+   4.19:1 at 13px — the token exists precisely for small text that needs more
+   headroom, and it lifts this to 6.8:1. */
+.compare__t--aeo { color: var(--cobalt-deep); background: color-mix(in srgb, var(--accent) 7%, transparent); }
+
+.compare__row + .compare__row { border-top: 1px solid var(--border); }
+.compare__axis {
+  padding: 1rem 1.1rem 0.4rem;
+  font-size: 0.8125rem; font-weight: 600; color: var(--muted);
+}
+@media (min-width: 48rem) { .compare__axis { padding: 1.05rem 1.1rem; align-self: center; } }
+.compare__cell { padding: 0.35rem 1.1rem 0.9rem; font-size: var(--small); line-height: 1.5; }
+@media (min-width: 48rem) { .compare__cell { padding: 1.05rem 1.1rem; } }
+.compare__cell--aeo { background: color-mix(in srgb, var(--accent) 6%, transparent); color: var(--ink); font-weight: 500; }
+.compare__cell--seo { color: var(--muted); }
+.compare__mob { display: block; font-size: 0.75rem; font-weight: 600; color: var(--muted); margin-bottom: 0.15rem; }
+@media (min-width: 48rem) { .compare__mob { display: none; } }
+
+/* ---------- Deliverables ----------
+   A numbered rail down the left with a card per stage. The rail is a real
+   element rather than a border, so the number can sit on it. */
+
+.deliv { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.25rem; }
+.deliv__item {
+  display: grid; grid-template-columns: 2.75rem 1fr; gap: 0 1.1rem;
+  margin: 0; max-width: none;
+}
+/* Re-stated here rather than relying on the .stages--* block above. Both are
+   single-class selectors, so the later one wins on source order — and
+   `.deliv__item { --sa: … }` sitting further down the sheet was overriding
+   every variant, which is why all four stages came out cobalt. */
+.deliv__item.stages--cobalt { --sa: var(--cobalt); }
+.deliv__item.stages--violet { --sa: var(--violet); }
+.deliv__item.stages--teal   { --sa: var(--teal); }
+.deliv__item.stages--deep   { --sa: var(--cobalt-deep); }
+@media (min-width: 48rem) { .deliv__item { grid-template-columns: 4rem 1fr; gap: 0 1.5rem; } }
+
+.deliv__rail { display: flex; flex-direction: column; align-items: center; }
+.deliv__n {
+  display: flex; align-items: center; justify-content: center;
+  width: 2.75rem; height: 2.75rem; flex: 0 0 auto;
+  border-radius: 50%;
+  font-family: var(--font-mono); font-size: 0.8125rem; font-weight: 500;
+  color: var(--btn-fg); background: var(--sa);
+}
+.deliv__line { flex: 1; width: 2px; background: var(--border); margin-top: 0.6rem; border-radius: 2px; }
+.deliv__item:last-child .deliv__line { display: none; }
+
+.deliv__body { padding: 1.4rem 1.5rem 1.5rem; position: relative; overflow: hidden; }
+.deliv__body::before {
+  content: ''; position: absolute; inset: 0 0 auto 0; height: 3px; background: var(--sa);
+}
+.deliv__when {
+  font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.01em;
+  color: var(--sa); margin: 0 0 0.3rem;
+}
+.deliv__t { font-size: clamp(1.35rem, 1rem + 0.9vw, 1.6rem); line-height: 1.1; letter-spacing: -0.025em; margin: 0 0 0.7rem; }
+.deliv__what { font-size: 1.0625rem; line-height: 1.55; margin: 0 0 1.2rem; max-width: 62ch; }
+
+.deliv__k {
+  font-size: 0.75rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--muted); margin: 0 0 0.6rem;
+}
+.deliv__list { list-style: none; margin: 0 0 1.2rem; padding: 0; display: grid; gap: 0.5rem; }
+@media (min-width: 46rem) { .deliv__list { grid-template-columns: 1fr 1fr; gap: 0.5rem 1.5rem; } }
+.deliv__list li {
+  position: relative; padding-left: 1.5rem; margin: 0; max-width: none;
+  font-size: var(--small); line-height: 1.5;
+}
+.deliv__list li::before {
+  content: ''; position: absolute; left: 0; top: 0.45em;
+  width: 0.7rem; height: 0.7rem; border-radius: 50%;
+  background: color-mix(in srgb, var(--sa) 18%, transparent);
+  box-shadow: inset 0 0 0 2px var(--sa);
+}
+.deliv__honest {
+  margin: 0; padding: 0.85rem 1rem;
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--sa) 9%, transparent);
+  border-left: 3px solid var(--sa);
+  font-size: var(--small); line-height: 1.5; max-width: none;
+}
+.deliv__honest strong { color: var(--sa); }
+
+/* ---------- Prompt rotator ----------
+   Seven sector prompt sets in one table that swaps between them. */
+
+.rotator { margin-top: 2rem; }
+.rotator__bar {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 1rem; flex-wrap: wrap; margin-bottom: 0.75rem;
+}
+.rotator__tabs { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.rotator__tab {
+  font: inherit; font-size: var(--small); font-weight: 600;
+  color: var(--muted);
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--pill);
+  padding: 0.4rem 0.85rem;
+  cursor: pointer;
+}
+.rotator__tab:hover { color: var(--ink); border-color: color-mix(in srgb, var(--accent) 40%, var(--border)); }
+.rotator__tab[aria-selected='true'] {
+  color: var(--btn-fg); background: var(--accent); border-color: var(--accent);
+}
+
+.rotator__pause {
+  display: inline-flex; align-items: center; gap: 0.45rem;
+  font: inherit; font-size: var(--small); color: var(--muted);
+  background: none; border: 0; cursor: pointer; padding: 0.3rem 0;
+}
+.rotator__pause:hover { color: var(--ink); }
+.rotator__pause-i {
+  width: 0.7rem; height: 0.7rem;
+  border-left: 3px solid currentColor; border-right: 3px solid currentColor;
+}
+.no-js .rotator__pause { display: none; }
+
+/* The bar under the tabs shows how long the current set has left. */
+.rotator__progress {
+  display: block; height: 2px; border-radius: 2px;
+  background: var(--border); overflow: hidden; margin-bottom: 1.1rem;
+}
+.rotator__progress > span {
+  display: block; height: 100%;
+  background: linear-gradient(90deg, var(--cobalt), var(--violet));
+  transform: scaleX(0); transform-origin: 0 50%;
+}
+.no-js .rotator__progress { display: none; }
+
+.rotator__note {
+  display: flex; align-items: baseline; gap: 0.6rem; flex-wrap: wrap;
+  font-size: var(--small); color: var(--muted);
+  margin: 0 0 0.9rem; max-width: 78ch;
+}
+.rotator__market {
+  flex: 0 0 auto;
+  font-size: 0.75rem; font-weight: 600; letter-spacing: 0.01em;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 11%, transparent);
+  border-radius: var(--radius-sm); padding: 0.18rem 0.5rem;
+}
+.rotator__foot { font-size: var(--small); color: var(--muted); margin: 0.9rem 0 0; max-width: 80ch; }
+.rotator__foot strong { color: var(--ink); }
+
+/* Without JavaScript every panel stays in the DOM; show the first only. */
+.no-js .rotator__panel[hidden] { display: none; }
 
 /* ---------- Small utilities ----------
    Named rather than written inline. Every one of these replaced a

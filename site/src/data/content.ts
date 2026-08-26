@@ -362,3 +362,108 @@ export const OFFERS = [
     primary: false,
   },
 ] as const;
+
+/* ============================ SERVICE PAGE ============================
+ * The service page's job is to answer one question the home page raises and
+ * does not close: what actually happens, week by week, and what lands on the
+ * client's desk at the end of each part.
+ *
+ * Deliverables are stated as artefacts — a file, a list, a document — not as
+ * activity. "Entity and structured-data work" is a description of effort;
+ * "a prioritised fix list with the change written out per item" is a thing
+ * someone receives and can check.
+ */
+
+export const DELIVERABLES = [
+  {
+    n: '01',
+    a: 'cobalt',
+    stage: 'Baseline',
+    when: 'Week 1',
+    days: '5 working days',
+    what: 'We agree the questions your buyers actually type and freeze them. Every one runs on all five engines from clean, signed-out sessions.',
+    /* What the client physically receives. */
+    gets: [
+      'The frozen prompt set, verbatim, with the market stated per prompt',
+      'Who was named on each engine, in what order',
+      'Every domain each answer was built from',
+      'The run count behind every cell, and the model version where it varies',
+    ],
+    /* The uncomfortable thing we will say at this stage. */
+    honest: 'If your category shows no buying-intent volume in AI answers yet, this is where we tell you and stop.',
+  },
+  {
+    n: '02',
+    a: 'violet',
+    stage: 'Diagnosis',
+    when: 'Week 2',
+    days: '5 working days',
+    what: 'Absence has three causes and they need completely different work. We establish which one applies to you, per engine.',
+    gets: [
+      'Which of the three causes applies, engine by engine',
+      'The entity check — whether a model can resolve who you are at all',
+      'The source map: which third-party domains the answers are built from',
+      'A prioritised fix list, with each change written out rather than named',
+    ],
+    honest: 'Where a category is settled on two incumbents with no visible route in, we say so and decline the retainer.',
+  },
+  {
+    n: '03',
+    a: 'teal',
+    stage: 'Execution',
+    when: 'From week 3',
+    days: 'Continuous',
+    what: 'Fix what your own site controls. Then go and earn the third-party mentions the answers are actually built from — which is the slower half and the half that moves it.',
+    gets: [
+      'Entity and structured-data corrections, made or specified for your team',
+      'Content built to be lifted into an answer cleanly',
+      'A placement plan naming target sources in priority order',
+      'Outreach run against that plan, with what landed and what did not',
+    ],
+    honest: 'Earned placement depends on third parties. We report the misses as well as the hits, because a plan with no misses in it is not being reported honestly.',
+  },
+  {
+    n: '04',
+    a: 'deep',
+    stage: 'Re-measurement',
+    when: 'Every month',
+    days: 'For the length of the engagement',
+    what: 'The identical frozen prompt set, alongside a control set we deliberately leave untouched for the whole engagement.',
+    gets: [
+      'Before and after on the tracked set and the control set, side by side',
+      'The divergence between them stated plainly, in one sentence',
+      'Raw counts behind every figure, never a score on its own',
+      'What we would do next, and what we would stop doing',
+    ],
+    honest: 'If the control set moved the same way your tracked set did, the change was the market and not us. We will say that.',
+  },
+] as const;
+
+/** What separates this from an SEO retainer, stated as a comparison. */
+export const NOT_SEO = [
+  {
+    axis: 'What is being won',
+    seo: 'A position in a list the buyer then chooses from',
+    aeo: 'Inclusion in a shortlist the model has already chosen',
+  },
+  {
+    axis: 'Where the answer comes from',
+    seo: 'Mostly your own pages, ranked',
+    aeo: 'Mostly other people’s pages, cited',
+  },
+  {
+    axis: 'What third place means',
+    seo: 'Still visible, still clicked',
+    aeo: 'Usually not named at all',
+  },
+  {
+    axis: 'How it is measured',
+    seo: 'Rank, impressions, clicks',
+    aeo: 'Named or not, per engine, against a control set',
+  },
+  {
+    axis: 'What a report proves',
+    seo: 'Traffic moved',
+    aeo: 'Position moved, and that the market did not move with it',
+  },
+] as const;

@@ -90,9 +90,14 @@
 }
 .split.is-in .w > i { transform: none; }
 
-/* ---------- Table builds row by row ---------- */
+/* ---------- Table builds row by row ----------
+   Scoped to .table-figure, which is the only thing the runtime observes. As a
+   bare `tbody tr` rule this hid the rows of every other table on the site —
+   including the prompt rotator's, which is not a figure and never receives
+   `.is-in`, so it rendered as an empty box. A global opacity:0 that depends on
+   a class something else has to add is a trap. */
 
-tbody tr {
+.table-figure tbody tr {
   opacity: 0;
   transform: translate3d(0, var(--rise), 0);
   transition:
@@ -100,7 +105,7 @@ tbody tr {
     transform var(--dur-2) var(--ease-out);
   transition-delay: calc(var(--stagger) * var(--r, 0));
 }
-.table-figure.is-in tbody tr, .no-js tbody tr { opacity: 1; transform: none; }
+.table-figure.is-in tbody tr, .no-js .table-figure tbody tr { opacity: 1; transform: none; }
 
 /* ---------- Hero: drifting gradient mesh ----------
    Drift and parallax are applied on two nested elements. They were both set
@@ -357,9 +362,9 @@ tbody tr {
 
 .stages__card {
   transition:
-    transform var(--dur-2) var(--ease-out),
-    box-shadow var(--dur-2) var(--ease-out),
-    border-color var(--dur-2) var(--ease-out);
+    transform var(--dur-1) var(--ease-out),
+    box-shadow var(--dur-1) var(--ease-out),
+    border-color var(--dur-1) var(--ease-out);
 }
 .stages__item:hover .stages__card {
   transform: translate3d(0, -4px, 0);
@@ -371,11 +376,15 @@ tbody tr {
    held on one step at a time instead of reading four cards at equal weight.
    Only on a real pointer — there is no hover to leave on a touchscreen. */
 @media (hover: hover) and (pointer: fine) {
-  .stages__track.is-in:hover .stages__item { opacity: 0.55; }
+  /* --dur-1, not --dur-2. The dim inherits the entrance transition otherwise,
+     which is 420ms and eased for arrival — far too slow for a hover state that
+     has to keep up with the cursor moving between cards. */
+  .stages__track.is-in .stages__item { transition: opacity var(--dur-1) linear; }
+  .stages__track.is-in:hover .stages__item { opacity: 0.5; }
   .stages__track.is-in:hover .stages__item:hover { opacity: 1; }
   .stages__track.is-in:hover .stages__item:hover .stages__n { transform: scale(1.12); }
 }
-.stages__n { transition: transform var(--dur-2) var(--ease-out); }
+.stages__n { transition: transform var(--dur-1) var(--ease-out); }
 
 /* ---- Problem cards ----
    The whole border lights up in the card's own hue, on every side, with a
@@ -444,7 +453,7 @@ tbody tr {
   [data-reveal] > *,
   [data-stagger] > *,
   .hero [data-load] > *,
-  tbody tr {
+  .table-figure tbody tr {
     opacity: 1 !important;
     transform: none !important;
     transition: none !important;
@@ -493,7 +502,7 @@ tbody tr {
 .no-js [data-reveal] > *,
 .no-js [data-stagger] > *,
 .no-js .hero [data-load] > *,
-.no-js tbody tr { opacity: 1; transform: none; }
+.no-js .table-figure tbody tr { opacity: 1; transform: none; }
 .no-js [data-reveal] > .cta-card { box-shadow: 0 34px 80px -34px var(--btn-shadow); }
 .no-js .stages__item { opacity: 1; transform: none; }
 .no-js .stages__node { transform: scale(1); }

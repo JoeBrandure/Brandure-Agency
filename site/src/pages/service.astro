@@ -1,8 +1,14 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ReportForm from '../components/ReportForm.astro';
-import { OFFERS, ENGINES } from '../data/content';
+import PromptRotator from '../components/PromptRotator.astro';
+import { OFFERS, ENGINES, DELIVERABLES, NOT_SEO } from '../data/content';
 import { SITE } from '../consts';
+
+/* The page answers one question the home page raises and does not close:
+   what actually happens, and what lands on your desk at the end of each part.
+   Everything below is stated as an artefact — a file, a list, a document —
+   rather than as activity, because activity is not checkable. */
 
 const serviceSchema = {
   '@context': 'https://schema.org',
@@ -11,83 +17,150 @@ const serviceSchema = {
   name: 'Answer engine optimisation',
   serviceType: 'Answer engine optimisation',
   description:
-    'Answer surface measurement, diagnosis, entity and content work, third-party placement, and re-measurement against a control set.',
+    'Answer surface measurement across five engines, diagnosis of the cause of absence, entity and content work, earned third-party placement, and monthly re-measurement against an untouched control set.',
   provider: { '@id': `${SITE.url}/#organization` },
   areaServed: SITE.areaServed.map((c) => ({ '@type': 'Country', identifier: c })),
   url: `${SITE.url}/service`,
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Engagements',
+    itemListElement: OFFERS.map((o) => ({
+      '@type': 'Offer',
+      name: o.name,
+      description: o.summary,
+    })),
+  },
 };
 ---
 <BaseLayout
   title="Service"
-  description="How a Brandure engagement runs: what gets audited across five answer engines, what gets delivered at each stage, and what a client actually receives."
+  description="What a Brandure engagement actually delivers: a frozen prompt set run across five answer engines, the cause of every absence diagnosed, the fix work itself, and monthly re-measurement against an untouched control set."
   schemas={[serviceSchema]}
 >
-  <section class="hero">
-    <div class="wrap-narrow">
-      <p class="pill"><span class="pill__dot"></span>Service</p>
-      <h1 class="statement statement--sub" data-split>Measure first. Always.</h1>
-      <p class="lede">Without a baseline there is no way to show that anything done afterwards worked — and no honest way to charge for it.</p>
-      <div class="hero-actions"><a class="btn" href="#report">Get a free report</a><a class="textlink" href="/method">The method &rarr;</a></div>
+  <!-- Hero: the promise and the constraint in the same breath. -->
+  <section class="hero hero--short">
+    <div class="mesh" aria-hidden="true">
+      <div class="mesh__layer mesh__layer--1"><div class="mesh__blob mesh__blob--1"></div></div>
+      <div class="mesh__layer mesh__layer--2"><div class="mesh__blob mesh__blob--2"></div></div>
     </div>
-  </section>
-
-  <section class="section section--tight section--sunk">
-    <div class="wrap" data-reveal>
-      <div class="sticky-head"><p class="eyebrow">Deliverables</p></div>
-      <h2 class="mt-0">What you receive, stage by stage</h2>
-      <div class="table-scroll" tabindex="0" role="region" aria-label="Deliverables by stage">
-        <table>
-          <thead><tr><th scope="col">Stage</th><th scope="col">What happens</th><th scope="col">What you receive</th><th scope="col">Timing</th></tr></thead>
-          <tbody>
-            <tr><th scope="row"><span class="row-label">Baseline</span><span class="row-note">week 1</span></th>
-              <td>Prompt set agreed and frozen. All five engines run from clean sessions.</td>
-              <td>The frozen prompt set, plus who was named on each engine, in what order, with every domain cited.</td>
-              <td>5 working days</td></tr>
-            <tr><th scope="row"><span class="row-label">Diagnosis</span><span class="row-note">week 2</span></th>
-              <td>Separate entity failure from source absence from settled preference.</td>
-              <td>Which cause applies per engine, and the prioritised list of what would move it.</td>
-              <td>5 working days</td></tr>
-            <tr><th scope="row"><span class="row-label">Execution</span><span class="row-note">ongoing</span></th>
-              <td>Entity and structured-data corrections, answer-shaped content, placement outreach.</td>
-              <td>The changes themselves, plus a placement plan naming target sources in priority order.</td>
-              <td>Continuous</td></tr>
-            <tr><th scope="row"><span class="row-label">Re-measurement</span><span class="row-note">monthly</span></th>
-              <td>Identical frozen prompt set, alongside an untouched control set.</td>
-              <td>Before and after on both sets, the divergence stated plainly, and the raw counts behind every figure.</td>
-              <td>Monthly</td></tr>
-          </tbody>
-        </table>
+    <div class="wrap svc-hero">
+      <div data-load>
+        <h1 class="statement" data-split>Measure first. Then, and only then, do the work.</h1>
+        <p class="lede">
+          Without a baseline there is no way to show that anything done
+          afterwards worked — and no honest way to charge for it. Every
+          engagement starts with a measurement you could act on even if you
+          never hired us.
+        </p>
+        <div class="hero-actions">
+          <a class="btn" href="#report">Get a free visibility report</a>
+          <a class="btn btn--ghost" href="#stages">What you receive</a>
+        </div>
       </div>
-      <figcaption>Timings are indicative and depend on category size and the number of prompts tracked.</figcaption>
+      <ul class="svc-facts" data-stagger>
+        <li><span class="svc-facts__n">{ENGINES.length}</span><span class="svc-facts__l">engines, measured and reported separately — never one blended score</span></li>
+        <li><span class="svc-facts__n">2</span><span class="svc-facts__l">weeks from frozen prompt set to a diagnosed cause per engine</span></li>
+        <li><span class="svc-facts__n">1</span><span class="svc-facts__l">control set, left deliberately untouched, so a change can be attributed</span></li>
+      </ul>
     </div>
   </section>
 
-  <section class="section">
-    <div class="wrap-narrow" data-reveal>
-      <div class="sticky-head"><p class="eyebrow">Stage one</p></div>
-      <h2>Baseline</h2>
-      <p>We agree a prompt set with you — the questions a buyer types when they are choosing, not researching. Market is agreed explicitly rather than assumed: adding a city to a query your buyers never localise produces a different test, not a sharper one.</p>
-      <p>Each prompt runs across {ENGINES.join(', ')}, from clean sessions with personalisation off. A signed-in run measures your own search history rather than the market.</p>
+  <!-- What it is not. The single most useful thing this page can do is draw
+       the line against the thing buyers assume it is. -->
+  <section class="section section--sunk">
+    <div class="wrap" data-reveal>
+      <div class="section-head">
+        <h2>This is not an SEO retainer with a new name</h2>
+        <p class="lede">
+          The two overlap in places and we will happily work alongside your SEO
+          team. But they are not the same job, and the differences decide what
+          gets measured.
+        </p>
+      </div>
 
-      <div class="sticky-head"><p class="eyebrow">Stage two</p></div>
-      <h2>Diagnosis</h2>
-      <p>Absence has causes and they are not interchangeable. A model may fail to resolve your brand as an entity — it does not know what you are. It may be grounding the category on third-party sources you have no presence in. Or it may have a settled preference that content alone will not shift.</p>
-
-      <div class="sticky-head"><p class="eyebrow">Stage three</p></div>
-      <h2>Execution</h2>
-      <p>Entity and structured-data work on your own properties, content built to be lifted into an answer, and placement into the third-party sources the models actually draw on.</p>
-      <p>That last one usually carries the most weight and is the least comfortable, because it is earned rather than published. Most citations in AI answers come from sources a brand does not own, which is why placement is core to the work rather than an add-on.</p>
-
-      <div class="sticky-head"><p class="eyebrow">Stage four</p></div>
-      <h2>Re-measurement</h2>
-      <p>Against the identical frozen prompt set, alongside a control set of prompts we deliberately leave untouched for the length of the engagement. Without it you have a number that went up and no way to attribute it, which is not evidence.</p>
+      <div class="compare" data-stagger>
+        <div class="compare__head" aria-hidden="true">
+          <span></span>
+          <span class="compare__t compare__t--seo">Search engine</span>
+          <span class="compare__t compare__t--aeo">Answer engine</span>
+        </div>
+        {NOT_SEO.map((r) => (
+          <div class="compare__row">
+            <span class="compare__axis">{r.axis}</span>
+            <span class="compare__cell compare__cell--seo">
+              <span class="compare__mob">Search engine</span>{r.seo}
+            </span>
+            <span class="compare__cell compare__cell--aeo">
+              <span class="compare__mob">Answer engine</span>{r.aeo}
+            </span>
+          </div>
+        ))}
+      </div>
     </div>
   </section>
 
-  <section class="section section--inv">
+  <!-- The four stages, as deliverables. -->
+  <section class="section" id="stages">
+    <div class="wrap" data-reveal>
+      <div class="section-head">
+        <h2>What lands on your desk, stage by stage</h2>
+        <p class="lede">
+          Stated as artefacts, not activity. "Entity work" is a description of
+          effort; a fix list with each change written out is a thing you can
+          hold us to.
+        </p>
+      </div>
+
+      <ol class="deliv">
+        {DELIVERABLES.map((d, i) => (
+          <li class:list={['deliv__item', `stages--${d.a}`]} style={`--i:${i}`}>
+            <div class="deliv__rail" aria-hidden="true">
+              <span class="deliv__n">{d.n}</span>
+              <span class="deliv__line"></span>
+            </div>
+            <div class="deliv__body card">
+              <div class="deliv__top">
+                <div>
+                  <p class="deliv__when">{d.when} &middot; {d.days}</p>
+                  <h3 class="deliv__t">{d.stage}</h3>
+                </div>
+              </div>
+              <p class="deliv__what">{d.what}</p>
+
+              <p class="deliv__k">You receive</p>
+              <ul class="deliv__list">
+                {d.gets.map((g) => <li>{g}</li>)}
+              </ul>
+
+              <p class="deliv__honest"><strong>And plainly:</strong> {d.honest}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- The prompt sets, so "a frozen prompt set" is a thing they can see. -->
+  <section class="section section--sunk">
+    <div class="wrap" data-reveal>
+      <div class="section-head">
+        <h2>What a frozen prompt set looks like</h2>
+        <p class="lede">
+          Yours is agreed with you and specific to your category. These are the
+          shapes — the questions a buyer types when they are choosing, not when
+          they are researching a topic.
+        </p>
+      </div>
+      <PromptRotator />
+    </div>
+  </section>
+
+  <!-- Pricing. -->
+  <section class="section" id="pricing">
     <div class="wrap" data-reveal>
       <div class="section-head">
         <h2>Two ways in</h2>
+        <p class="lede">The audit is the front door and stands on its own. Nothing obliges you to the retainer afterwards.</p>
       </div>
       <div class="price-grid" data-stagger>
         {OFFERS.map((o) => (
@@ -105,20 +178,42 @@ const serviceSchema = {
           </div>
         ))}
       </div>
-      <p class="center-row mt-2"><span class="note-sm"><span class="sample-flag">Sample pricing</span> &nbsp;Figures are placeholders for layout.</span></p>
+      <p class="center-row mt-2"><span class="note-sm"><span class="sample-flag">Sample pricing</span> &nbsp;Figures are placeholders for layout. Real pricing is set before launch.</span></p>
     </div>
   </section>
 
-  <section class="section">
-    <div class="wrap-narrow" data-reveal>
-      <h2>What we will tell you</h2>
-      <p>If the baseline shows a category already settled on two incumbents with no visible route in, we will say so and decline the work. A measurement that only ever produces a reason to hire us is not a measurement.</p>
+  <!-- The refusal. Kept as its own moment because it is the whole positioning. -->
+  <section class="section section--tight">
+    <div class="wrap" data-reveal>
+      <div class="cta-card">
+        <span class="cta-card__glint" aria-hidden="true"><span class="cta-card__sheen"></span></span>
+        <div>
+          <h2>We will tell you when the answer is no</h2>
+          <p class="lede">
+            If the baseline shows a category already settled on two incumbents
+            with no visible route in, we say so and decline the work. A
+            measurement that only ever produces a reason to hire us is not a
+            measurement.
+          </p>
+        </div>
+        <a class="btn cta-card__btn" href="#report">Start with the measurement</a>
+      </div>
     </div>
   </section>
 
   <section class="section section--sunk" id="report">
-    <div class="wrap-narrow" data-reveal>
-      <ReportForm id="report-form" heading="Start with the free report" />
+    <div class="wrap">
+      <div class="hero-grid">
+        <div data-reveal>
+          <h2 class="statement statement--sub" data-split>Find out where you stand.</h2>
+          <p class="lede">
+            Your category, run across all five surfaces. Who gets named, in what
+            order, and which sources each answer was built from. No charge, no
+            obligation, no sequence.
+          </p>
+        </div>
+        <ReportForm id="report-form" heading="Start with the free report" />
+      </div>
     </div>
   </section>
 </BaseLayout>

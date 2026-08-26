@@ -148,12 +148,12 @@ are local numbers.
 
 | Page | Performance | Accessibility | Best practices | SEO | TBT | CLS |
 |---|---|---|---|---|---|---|
-| Home | 99–100 | 100 | 96 | 100 | 0 ms | 0.049 |
+| Home | 100 | 100 | 96 | 100 | 0 ms | 0.049 |
+| Service | 100 | 100 | 96 | 100 | 0 ms | 0.042 |
 | Questions (`/faq`) | 100 | 100 | 96 | 100 | 0 ms | 0 |
-| Service | 100 | 100 | 96 | 100 | 0 ms | 0.01 |
 
-Home flickers between 99 and 100 run to run. It is entirely the CLS figure
-below; largest contentful paint is 0.7s and blocking time is zero.
+Home has flickered between 99 and 100 across runs. It is entirely the CLS
+figure below; largest contentful paint is 0.6s and blocking time is zero.
 
 Motion still costs nothing measurable. Blocking time is zero on both: every
 sticky-pinned section and its scroll runway is gone, and there is one scroll
@@ -174,9 +174,9 @@ the cost.
 generated variants — trimmed to the artwork's own bounding box and resized —
 so Viveonix went from a 3840×2160 / 600KB canvas to 420px / 45KB. The dark
 copies are `loading="lazy"` and are never downloaded in the light theme, which
-was checked on the network rather than assumed. The trust strip still points at
-the original `viveonix.webp` at 102KB; it is below the fold and lazy, so it
-costs nothing on the critical path, but it is the last oversized file left.
+was checked on the network rather than assumed. The trust strip now points at the same
+generated variants, so `viveonix.webp` at 102KB is no longer requested by
+either page.
 
 The dark theme was audited by building a copy with `data-theme="dark"` pinned
 on every page and running the same audit against it, so axe checked the real
@@ -192,6 +192,27 @@ on the real site. Re-check after the first live deploy.
 *SEO 66 on a placeholder* is the deliberate `noindex` doing its job — the audit
 marks any page blocked from indexing down. The identical page scores **100**
 with `placeholder: false`, which was tested directly rather than assumed.
+
+### The service page
+
+It answers the one question the home page raises and does not close: what
+actually happens, and what lands on your desk at the end of each part.
+
+- **A hero with three standing facts** — five engines, two weeks to a diagnosed
+  cause, one control set.
+- **"This is not an SEO retainer with a new name"** — a five-row comparison of
+  what is being won, where the answer comes from, what third place means, how
+  it is measured and what a report proves. It is the single most useful thing
+  the page can do, because it draws the line against what buyers assume this is.
+- **Deliverables stated as artefacts, not activity.** "Entity work" describes
+  effort; "a prioritised fix list with each change written out" is a thing
+  someone receives and can check. Each of the four stages carries its own
+  accent, what you receive, and an **"And plainly"** line — the uncomfortable
+  thing we will say at that stage. Content is in `DELIVERABLES`.
+- **The prompt rotator again**, so "a frozen prompt set" is something a reader
+  can look at rather than a phrase.
+- Pricing, then the refusal — declining a category with no visible route in —
+  as its own gradient card, because that is the whole positioning.
 
 ### Where things are on the home page
 
@@ -295,6 +316,40 @@ unreachable from the build environment, so the figures were confirmed from two
 independent search passes that agreed on every value and on the sample, rather
 than read off the primary source. Worth one direct check against the Pew page
 before launch.
+
+### The prompt rotator
+
+Seven sector prompt sets in one table that swaps between them, on the home page
+and again on `/service`. Sectors are the seven scanned in the 13 August 2026
+Dubai run; markets are UK, Dubai, UAE and US. Content lives in
+`src/data/promptsets.ts`.
+
+**It is a component, not a GIF, and that was deliberate.** A GIF of this would
+be a fixed-width raster — blurry on a retina screen, unreadable on a phone,
+invisible to a screen reader, uncopyable, and several hundred kilobytes for
+something the browser draws from a few hundred bytes of markup. This stays
+sharp, stays selectable, and can be paused and stepped through.
+
+How it behaves:
+
+- 7 seconds per set — long enough to read four prompts and their verdicts;
+- it pauses on hover and on focus, and **stops permanently** the moment anyone
+  clicks a tab or the pause control, because a reader who has taken control
+  should keep it;
+- it never starts under `prefers-reduced-motion`, and never while off screen;
+- tabs are real buttons in a `tablist`, so arrow keys work;
+- with JavaScript off, every panel is in the DOM and the first is shown.
+
+**The prompts are real. Every status beside them is invented**, and the page
+says so under the table. These show the format of a report, not the findings of
+one — the distinction is load-bearing on a site that sells measurement, not a
+disclaimer.
+
+**Market is explicit per set and never inferred.** The B2B SaaS set deliberately
+carries no market and says why: adding a city to a query buyers never localise
+produces a local-services answer shape that misrepresents how the category is
+bought. That is the standing rule in `CLAUDE.md`, followed here rather than
+quietly attaching a city to all seven.
 
 ### The answer-surface table
 

@@ -4,7 +4,7 @@ import ReportForm from '../components/ReportForm.astro';
 import ComparisonTable from '../components/ComparisonTable.astro';
 import LogoStrip from '../components/LogoStrip.astro';
 import { SITE } from '../consts';
-import { FAQS, HERO_STATS, PROBLEMS, OFFERS, ENGINES } from '../data/content';
+import { FAQS, FAQS_HOME, HERO_MODE, HERO_STATS, HERO_CASES, PROBLEMS, STAGES, OFFERS, ENGINES } from '../data/content';
 import { getCollection } from 'astro:content';
 
 const pieces = (await getCollection('research'))
@@ -25,7 +25,9 @@ const serviceSchema = {
 const faqSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
-  mainEntity: FAQS.map((f) => ({
+  /* Only the questions actually present on this page. The full set is
+     marked up on /faq. */
+  mainEntity: FAQS_HOME.map((f) => ({
     '@type': 'Question',
     name: f.q,
     acceptedAnswer: { '@type': 'Answer', text: f.a },
@@ -60,12 +62,6 @@ const demoRows = [
   ]},
 ];
 
-const STAGES = [
-  { t: 'Baseline', d: 'A frozen prompt set, run across all four engines from clean sessions. Market agreed, never assumed.' },
-  { t: 'Diagnose', d: 'Whether a model cannot resolve you, cannot find you in its sources, or simply prefers someone else.' },
-  { t: 'Execute', d: 'Entity and structured-data work, answer-shaped content, and placement into the sources models actually cite.' },
-  { t: 'Re-measure', d: 'Same prompts, plus a control set left untouched — so the change can be attributed rather than asserted.' },
-];
 ---
 
 <BaseLayout
@@ -95,22 +91,47 @@ const STAGES = [
       </div>
 
       <div>
-        <div class="metric-grid" data-stagger>
-          {HERO_STATS.map((s) => (
-            <div class="metric">
-              <span class="metric__chip">{s.chip}</span>
-              <span class="metric__n">
-                <span data-count={s.n}>{s.n}</span>{s.suffix && <span class="metric__suffix">{s.suffix}</span>}
-              </span>
-              <p class="metric__l">{s.label}</p>
+        {HERO_MODE === 'stats' ? (
+          <>
+            <div class="metric-grid" data-stagger>
+              {HERO_STATS.map((st) => (
+                <div class="metric">
+                  <span class="metric__chip">{st.chip}</span>
+                  <span class="metric__n">
+                    <span data-count={st.n}>{st.n}</span>{st.suffix && <span class="metric__suffix">{st.suffix}</span>}
+                  </span>
+                  <p class="metric__l">{st.label}</p>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-        <p class="figure__src mt-1">
-          First three: Pew Research Center, 22 July 2025 — 68,879 Google
-          searches by 900+ US adults, March 2025. Google AI Overviews
-          specifically, not AI answers in general.
-        </p>
+            <p class="figure__src mt-1">
+              First three: Pew Research Center, 22 July 2025 — 68,879 Google
+              searches by 900+ US adults, March 2025. Google AI Overviews
+              specifically, not AI answers in general. The 47% is derived from
+              that study’s own 15% and 8%.
+            </p>
+          </>
+        ) : (
+          <>
+            <div class="metric-grid" data-stagger>
+              {HERO_CASES.map((c) => (
+                <div class="metric metric--case">
+                  <span class="metric__chip">{c.brand}</span>
+                  <span class="metric__n">
+                    <span>{c.metric}</span>{c.suffix && <span class="metric__suffix">{c.suffix}</span>}
+                    <span class="metric__arrow" aria-hidden="true">&#8599;</span>
+                  </span>
+                  <p class="metric__l">{c.label}</p>
+                </div>
+              ))}
+            </div>
+            <p class="figure__src mt-1">
+              <span class="sample-flag">Placeholder</span> &nbsp;Every figure
+              above is invented and is here to show the layout. Nothing on this
+              page is a client result.
+            </p>
+          </>
+        )}
       </div>
     </div>
   </section>
@@ -131,7 +152,8 @@ const STAGES = [
 
       <div class="problem-grid" data-stagger>
         {PROBLEMS.map((p) => (
-          <div class="card problem">
+          <div class:list={['card', 'problem', `problem--${p.accent}`]}>
+            <span class="problem__n" aria-hidden="true">{p.n}</span>
             <h3>{p.t}</h3>
             <div class="problem__panel">
               <span class="problem__k">The problem</span>
@@ -165,46 +187,52 @@ const STAGES = [
     </div>
   </section>
 
-  <!-- 5. Four surfaces — INVERTED, pinned, rows scrub in. Centrepiece. -->
-  <section class="pin section--inv" data-scrub-zone>
+  <!-- 5. Four surfaces — INVERTED. No longer pinned.
+       This section used to sticky-pin and scrub its rows in against scroll
+       position. It read as stuttery and rigid: the reader was held in place
+       while rows arrived one at a time, and the scrub was tied to raw scroll
+       so every wheel notch stepped the animation rather than easing it. It is
+       now an ordinary section that scrolls past like everything else. -->
+  <section class="section section--inv">
     <div class="spotlight" aria-hidden="true"></div>
-    <div class="pin__stage">
-      <div class="wrap">
-        <div class="section-head">
-          <h2 class="statement statement--sub" data-split data-scrub>One question. Four different answers.</h2>
-          <p class="lede">
-            The engines disagree with each other far more than most people
-            expect. Same question, same day, different brands named and
-            different sources cited.
-          </p>
-        </div>
-        <ComparisonTable
-          caption="How a visibility report is laid out"
-          columns={[...ENGINES]}
-          rows={demoRows}
-          footnote="Layout illustration. Every status above is invented to show the format — none is a finding about a real brand. Real reports carry the verbatim prompt set, the market, the date and the number of runs per prompt."
-        />
+    <div class="wrap" data-reveal>
+      <div class="section-head">
+        <h2 class="statement statement--sub">One question. Four different answers.</h2>
+        <p class="lede">
+          Ask all four the same thing on the same day and you get four
+          different lists of companies, built from four different sets of
+          sources. This is what we hand you.
+        </p>
       </div>
+      <ComparisonTable
+        caption="How a visibility report is laid out"
+        columns={[...ENGINES]}
+        rows={demoRows}
+        footnote="Layout illustration. Every status above is invented to show the format — none is a finding about a real brand. Real reports carry the verbatim prompt set, the market, the date and the number of runs per prompt."
+      />
     </div>
-    <div class="pin__runway" aria-hidden="true"></div>
   </section>
 
-  <!-- 6. How it works — four stages across, connected by a rule that draws in.
-       This was a horizontal rail pinned across 220vh of runway. Measured, it
-       moved the track 136px in total: a screen and a half of scrolling for
-       almost no payoff, and a stage that held the reader in place while it
-       delivered it. Four cards in a row say the same thing in one glance. -->
-  <section class="section process">
+  <!-- 6. How it works — a timeline. The connecting line draws itself as the
+       section arrives and each node lands on it in turn, so the sequence is
+       legible as a sequence rather than as four boxes in a row. -->
+  <section class="section timeline-section">
     <div class="wrap" data-reveal>
       <div class="section-head">
         <h2>Four stages, and the last one is the point</h2>
+        <p class="lede">Anyone can tell you that you are missing. The fourth stage is what tells you whether anything we did changed it.</p>
       </div>
-      <ol class="process__track" data-stagger>
+
+      <ol class="timeline" data-timeline>
+        <span class="timeline__line" aria-hidden="true"><span class="timeline__fill"></span></span>
         {STAGES.map((st, i) => (
-          <li class="card process__step">
-            <span class="metric__chip">{String(i + 1).padStart(2, '0')}</span>
-            <h3 class="mt-0">{st.t}</h3>
-            <p class="note-sm mb-0">{st.d}</p>
+          <li class="timeline__step" style={`--i:${i}`}>
+            <span class="timeline__node" aria-hidden="true"><span class="timeline__dot"></span></span>
+            <div class="timeline__body">
+              <p class="timeline__when">{st.w}</p>
+              <h3>{st.t}</h3>
+              <p class="note-sm mb-0">{st.d}</p>
+            </div>
           </li>
         ))}
       </ol>
@@ -266,20 +294,23 @@ const STAGES = [
     </div>
   </section>
 
-  <!-- 9. Objections — narrow, dense accordion -->
+  <!-- 9. Objections — a subset. The full set lives on /faq. -->
   <section class="section section--sunk">
     <div class="wrap-narrow" data-reveal>
       <div class="section-head">
         <h2>The questions we get asked</h2>
       </div>
       <div class="qa" data-stagger>
-        {FAQS.map((f, i) => (
+        {FAQS_HOME.map((f, i) => (
           <details open={i === 0}>
             <summary>{f.q}</summary>
             <p>{f.a}</p>
           </details>
         ))}
       </div>
+      <p class="center-row mt-2">
+        <a class="btn btn--ghost" href="/faq">See all {FAQS.length} questions</a>
+      </p>
     </div>
   </section>
 

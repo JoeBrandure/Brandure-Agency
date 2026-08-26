@@ -1,7 +1,7 @@
 # STATE.md — current position
 
-Last updated: 2026-08-25 (home restructured, then hero stats sourced to Pew and
-copy plainened; A3 still urgent)
+Last updated: 2026-08-25 (home restructured; hero stats sourced; /faq added;
+all scroll-pinning removed; A3 still urgent)
 
 Current position at a glance. Update this file whenever something moves between
 sections. It is the first thing to read at the start of a working session.
@@ -110,6 +110,50 @@ repo before building on anything here.
   enabled". Detection was always on — a Netlify form only registers once a
   deploy containing the markup has been scanned, and no such deploy existed
   yet. It was never a blocker.
+- **Second review pass on the site** (2026-08-25).
+  - **Hero card one now leads with the derived 47%**, not 8%. Leading with 8%
+    read as a small number when the finding is a large loss. Both raw values —
+    15% without an AI summary, 8% with — are printed on the card so the
+    arithmetic can be checked.
+  - **`site/hero-stat-options.md` written**: 18 options for these cards, each
+    with a source and a four-band verification status (verified / first-party
+    large sample / needs checking / statement). It names what must not be used
+    and why, and flags one real gap — **there is no well-sampled public figure
+    for how many brands an AI answer typically names.** That is a number
+    Brandure could own, and a reason to widen the next scan.
+  - **A second hero layout is built and switchable in one line.** `HERO_MODE`
+    = `'cases'` renders client result cards instead. The placeholders are
+    zeroes and the page prints a "Placeholder" flag. **That flag must not come
+    off until the figures are real** — invented client outcomes on the first
+    screen would contradict the entire proposition.
+  - **`/faq` added — a fifth page type.** The original brief allowed four and
+    said a fifth needed approval; this was asked for directly. 25 questions in
+    four groups with a sticky section nav. Full `FAQPage` schema on `/faq`; the
+    home page marks up only the six it shows.
+  - **All scroll-pinning removed.** The four-surface section scrubbed its rows
+    against raw scroll position — that is what made it stuttery: a scrub tied
+    to scroll offset steps with every wheel notch instead of easing, and the
+    reader was held in place while rows arrived. Nothing on the site is pinned
+    now, and nothing animates against scroll except the progress bar and the
+    hero mesh.
+  - **Dark bands flattened.** The 160deg ramp to `#071440` made the lower half
+    of every inverted band darker than the top, so the table sat on the darkest
+    part and the three bands did not match. Same token, ramp gone. Row labels
+    larger and semibold; the caption now runs the table's full width instead of
+    being capped at 62ch.
+  - **Four stages are a timeline** with a rule that draws on entry and nodes
+    landing on it in turn. **One layout bug found by measuring:** the steps are
+    grid items in one row so they stretch to equal height, and each step's two
+    auto rows then shared that extra space — the step with the shortest copy
+    grew its node row by 11px and dropped its heading out of line with the
+    other three. Fixed with `align-content: start`.
+  - **Problem cards take colour** from the four existing brand hues. No new
+    colours.
+  - **Logo strip label** is now inline and sentence case. The centred uppercase
+    pill was the giveaway house style of a generated page.
+  - Lighthouse home and `/faq` both 100 / 100 / 96 / 100, blocking time 0ms.
+    Reduced motion and JS-off settle every animated element, the timeline
+    included. All new furniture AA in both themes.
 - **Copy and motion revision on the home page** (2026-08-25, after review).
   - **Hero statistics replaced.** The four cards described our own method
     (categories scanned, cells recorded) — of no interest to a visitor who has

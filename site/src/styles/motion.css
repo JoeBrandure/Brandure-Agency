@@ -321,37 +321,40 @@ tbody tr {
    opposite of easy to follow. Each now runs just long enough to complete its
    own sequence. */
 
-/* ---- Pinned four-surface section ---- */
-
-.pin { position: relative; }
-.pin__stage {
-  position: sticky;
-  top: var(--header-h);
-  min-height: calc(100svh - var(--header-h));
-  display: flex; align-items: center;
-  padding-block: clamp(2rem, 4vw, 3.5rem);
+/* ---- Timeline ----
+   The rule draws itself once, on entry, then the nodes land on it in turn.
+   It is a transition on a scale transform, not a scroll scrub: a scrub tied
+   to raw scroll position steps with every wheel notch, which is what made the
+   old pinned section feel stuttery. This runs on its own clock and reads as
+   one smooth movement however the reader scrolls. */
+.timeline__fill {
+  transition: transform 900ms var(--ease-out);
+  transition-delay: 120ms;
 }
-/* Scroll distance that drives the scrub. Collapses when unpinned. */
-.pin__runway { height: 90vh; }
-
-/* Rows scrub in against --p (0..1) rather than a one-shot transition.
-   Written as .pin .table-figure tbody tr so it outweighs the generic
-   `.table-figure.is-in tbody tr { opacity: 1 }` entrance rule, which has the
-   same specificity and would otherwise win on source order. */
-.pin .table-figure tbody tr {
-  /* Scrub completes by p≈0.7 so the last row lands well before the section
-     unpins, rather than arriving as it leaves. */
-  --rp: clamp(0, calc((var(--p, 1) / 0.7 * var(--rows, 4) - var(--r, 0)) * 1.6), 1);
-  opacity: var(--rp);
-  transform: translate3d(0, calc((1 - var(--rp)) * 10px), 0);
-  transition: none;
+.timeline.is-in .timeline__fill { transform: scaleY(1); }
+@media (min-width: 52rem) {
+  .timeline.is-in .timeline__fill { transform: scaleX(1); }
 }
-
-/* ---- Display headline scrubs against scroll ---- */
-.split[data-scrub] .w > i {
-  transform: translate3d(0, calc((1 - clamp(0, calc(var(--p, 1) * 2.2 - var(--w, 0) * 0.05), 1)) * 105%), 0);
-  transition: none;
+.timeline__step {
+  opacity: 0;
+  transform: translate3d(0, var(--rise), 0);
+  transition:
+    opacity var(--dur-2) var(--ease-out),
+    transform var(--dur-2) var(--ease-out);
+  /* Each node lands as the rule reaches it. */
+  transition-delay: calc(220ms + 180ms * var(--i, 0));
 }
+.timeline.is-in .timeline__step { opacity: 1; transform: none; }
+.timeline__dot { transition: transform var(--dur-2) var(--ease-out), box-shadow var(--dur-2) var(--ease-out); }
+.timeline.is-in .timeline__step:hover .timeline__dot { transform: scale(1.2); }
+
+/* ---- Problem cards ----
+   The top rule extends across the card on hover and the accent tint deepens.
+   Both are cheap and both point at the card the cursor is on. */
+.problem::before { transition: transform var(--dur-2) var(--ease-out); }
+.problem:hover { --pw: 1; }
+.problem:hover .problem__panel--effect { background: color-mix(in srgb, var(--pa) 14%, transparent); }
+.problem__panel--effect { transition: background var(--dur-2) var(--ease); }
 
 /* ---- Cursor-following radial light on dark sections ---- */
 .section--inv { position: relative; isolation: isolate; }
@@ -433,10 +436,9 @@ tbody tr {
     mask-image: none;
   }
 
-  .pin__runway { height: 0 !important; }
-  .pin__stage { position: static !important; min-height: 0 !important; }
-  .pin .table-figure tbody tr { opacity: 1 !important; transform: none !important; }
-  .split[data-scrub] .w > i { transform: none !important; }
+  .timeline__step { opacity: 1 !important; transform: none !important; transition: none !important; }
+  .timeline__fill { transform: scaleX(1) scaleY(1) !important; transition: none !important; }
+  .problem::before { transform: scaleX(1) !important; transition: none !important; }
   .section--inv .spotlight { display: none !important; }
   .draw path, .draw line { stroke-dashoffset: 0 !important; }
   .sticky-head { position: static !important; background: none !important; }
@@ -450,9 +452,8 @@ tbody tr {
 .no-js .hero [data-load] > *,
 .no-js tbody tr { opacity: 1; transform: none; }
 .no-js [data-reveal] > .cta-card { box-shadow: 0 34px 80px -34px var(--btn-shadow); }
-.no-js .pin__runway { height: 0; }
-.no-js .pin__stage { position: static; min-height: 0; }
-.no-js .pin .table-figure tbody tr { opacity: 1; transform: none; }
-.no-js .split[data-scrub] .w > i { transform: none; }
+.no-js .timeline__step { opacity: 1; transform: none; }
+.no-js .timeline__fill { transform: scaleX(1) scaleY(1); }
+.no-js .problem::before { transform: scaleX(1); }
 .no-js .draw path, .no-js .draw line { stroke-dashoffset: 0; }
 .no-js .sticky-head { position: static; }

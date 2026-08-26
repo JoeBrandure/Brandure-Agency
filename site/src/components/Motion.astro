@@ -25,7 +25,7 @@
        header still needs its scrolled state — that is a border and a blur,
        not motion. */
     function settle() {
-      document.querySelectorAll('[data-reveal],[data-stagger],[data-load],.table-figure,.split')
+      document.querySelectorAll('[data-reveal],[data-stagger],[data-load],[data-timeline],.table-figure,.split')
         .forEach(function (el) { el.classList.add('is-in'); });
       document.querySelectorAll('[data-count]').forEach(function (el) {
         el.textContent = el.getAttribute('data-count');
@@ -89,7 +89,7 @@
 
     /* ---- One observer drives every entrance ---- */
     var targets = document.querySelectorAll(
-      '[data-reveal],[data-stagger],[data-split],.table-figure:not(.pin .table-figure)'
+      '[data-reveal],[data-stagger],[data-split],[data-timeline],.table-figure'
     );
     if (!('IntersectionObserver' in window)) { settle(); headerState(); return; }
 
@@ -160,12 +160,6 @@
         var len = el.getTotalLength ? el.getTotalLength() : 400;
         el.style.setProperty('--len', String(Math.ceil(len) || 400));
       });
-    });
-
-    /* Rows carry their index and count so the CSS can stagger the scrub. */
-    document.querySelectorAll('.pin tbody').forEach(function (tb) {
-      var trs = tb.querySelectorAll('tr');
-      tb.closest('.pin').style.setProperty('--rows', String(trs.length));
     });
 
     var cache = [];

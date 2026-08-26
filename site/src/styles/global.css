@@ -79,8 +79,12 @@ code, kbd, .mono { font-family: var(--font-mono); font-size: 0.9em; }
 .section--sunk { background: var(--surface-sunk); }
 
 /* Inverted full-bleed band — deep blue, type reversed out. */
+/* Flat, not a gradient. The 160deg ramp to --surface-inv-2 (#071440) made the
+   lower half of every dark band noticeably darker than the top, so the table
+   sat on the darkest part of it and the three bands did not match each other.
+   Same colour token as before — the ramp is what is gone. */
 .section--inv {
-  background: linear-gradient(160deg, var(--surface-inv) 0%, var(--surface-inv-2) 100%);
+  background: var(--surface-inv);
   color: var(--ink-inv);
 }
 .section--inv h1, .section--inv h2, .section--inv h3, .section--inv .statement { color: var(--ink-inv); }
@@ -233,7 +237,34 @@ a.card:hover, .card--hover:hover { transform: translateY(-3px); box-shadow: var(
 .problem-grid { display: grid; gap: 1.1rem; grid-template-columns: 1fr; }
 @media (min-width: 48rem) { .problem-grid { grid-template-columns: 1fr 1fr; } }
 
-.problem { display: flex; flex-direction: column; gap: 0.75rem; }
+/* Each card takes one of the four existing brand hues. No new colours: the
+   accent drives a top rule, the number, the effect panel's edge and a tint
+   that deepens on hover, so the four read as a set rather than four
+   identical white boxes. */
+.problem {
+  display: flex; flex-direction: column; gap: 0.75rem;
+  position: relative; overflow: hidden;
+  --pa: var(--cobalt);
+  --pa-soft: color-mix(in srgb, var(--cobalt) 9%, transparent);
+}
+.problem--cobalt { --pa: var(--cobalt); --pa-soft: color-mix(in srgb, var(--cobalt) 9%, transparent); }
+.problem--violet { --pa: var(--violet); --pa-soft: color-mix(in srgb, var(--violet) 9%, transparent); }
+.problem--teal   { --pa: var(--teal);   --pa-soft: color-mix(in srgb, var(--teal) 9%, transparent); }
+.problem--deep   { --pa: var(--cobalt-deep); --pa-soft: color-mix(in srgb, var(--cobalt-deep) 9%, transparent); }
+
+/* Top rule, drawn from the left on hover. */
+.problem::before {
+  content: '';
+  position: absolute; inset: 0 0 auto 0; height: 3px;
+  background: var(--pa);
+  transform: scaleX(var(--pw, 0.18));
+  transform-origin: 0 50%;
+}
+.problem__n {
+  font-family: var(--font-mono); font-size: var(--label);
+  letter-spacing: 0.08em; color: var(--pa);
+  display: block; margin-bottom: 0.15rem;
+}
 /* Panels share the leftover height so a short card in a row does not leave a
    block of dead space under its last panel. */
 .problem__panel { flex: 1; }
@@ -245,13 +276,16 @@ a.card:hover, .card--hover:hover { transform: translateY(-3px); box-shadow: var(
   border-left: 2px solid var(--border);
 }
 .section--sunk .problem__panel { background: var(--surface); }
-.problem__panel--effect { border-left-color: var(--accent); background: var(--grad-tint); }
+.problem__panel--effect {
+  border-left-color: var(--pa);
+  background: var(--pa-soft);
+}
 .problem__k {
   display: block; font-family: var(--font-mono); font-size: var(--label);
   letter-spacing: var(--ls-label); text-transform: uppercase;
   color: var(--muted); margin-bottom: 0.3rem;
 }
-.problem__panel--effect .problem__k { color: var(--accent); }
+.problem__panel--effect .problem__k { color: var(--pa); }
 .problem__panel p { margin: 0; font-size: var(--small); max-width: none; }
 
 /* ---------- Full-bleed gradient CTA card ---------- */
@@ -388,23 +422,66 @@ a.card:hover, .card--hover:hover { transform: translateY(-3px); box-shadow: var(
 .figure__src { font-family: var(--font-mono); font-size: var(--label); color: var(--muted); display: block; margin-top: 0.3rem; }
 .section--inv .figure__src { color: var(--muted-inv); }
 
-/* ---------- Process: four stages across ----------
-   A rule runs behind the row and each card sits on it, so the sequence reads
-   as one line rather than four separate boxes. */
+/* ---------- Timeline ----------
+   Four stages on one line, with a rule running behind the nodes. The rule is
+   drawn by a fill element rather than by animating width on the rule itself,
+   so nothing here triggers layout. */
 
-.process__track {
+.timeline {
   position: relative;
   list-style: none; margin: 0; padding: 0;
-  display: grid; gap: 1.1rem;
+  display: grid; gap: 2rem;
   grid-template-columns: 1fr;
 }
-@media (min-width: 40rem) { .process__track { grid-template-columns: 1fr 1fr; } }
-@media (min-width: 62rem) { .process__track { grid-template-columns: repeat(4, 1fr); } }
-/* No connecting rule behind the row: the cards are translucent, so a line
-   drawn behind them showed straight through the card faces and read as an
-   artefact rather than a connector. The numbered chips carry the sequence. */
-.process__step { position: relative; max-width: none; margin: 0; }
-.process__step h3 { font-size: var(--h3); margin: 0.45rem 0 0.4rem; }
+.timeline__line {
+  position: absolute;
+  left: calc(0.425rem - 1px); top: 0.425rem; bottom: 0.6rem; width: 2px;
+  background: var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.timeline__fill {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, var(--cobalt), var(--violet));
+  transform: scaleY(0); transform-origin: 50% 0;
+}
+/* align-content:start matters. The four steps are grid items in one row, so
+   they stretch to equal height; inside each, two auto rows then SHARE that
+   extra space, and the step with the shortest copy grew its node row by 11px
+   and dropped its heading out of line with the other three. */
+.timeline__step {
+  position: relative;
+  display: grid; grid-template-columns: 1.5rem 1fr; gap: 0 1rem;
+  align-content: start;
+  margin: 0; max-width: none;
+}
+.timeline__node { display: flex; align-items: center; justify-content: center; padding-top: 0.15rem; }
+.timeline__dot {
+  width: 0.85rem; height: 0.85rem; border-radius: 50%;
+  background: var(--surface);
+  border: 2px solid var(--cobalt);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--cobalt) 14%, transparent);
+}
+.timeline__when {
+  font-family: var(--font-mono); font-size: var(--label);
+  letter-spacing: var(--ls-label); text-transform: uppercase;
+  color: var(--accent); margin: 0 0 0.3rem;
+}
+.timeline__body h3 { margin: 0 0 0.4rem; }
+.timeline__body p { max-width: 46ch; }
+
+/* Horizontal from tablet up: the rule runs across, nodes sit on it. */
+@media (min-width: 52rem) {
+  .timeline { grid-template-columns: repeat(4, 1fr); gap: 0 clamp(1.25rem, 2.5vw, 2rem); }
+  .timeline__line {
+    left: 0; right: 0; top: calc(0.425rem - 1px); bottom: auto;
+    width: auto; height: 2px;
+  }
+  .timeline__fill { transform: scaleX(0); transform-origin: 0 50%; background: linear-gradient(90deg, var(--cobalt), var(--violet)); }
+  .timeline__step { grid-template-columns: 1fr; gap: 0; }
+  .timeline__node { justify-content: flex-start; padding: 0 0 1.25rem; }
+  .timeline__body p { max-width: none; }
+}
 
 /* Numbered process steps */
 .steps { counter-reset: step; list-style: none; padding: 0; margin: 2rem 0 0; display: grid; gap: 1.1rem; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); }
@@ -511,7 +588,7 @@ tbody th, tbody td { text-align: left; vertical-align: top; padding: 0.75rem 1re
 tbody tr:last-child th, tbody tr:last-child td { border-bottom: 0; }
 tbody th[scope='row'] { font-weight: 400; min-width: 15rem; border-right: 1px solid var(--border); }
 .section--inv tbody th[scope='row'] { border-right-color: var(--border-inv); }
-.row-label { display: block; }
+.row-label { display: block; font-weight: 600; font-size: 1.0625rem; }
 .row-note { display: block; font-family: var(--font-mono); font-size: var(--label); color: var(--muted); margin-top: 0.15rem; }
 .section--inv .row-note { color: var(--muted-inv); }
 
@@ -522,9 +599,16 @@ tbody th[scope='row'] { font-weight: 400; min-width: 15rem; border-right: 1px so
 .status--present { color: var(--status-present); }
 .status--partial { color: var(--status-partial); }
 .status--absent  { color: var(--status-absent); }
-.cite { display: block; font-family: var(--font-mono); font-size: var(--label); color: var(--muted); margin-top: 0.25rem; line-height: 1.4; }
+.cite { display: block; font-family: var(--font-mono); font-size: 0.8125rem; color: var(--muted); margin-top: 0.3rem; line-height: 1.45; }
 .section--inv .cite { color: var(--muted-inv); }
-figcaption { font-size: var(--label); font-family: var(--font-mono); color: var(--muted); margin-top: 0.7rem; line-height: 1.5; max-width: var(--measure); }
+/* Runs the full width of the table it belongs to. It was capped at --measure
+   (62ch), which set it in a narrow four-line column under a full-width table
+   and made it look like a stray block rather than a caption. */
+figcaption {
+  font-size: var(--small); font-family: var(--font-text);
+  color: var(--muted); margin-top: 0.9rem; line-height: 1.6;
+  max-width: none;
+}
 .section--inv figcaption { color: var(--muted-inv); }
 
 /* ---------- Header ---------- */
@@ -628,6 +712,31 @@ input:focus-visible { border-color: var(--focus); }
 .prose > :first-child { margin-top: 0; }
 .prose h2 { margin-top: 2.5rem; }
 
+/* ---------- FAQ page ---------- */
+
+.faq-layout { display: grid; gap: clamp(2rem, 4vw, 3rem); align-items: start; }
+@media (min-width: 58rem) { .faq-layout { grid-template-columns: 15rem 1fr; } }
+
+.faq-nav { position: static; }
+@media (min-width: 58rem) {
+  .faq-nav { position: sticky; top: calc(var(--header-h) + 1rem); }
+}
+.faq-nav__t {
+  font-family: var(--font-mono); font-size: var(--label);
+  letter-spacing: var(--ls-label); text-transform: uppercase;
+  color: var(--muted); margin: 0 0 0.7rem;
+}
+.faq-nav ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; }
+@media (min-width: 58rem) { .faq-nav ul { display: block; } }
+.faq-nav li { margin: 0 0 0.45rem; max-width: none; }
+.faq-nav a { color: var(--muted); text-decoration: none; font-size: var(--small); }
+.faq-nav a:hover { color: var(--accent); text-decoration: underline; }
+
+.faq-group + .faq-group { margin-top: clamp(2.5rem, 5vw, 3.5rem); }
+.faq-group h2 { max-width: none; font-size: var(--h3); margin-bottom: 1rem; scroll-margin-top: calc(var(--header-h) + 1rem); }
+
+.hero--short { padding-block: clamp(2.5rem, 5vw, 4rem) clamp(1.5rem, 3vw, 2.5rem); }
+
 /* ---------- Small utilities ----------
    Named rather than written inline. Every one of these replaced a
    `style="margin-top:…"` patch that had drifted out of step between pages. */
@@ -664,9 +773,32 @@ input:focus-visible { border-color: var(--focus); }
    on #FCFBF8 they render as an outline and a blank space. A dark band is the
    only surface all five are legible on without editing anyone's logo. */
 
-.logos { padding-block: clamp(2rem, 3.5vw, 3rem); }
-.logos .pill { margin-bottom: 1.6rem; }
-.logos .wrap { display: flex; justify-content: center; }
+.logos {
+  padding-block: clamp(1.75rem, 3vw, 2.5rem);
+  display: grid;
+  gap: 1.25rem clamp(1.5rem, 3vw, 2.75rem);
+  align-items: center;
+  padding-inline: max(1.25rem, calc((100% - min(100% - 2.5rem, var(--wrap))) / 2));
+}
+@media (min-width: 52rem) { .logos { grid-template-columns: auto 1fr; } }
+.logos__label {
+  margin: 0;
+  font-size: var(--small);
+  color: var(--muted-inv);
+  max-width: 22ch;
+  line-height: 1.35;
+}
+/* With the label beside it the strip no longer needs a wide fade on the left —
+   at 8% it ate roughly 100px and left a gap between label and first logo. */
+@media (min-width: 52rem) {
+  .logos .marquee {
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 2%, #000 92%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 2%, #000 92%, transparent);
+  }
+}
+/* The marquee's own gutter is handled by the mask, so it runs to the edge. */
+.logos .marquee { margin-inline: calc(-1 * max(1.25rem, calc((100vw - min(100vw - 2.5rem, var(--wrap))) / 2))); }
+@media (min-width: 52rem) { .logos .marquee { margin-left: 0; } }
 
 .marquee {
   position: relative;

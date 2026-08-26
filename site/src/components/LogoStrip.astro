@@ -36,10 +36,14 @@ const items = BRANDS.map((b) => {
 const track = [...items, ...items, ...items, ...items];
 ---
 
+<!--
+  The label sits inline at the left of the strip rather than as a centred
+  uppercase pill above it. The pill treatment — mono caps, a dot, floating on
+  its own line — is the house style of every generated landing page, and it
+  read as one.
+-->
 <section class="section--inv logos" aria-labelledby="logos-h">
-  <div class="wrap">
-    <p class="pill" id="logos-h"><span class="pill__dot"></span>Trusted by</p>
-  </div>
+  <p class="logos__label" id="logos-h">Brands we work with</p>
 
   <div class="marquee" data-marquee>
     <ul class="marquee__track" role="list">

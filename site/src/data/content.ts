@@ -1,75 +1,61 @@
 /**
- * Shared page content. Objection-handling copy lives here so the visible
- * accordion and the FAQPage structured data read from one source rather than
- * duplicating each other.
+ * Shared page content. Copy lives here so the visible page and the structured
+ * data read from one source rather than duplicating each other.
  */
 export const ENGINES = ['ChatGPT', 'Perplexity', 'Gemini', 'Google AI Overview'] as const;
 
-export const FAQS = [
-  {
-    q: 'How is this different from SEO?',
-    a: 'Search returns a list and lets you choose. An answer engine returns a conclusion and has already chosen. Ranking third on a page still gets you seen; coming third in a model’s judgement usually means not being named at all. The levers differ too — whether a model can resolve who you are, and which third-party sources it grounds on when it answers.',
-  },
-  {
-    q: 'Which engines do you measure?',
-    a: 'ChatGPT, Perplexity, Gemini and Google AI Overviews, each reported separately. They disagree with each other more than most people expect, so a single blended score hides the thing you need to know.',
-  },
-  {
-    q: 'Can you guarantee we appear in AI answers?',
-    a: 'No, and neither can anyone else. Answer engines change their grounding behaviour without notice. What we can do is measure the position you hold now, act on the causes we can influence, and measure again against a control set so you can see what the work actually moved.',
-  },
-  {
-    q: 'What if our category is already locked up?',
-    a: 'Then we say so and decline the work. Some categories are settled on two incumbents with no visible route in. A measurement that only ever produces a reason to hire us is not a measurement, and we would rather lose the engagement than sell against our own data.',
-  },
-  {
-    q: 'How long before anything moves?',
-    a: 'Entity and structured-data corrections can register within weeks. Earned placement is slower and depends on third parties, so it is measured in months. We re-measure on a fixed schedule against a control set rather than claiming a timeline we cannot hold.',
-  },
-] as const;
+/* ============================ HERO ============================
+ * Two hero variants. Switch with one line — no markup change.
+ *
+ *   'stats' — sourced category statistics (live)
+ *   'cases' — client result cards, the shape the reference site uses
+ *
+ * The 'cases' entries below are PLACEHOLDERS and are marked as such on the
+ * page. They must not go live carrying invented outcomes: the agency has no
+ * client results to report, and this site sells measurement. Replace the
+ * placeholder text with real figures and set HERO_MODE to 'cases'.
+ */
+export const HERO_MODE: 'stats' | 'cases' = 'stats';
 
 /**
- * Hero statistics. These make the case for the category — why an answer
- * engine is a different problem from a search engine — rather than
- * describing our own method, which is what a visitor who has never heard of
- * AEO needs first.
- *
- * SOURCING. The first three are one study, cited precisely: Pew Research
- * Center, "Do people click on links in Google AI summaries?", 22 July 2025 —
- * 68,879 Google searches by 900+ US adults, browser-tracked through March
- * 2025. One source, one sample, one date, stated on the page.
+ * SOURCING. Cards 1–3 are one study, cited on the page: Pew Research Center,
+ * "Do people click on links in Google AI summaries?", 22 July 2025 — 68,879
+ * Google searches by 900+ US adults, browser-tracked through March 2025.
  *
  * They describe GOOGLE AI OVERVIEWS SPECIFICALLY, not AI answers in general,
  * and the copy says so. Stretching a Google-only sample to cover ChatGPT and
  * Perplexity would be the exact move this agency sells against.
  *
- * NOT USED, deliberately: Gartner's "search volume will drop 25% by 2026"
- * (Feb 2024) is the most-quoted figure in this category and is now past its
- * own deadline without happening. Quoting a failed prediction on a site that
- * sells measurement would be self-defeating.
+ * Card 1 leads with the DERIVED figure — 1 − 8/15 = 46.7%, rounded to 47% —
+ * because 8% on its own reads as a small number when the finding is a large
+ * loss. The derivation and both raw values are stated in the label, so a
+ * reader can check the arithmetic rather than take the headline on trust.
  *
- * NO ARROWS, NO CLIENT RESULTS. The layout these sit in normally carries a
- * rising arrow beside a client's percentage. Ours carry published research
- * about the category. There are no client outcomes to show.
+ * NOT USED: Gartner's "search volume down 25% by 2026" (Feb 2024). Its own
+ * deadline has passed without it happening, and quoting a failed prediction
+ * on a site that sells measurement would be self-defeating.
+ *
+ * Alternatives, with sources and verification status, are in
+ * `site/hero-stat-options.md`.
  */
 export const HERO_STATS = [
   {
-    chip: 'Clicks',
-    n: '8',
+    chip: 'Clicks lost',
+    n: '47',
     suffix: '%',
-    label: 'of Google visits end in a click on a result when an AI summary is on the page. Without one it is 15%.',
+    label: 'of result clicks disappear when an AI summary is on the page. 15% of Google visits end in a click without one; 8% with.',
   },
   {
-    chip: 'Traffic',
+    chip: 'Not traffic',
     n: '1',
     suffix: '%',
     label: 'of visits end in a click on a link inside the summary itself. Being cited is not a traffic channel — being named is the win.',
   },
   {
-    chip: 'Intent',
+    chip: 'Buying intent',
     n: '53',
     suffix: '%',
-    label: 'of searches ten words or longer return an AI summary. That is how people search when they are choosing.',
+    label: 'of searches ten words or longer return an AI summary. That is how people search when they are choosing, not browsing.',
   },
   {
     chip: 'Coverage',
@@ -80,38 +66,207 @@ export const HERO_STATS = [
 ] as const;
 
 /**
- * The problem grid, in plain language.
+ * PLACEHOLDER client results. Every value here is invented and the page says
+ * so in the card and in the source line beneath. Do not remove that notice
+ * without replacing the figures with measured ones.
+ */
+export const HERO_CASES = [
+  { brand: 'Client one',   metric: '0',  suffix: '%', dir: 'up' as const, label: 'placeholder — replace with a measured change in named mentions, and the prompt set it was measured on.' },
+  { brand: 'Client two',   metric: '0',  suffix: '%', dir: 'up' as const, label: 'placeholder — replace with a measured change, the engine it applies to, and the date range.' },
+  { brand: 'Client three', metric: '0',  suffix: '',  dir: 'up' as const, label: 'placeholder — replace with a count that can be checked, not a percentage without a base.' },
+  { brand: 'Client four',  metric: '0',  suffix: '%', dir: 'up' as const, label: 'placeholder — replace with the control-set figure alongside it, or the number means nothing.' },
+] as const;
+
+/* ============================ PROBLEM GRID ============================
+ * Plain language. The field's own vocabulary — entity resolution, grounding,
+ * control sets — reads as competence to someone already in AEO and as noise
+ * to the person actually buying, who has simply noticed they are not coming
+ * up. Cause and consequence stay split: the consequence is the half a buyer
+ * recognises.
  *
- * The earlier version used the field's own vocabulary — entity resolution,
- * grounding, third-party sources, control sets. That reads as competence to
- * someone already in AEO and as noise to the person actually buying, who has
- * simply noticed they are not coming up. Cause and consequence stay split,
- * because the consequence is the half a buyer recognises.
+ * `accent` picks one of the four existing brand hues. No new colours.
  */
 export const PROBLEMS = [
   {
+    n: '01',
+    accent: 'cobalt',
     t: 'The AI chooses for them',
     p: 'Google hands over ten links and lets someone pick. ChatGPT hands over three names and has already picked.',
     e: 'If you are not one of the three you are not in the running — and nothing in your analytics shows it, because there is no visit to miss.',
   },
   {
+    n: '02',
+    accent: 'violet',
     t: 'Every AI says something different',
     p: 'Ask ChatGPT, Perplexity, Gemini and Google the same question on the same day and different companies come back.',
     e: 'One overall “AI score” averages four different answers into a number that cannot tell you which one to go and fix.',
   },
   {
+    n: '03',
+    accent: 'teal',
     t: 'Your website is not what decides',
     p: 'These answers are built mostly from other people’s pages — directories, press, review sites, forums — not from yours.',
     e: 'You can add twenty pages to your own site and the answer will not move. Getting mentioned elsewhere is what moves it.',
   },
   {
+    n: '04',
+    accent: 'deep',
     t: 'Nobody can tell you why',
     p: 'There are three reasons an AI leaves you out: it does not know who you are, it cannot find you anywhere it trusts, or it simply prefers someone else.',
     e: 'Each one needs completely different work. Anyone quoting a monthly fee before finding out which applies is guessing.',
   },
 ] as const;
 
-/** Named offers. PRICES ARE SAMPLE FIGURES — Joe sets the real numbers. */
+/* ============================ THE FOUR STAGES ============================ */
+export const STAGES = [
+  { t: 'Baseline',    w: 'Week 1',   d: 'We agree the questions your buyers actually type, freeze them, and run all four engines from clean sessions. Market agreed with you, never assumed.' },
+  { t: 'Diagnose',    w: 'Week 2',   d: 'Work out which of the three causes applies to you — the AI does not know you, cannot find you, or prefers someone else. They need different work.' },
+  { t: 'Execute',     w: 'Ongoing',  d: 'Fix what your own site controls, then go and earn the mentions elsewhere that the answers are actually built from.' },
+  { t: 'Re-measure',  w: 'Monthly',  d: 'The same frozen questions, plus a set we deliberately leave alone. Without that second set you have a number that went up and no way to say why.' },
+] as const;
+
+/* ============================ FAQs ============================
+ * One source for the accordion on /faq, the shorter set on the home page, and
+ * the FAQPage structured data on both. `group` drives the headings on /faq.
+ */
+export const FAQS = [
+  /* ---- The basics ---- */
+  {
+    group: 'The basics',
+    q: 'What is answer engine optimisation?',
+    a: 'It is the work of getting a brand named, cited and recommended inside AI-generated answers — ChatGPT, Perplexity, Gemini, Google AI Overviews — rather than only ranking in a list of blue links. The unit of competition is different: a search engine returns options, an answer engine returns a conclusion.',
+  },
+  {
+    group: 'The basics',
+    q: 'How is this different from SEO?',
+    a: 'Search returns a list and lets you choose. An answer engine returns a conclusion and has already chosen. Ranking third on a page still gets you seen; coming third in a model’s judgement usually means not being named at all. The levers differ too — whether a model can resolve who you are, and which third-party sources it grounds on when it answers.',
+  },
+  {
+    group: 'The basics',
+    q: 'Does our SEO still matter?',
+    a: 'Yes, and we would not advise dropping it. Strong search fundamentals help a model find and trust you, and the traditional results page has not gone away. What has changed is that a good ranking stops paying when an answer arrives above it and the reader never scrolls. AEO is additive to SEO, not a replacement for it.',
+  },
+  {
+    group: 'The basics',
+    q: 'Is this the same as GEO, LLMO or AI SEO?',
+    a: 'Broadly yes — the field is young and the vocabulary is not settled. Generative engine optimisation, large language model optimisation and answer engine optimisation all describe the same problem. We use AEO because it names the thing being optimised for: the answer, not the model.',
+  },
+  {
+    group: 'The basics',
+    q: 'Is it too early to bother with this?',
+    a: 'That is a fair question and the honest answer depends on your category. In some, AI answers already carry meaningful buying-intent volume; in others they do not yet. That is exactly what the free report tells you, and if the answer is "not yet for you" we will say so.',
+  },
+
+  /* ---- What gets measured ---- */
+  {
+    group: 'What gets measured',
+    q: 'Which engines do you measure?',
+    a: 'ChatGPT, Perplexity, Gemini and Google AI Overviews, each reported separately. They disagree with each other more than most people expect, so a single blended score hides the thing you need to know.',
+  },
+  {
+    group: 'What gets measured',
+    q: 'How do you decide which questions to test?',
+    a: 'We agree a prompt set with you and freeze it. They are the questions a buyer types when they are choosing — comparisons, alternatives, "best X for Y" — not the ones they type when they are researching a topic. A prompt set that drifts between runs is not a measurement, it is two different tests wearing the same name.',
+  },
+  {
+    group: 'What gets measured',
+    q: 'Do you add our city or country to the questions?',
+    a: 'Only if your buyers would. Adding a geography a buyer never types does not sharpen the test, it changes it — B2B software in particular gets pushed into a local-services answer shape that has nothing to do with how the category is bought. Whether a market belongs in the prompt is something we establish with you rather than assume.',
+  },
+  {
+    group: 'What gets measured',
+    q: 'How do you stop your own search history skewing the results?',
+    a: 'Every run is from a clean session with personalisation off and the account signed out. A signed-in run measures the operator’s own history rather than the market. Where a model version differs between runs we record it, because a change in the model can look exactly like a change in your position.',
+  },
+  {
+    group: 'What gets measured',
+    q: 'How often do you re-measure?',
+    a: 'Monthly on a retainer, against the identical frozen prompt set. Answers move on their own — sometimes considerably — so a single reading is a snapshot, not a baseline.',
+  },
+  {
+    group: 'What gets measured',
+    q: 'What is a control set and why does it matter?',
+    a: 'A group of prompts we deliberately leave untouched for the length of the engagement. If your tracked prompts improve and the control set moves the same way, the change was the market, not us. Without one you have a number that went up and no way to attribute it.',
+  },
+  {
+    group: 'What gets measured',
+    q: 'How many times do you run each prompt?',
+    a: 'More than once, and the number is stated in every report. Answer engines are not deterministic — the same question can return different brands minutes apart — so a single run per prompt is an anecdote. Any report that does not tell you its run count is hiding its sample size.',
+  },
+
+  /* ---- What actually moves it ---- */
+  {
+    group: 'What actually moves it',
+    q: 'What actually changes whether an AI names us?',
+    a: 'Three things, in rough order of weight. Whether the model can resolve who you are and what you do. Whether the sources it grounds on mention you. And whether your own content is structured so an answer can be lifted from it cleanly. Most of the weight sits in the second one, which is the least comfortable because it is earned rather than published.',
+  },
+  {
+    group: 'What actually moves it',
+    q: 'Can we just publish more content?',
+    a: 'Usually not on its own. Published research across tens of millions of AI citations consistently finds the large majority point at sources a brand does not own — press, directories, review sites, forums. Adding pages to your own domain can leave the answer entirely unchanged.',
+  },
+  {
+    group: 'What actually moves it',
+    q: 'Does schema and structured data help?',
+    a: 'It helps a model resolve who you are, which is a real failure mode and worth fixing. It is not, by itself, what gets you named. We do the entity and structured-data work because it is cheap and it removes one of the three causes — not because it is the lever.',
+  },
+  {
+    group: 'What actually moves it',
+    q: 'Do you do Reddit and forum posting?',
+    a: 'We do not astroturf. Community platforms are cited heavily by these models, so being genuinely present and genuinely useful there matters — but planted posts get removed, get you banned, and get attributed back to the brand. We would rather lose the ranking than earn it that way.',
+  },
+  {
+    group: 'What actually moves it',
+    q: 'How long before anything moves?',
+    a: 'Entity and structured-data corrections can register within weeks. Earned placement is slower and depends on third parties, so it is measured in months. We re-measure on a fixed schedule against a control set rather than claiming a timeline we cannot hold.',
+  },
+  {
+    group: 'What actually moves it',
+    q: 'Can you guarantee we appear in AI answers?',
+    a: 'No, and neither can anyone else. Answer engines change their grounding behaviour without notice. What we can do is measure the position you hold now, act on the causes we can influence, and measure again against a control set so you can see what the work actually moved.',
+  },
+  {
+    group: 'What actually moves it',
+    q: 'What if a competitor is already dominant?',
+    a: 'Sometimes that is decisive and sometimes it is not — an incumbent named by one engine is often absent from another. The baseline shows which. Where a category is genuinely settled with no visible route in, we say so and decline the work.',
+  },
+
+  /* ---- Working together ---- */
+  {
+    group: 'Working together',
+    q: 'What if our category is already locked up?',
+    a: 'Then we say so and decline the work. Some categories are settled on two incumbents with no visible route in. A measurement that only ever produces a reason to hire us is not a measurement, and we would rather lose the engagement than sell against our own data.',
+  },
+  {
+    group: 'Working together',
+    q: 'What does the free report actually include?',
+    a: 'Your category run across all four engines from clean sessions: who gets named, in what order, and which sources each answer was built from. It is a real measurement, not a teaser — you can act on it whether or not you engage us.',
+  },
+  {
+    group: 'Working together',
+    q: 'Do you need access to our website?',
+    a: 'Not for the report. For execution we need whatever is required to make the changes agreed — usually CMS access or a developer on your side to implement. We are happy to hand specifications to your existing team instead.',
+  },
+  {
+    group: 'Working together',
+    q: 'Will you work with our existing SEO or PR agency?',
+    a: 'Yes, and it often works better that way. Earned placement overlaps heavily with what a PR team already does; entity and structured-data fixes overlap with SEO. We would rather brief your incumbents than duplicate them.',
+  },
+  {
+    group: 'Working together',
+    q: 'What does reporting look like?',
+    a: 'Raw counts alongside any summary figure, every engine separately, the control set beside the tracked set, and the prompt list, market, date and run count attached. If a number cannot be traced back to the runs behind it, it does not go in.',
+  },
+  {
+    group: 'Working together',
+    q: 'Who is this not for?',
+    a: 'Anyone wanting a guaranteed position, anyone wanting volume of content for its own sake, and anyone in a category where AI answers carry no buying-intent volume yet. We would rather establish that in the free report than three months into a retainer.',
+  },
+] as const;
+
+/** The subset shown on the home page. The rest live on /faq. */
+export const FAQS_HOME = FAQS.slice(0, 6);
+
 export const OFFERS = [
   {
     name: 'Four-surface visibility audit',

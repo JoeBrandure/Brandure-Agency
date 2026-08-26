@@ -146,17 +146,14 @@ against the built site served locally. The live site is at
 `brandure.netlify.app`, which this build environment cannot reach, so these
 are local numbers.
 
-| Page | Performance | Accessibility | Best practices | SEO |
-|---|---|---|---|---|
-| Home | 100 | 100 | 96 | 100 |
+| Page | Performance | Accessibility | Best practices | SEO | TBT | CLS |
+|---|---|---|---|---|---|---|
+| Home | 100 | 100 | 96 | 100 | 0 ms | 0.022 |
+| Questions (`/faq`) | 100 | 100 | 96 | 100 | 0 ms | 0 |
 
-First contentful paint 0.5s, largest contentful paint 0.6s, **total blocking
-time 0ms**, cumulative layout shift 0.014.
-
-Motion still costs nothing measurable. Blocking time is now zero: the layout
-pass removed a whole pinned section and its 220vh runway, and folded the last
-duplicate scroll listener — the header had its own, doing the same work as
-the runtime — into the single scroll pass.
+Motion still costs nothing measurable. Blocking time is zero on both: every
+sticky-pinned section and its scroll runway is gone, and there is one scroll
+listener on the page rather than three.
 
 Two audits sit below 1.0 and are worth naming rather than hiding:
 `modern-image-formats` and `uses-responsive-images`, both driven by the supplied
@@ -179,6 +176,18 @@ on the real site. Re-check after the first live deploy.
 marks any page blocked from indexing down. The identical page scores **100**
 with `placeholder: false`, which was tested directly rather than assumed.
 
+### Where things are on the home page
+
+Hero → logo strip → problem grid → gradient CTA → four-surface table →
+timeline → pricing → research → six questions with a link to `/faq` → report
+form.
+
+**`/faq` is a fifth page type.** The original brief allowed four and said a
+fifth needed approval; this one was asked for directly. It carries all 25
+questions grouped in four sections with a sticky section nav, and the full
+`FAQPage` structured data. The home page marks up only the six it actually
+shows — the same questions should not be claimed twice.
+
 ### The hero statistics — where they come from
 
 Three of the four are one study, cited on the page: **Pew Research Center,
@@ -187,10 +196,25 @@ Google searches by 900+ US adults, browser-tracked through March 2025.
 
 | Figure | Claim |
 |---|---|
-| 8% | of Google visits end in a click on a result when an AI summary is present — 15% without one |
-| 1% | end in a click on a link inside the summary itself |
+| 47% | of result clicks disappear when an AI summary is present — **derived**, 1 − 8/15, and both raw values are printed on the card |
+| 1% | of visits end in a click on a link inside the summary itself |
 | 53% | of searches of ten words or more return an AI summary |
 | 4 | answer engines Brandure measures separately — ours, not Pew's |
+
+**Card one leads with the derived figure on purpose.** It used to lead with 8%,
+which reads as a small number when the finding is a large loss. The rule for
+this row: lead with the number that carries the finding, and print the raw
+values beside it so the arithmetic can be checked.
+
+**Sixteen-plus alternatives, each with a source and a verification status, are
+in `site/hero-stat-options.md`** — along with the client-result variant of this
+block and what each card would need before it could go live.
+
+**There is a second hero layout already built.** Set `HERO_MODE` to `'cases'`
+in `src/data/content.ts` and the same grid renders client result cards instead,
+the shape the reference site uses. The placeholders there are zeroes and the
+page prints a "Placeholder" flag beneath them. That flag must not come off
+until the figures are real.
 
 **They describe Google AI Overviews specifically**, and the page says so.
 Stretching a Google-only sample to cover ChatGPT and Perplexity would be the
@@ -376,20 +400,45 @@ greyscale, not assumed.
   **The logo marquee carries four copies of the set, not two.** At two it was
   narrower than a wide viewport, so it sat left-aligned with dead space beside
   it — which is what read as "not centred". Four always overflow. It runs at
-  38s per set, down from 52s.
+  38s per set, down from 52s. Its label sits inline at the left of the strip in
+  sentence case; the centred uppercase pill it replaced is the house style of
+  every generated landing page and read as one.
 
   **Section labels are gone.** The pill above every heading — "The problem",
-  "Engagements", "How it works" — read as slide furniture. Only two remain:
-  the logo strip's "Trusted by", which labels a row that is otherwise
-  unexplained, and nothing in the hero.
+  "Engagements", "How it works" — read as slide furniture.
 
-  **Two effects were removed rather than tuned.** The 3D card tilt sheared
+  **The four stages are a timeline.** A rule draws itself across the section on
+  entry and the four nodes land on it in turn. It is a transition on a scale
+  transform, not a scroll scrub — see below for why that distinction is the
+  whole point.
+
+  **Problem cards carry colour.** Each takes one of the four existing brand
+  hues — no new colours — driving a top rule, the number, the effect panel's
+  edge and a tint that deepens on hover. The top rule extends across the card
+  as the cursor enters it.
+
+  **Three effects were removed rather than tuned.** The 3D card tilt sheared
   left-aligned copy off its baseline under the cursor, fighting every alignment
   decision around it; cards now lift, in CSS, with no handler at all. And the
   horizontal process rail was pinned across 220vh of runway to move its track
   a measured 136px — a screen and a half of scrolling for almost no payoff,
   while holding the reader in place to deliver it. Four cards in a row say the
-  same thing in one glance.
+  same thing in one glance. And the pinned four-surface section scrubbed its
+  rows in against raw scroll position, which is what made it feel stuttery and
+  rigid: a scrub tied to scroll offset steps with every wheel notch instead of
+  easing, and the reader was held in place while the rows arrived one at a
+  time. It is now an ordinary section that scrolls past like everything else,
+  with the table revealing once on entry. **Nothing on the site is pinned any
+  more, and nothing animates against scroll position except the progress bar
+  and the hero mesh parallax.**
+
+  **The dark bands are flat, not gradients.** A 160deg ramp to `#071440` made
+  the lower half of every inverted band noticeably darker than the top, so the
+  comparison table sat on the darkest part of it and the three bands did not
+  match one another. Same colour token as before — the ramp is what is gone.
+  The table's row labels are larger and semibold, and its caption runs the full
+  width of the table instead of being capped at 62ch, which had set it as a
+  narrow four-line column under a full-width table.
 
 ### Where things are
 

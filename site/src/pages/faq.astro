@@ -1,0 +1,78 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ReportForm from '../components/ReportForm.astro';
+import { FAQS } from '../data/content';
+import { SITE } from '../consts';
+
+/* Grouped in source order, so the order on the page and the order in the data
+   file stay the same thing. */
+const groups = FAQS.reduce<Record<string, typeof FAQS[number][]>>((acc, f) => {
+  (acc[f.group] ??= []).push(f);
+  return acc;
+}, {});
+const groupNames = Object.keys(groups);
+
+/* The full set is marked up here. The home page carries only the six it
+   actually shows — the same questions should not be claimed twice. */
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  '@id': `${SITE.url}/faq#faq`,
+  mainEntity: FAQS.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+---
+
+<BaseLayout
+  title="Questions"
+  description="Answer engine optimisation, answered plainly: what it is, how it differs from SEO, what gets measured across ChatGPT, Perplexity, Gemini and Google, what actually moves a position, and what we will not promise."
+  schemas={[faqSchema]}
+>
+  <section class="hero hero--short">
+    <div class="wrap-narrow" data-load>
+      <h1 class="statement statement--sub" data-split>Questions, answered plainly.</h1>
+      <p class="lede">
+        Everything we get asked, including the parts that are inconvenient for
+        us. If something is missing, ask and we will add it.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap faq-layout">
+      <nav class="faq-nav" aria-label="Sections">
+        <p class="faq-nav__t">On this page</p>
+        <ul>
+          {groupNames.map((g) => (
+            <li><a href={`#${g.toLowerCase().replace(/\s+/g, '-')}`}>{g}</a></li>
+          ))}
+        </ul>
+      </nav>
+
+      <div class="faq-body">
+        {groupNames.map((g) => (
+          <section class="faq-group" id={g.toLowerCase().replace(/\s+/g, '-')} data-reveal>
+            <h2>{g}</h2>
+            <div class="qa">
+              {groups[g].map((f) => (
+                <details>
+                  <summary>{f.q}</summary>
+                  <p>{f.a}</p>
+                </details>
+              ))}
+            </div>
+          </section>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--sunk" id="report">
+    <div class="wrap-narrow" data-reveal>
+      <ReportForm id="report-form" heading="Still not answered? Start with the report" />
+    </div>
+  </section>
+</BaseLayout>

@@ -3,7 +3,7 @@ import { readdirSync } from 'node:fs';
 import { BRANDS } from '../data/brands';
 
 /**
- * Greyscale marquee on the inverted band. Pauses on hover; the hovered logo
+ * Marquee on the light band. Pauses on hover; the hovered logo
  * lifts to full strength.
  *
  * Files are picked up from `public/logos/` by name at build time. Where no
@@ -37,13 +37,15 @@ const track = [...items, ...items, ...items, ...items];
 ---
 
 <!--
-  The label sits inline at the left of the strip rather than as a centred
-  uppercase pill above it. The pill treatment — mono caps, a dot, floating on
-  its own line — is the house style of every generated landing page, and it
-  read as one.
+  Light band, like every other section. It was navy because two of the five
+  marks are white-knockout artwork; on the light surface all five are now
+  rendered as flat dark silhouettes instead, which is uniform and legible
+  regardless of what colour each file happens to be drawn in.
+
+  "Trusted by" sits above the strip, plain rather than as a mono-caps pill.
 -->
-<section class="section--inv logos" aria-labelledby="logos-h">
-  <p class="logos__label" id="logos-h">Brands we work with</p>
+<section class="section--sunk logos" aria-labelledby="logos-h">
+  <p class="logos__label" id="logos-h">Trusted by</p>
 
   <div class="marquee" data-marquee>
     <ul class="marquee__track" role="list">

@@ -117,7 +117,10 @@ tbody tr {
   overflow: hidden;
   contain: strict;
 }
-.mesh__layer { position: absolute; inset: 0; will-change: transform; }
+/* layout+paint containment keeps the drifting blobs from being attributed as
+   page-level layout shift. Not `strict` — that adds size containment, and
+   these layers take their size from their insets. */
+.mesh__layer { position: absolute; inset: 0; will-change: transform; contain: layout paint; }
 .mesh__layer--1 { transform: translate3d(0, calc(var(--sy, 0px) * 0.10), 0); }
 .mesh__layer--2 { transform: translate3d(0, calc(var(--sy, 0px) * 0.18), 0); }
 .mesh__layer--3 { transform: translate3d(0, calc(var(--sy, 0px) * 0.28), 0); }
@@ -246,13 +249,13 @@ tbody tr {
    fought every alignment decision around it. A lift and an accent border do
    the same job — the card is interactive — without touching the text. */
 
-.card--tilt, .metric, .problem {
+.card--tilt, .metric, .case {
   transition:
     transform var(--dur-1) var(--ease),
     box-shadow var(--dur-1) var(--ease),
     border-color var(--dur-1) var(--ease);
 }
-.card--tilt:hover, .metric:hover {
+.card--tilt:hover, .case:hover {
   transform: translate3d(0, -3px, 0);
   box-shadow: var(--shadow-lift);
   border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
@@ -321,42 +324,73 @@ tbody tr {
    opposite of easy to follow. Each now runs just long enough to complete its
    own sequence. */
 
-/* ---- Timeline ----
-   The rule draws itself once, on entry, then the nodes land on it in turn.
-   It is a transition on a scale transform, not a scroll scrub: a scrub tied
-   to raw scroll position steps with every wheel notch, which is what made the
-   old pinned section feel stuttery. This runs on its own clock and reads as
-   one smooth movement however the reader scrolls. */
-.timeline__fill {
-  transition: transform 900ms var(--ease-out);
-  transition-delay: 120ms;
+/* ---- The four stages ----
+   The spine draws itself once, on entry, and the cards arrive behind it in
+   sequence. It is a transition on a scale transform, not a scroll scrub: a
+   scrub tied to raw scroll position steps with every wheel notch, which is
+   what made the old pinned section feel stuttery. This runs on its own clock
+   and reads as one movement however the reader scrolls. */
+.stages__fill {
+  transition: transform 1100ms var(--ease-out);
+  transition-delay: 100ms;
 }
-.timeline.is-in .timeline__fill { transform: scaleY(1); }
-@media (min-width: 52rem) {
-  .timeline.is-in .timeline__fill { transform: scaleX(1); }
+.stages__track.is-in .stages__fill { transform: scaleY(1); }
+@media (min-width: 56rem) {
+  .stages__track.is-in .stages__fill { transform: scaleX(1); }
 }
-.timeline__step {
+.stages__item {
   opacity: 0;
-  transform: translate3d(0, var(--rise), 0);
+  transform: translate3d(0, 14px, 0);
   transition:
     opacity var(--dur-2) var(--ease-out),
     transform var(--dur-2) var(--ease-out);
-  /* Each node lands as the rule reaches it. */
-  transition-delay: calc(220ms + 180ms * var(--i, 0));
+  transition-delay: calc(200ms + 170ms * var(--i, 0));
 }
-.timeline.is-in .timeline__step { opacity: 1; transform: none; }
-.timeline__dot { transition: transform var(--dur-2) var(--ease-out), box-shadow var(--dur-2) var(--ease-out); }
-.timeline.is-in .timeline__step:hover .timeline__dot { transform: scale(1.2); }
+.stages__track.is-in .stages__item { opacity: 1; transform: none; }
+
+.stages__node {
+  transform: scale(0.4);
+  transition: transform 420ms var(--ease-out);
+  transition-delay: calc(260ms + 170ms * var(--i, 0));
+}
+.stages__track.is-in .stages__node { transform: scale(1); }
+
+.stages__card {
+  transition:
+    transform var(--dur-2) var(--ease-out),
+    box-shadow var(--dur-2) var(--ease-out),
+    border-color var(--dur-2) var(--ease-out);
+}
+.stages__item:hover .stages__card {
+  transform: translate3d(0, -4px, 0);
+  border-color: color-mix(in srgb, var(--sa) 55%, var(--border));
+  box-shadow: var(--shadow-lift), 0 0 0 4px color-mix(in srgb, var(--sa) 10%, transparent);
+}
+.stages__n { transition: color var(--dur-2) var(--ease); }
+.stages__item:hover .stages__n { color: color-mix(in srgb, var(--sa) 26%, transparent); }
 
 /* ---- Problem cards ----
-   The top rule extends across the card on hover and the accent tint deepens.
-   Both are cheap and both point at the card the cursor is on. */
-.problem::before { transition: transform var(--dur-2) var(--ease-out); }
-.problem:hover { --pw: 1; }
-.problem:hover .problem__panel--effect { background: color-mix(in srgb, var(--pa) 14%, transparent); }
-.problem__panel--effect { transition: background var(--dur-2) var(--ease); }
+   The whole border lights up in the card's own hue, on every side, with a
+   soft ring outside it. Painted on an inset box-shadow so the border-box
+   never changes and nothing around it moves. */
+.problem, .problem::after {
+  transition:
+    transform var(--dur-2) var(--ease-out),
+    box-shadow var(--dur-2) var(--ease-out),
+    background var(--dur-2) var(--ease);
+}
+.problem:hover {
+  transform: translate3d(0, -4px, 0);
+  background: color-mix(in srgb, var(--pa) 4%, var(--surface-card));
+}
+.problem:hover::after {
+  box-shadow:
+    inset 0 0 0 1.5px var(--pa),
+    0 0 0 4px color-mix(in srgb, var(--pa) 12%, transparent),
+    0 18px 40px -20px color-mix(in srgb, var(--pa) 55%, transparent);
+}
 
-/* ---- Cursor-following radial light on dark sections ---- */
+/* ---- Cursor-following radial light on dark sections ---- *//* ---- Cursor-following radial light on dark sections ---- */
 .section--inv { position: relative; isolation: isolate; }
 .section--inv .spotlight {
   position: absolute; inset: 0; z-index: -1; pointer-events: none;
@@ -419,7 +453,7 @@ tbody tr {
   .mesh__layer { transform: none !important; }
   .ph-b1, .ph-b2, .ph-b3 { animation: none !important; transform: none !important; }
 
-  .btn, .card--tilt, .metric, .problem, .cta-card {
+  .btn, .card--tilt, .metric, .case, .cta-card {
     transform: none !important;
     transition: none !important;
   }
@@ -436,9 +470,10 @@ tbody tr {
     mask-image: none;
   }
 
-  .timeline__step { opacity: 1 !important; transform: none !important; transition: none !important; }
-  .timeline__fill { transform: scaleX(1) scaleY(1) !important; transition: none !important; }
-  .problem::before { transform: scaleX(1) !important; transition: none !important; }
+  .stages__item { opacity: 1 !important; transform: none !important; transition: none !important; }
+  .stages__node { transform: scale(1) !important; transition: none !important; }
+  .stages__fill { transform: scaleX(1) scaleY(1) !important; transition: none !important; }
+  .stages__card, .problem, .problem::after { transition: none !important; transform: none !important; }
   .section--inv .spotlight { display: none !important; }
   .draw path, .draw line { stroke-dashoffset: 0 !important; }
   .sticky-head { position: static !important; background: none !important; }
@@ -452,8 +487,8 @@ tbody tr {
 .no-js .hero [data-load] > *,
 .no-js tbody tr { opacity: 1; transform: none; }
 .no-js [data-reveal] > .cta-card { box-shadow: 0 34px 80px -34px var(--btn-shadow); }
-.no-js .timeline__step { opacity: 1; transform: none; }
-.no-js .timeline__fill { transform: scaleX(1) scaleY(1); }
-.no-js .problem::before { transform: scaleX(1); }
+.no-js .stages__item { opacity: 1; transform: none; }
+.no-js .stages__node { transform: scale(1); }
+.no-js .stages__fill { transform: scaleX(1) scaleY(1); }
 .no-js .draw path, .no-js .draw line { stroke-dashoffset: 0; }
 .no-js .sticky-head { position: static; }

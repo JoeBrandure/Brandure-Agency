@@ -230,6 +230,55 @@ a.card:hover, .card--hover:hover { transform: translateY(-3px); box-shadow: var(
 .metric__suffix { font-size: 0.62em; letter-spacing: -0.02em; }
 .metric__l { font-size: var(--small); color: var(--muted); margin: 0.5rem 0 0; max-width: none; line-height: 1.45; }
 
+/* ---------- Hero case cards ----------
+   Logo above, figure below. The mark sits on a dark tile because two of the
+   four supplied logos — Lurio and Viveonix — are white-knockout artwork and
+   are invisible on a light card. A tile behind all four is consistent; a tile
+   behind only the two that need it is not. */
+
+.case-grid { display: grid; gap: 0.9rem; grid-template-columns: 1fr; }
+@media (min-width: 30rem) { .case-grid { grid-template-columns: 1fr 1fr; } }
+
+.case {
+  margin: 0;
+  background: var(--surface-card);
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem 1.1rem 1.2rem;
+  box-shadow: var(--shadow-card);
+  display: flex; flex-direction: column; gap: 0.7rem;
+  position: relative; overflow: hidden;
+}
+.case__mark {
+  display: flex; align-items: center; justify-content: center;
+  align-self: flex-start;
+  height: 3rem; padding: 0 0.85rem;
+  border-radius: var(--radius-sm);
+}
+/* Two tile tones, set per brand. Lurio and Viveonix are white-knockout
+   artwork and need the dark tile; Little Lockets is dark serif type and Fresh
+   Gym is mid-blue with a grey strapline, and both vanish on it. Same shape
+   and size either way. */
+.case__mark--dark  { background: #101521; }
+.case__mark--light { background: #fff; box-shadow: inset 0 0 0 1px var(--border); }
+.case__mark img { display: block; height: 1.9rem; width: auto; max-width: 9.5rem; object-fit: contain; }
+.case__wordmark { font-family: var(--font-display); font-weight: 700; font-size: 0.9rem; }
+.case__mark--dark .case__wordmark { color: #fff; }
+.case__mark--light .case__wordmark { color: var(--ink); }
+.case figcaption { max-width: none; margin: 0; font-family: inherit; font-size: inherit; color: inherit; }
+.case__n {
+  display: flex; align-items: baseline;
+  font-family: var(--font-display); font-weight: 800;
+  font-size: clamp(2.35rem, 1.3rem + 3vw, 3.35rem);
+  line-height: 0.95; letter-spacing: -0.045em;
+  background: linear-gradient(100deg, var(--cobalt), var(--violet));
+  -webkit-background-clip: text; background-clip: text;
+  color: transparent;
+}
+.case__suffix { font-size: 0.5em; letter-spacing: -0.02em; }
+.case__l { display: block; font-size: var(--small); color: var(--muted); line-height: 1.45; margin-top: 0.45rem; }
+
 /* ---------- Problem grid ----------
    Two by two. Each card states the problem and the effect in separate tinted
    panels so the pair reads as cause and consequence rather than one blob. */
@@ -238,55 +287,61 @@ a.card:hover, .card--hover:hover { transform: translateY(-3px); box-shadow: var(
 @media (min-width: 48rem) { .problem-grid { grid-template-columns: 1fr 1fr; } }
 
 /* Each card takes one of the four existing brand hues. No new colours: the
-   accent drives a top rule, the number, the effect panel's edge and a tint
-   that deepens on hover, so the four read as a set rather than four
-   identical white boxes. */
+   accent drives the number, a full border that lights up on hover, and the
+   effect block. */
 .problem {
-  display: flex; flex-direction: column; gap: 0.75rem;
-  position: relative; overflow: hidden;
+  display: flex; flex-direction: column;
+  position: relative;
+  padding: 1.5rem 1.5rem 1.6rem;
   --pa: var(--cobalt);
-  --pa-soft: color-mix(in srgb, var(--cobalt) 9%, transparent);
+  --pa-soft: color-mix(in srgb, var(--cobalt) 8%, transparent);
 }
-.problem--cobalt { --pa: var(--cobalt); --pa-soft: color-mix(in srgb, var(--cobalt) 9%, transparent); }
-.problem--violet { --pa: var(--violet); --pa-soft: color-mix(in srgb, var(--violet) 9%, transparent); }
-.problem--teal   { --pa: var(--teal);   --pa-soft: color-mix(in srgb, var(--teal) 9%, transparent); }
-.problem--deep   { --pa: var(--cobalt-deep); --pa-soft: color-mix(in srgb, var(--cobalt-deep) 9%, transparent); }
+.problem--cobalt { --pa: var(--cobalt); --pa-soft: color-mix(in srgb, var(--cobalt) 8%, transparent); }
+.problem--violet { --pa: var(--violet); --pa-soft: color-mix(in srgb, var(--violet) 8%, transparent); }
+.problem--teal   { --pa: var(--teal);   --pa-soft: color-mix(in srgb, var(--teal) 8%, transparent); }
+.problem--deep   { --pa: var(--cobalt-deep); --pa-soft: color-mix(in srgb, var(--cobalt-deep) 8%, transparent); }
 
-/* Top rule, drawn from the left on hover. */
-.problem::before {
+/* The whole border lights up, not one edge. An inset ring is used rather than
+   the border itself so nothing reflows when it appears. */
+.problem::after {
   content: '';
-  position: absolute; inset: 0 0 auto 0; height: 3px;
-  background: var(--pa);
-  transform: scaleX(var(--pw, 0.18));
-  transform-origin: 0 50%;
+  position: absolute; inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 1px transparent;
+  pointer-events: none;
 }
+
 .problem__n {
-  font-family: var(--font-mono); font-size: var(--label);
-  letter-spacing: 0.08em; color: var(--pa);
-  display: block; margin-bottom: 0.15rem;
+  font-family: var(--font-display); font-weight: 800;
+  font-size: 1.5rem; line-height: 1; letter-spacing: -0.03em;
+  color: var(--pa);
+  display: block; margin-bottom: 0.7rem;
 }
-/* Panels share the leftover height so a short card in a row does not leave a
-   block of dead space under its last panel. */
-.problem__panel { flex: 1; }
-.problem h3 { font-size: var(--h3); margin: 0 0 0.35rem; }
-.problem__panel {
-  border-radius: var(--radius-sm);
-  padding: 0.8rem 0.95rem;
-  background: var(--surface-sunk);
-  border-left: 2px solid var(--border);
+.problem h3 {
+  font-size: clamp(1.4rem, 0.9rem + 1.1vw, 1.75rem);
+  line-height: 1.1; letter-spacing: -0.025em;
+  margin: 0 0 0.7rem; max-width: 18ch;
 }
-.section--sunk .problem__panel { background: var(--surface); }
-.problem__panel--effect {
-  border-left-color: var(--pa);
-  background: var(--pa-soft);
+/* The statement of the problem is the body copy, at body size — it was
+   0.875rem inside a tinted box, which made the two halves of the card read as
+   equally important footnotes. */
+.problem__p {
+  font-size: 1.0625rem; line-height: 1.55; color: var(--ink);
+  margin: 0 0 1.1rem; max-width: none;
+}
+/* The consequence is set apart by a rule in the accent, not a box. */
+.problem__effect {
+  margin-top: auto;
+  padding: 0.9rem 0 0;
+  border-top: 1px solid color-mix(in srgb, var(--pa) 30%, var(--border));
 }
 .problem__k {
-  display: block; font-family: var(--font-mono); font-size: var(--label);
+  display: block;
+  font-family: var(--font-mono); font-size: var(--label);
   letter-spacing: var(--ls-label); text-transform: uppercase;
-  color: var(--muted); margin-bottom: 0.3rem;
+  color: var(--pa); margin-bottom: 0.35rem;
 }
-.problem__panel--effect .problem__k { color: var(--pa); }
-.problem__panel p { margin: 0; font-size: var(--small); max-width: none; }
+.problem__effect p { margin: 0; font-size: var(--small); color: var(--muted); max-width: none; }
 
 /* ---------- Full-bleed gradient CTA card ---------- */
 
@@ -422,65 +477,91 @@ a.card:hover, .card--hover:hover { transform: translateY(-3px); box-shadow: var(
 .figure__src { font-family: var(--font-mono); font-size: var(--label); color: var(--muted); display: block; margin-top: 0.3rem; }
 .section--inv .figure__src { color: var(--muted-inv); }
 
-/* ---------- Timeline ----------
-   Four stages on one line, with a rule running behind the nodes. The rule is
-   drawn by a fill element rather than by animating width on the rule itself,
-   so nothing here triggers layout. */
+/* ---------- The four stages ----------
+   A coloured spine with four numbered cards hanging off it. Each stage takes
+   one of the brand hues, so the sequence is legible as a sequence and the
+   section carries colour rather than four grey boxes in a row. */
 
-.timeline {
+.stages__track {
   position: relative;
   list-style: none; margin: 0; padding: 0;
-  display: grid; gap: 2rem;
+  display: grid; gap: 1.75rem;
   grid-template-columns: 1fr;
 }
-.timeline__line {
+
+/* The spine. Vertical on narrow, horizontal from tablet up. */
+.stages__spine {
   position: absolute;
-  left: calc(0.425rem - 1px); top: 0.425rem; bottom: 0.6rem; width: 2px;
+  left: 0.5rem; top: 0.5rem; bottom: 2rem; width: 3px;
   background: var(--border);
-  border-radius: 2px;
-  overflow: hidden;
+  border-radius: 3px; overflow: hidden;
 }
-.timeline__fill {
+.stages__fill {
   position: absolute; inset: 0;
-  background: linear-gradient(180deg, var(--cobalt), var(--violet));
+  background: linear-gradient(180deg, var(--cobalt), var(--violet) 45%, var(--teal) 78%, var(--cobalt-deep));
   transform: scaleY(0); transform-origin: 50% 0;
 }
-/* align-content:start matters. The four steps are grid items in one row, so
-   they stretch to equal height; inside each, two auto rows then SHARE that
-   extra space, and the step with the shortest copy grew its node row by 11px
-   and dropped its heading out of line with the other three. */
-.timeline__step {
+
+.stages__item {
   position: relative;
-  display: grid; grid-template-columns: 1.5rem 1fr; gap: 0 1rem;
-  align-content: start;
   margin: 0; max-width: none;
+  padding-left: 2.25rem;
+  --sa: var(--cobalt);
 }
-.timeline__node { display: flex; align-items: center; justify-content: center; padding-top: 0.15rem; }
-.timeline__dot {
-  width: 0.85rem; height: 0.85rem; border-radius: 50%;
+.stages--cobalt { --sa: var(--cobalt); }
+.stages--violet { --sa: var(--violet); }
+.stages--teal   { --sa: var(--teal); }
+.stages--deep   { --sa: var(--cobalt-deep); }
+
+.stages__node {
+  position: absolute; left: 0; top: 0.55rem;
+  width: 1.15rem; height: 1.15rem; border-radius: 50%;
   background: var(--surface);
-  border: 2px solid var(--cobalt);
-  box-shadow: 0 0 0 4px color-mix(in srgb, var(--cobalt) 14%, transparent);
+  border: 3px solid var(--sa);
+  box-shadow: 0 0 0 5px color-mix(in srgb, var(--sa) 14%, transparent);
 }
-.timeline__when {
+
+.stages__card {
+  position: relative;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--surface-card);
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  box-shadow: var(--shadow-card);
+  padding: 1.4rem 1.5rem 1.5rem;
+  overflow: hidden;
+}
+/* The stage number sits behind the copy, large and faint, in the stage hue. */
+.stages__n {
+  position: absolute; right: 0.75rem; top: -0.6rem;
+  font-family: var(--font-display); font-weight: 800;
+  font-size: 5.5rem; line-height: 1; letter-spacing: -0.06em;
+  color: color-mix(in srgb, var(--sa) 13%, transparent);
+  pointer-events: none; user-select: none;
+}
+.stages__when {
   font-family: var(--font-mono); font-size: var(--label);
   letter-spacing: var(--ls-label); text-transform: uppercase;
-  color: var(--accent); margin: 0 0 0.3rem;
+  color: var(--sa); margin: 0 0 0.4rem;
 }
-.timeline__body h3 { margin: 0 0 0.4rem; }
-.timeline__body p { max-width: 46ch; }
+.stages__t {
+  font-size: clamp(1.5rem, 1rem + 1.4vw, 2rem);
+  line-height: 1.05; letter-spacing: -0.03em;
+  margin: 0 0 0.55rem; max-width: none;
+}
+.stages__d { margin: 0; font-size: 1.0625rem; line-height: 1.55; color: var(--muted); max-width: 38ch; }
 
-/* Horizontal from tablet up: the rule runs across, nodes sit on it. */
-@media (min-width: 52rem) {
-  .timeline { grid-template-columns: repeat(4, 1fr); gap: 0 clamp(1.25rem, 2.5vw, 2rem); }
-  .timeline__line {
-    left: 0; right: 0; top: calc(0.425rem - 1px); bottom: auto;
-    width: auto; height: 2px;
+@media (min-width: 56rem) {
+  .stages__track { grid-template-columns: repeat(4, 1fr); gap: 0 clamp(1rem, 2vw, 1.5rem); }
+  .stages__spine { left: 0; right: 0; top: 0.55rem; bottom: auto; width: auto; height: 3px; }
+  .stages__fill {
+    transform: scaleX(0); transform-origin: 0 50%;
+    background: linear-gradient(90deg, var(--cobalt), var(--violet) 45%, var(--teal) 78%, var(--cobalt-deep));
   }
-  .timeline__fill { transform: scaleX(0); transform-origin: 0 50%; background: linear-gradient(90deg, var(--cobalt), var(--violet)); }
-  .timeline__step { grid-template-columns: 1fr; gap: 0; }
-  .timeline__node { justify-content: flex-start; padding: 0 0 1.25rem; }
-  .timeline__body p { max-width: none; }
+  .stages__item { padding: 2.75rem 0 0; }
+  .stages__node { top: 0; left: 0; }
+  .stages__card { height: 100%; }
+  .stages__d { max-width: none; }
 }
 
 /* Numbered process steps */
@@ -768,37 +849,23 @@ input:focus-visible { border-color: var(--focus); }
 }
 
 /* ---------- Logo strip ----------
-   On the inverted band, not the light surface. Two of the five supplied marks
-   (Lurio, Viveonix) are white-knockout artwork drawn for dark backgrounds —
-   on #FCFBF8 they render as an outline and a blank space. A dark band is the
-   only surface all five are legible on without editing anyone's logo. */
+   Light band. It was navy because Lurio's fill is #fff7ed and Viveonix's
+   wordmark is a white knockout — neither shows on a light surface as
+   supplied. Flattening all five to a dark silhouette sidesteps that entirely
+   and makes the row uniform, which is what a trust strip is for. Colour
+   versions of these marks appear in the hero cards instead. */
 
 .logos {
-  padding-block: clamp(1.75rem, 3vw, 2.5rem);
-  display: grid;
-  gap: 1.25rem clamp(1.5rem, 3vw, 2.75rem);
-  align-items: center;
-  padding-inline: max(1.25rem, calc((100% - min(100% - 2.5rem, var(--wrap))) / 2));
+  padding-block: clamp(2rem, 3.5vw, 3rem);
+  border-block: 1px solid var(--border);
 }
-@media (min-width: 52rem) { .logos { grid-template-columns: auto 1fr; } }
 .logos__label {
-  margin: 0;
+  margin: 0 0 1.4rem;
+  text-align: center;
   font-size: var(--small);
-  color: var(--muted-inv);
-  max-width: 22ch;
-  line-height: 1.35;
+  color: var(--muted);
+  max-width: none;
 }
-/* With the label beside it the strip no longer needs a wide fade on the left —
-   at 8% it ate roughly 100px and left a gap between label and first logo. */
-@media (min-width: 52rem) {
-  .logos .marquee {
-    -webkit-mask-image: linear-gradient(90deg, transparent, #000 2%, #000 92%, transparent);
-    mask-image: linear-gradient(90deg, transparent, #000 2%, #000 92%, transparent);
-  }
-}
-/* The marquee's own gutter is handled by the mask, so it runs to the edge. */
-.logos .marquee { margin-inline: calc(-1 * max(1.25rem, calc((100vw - min(100vw - 2.5rem, var(--wrap))) / 2))); }
-@media (min-width: 52rem) { .logos .marquee { margin-left: 0; } }
 
 .marquee {
   position: relative;
@@ -807,10 +874,9 @@ input:focus-visible { border-color: var(--focus); }
   mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
 }
 /* The set is repeated four times rather than twice. At two copies the track
-   was narrower than a wide viewport, so it sat left-aligned against the
-   container with dead space to the right — which is what read as "not
-   centred". Four copies always overflow, and min-width plus justify-content
-   centre it in the case where they somehow do not. */
+   was narrower than a wide viewport, so it sat left-aligned with dead space
+   to the right — which is what read as "not centred". Four copies always
+   overflow, and min-width plus justify-content centre them if they do not. */
 .marquee__track {
   display: flex;
   align-items: center;
@@ -824,35 +890,33 @@ input:focus-visible { border-color: var(--focus); }
 }
 .marquee__item { margin: 0; max-width: none; flex: 0 0 auto; }
 
-/* Normalised on optical height, not a fixed box.
-   Two tones, set per brand in brands.ts:
-     knockout — colour artwork flattened to white, so it sits on the band at
-                the same weight as the marks that were drawn white already;
-     asis     — artwork that is already light, or a dark icon tile that
-                inverting would turn into a solid white block. */
+/* Normalised on optical height, not a fixed box. Every mark is flattened to
+   a single dark silhouette — brightness(0) drives every channel to black
+   whatever colour the file is drawn in, so a cream wordmark, a white knockout
+   and a full-colour lockup all land at the same weight. */
+.marquee__item[data-tone='asis'] img { filter: none; opacity: 0.75; }
 .marquee__item img {
   display: block;
   height: calc(2.25rem * var(--optical, 1));
   width: auto;
   max-width: 11rem;
   object-fit: contain;
-  opacity: 0.72;
+  filter: brightness(0);
+  opacity: 0.52;
   transition: opacity var(--dur-1) var(--ease), transform var(--dur-1) var(--ease);
 }
-.marquee__item[data-tone='knockout'] img { filter: brightness(0) invert(1); }
-.marquee__item[data-tone='asis'] img { filter: grayscale(1) brightness(1.15); }
-/* Flips the opaque tile light and the mark inside it dark. Knocking this one
-   out would produce a solid white square, which is worse than the dark blob
-   it was drawn as. */
-.marquee__item[data-tone='invert'] img { filter: grayscale(1) invert(1); border-radius: var(--radius-sm); }
+/* Dark theme flips the silhouette to white — brightness(0) alone puts a black
+   mark on a near-black band. */
+:root[data-theme='dark'] .marquee__item img { filter: brightness(0) invert(1); opacity: 0.6; }
+:root[data-theme='dark'] .marquee__item[data-tone='asis'] img { filter: none; opacity: 0.8; }
 .wordmark-ph {
   display: inline-flex;
   align-items: center;
   height: calc(2.25rem * var(--optical, 1));
   padding: 0 0.9rem;
-  border: 1px solid var(--border-inv);
+  border: 1px solid var(--border);
   border-radius: var(--radius-sm);
-  opacity: 0.72;
+  opacity: 0.6;
   transition: opacity var(--dur-1) var(--ease), transform var(--dur-1) var(--ease), border-color var(--dur-1) var(--ease);
 }
 .wordmark-ph__text {
@@ -861,11 +925,11 @@ input:focus-visible { border-color: var(--focus); }
   font-size: calc(0.95rem * var(--optical, 1));
   letter-spacing: -0.02em;
   white-space: nowrap;
-  color: var(--muted-inv);
+  color: var(--muted);
 }
 
 /* Individual logo lifts to full strength on hover. */
 .marquee__item:hover img,
 .marquee__item:hover .wordmark-ph { opacity: 1; transform: translateY(-2px); }
-.marquee__item:hover .wordmark-ph { border-color: var(--accent-inv); }
-.marquee__item:hover .wordmark-ph__text { color: var(--accent-inv); }
+.marquee__item:hover .wordmark-ph { border-color: var(--accent); }
+.marquee__item:hover .wordmark-ph__text { color: var(--accent); }

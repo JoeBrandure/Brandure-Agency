@@ -163,10 +163,16 @@
     });
 
     var cache = [];
+    var meshTops = [];
     function measure() {
       cache = zones.map(function (z) {
         var r = z.getBoundingClientRect();
         return { el: z, top: r.top + window.scrollY, height: r.height };
+      });
+      /* Where each mesh sits in the document. Clamped at zero because the
+         hero's mesh is inset -18%, so its own top is above the document's. */
+      meshTops = meshes.map(function (m) {
+        return Math.max(0, m.getBoundingClientRect().top + window.scrollY);
       });
     }
 
@@ -184,10 +190,14 @@
         var p = (y - c.top) / travel;
         c.el.style.setProperty('--p', String(Math.max(0, Math.min(1, p))));
       }
-      meshes.forEach(function (m) {
-        var r = m.getBoundingClientRect();
-        m.style.setProperty('--sy', (-r.top * 0.5).toFixed(1) + 'px');
-      });
+      /* Parallax measured from the scroll position at which the mesh first
+         renders, so --sy is 0 on the first frame. Driving it from the live
+         bounding rect made the layers jump to an offset the moment this
+         script ran — an intermittent 0.168 of cumulative layout shift, which
+         took the home page from 100 to 92 on the run that caught it. */
+      for (var mi = 0; mi < meshes.length; mi++) {
+        meshes[mi].style.setProperty('--sy', (Math.max(0, y - meshTops[mi]) * 0.5).toFixed(1) + 'px');
+      }
       ticking = false;
     }
 

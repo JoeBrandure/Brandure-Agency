@@ -15,7 +15,7 @@ export const ENGINES = ['ChatGPT', 'Perplexity', 'Gemini', 'Google AI Overview']
  * client results to report, and this site sells measurement. Replace the
  * placeholder text with real figures and set HERO_MODE to 'cases'.
  */
-export const HERO_MODE: 'stats' | 'cases' = 'stats';
+export const HERO_MODE: 'stats' | 'cases' = 'cases';
 
 /**
  * SOURCING. Cards 1–3 are one study, cited on the page: Pew Research Center,
@@ -66,15 +66,58 @@ export const HERO_STATS = [
 ] as const;
 
 /**
- * PLACEHOLDER client results. Every value here is invented and the page says
- * so in the card and in the source line beneath. Do not remove that notice
- * without replacing the figures with measured ones.
+ * Client results, supplied by Joe on 2026-08-25.
+ *
+ * These are the first real outcomes on the site. `slug` matches a file in
+ * public/logos/, so the mark is picked up at build time by the same mechanism
+ * the strip uses.
+ *
+ * `chip` is the tile the mark sits on, and it has to vary by brand. Lurio's
+ * fill is #fff7ed and Viveonix's wordmark is a white knockout — both need a
+ * dark tile. Little Lockets is dark serif type and Fresh Gym is mid-blue with
+ * a grey strapline — both disappear on a dark tile and need a light one.
+ * There is no single tile colour that works for all four as supplied. Same
+ * shape and size throughout, so it reads as one treatment.
+ *
+ * WORTH ATTACHING BEFORE ANYONE PUSHES BACK: each of these would be stronger
+ * with the engine, the date range and the size of the base beside it. "92%
+ * across three LLMs" invites the question "up from what, over how long" from
+ * exactly the buyer this site is written for. The figures are Joe's; the
+ * suggestion is to publish the working alongside them, not to soften them.
  */
 export const HERO_CASES = [
-  { brand: 'Client one',   metric: '0',  suffix: '%', dir: 'up' as const, label: 'placeholder — replace with a measured change in named mentions, and the prompt set it was measured on.' },
-  { brand: 'Client two',   metric: '0',  suffix: '%', dir: 'up' as const, label: 'placeholder — replace with a measured change, the engine it applies to, and the date range.' },
-  { brand: 'Client three', metric: '0',  suffix: '',  dir: 'up' as const, label: 'placeholder — replace with a count that can be checked, not a percentage without a base.' },
-  { brand: 'Client four',  metric: '0',  suffix: '%', dir: 'up' as const, label: 'placeholder — replace with the control-set figure alongside it, or the number means nothing.' },
+  {
+    slug: 'lurio',
+    chip: 'dark' as const,
+    brand: 'Lurio',
+    metric: '92',
+    suffix: '%',
+    label: 'increase in AI search appearances across three LLMs.',
+  },
+  {
+    slug: 'viveonix',
+    chip: 'dark' as const,
+    brand: 'Viveonix',
+    metric: '183',
+    suffix: '%',
+    label: 'increase in quality leads from optimised LLM searches.',
+  },
+  {
+    slug: 'littlelockets',
+    chip: 'light' as const,
+    brand: 'Little Lockets London',
+    metric: '79',
+    suffix: '%',
+    label: 'increase in online revenue through LLM searches at conversion stage.',
+  },
+  {
+    slug: 'fresh',
+    chip: 'light' as const,
+    brand: 'Fresh Gym',
+    metric: '205',
+    suffix: '%',
+    label: 'increase in reach from AI search suggestions.',
+  },
 ] as const;
 
 /* ============================ PROBLEM GRID ============================
@@ -117,12 +160,16 @@ export const PROBLEMS = [
   },
 ] as const;
 
-/* ============================ THE FOUR STAGES ============================ */
+/* ============================ THE FOUR STAGES ============================
+ * Stated, not narrated. The previous copy asked rhetorical questions and
+ * answered them, which is the register that gives away machine-written
+ * marketing faster than any single word does.
+ */
 export const STAGES = [
-  { t: 'Baseline',    w: 'Week 1',   d: 'We agree the questions your buyers actually type, freeze them, and run all four engines from clean sessions. Market agreed with you, never assumed.' },
-  { t: 'Diagnose',    w: 'Week 2',   d: 'Work out which of the three causes applies to you — the AI does not know you, cannot find you, or prefers someone else. They need different work.' },
-  { t: 'Execute',     w: 'Ongoing',  d: 'Fix what your own site controls, then go and earn the mentions elsewhere that the answers are actually built from.' },
-  { t: 'Re-measure',  w: 'Monthly',  d: 'The same frozen questions, plus a set we deliberately leave alone. Without that second set you have a number that went up and no way to say why.' },
+  { n: '01', a: 'cobalt', t: 'Baseline',   w: 'Week 1',  d: 'Your buyers’ real questions, agreed and frozen. All four engines, clean sessions, personalisation off.' },
+  { n: '02', a: 'violet', t: 'Diagnosis',  w: 'Week 2',  d: 'Which of the three causes applies: the model cannot identify you, cannot find you, or prefers a competitor.' },
+  { n: '03', a: 'teal',   t: 'Execution',  w: 'Ongoing', d: 'Fix what your site controls. Earn the third-party mentions the answers are actually built from.' },
+  { n: '04', a: 'deep',   t: 'Re-measure', w: 'Monthly', d: 'Same frozen questions, plus an untouched control set — so the change can be attributed, not asserted.' },
 ] as const;
 
 /* ============================ FAQs ============================

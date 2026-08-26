@@ -148,12 +148,23 @@ are local numbers.
 
 | Page | Performance | Accessibility | Best practices | SEO | TBT | CLS |
 |---|---|---|---|---|---|---|
-| Home | 100 | 100 | 96 | 100 | 0 ms | 0.022 |
+| Home | 100 | 100 | 96 | 100 | 0 ms | 0.021–0.049 |
 | Questions (`/faq`) | 100 | 100 | 96 | 100 | 0 ms | 0 |
 
 Motion still costs nothing measurable. Blocking time is zero on both: every
 sticky-pinned section and its scroll runway is gone, and there is one scroll
 listener on the page rather than three.
+
+**Home CLS varies run to run and is worth knowing about.** The hero's drifting
+blur mesh is the only thing that shifts. It was briefly much worse — 0.169,
+dropping performance to 92 — because the parallax was driven from the mesh's
+live bounding rect, so the layers jumped to an offset the instant the script
+ran. It is now measured from the scroll position at which the mesh first
+renders, so the value is 0 on the first frame, and the layers carry
+`contain: layout paint`. That put it back in the 0.021–0.049 band it was in
+before, which scores 100 and sits inside the "good" threshold of 0.1. It has
+not been driven to zero; a blurred decorative blob drifting behind the hero is
+the cost.
 
 Two audits sit below 1.0 and are worth naming rather than hiding:
 `modern-image-formats` and `uses-responsive-images`, both driven by the supplied
@@ -179,8 +190,15 @@ with `placeholder: false`, which was tested directly rather than assumed.
 ### Where things are on the home page
 
 Hero → logo strip → problem grid → gradient CTA → four-surface table →
-timeline → pricing → research → six questions with a link to `/faq` → report
-form.
+four-stage process → pricing → research → six questions with a link to `/faq`
+→ report form.
+
+**One background throughout.** There are no inverted bands on the home page any
+more. Every section is either `--surface` or `--surface-sunk`, a 3% step, and
+no two sunk sections sit next to each other. The comparison table and the
+report CTA used to be full-bleed navy, which meant the background changed under
+the reader twice mid-scroll; the table now carries its own emphasis instead of
+borrowing it from the band.
 
 **`/faq` is a fifth page type.** The original brief allowed four and said a
 fifth needed approval; this one was asked for directly. It carries all 25
@@ -188,7 +206,36 @@ questions grouped in four sections with a sticky section nav, and the full
 `FAQPage` structured data. The home page marks up only the six it actually
 shows — the same questions should not be claimed twice.
 
-### The hero statistics — where they come from
+### The hero: client results
+
+`HERO_MODE` in `src/data/content.ts` switches the hero's right column between
+two layouts. It is currently **`'cases'`** — four client results supplied by
+Joe on 2026-08-25, replacing the sourced category statistics that were there.
+
+| Brand | Figure |
+|---|---|
+| Lurio | 92% increase in AI search appearances across three LLMs |
+| Viveonix | 183% increase in quality leads from optimised LLM searches |
+| Little Lockets London | 79% increase in online revenue through LLM searches at conversion stage |
+| Fresh Gym | 205% increase in reach from AI search suggestions |
+
+**Worth attaching before anyone pushes back:** each of these would be stronger
+with the engine, the date range and the size of the base beside it. "92% across
+three LLMs" invites "up from what, over how long" from exactly the buyer this
+site is written for. The figures are Joe's; the suggestion is to publish the
+working alongside them, not to soften them.
+
+**The logo tile colour varies by brand, and has to.** Lurio's fill is `#fff7ed`
+and Viveonix's wordmark is a white knockout — both need the dark tile. Little
+Lockets is dark serif type and Fresh Gym is mid-blue with a grey strapline —
+both vanish on a dark tile and need a light one. There is no single tile colour
+that works for all four as supplied. Shape and size are identical either way,
+so it reads as one treatment.
+
+Setting `HERO_MODE` back to `'stats'` restores the Pew figures below, with no
+markup change.
+
+### The hero statistics — the other mode
 
 Three of the four are one study, cited on the page: **Pew Research Center,
 "Do people click on links in Google AI summaries?", 22 July 2025** — 68,879
@@ -216,7 +263,8 @@ the shape the reference site uses. The placeholders there are zeroes and the
 page prints a "Placeholder" flag beneath them. That flag must not come off
 until the figures are real.
 
-**They describe Google AI Overviews specifically**, and the page says so.
+These are what `HERO_MODE: 'stats'` renders. **They describe Google AI
+Overviews specifically**, and the page says so.
 Stretching a Google-only sample to cover ChatGPT and Perplexity would be the
 exact move this agency sells against.
 
@@ -233,26 +281,20 @@ before launch.
 
 ### Logo strip
 
-Five entries under "Trusted by". All five files are now in
-`site/public/logos/` and rendering.
+Five entries under "Trusted by", label above the strip. All five files are in
+`site/public/logos/`.
 
-**The strip sits on the dark band, and that was forced by the artwork.** Two of
-the five are white-knockout marks drawn for dark backgrounds — Lurio's fill is
-`#fff7ed`, and Viveonix's wordmark is white with a black outline. On the light
-surface `#FCFBF8` the first is invisible and the second is a hollow outline. A
-dark band is the only surface all five read on without editing anyone's logo.
+**Every mark is flattened to a single dark silhouette.** `brightness(0)` drives
+every channel to black whatever colour the file is drawn in, so a cream
+wordmark, a white knockout and a full-colour lockup all land at the same weight
+— which is what a trust strip is for, and it sidesteps the fact that two of the
+five cannot be shown as supplied on a light surface. Dark theme inverts the
+same filter to white. Colour versions appear in the hero cards instead, each on
+its own tile.
 
-Each brand carries a `tone` in `src/data/brands.ts`:
-
-| Tone | Applied to | What it does |
-|---|---|---|
-| `knockout` | Fresh, Little Lockets | Colour artwork on transparent, flattened to white |
-| `asis` | Lurio, Viveonix | Already light — desaturated only |
-| `invert` | Growthmind | Opaque dark tile flipped light, mark inside flipped dark |
-
-Growthmind is the awkward one: a 96×96 icon on an opaque `#191e19` tile. Knocked
-out it becomes a solid white square; left alone it is a dark blob on a dark
-band. Inverting it gives a light tile with a dark mark, which reads.
+One exception, carried as `tone: 'asis'` in `src/data/brands.ts`: Growthmind's
+mark sits on an opaque `#191e19` tile, and flattening that produces a solid
+black square. It renders as the dark icon tile it was drawn as.
 
 Logos are normalised on optical height rather than a fixed box, so a wide
 wordmark and a square mark read at the same visual weight. The multipliers were

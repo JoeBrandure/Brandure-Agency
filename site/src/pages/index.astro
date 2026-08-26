@@ -6,6 +6,15 @@ import LogoStrip from '../components/LogoStrip.astro';
 import { SITE } from '../consts';
 import { FAQS, FAQS_HOME, HERO_MODE, HERO_STATS, HERO_CASES, PROBLEMS, STAGES, OFFERS, ENGINES } from '../data/content';
 import { getCollection } from 'astro:content';
+import { readdirSync } from 'node:fs';
+
+/* Same lookup the strip uses: match a file in public/logos/ by slug. */
+let logoFiles: string[] = [];
+try { logoFiles = readdirSync('./public/logos'); } catch { logoFiles = []; }
+const caseCards = HERO_CASES.map((c) => {
+  const f = logoFiles.find((n) => n.replace(/\.[^.]+$/, '') === c.slug);
+  return { ...c, file: f ? `/logos/${f}` : null };
+});
 
 const pieces = (await getCollection('research'))
   .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf())
@@ -112,25 +121,23 @@ const demoRows = [
             </p>
           </>
         ) : (
-          <>
-            <div class="metric-grid" data-stagger>
-              {HERO_CASES.map((c) => (
-                <div class="metric metric--case">
-                  <span class="metric__chip">{c.brand}</span>
-                  <span class="metric__n">
-                    <span>{c.metric}</span>{c.suffix && <span class="metric__suffix">{c.suffix}</span>}
-                    <span class="metric__arrow" aria-hidden="true">&#8599;</span>
+          <div class="case-grid" data-stagger>
+            {caseCards.map((c) => (
+              <figure class="case">
+                <span class:list={['case__mark', `case__mark--${c.chip}`]}>
+                  {c.file
+                    ? <img src={c.file} alt={c.brand} width="200" height="80" loading="eager" decoding="async" />
+                    : <span class="case__wordmark">{c.brand}</span>}
+                </span>
+                <figcaption>
+                  <span class="case__n">
+                    <span data-count={c.metric}>{c.metric}</span><span class="case__suffix">{c.suffix}</span>
                   </span>
-                  <p class="metric__l">{c.label}</p>
-                </div>
-              ))}
-            </div>
-            <p class="figure__src mt-1">
-              <span class="sample-flag">Placeholder</span> &nbsp;Every figure
-              above is invented and is here to show the layout. Nothing on this
-              page is a client result.
-            </p>
-          </>
+                  <span class="case__l">{c.label}</span>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
         )}
       </div>
     </div>
@@ -155,11 +162,8 @@ const demoRows = [
           <div class:list={['card', 'problem', `problem--${p.accent}`]}>
             <span class="problem__n" aria-hidden="true">{p.n}</span>
             <h3>{p.t}</h3>
-            <div class="problem__panel">
-              <span class="problem__k">The problem</span>
-              <p>{p.p}</p>
-            </div>
-            <div class="problem__panel problem__panel--effect">
+            <p class="problem__p">{p.p}</p>
+            <div class="problem__effect">
               <span class="problem__k">The effect</span>
               <p>{p.e}</p>
             </div>
@@ -177,9 +181,8 @@ const demoRows = [
         <div>
           <h2>We fix all four, in that order</h2>
           <p class="lede">
-            Find out where you stand, work out why, fix it, then measure again —
-            alongside a set of questions we deliberately leave alone, so you can
-            see what the work actually did.
+            Measured, diagnosed, fixed, then measured again against a set of
+            questions left deliberately untouched.
           </p>
         </div>
         <a class="btn cta-card__btn" href="#report">Get a free visibility report</a>
@@ -187,21 +190,19 @@ const demoRows = [
     </div>
   </section>
 
-  <!-- 5. Four surfaces — INVERTED. No longer pinned.
-       This section used to sticky-pin and scrub its rows in against scroll
-       position. It read as stuttery and rigid: the reader was held in place
-       while rows arrived one at a time, and the scrub was tied to raw scroll
-       so every wheel notch stepped the animation rather than easing it. It is
-       now an ordinary section that scrolls past like everything else. -->
-  <section class="section section--inv">
-    <div class="spotlight" aria-hidden="true"></div>
+  <!-- 5. Four surfaces. Light, like every other section.
+       This was a full-bleed navy band. Every other section on the page sits on
+       --surface, so the band was the one place the background changed under
+       the reader mid-scroll. It is now the same surface as everything above
+       and below it, and the table carries the emphasis instead of the
+       background doing it. -->
+  <section class="section section--sunk">
     <div class="wrap" data-reveal>
       <div class="section-head">
         <h2 class="statement statement--sub">One question. Four different answers.</h2>
         <p class="lede">
-          Ask all four the same thing on the same day and you get four
-          different lists of companies, built from four different sets of
-          sources. This is what we hand you.
+          Same question, same day, four engines. Different companies named,
+          different sources behind them. This is the report you get.
         </p>
       </div>
       <ComparisonTable
@@ -213,26 +214,26 @@ const demoRows = [
     </div>
   </section>
 
-  <!-- 6. How it works — a timeline. The connecting line draws itself as the
-       section arrives and each node lands on it in turn, so the sequence is
-       legible as a sequence rather than as four boxes in a row. -->
-  <section class="section timeline-section">
+  <!-- 6. The four stages. Numbered cards on a coloured spine, each in its own
+       brand hue, arriving in sequence as the spine draws through them. -->
+  <section class="section stages">
     <div class="wrap" data-reveal>
       <div class="section-head">
-        <h2>Four stages, and the last one is the point</h2>
-        <p class="lede">Anyone can tell you that you are missing. The fourth stage is what tells you whether anything we did changed it.</p>
+        <h2>The four-stage process</h2>
+        <p class="lede">Baseline, diagnosis, execution, re-measurement. Every engagement runs the same four, in the same order.</p>
       </div>
 
-      <ol class="timeline" data-timeline>
-        <span class="timeline__line" aria-hidden="true"><span class="timeline__fill"></span></span>
+      <ol class="stages__track" data-timeline>
+        <span class="stages__spine" aria-hidden="true"><span class="stages__fill"></span></span>
         {STAGES.map((st, i) => (
-          <li class="timeline__step" style={`--i:${i}`}>
-            <span class="timeline__node" aria-hidden="true"><span class="timeline__dot"></span></span>
-            <div class="timeline__body">
-              <p class="timeline__when">{st.w}</p>
-              <h3>{st.t}</h3>
-              <p class="note-sm mb-0">{st.d}</p>
-            </div>
+          <li class:list={['stages__item', `stages--${st.a}`]} style={`--i:${i}`}>
+            <span class="stages__node" aria-hidden="true"></span>
+            <article class="stages__card">
+              <span class="stages__n" aria-hidden="true">{st.n}</span>
+              <p class="stages__when">{st.w}</p>
+              <h3 class="stages__t">{st.t}</h3>
+              <p class="stages__d">{st.d}</p>
+            </article>
           </li>
         ))}
       </ol>
@@ -315,19 +316,18 @@ const demoRows = [
   </section>
 
   <!-- 10. CTA — INVERTED band, full section -->
-  <section class="section section--inv" id="report">
-    <div class="spotlight" aria-hidden="true"></div>
+  <section class="section" id="report">
     <div class="wrap">
       <div class="hero-grid">
         <div data-reveal>
           <h2 class="statement statement--sub" data-split>Find out what the engines say about you.</h2>
           <p class="lede">
-            We run your category across all four surfaces and send you what comes
-            back — who gets named, in what order, and which sources the answers
-            were built from. No charge, no obligation, no sequence.
+            Your category, run across all four surfaces. Who gets named, in what
+            order, and which sources each answer was built from. No charge, no
+            obligation, no sequence.
           </p>
         </div>
-        <ReportForm id="report-form" inverted />
+        <ReportForm id="report-form" />
       </div>
     </div>
   </section>

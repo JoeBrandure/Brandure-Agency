@@ -1,7 +1,7 @@
 # STATE.md — current position
 
-Last updated: 2026-08-25 (home restructured; hero stats sourced; /faq added;
-all scroll-pinning removed; A3 still urgent)
+Last updated: 2026-08-25 (client results live in the hero; one background
+throughout; stages redesigned; A3 still urgent)
 
 Current position at a glance. Update this file whenever something moves between
 sections. It is the first thing to read at the start of a working session.
@@ -110,6 +110,34 @@ repo before building on anything here.
   enabled". Detection was always on — a Netlify form only registers once a
   deploy containing the markup has been scanned, and no such deploy existed
   yet. It was never a blocker.
+- **Third review pass on the site** (2026-08-25).
+  - **First real client results are live**, supplied by Joe: Lurio 92%,
+    Viveonix 183%, Little Lockets London 79%, Fresh Gym 205%. `HERO_MODE` is
+    now `'cases'`; `'stats'` still renders the Pew figures with no markup
+    change. **Flagged, not changed:** each figure would be stronger with the
+    engine, the date range and the base beside it — "92% across three LLMs"
+    invites "up from what, over how long" from exactly this buyer.
+  - **No inverted bands on the home page.** Every section is `--surface` or
+    `--surface-sunk`, a 3% step, with no two sunk sections adjacent. The
+    comparison table and the report CTA were full-bleed navy, so the background
+    changed under the reader twice mid-scroll.
+  - **Logo handling split in two.** The strip flattens every mark to a dark
+    silhouette (white in dark theme) — uniform, and it sidesteps Lurio and
+    Viveonix being white-knockout artwork. The hero cards carry the same marks
+    in colour, each on its own tile, and **the tile colour has to vary by
+    brand**: Lurio and Viveonix need dark, Little Lockets and Fresh Gym vanish
+    on dark and need light. No single tile colour works for all four.
+  - **Problem cards** carry a number, body-size copy, and a full-border glow in
+    their own hue on hover. **Stages** are numbered cards on a coloured spine
+    with large ghost numerals; the section is now "The four-stage process" —
+    the previous heading and lede narrated rather than stated, which is the
+    register that gives away machine-written marketing.
+  - **A real performance regression, caught and fixed.** The hero mesh parallax
+    was driven from its live bounding rect, so the layers jumped the instant
+    the script ran: **CLS 0.169, home performance 92**. Now measured from the
+    scroll position at which the mesh first renders, so it is 0 on the first
+    frame. Back to 0.021–0.049 and 100. Not zero — a blurred drifting blob is
+    the cost, and that is recorded rather than hidden.
 - **Second review pass on the site** (2026-08-25).
   - **Hero card one now leads with the derived 47%**, not 8%. Leading with 8%
     read as a small number when the finding is a large loss. Both raw values —

@@ -2,7 +2,8 @@
  * Shared page content. Copy lives here so the visible page and the structured
  * data read from one source rather than duplicating each other.
  */
-export const ENGINES = ['ChatGPT', 'Perplexity', 'Gemini', 'Google AI Overview'] as const;
+/* Five surfaces. Claude was missing and is one of the five that matter. */
+export const ENGINES = ['ChatGPT', 'Claude', 'Perplexity', 'Gemini', 'Google AI Overview'] as const;
 
 /* ============================ HERO ============================
  * Two hero variants. Switch with one line — no markup change.
@@ -59,9 +60,9 @@ export const HERO_STATS = [
   },
   {
     chip: 'Coverage',
-    n: '4',
+    n: '5',
     suffix: '',
-    label: 'answer engines measured separately — ChatGPT, Perplexity, Gemini, Google AI Overviews. Never one blended score.',
+    label: 'answer engines measured separately — ChatGPT, Claude, Perplexity, Gemini, Google AI Overviews. Never one blended score.',
   },
 ] as const;
 
@@ -72,12 +73,17 @@ export const HERO_STATS = [
  * public/logos/, so the mark is picked up at build time by the same mechanism
  * the strip uses.
  *
- * `chip` is the tile the mark sits on, and it has to vary by brand. Lurio's
- * fill is #fff7ed and Viveonix's wordmark is a white knockout — both need a
- * dark tile. Little Lockets is dark serif type and Fresh Gym is mid-blue with
- * a grey strapline — both disappear on a dark tile and need a light one.
- * There is no single tile colour that works for all four as supplied. Same
- * shape and size throughout, so it reads as one treatment.
+ * The marks sit straight on the card with no tile. Lurio and Viveonix ship as
+ * white-knockout artwork and are invisible on a light surface, so the cards
+ * use dark-ink variants generated from the originals — see
+ * public/logos/README.md for exactly how.
+ *
+ * `optical` scales each mark so the four read at the same visual weight. A
+ * one-line wordmark and a three-line lockup are not the same shape, so a
+ * fixed height makes the taller one's type illegible; the multiplier is set
+ * from what each measured on the rendered card.
+ *
+ * `chip` is retained but no longer drives a tile.
  *
  * WORTH ATTACHING BEFORE ANYONE PUSHES BACK: each of these would be stronger
  * with the engine, the date range and the size of the base beside it. "92%
@@ -88,6 +94,8 @@ export const HERO_STATS = [
 export const HERO_CASES = [
   {
     slug: 'lurio',
+    /* 1140x470 wordmark, tight crop */
+    optical: 0.8,
     chip: 'dark' as const,
     brand: 'Lurio',
     metric: '92',
@@ -96,6 +104,8 @@ export const HERO_CASES = [
   },
   {
     slug: 'viveonix',
+    /* 900x365 lockup, mark plus wordmark plus strapline */
+    optical: 1.35,
     chip: 'dark' as const,
     brand: 'Viveonix',
     metric: '183',
@@ -104,6 +114,8 @@ export const HERO_CASES = [
   },
   {
     slug: 'littlelockets',
+    /* 600x296, three-line lockup — icon, name, strapline */
+    optical: 1.45,
     chip: 'light' as const,
     brand: 'Little Lockets London',
     metric: '79',
@@ -112,6 +124,8 @@ export const HERO_CASES = [
   },
   {
     slug: 'fresh',
+    /* 250x100, wordmark plus strapline */
+    optical: 1.15,
     chip: 'light' as const,
     brand: 'Fresh Gym',
     metric: '205',
@@ -141,8 +155,8 @@ export const PROBLEMS = [
     n: '02',
     accent: 'violet',
     t: 'Every AI says something different',
-    p: 'Ask ChatGPT, Perplexity, Gemini and Google the same question on the same day and different companies come back.',
-    e: 'One overall “AI score” averages four different answers into a number that cannot tell you which one to go and fix.',
+    p: 'Ask ChatGPT, Claude, Perplexity, Gemini and Google the same question on the same day and different companies come back.',
+    e: 'One overall “AI score” averages five different answers into a number that cannot tell you which one to go and fix.',
   },
   {
     n: '03',
@@ -166,7 +180,7 @@ export const PROBLEMS = [
  * marketing faster than any single word does.
  */
 export const STAGES = [
-  { n: '01', a: 'cobalt', t: 'Baseline',   w: 'Week 1',  d: 'Your buyers’ real questions, agreed and frozen. All four engines, clean sessions, personalisation off.' },
+  { n: '01', a: 'cobalt', t: 'Baseline',   w: 'Week 1',  d: 'Your buyers’ real questions, agreed and frozen. All five engines, clean sessions, personalisation off.' },
   { n: '02', a: 'violet', t: 'Diagnosis',  w: 'Week 2',  d: 'Which of the three causes applies: the model cannot identify you, cannot find you, or prefers a competitor.' },
   { n: '03', a: 'teal',   t: 'Execution',  w: 'Ongoing', d: 'Fix what your site controls. Earn the third-party mentions the answers are actually built from.' },
   { n: '04', a: 'deep',   t: 'Re-measure', w: 'Monthly', d: 'Same frozen questions, plus an untouched control set — so the change can be attributed, not asserted.' },
@@ -181,7 +195,7 @@ export const FAQS = [
   {
     group: 'The basics',
     q: 'What is answer engine optimisation?',
-    a: 'It is the work of getting a brand named, cited and recommended inside AI-generated answers — ChatGPT, Perplexity, Gemini, Google AI Overviews — rather than only ranking in a list of blue links. The unit of competition is different: a search engine returns options, an answer engine returns a conclusion.',
+    a: 'It is the work of getting a brand named, cited and recommended inside AI-generated answers — ChatGPT, Claude, Perplexity, Gemini, Google AI Overviews — rather than only ranking in a list of blue links. The unit of competition is different: a search engine returns options, an answer engine returns a conclusion.',
   },
   {
     group: 'The basics',
@@ -208,7 +222,7 @@ export const FAQS = [
   {
     group: 'What gets measured',
     q: 'Which engines do you measure?',
-    a: 'ChatGPT, Perplexity, Gemini and Google AI Overviews, each reported separately. They disagree with each other more than most people expect, so a single blended score hides the thing you need to know.',
+    a: 'ChatGPT, Claude, Perplexity, Gemini and Google AI Overviews, each reported separately. They disagree with each other more than most people expect, so a single blended score hides the thing you need to know.',
   },
   {
     group: 'What gets measured',
@@ -287,7 +301,7 @@ export const FAQS = [
   {
     group: 'Working together',
     q: 'What does the free report actually include?',
-    a: 'Your category run across all four engines from clean sessions: who gets named, in what order, and which sources each answer was built from. It is a real measurement, not a teaser — you can act on it whether or not you engage us.',
+    a: 'Your category run across all five engines from clean sessions: who gets named, in what order, and which sources each answer was built from. It is a real measurement, not a teaser — you can act on it whether or not you engage us.',
   },
   {
     group: 'Working together',
@@ -316,14 +330,14 @@ export const FAQS_HOME = FAQS.slice(0, 6);
 
 export const OFFERS = [
   {
-    name: 'Four-surface visibility audit',
+    name: 'Five-surface visibility audit',
     price: 'AED 9,500',
     unit: 'fixed fee · one-off · four places per quarter',
     summary:
-      'The entry product. Your category measured across all four answer engines from clean sessions, with the causes of every absence identified.',
+      'The entry product. Your category measured across all five answer engines from clean sessions, with the causes of every absence identified.',
     includes: [
       'Prompt set agreed with you and frozen',
-      'All four engines, clean sessions, recorded separately',
+      'All five engines, clean sessions, recorded separately',
       'Who is named, in what order, and what each answer cited',
       'Entity check — whether models can resolve who you are',
       'Prioritised list of what would move the position',

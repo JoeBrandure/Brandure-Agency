@@ -148,8 +148,12 @@ are local numbers.
 
 | Page | Performance | Accessibility | Best practices | SEO | TBT | CLS |
 |---|---|---|---|---|---|---|
-| Home | 100 | 100 | 96 | 100 | 0 ms | 0.021–0.049 |
+| Home | 99–100 | 100 | 96 | 100 | 0 ms | 0.049 |
 | Questions (`/faq`) | 100 | 100 | 96 | 100 | 0 ms | 0 |
+| Service | 100 | 100 | 96 | 100 | 0 ms | 0.01 |
+
+Home flickers between 99 and 100 run to run. It is entirely the CLS figure
+below; largest contentful paint is 0.7s and blocking time is zero.
 
 Motion still costs nothing measurable. Blocking time is zero on both: every
 sticky-pinned section and its scroll runway is gone, and there is one scroll
@@ -166,11 +170,13 @@ before, which scores 100 and sits inside the "good" threshold of 0.1. It has
 not been driven to zero; a blurred decorative blob drifting behind the hero is
 the cost.
 
-Two audits sit below 1.0 and are worth naming rather than hiding:
-`modern-image-formats` and `uses-responsive-images`, both driven by the supplied
-logo files. `viveonix.webp` is 3840×2160 and 102KB for a mark that renders 54px
-tall. It does not move any score at this size, but it is 170KB of logos for one
-strip — see the logo section below.
+**Logo weight, since it was flagged before:** the hero's four marks are now
+generated variants — trimmed to the artwork's own bounding box and resized —
+so Viveonix went from a 3840×2160 / 600KB canvas to 420px / 45KB. The dark
+copies are `loading="lazy"` and are never downloaded in the light theme, which
+was checked on the network rather than assumed. The trust strip still points at
+the original `viveonix.webp` at 102KB; it is below the fold and lazy, so it
+costs nothing on the critical path, but it is the last oversized file left.
 
 The dark theme was audited by building a copy with `data-theme="dark"` pinned
 on every page and running the same audit against it, so axe checked the real
@@ -189,7 +195,7 @@ with `placeholder: false`, which was tested directly rather than assumed.
 
 ### Where things are on the home page
 
-Hero → logo strip → problem grid → gradient CTA → four-surface table →
+Hero → logo strip → problem grid → gradient CTA → five-surface table →
 four-stage process → pricing → research → six questions with a link to `/faq`
 → report form.
 
@@ -225,12 +231,23 @@ three LLMs" invites "up from what, over how long" from exactly the buyer this
 site is written for. The figures are Joe's; the suggestion is to publish the
 working alongside them, not to soften them.
 
-**The logo tile colour varies by brand, and has to.** Lurio's fill is `#fff7ed`
-and Viveonix's wordmark is a white knockout — both need the dark tile. Little
-Lockets is dark serif type and Fresh Gym is mid-blue with a grey strapline —
-both vanish on a dark tile and need a light one. There is no single tile colour
-that works for all four as supplied. Shape and size are identical either way,
-so it reads as one treatment.
+**Each card carries its mark twice — one file per theme.** No single version of
+these four works on both surfaces: Lurio ships as `#fff7ed` and Viveonix as a
+white knockout, so both need dark-ink variants on a light card; Little Lockets
+is dark serif and Fresh Gym is mid-blue with a grey strapline, so both need
+lightened variants on a dark one. CSS shows one and hides the other, the dark
+copy is `loading="lazy"` so a light-theme visitor never downloads it (verified
+by watching the network), and the hidden copy is `aria-hidden` so a screen
+reader hears each brand once.
+
+Naming is `<slug>-light.*` and `<slug>-dark.*`, falling back to `<slug>.*`.
+**How every variant was derived is written down in
+`site/public/logos/README.md`** — they are generated from the originals, not
+official assets, and that file says so per row.
+
+`optical` in `HERO_CASES` scales each mark so the four read at the same visual
+weight. A one-line wordmark and a three-line lockup are not the same shape, so
+a fixed height leaves the taller one's type illegible.
 
 Setting `HERO_MODE` back to `'stats'` restores the Pew figures below, with no
 markup change.
@@ -278,6 +295,24 @@ unreachable from the build environment, so the figures were confirmed from two
 independent search passes that agreed on every value and on the sample, rather
 than read off the primary source. Worth one direct check against the Pew page
 before launch.
+
+### The answer-surface table
+
+**Five engines, not four.** Claude was missing and is one of the five that
+matter; `ENGINES` in `src/data/content.ts` is the single source, and the copy
+across the site was updated with it.
+
+The table has to serve two readings at once — left to right it is a list of
+verdicts, as a block it is a pattern — so: the head row is a tinted band, the
+prompt column is pinned and separated by a heavier rule so the row label stays
+with its verdicts while the engines scroll, each cell carries a faint wash of
+its own status colour so the shape of the answer is visible before a word is
+read, statuses are chips rather than loose text, and **every row ends with its
+own tally**, because nobody scanning five columns holds the count themselves.
+
+The status chip keeps its glyph and its written label. Colour is redundant
+encoding and never the only signal — the three reserved hues are near-identical
+in greyscale.
 
 ### Logo strip
 

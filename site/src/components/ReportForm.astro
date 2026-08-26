@@ -9,7 +9,7 @@ interface Props { id: string; heading?: string; blurb?: string; inverted?: boole
 const {
   id,
   heading = 'Request a free visibility report',
-  blurb = 'We run your category across ChatGPT, Perplexity, Gemini and Google, and send you what comes back — who gets named, in what order, and which sources the answers are built from. No charge, no obligation.',
+  blurb = 'We run your category across ChatGPT, Claude, Perplexity, Gemini and Google, and send you what comes back — who gets named, in what order, and which sources the answers are built from. No charge, no obligation.',
   inverted = false,
 } = Astro.props;
 const submitted = Astro.url.searchParams.get('submitted') === 'true';

@@ -366,8 +366,16 @@ tbody tr {
   border-color: color-mix(in srgb, var(--sa) 55%, var(--border));
   box-shadow: var(--shadow-lift), 0 0 0 4px color-mix(in srgb, var(--sa) 10%, transparent);
 }
-.stages__n { transition: color var(--dur-2) var(--ease); }
-.stages__item:hover .stages__n { color: color-mix(in srgb, var(--sa) 26%, transparent); }
+/* Hovering one stage steps back the other three. The sequence is the point of
+   this section, and this is the cheapest way to make it followable: the eye is
+   held on one step at a time instead of reading four cards at equal weight.
+   Only on a real pointer — there is no hover to leave on a touchscreen. */
+@media (hover: hover) and (pointer: fine) {
+  .stages__track.is-in:hover .stages__item { opacity: 0.55; }
+  .stages__track.is-in:hover .stages__item:hover { opacity: 1; }
+  .stages__track.is-in:hover .stages__item:hover .stages__n { transform: scale(1.12); }
+}
+.stages__n { transition: transform var(--dur-2) var(--ease-out); }
 
 /* ---- Problem cards ----
    The whole border lights up in the card's own hue, on every side, with a

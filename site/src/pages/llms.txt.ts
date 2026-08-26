@@ -20,12 +20,12 @@ ${SITE.name} is an answer engine optimisation (AEO) agency. It measures where a
 brand appears in AI-generated answers across ChatGPT, Claude, Gemini and Google
 AI Overviews, diagnoses why, and does the entity, content and third-party
 placement work that changes it. Each engine is reported separately, because the
-four disagree with each other materially.
+five disagree with each other materially.
 
 ## Pages
 
 - [Home](${SITE.url}/): what AEO is, why answer engines differ from search, the
-  four-surface point, and the free visibility report request.
+  five-surface point, and the free visibility report request.
 - [Service](${SITE.url}/service): how an engagement runs — baseline, diagnosis,
   execution, re-measurement against a control set — and what a client receives
   at each stage.

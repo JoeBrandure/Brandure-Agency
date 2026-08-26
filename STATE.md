@@ -1,7 +1,7 @@
 # STATE.md — current position
 
-Last updated: 2026-08-25 (client results live in the hero; one background
-throughout; stages redesigned; A3 still urgent)
+Last updated: 2026-08-25 (Claude added as a fifth engine; per-theme logo
+variants; table and stages redesigned; A3 still urgent)
 
 Current position at a glance. Update this file whenever something moves between
 sections. It is the first thing to read at the start of a working session.
@@ -110,6 +110,41 @@ repo before building on anything here.
   enabled". Detection was always on — a Netlify form only registers once a
   deploy containing the markup has been scanned, and no such deploy existed
   yet. It was never a blocker.
+- **Fourth review pass on the site** (2026-08-25).
+  - **Claude added as a fifth engine.** It was missing and is one of the five
+    that matter. `ENGINES` is the single source; every "four engines" /
+    "four-surface" reference across pages, FAQs, schema description, llms.txt
+    and the demo table was updated with it.
+  - **The comparison table redesigned.** Pinned prompt column, tinted head
+    band, a faint wash of each cell's status colour so the pattern of absence
+    is visible before a word is read, status chips rather than loose text, and
+    a per-row tally with a bar — five columns is more than a reader will count
+    for themselves.
+  - **Per-theme logo variants.** No single version of the four client marks
+    works on both surfaces, so each card carries two and CSS picks. Lurio and
+    Viveonix needed dark-ink variants for the light card; Little Lockets and
+    Fresh Gym needed lightened ones for the dark. All generated from the
+    originals by a canvas pass that recolours only near-neutral pixels and
+    leaves saturated brand colour alone, then trims the artwork's bounding box
+    and resizes. **`site/public/logos/README.md` records exactly how each was
+    made and that they are derived, not official.** Viveonix went from a
+    3840×2160 / 600KB canvas to 420px / 45KB in the process. The dark copies
+    are `loading="lazy"`, so a light-theme visitor never downloads them —
+    verified on the network, not assumed.
+  - **Logo strip** now sits on the same surface as the section below it rather
+    than a tinted band.
+  - **Section headings a size down** — at the full `--h2` a three-line centred
+    heading filled the column edge to edge and read as condensed.
+  - **Problem cards** use colour to separate the two halves: heading and
+    number in the card's hue, the effect on a tint of it.
+  - **Stages**: the 5.5rem ghost numeral is now a small badge on the card's
+    accent bar, titles and body a step down, and hovering one stage steps the
+    other three back so the sequence is followable one step at a time.
+  - **One contrast failure caught:** the stage number badge was white on the
+    accent, and every accent lifts to a near-white tint in dark theme —
+    **1.63:1**. Switched to `--btn-fg`, which is white in light and near-black
+    in dark for exactly this case. All four badges now 4.68–8.43:1 light,
+    7.26–11.64:1 dark.
 - **Third review pass on the site** (2026-08-25).
   - **First real client results are live**, supplied by Joe: Lurio 92%,
     Viveonix 183%, Little Lockets London 79%, Fresh Gym 205%. `HERO_MODE` is

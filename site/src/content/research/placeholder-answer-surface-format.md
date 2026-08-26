@@ -27,9 +27,9 @@ survives greyscale printing and readers who cannot distinguish the hues.
 
 
 <figure class="table-figure">
-<div class="table-scroll" tabindex="0" role="region" aria-label="Format demonstration: seven prompts across four answer engines">
+<div class="table-scroll" tabindex="0" role="region" aria-label="Format demonstration: seven prompts across five answer engines">
 <table>
-<caption>Format demonstration — seven prompts, four engines</caption>
+<caption>Format demonstration — seven prompts, five engines</caption>
 <thead><tr><th scope="col">Prompt</th><th scope="col">ChatGPT</th><th scope="col">Claude</th><th scope="col">Gemini</th><th scope="col">Google AI Overview</th></tr></thead>
 <tbody>
 <tr><th scope="row"><span class="row-label">Best employment lawyer in [city]</span><span class="row-note">buying intent</span></th><td><span class="status status--present"><span class="status__glyph" aria-hidden="true">●</span><span class="status__label">Cited</span></span><span class="cite">directory listing</span></td><td><span class="status status--absent"><span class="status__glyph" aria-hidden="true">○</span><span class="status__label">Absent</span></span></td><td><span class="status status--partial"><span class="status__glyph" aria-hidden="true">◐</span><span class="status__label">Partial</span></span><span class="cite">mentioned, not ranked</span></td><td><span class="status status--absent"><span class="status__glyph" aria-hidden="true">○</span><span class="status__label">Absent</span></span></td></tr>

@@ -166,7 +166,14 @@ code, kbd, .mono { font-family: var(--font-mono); font-size: 0.9em; }
   text-align: center; margin: 0 auto clamp(2.25rem, 4vw, 3.25rem);
   max-width: 52rem;
 }
-.section-head h2 { text-align: center; max-width: 20ch; margin-bottom: 0.5rem; }
+/* A step below --h2. At the full display size a three-line centred heading
+   filled the column edge to edge and read as condensed rather than large. */
+.section-head h2 {
+  text-align: center; max-width: 22ch; margin-bottom: 0.7rem;
+  font-size: clamp(1.9rem, 1.1rem + 2.2vw, 3rem);
+  line-height: 1.06; letter-spacing: -0.032em;
+}
+.section-head .statement--sub { font-size: clamp(1.9rem, 1.1rem + 2.2vw, 3rem); line-height: 1.06; }
 .section-head .lede { text-align: center; max-width: 54ch; margin-bottom: 0; }
 .section-head--left { align-items: flex-start; text-align: left; margin-inline: 0; }
 .section-head--left h2, .section-head--left .lede { text-align: left; }
@@ -250,22 +257,29 @@ a.card:hover, .card--hover:hover { transform: translateY(-3px); box-shadow: var(
   display: flex; flex-direction: column; gap: 0.7rem;
   position: relative; overflow: hidden;
 }
+/* No tile. Lurio and Viveonix ship as white-knockout artwork, so this card
+   uses dark-background variants generated from the originals — see
+   public/logos/README.md. Everything sits straight on the card. */
 .case__mark {
-  display: flex; align-items: center; justify-content: center;
+  display: flex; align-items: center;
   align-self: flex-start;
-  height: 3rem; padding: 0 0.85rem;
-  border-radius: var(--radius-sm);
+  height: 2.6rem;
 }
-/* Two tile tones, set per brand. Lurio and Viveonix are white-knockout
-   artwork and need the dark tile; Little Lockets is dark serif type and Fresh
-   Gym is mid-blue with a grey strapline, and both vanish on it. Same shape
-   and size either way. */
-.case__mark--dark  { background: #101521; }
-.case__mark--light { background: #fff; box-shadow: inset 0 0 0 1px var(--border); }
-.case__mark img { display: block; height: 1.9rem; width: auto; max-width: 9.5rem; object-fit: contain; }
+.case__mark img {
+  display: block;
+  height: calc(1.55rem * var(--optical, 1));
+  width: auto; max-width: 10.5rem;
+  object-fit: contain;
+}
+/* One mark per theme. The alt text lives on the light copy; the dark copy is
+   aria-hidden so a screen reader hears the brand once. ThemeScript always
+   stamps data-theme before first paint, so there is no frame where both show
+   or neither does. */
+.case__mark .on-dark { display: none; }
+:root[data-theme='dark'] .case__mark .on-light { display: none; }
+:root[data-theme='dark'] .case__mark .on-dark { display: block; }
 .case__wordmark { font-family: var(--font-display); font-weight: 700; font-size: 0.9rem; }
-.case__mark--dark .case__wordmark { color: #fff; }
-.case__mark--light .case__wordmark { color: var(--ink); }
+.case__wordmark { color: var(--ink); }
 .case figcaption { max-width: none; margin: 0; font-family: inherit; font-size: inherit; color: inherit; }
 .case__n {
   display: flex; align-items: baseline;
@@ -294,12 +308,12 @@ a.card:hover, .card--hover:hover { transform: translateY(-3px); box-shadow: var(
   position: relative;
   padding: 1.5rem 1.5rem 1.6rem;
   --pa: var(--cobalt);
-  --pa-soft: color-mix(in srgb, var(--cobalt) 8%, transparent);
+  --pa-soft: color-mix(in srgb, var(--cobalt) 10%, transparent);
 }
-.problem--cobalt { --pa: var(--cobalt); --pa-soft: color-mix(in srgb, var(--cobalt) 8%, transparent); }
-.problem--violet { --pa: var(--violet); --pa-soft: color-mix(in srgb, var(--violet) 8%, transparent); }
-.problem--teal   { --pa: var(--teal);   --pa-soft: color-mix(in srgb, var(--teal) 8%, transparent); }
-.problem--deep   { --pa: var(--cobalt-deep); --pa-soft: color-mix(in srgb, var(--cobalt-deep) 8%, transparent); }
+.problem--cobalt { --pa: var(--cobalt); --pa-soft: color-mix(in srgb, var(--cobalt) 10%, transparent); }
+.problem--violet { --pa: var(--violet); --pa-soft: color-mix(in srgb, var(--violet) 10%, transparent); }
+.problem--teal   { --pa: var(--teal);   --pa-soft: color-mix(in srgb, var(--teal) 10%, transparent); }
+.problem--deep   { --pa: var(--cobalt-deep); --pa-soft: color-mix(in srgb, var(--cobalt-deep) 10%, transparent); }
 
 /* The whole border lights up, not one edge. An inset ring is used rather than
    the border itself so nothing reflows when it appears. */
@@ -318,7 +332,8 @@ a.card:hover, .card--hover:hover { transform: translateY(-3px); box-shadow: var(
   display: block; margin-bottom: 0.7rem;
 }
 .problem h3 {
-  font-size: clamp(1.4rem, 0.9rem + 1.1vw, 1.75rem);
+  color: var(--pa);
+  font-size: clamp(1.3rem, 0.9rem + 0.9vw, 1.6rem);
   line-height: 1.1; letter-spacing: -0.025em;
   margin: 0 0 0.7rem; max-width: 18ch;
 }
@@ -327,13 +342,18 @@ a.card:hover, .card--hover:hover { transform: translateY(-3px); box-shadow: var(
    equally important footnotes. */
 .problem__p {
   font-size: 1.0625rem; line-height: 1.55; color: var(--ink);
-  margin: 0 0 1.1rem; max-width: none;
+  margin: 0 0 1.2rem; max-width: none;
 }
 /* The consequence is set apart by a rule in the accent, not a box. */
+/* The effect sits on a tint of the card's own hue, so problem and consequence
+   are told apart by colour as well as by position. */
 .problem__effect {
   margin-top: auto;
-  padding: 0.9rem 0 0;
-  border-top: 1px solid color-mix(in srgb, var(--pa) 30%, var(--border));
+  padding: 0.85rem 1rem 0.9rem;
+  margin-inline: -0.25rem;
+  border-radius: var(--radius-sm);
+  background: var(--pa-soft);
+  border-left: 3px solid var(--pa);
 }
 .problem__k {
   display: block;
@@ -341,7 +361,7 @@ a.card:hover, .card--hover:hover { transform: translateY(-3px); box-shadow: var(
   letter-spacing: var(--ls-label); text-transform: uppercase;
   color: var(--pa); margin-bottom: 0.35rem;
 }
-.problem__effect p { margin: 0; font-size: var(--small); color: var(--muted); max-width: none; }
+.problem__effect p { margin: 0; font-size: var(--small); color: var(--ink); max-width: none; }
 
 /* ---------- Full-bleed gradient CTA card ---------- */
 
@@ -528,16 +548,22 @@ a.card:hover, .card--hover:hover { transform: translateY(-3px); box-shadow: var(
   background: var(--surface-card);
   -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
   box-shadow: var(--shadow-card);
-  padding: 1.4rem 1.5rem 1.5rem;
+  padding: 1.3rem 1.35rem 1.4rem;
   overflow: hidden;
 }
-/* The stage number sits behind the copy, large and faint, in the stage hue. */
+/* The number is a badge on the card's own accent bar, not a 5.5rem ghost
+   behind the copy — at that size it competed with the stage name and pushed
+   the description into a narrow column. */
 .stages__n {
-  position: absolute; right: 0.75rem; top: -0.6rem;
-  font-family: var(--font-display); font-weight: 800;
-  font-size: 5.5rem; line-height: 1; letter-spacing: -0.06em;
-  color: color-mix(in srgb, var(--sa) 13%, transparent);
-  pointer-events: none; user-select: none;
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 1.9rem; height: 1.9rem; border-radius: 50%;
+  font-family: var(--font-mono); font-size: 0.75rem; font-weight: 500;
+  letter-spacing: 0.02em;
+  /* --btn-fg, not #fff. Every accent lifts to a near-white tint in dark
+     theme, so hard-coded white text on the badge measured 1.63:1 there. This
+     token is white in light and near-black in dark for exactly this case. */
+  color: var(--btn-fg); background: var(--sa);
+  margin-bottom: 0.9rem;
 }
 .stages__when {
   font-family: var(--font-mono); font-size: var(--label);
@@ -545,11 +571,19 @@ a.card:hover, .card--hover:hover { transform: translateY(-3px); box-shadow: var(
   color: var(--sa); margin: 0 0 0.4rem;
 }
 .stages__t {
-  font-size: clamp(1.5rem, 1rem + 1.4vw, 2rem);
-  line-height: 1.05; letter-spacing: -0.03em;
-  margin: 0 0 0.55rem; max-width: none;
+  font-size: clamp(1.2rem, 0.95rem + 0.6vw, 1.4rem);
+  line-height: 1.15; letter-spacing: -0.02em;
+  margin: 0 0 0.5rem; max-width: none;
 }
-.stages__d { margin: 0; font-size: 1.0625rem; line-height: 1.55; color: var(--muted); max-width: 38ch; }
+.stages__d { margin: 0; font-size: var(--small); line-height: 1.6; color: var(--muted); max-width: 38ch; }
+.stages__when { display: block; }
+
+/* A full-width bar in the stage's hue across the top of the card. */
+.stages__card::before {
+  content: '';
+  position: absolute; inset: 0 0 auto 0; height: 3px;
+  background: var(--sa);
+}
 
 @media (min-width: 56rem) {
   .stages__track { grid-template-columns: repeat(4, 1fr); gap: 0 clamp(1rem, 2vw, 1.5rem); }
@@ -648,35 +682,108 @@ a.card:hover, .card--hover:hover { transform: translateY(-3px); box-shadow: var(
 /* ---------- Comparison table ---------- */
 
 .table-figure { margin: 2rem 0 0; }
-.table-scroll { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); }
+.table-scroll {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow-card);
+}
 .section--inv .table-scroll { background: rgba(255, 255, 255, 0.04); border-color: var(--border-inv); }
-table { font-variant-numeric: tabular-nums; border-collapse: collapse; width: 100%; min-width: 46rem; font-size: var(--small); }
-caption {
-  text-align: left; font-family: var(--font-display); font-weight: 700;
-  font-size: var(--h3); letter-spacing: -0.012em;
-  padding: 0.95rem 1rem 0.85rem; border-bottom: 1px solid var(--border);
+
+table {
+  font-variant-numeric: tabular-nums;
+  border-collapse: separate; border-spacing: 0;
+  width: 100%; min-width: 54rem; font-size: var(--small);
 }
-.section--inv caption { color: var(--ink-inv); border-bottom-color: var(--border-inv); }
+
+/* ---------- Answer-surface table ----------
+   Five engines across, one prompt per row. Read left to right it is a list of
+   verdicts; read as a block it is a pattern. The design has to serve both, so:
+   the head row is a tinted band rather than a hairline, the prompt column is
+   pinned and separated by a heavier rule, cells carry a faint wash of their
+   own status colour so the shape of the answer is visible before any word is
+   read, and every row ends with its own tally because nobody scanning five
+   columns holds the count themselves. */
+
 thead th {
-  position: sticky; top: 0; z-index: 1;
   background: var(--surface-sunk);
-  font-family: var(--font-mono); font-weight: 400; font-size: var(--label);
-  text-align: left; padding: 0.6rem 1rem; border-bottom: 1px solid var(--border); white-space: nowrap;
+  border-bottom: 1px solid var(--border);
+  padding: 0.85rem 1rem;
+  font-family: var(--font-mono); font-size: var(--label);
+  letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--muted); font-weight: 400; white-space: nowrap;
 }
-.section--inv thead th { background: var(--surface-inv-2); color: var(--muted-inv); border-bottom-color: var(--border-inv); }
-tbody th, tbody td { text-align: left; vertical-align: top; padding: 0.75rem 1rem; border-bottom: 1px solid var(--border); }
-.section--inv tbody th, .section--inv tbody td { border-bottom-color: var(--border-inv); color: var(--ink-inv); }
+.section--inv thead th { background: rgba(255, 255, 255, 0.05); border-bottom-color: var(--border-inv); color: var(--muted-inv); }
+
+tbody th, tbody td {
+  text-align: left; vertical-align: top;
+  padding: 0.95rem 1rem;
+  border-bottom: 1px solid var(--border);
+}
+.section--inv tbody th, .section--inv tbody td { border-bottom-color: var(--border-inv); }
 tbody tr:last-child th, tbody tr:last-child td { border-bottom: 0; }
-tbody th[scope='row'] { font-weight: 400; min-width: 15rem; border-right: 1px solid var(--border); }
-.section--inv tbody th[scope='row'] { border-right-color: var(--border-inv); }
+
+/* Prompt column: pinned, so the row label stays with its verdicts while the
+   engines scroll on a narrow screen. */
+tbody th[scope='row'] {
+  font-weight: 400; min-width: 16rem;
+  position: sticky; left: 0; z-index: 1;
+  background: var(--surface);
+  border-right: 2px solid var(--border);
+}
+.section--inv tbody th[scope='row'] { background: var(--surface-inv); border-right-color: var(--border-inv); }
+thead th:first-child { position: sticky; left: 0; z-index: 2; background: var(--surface-sunk); border-right: 2px solid var(--border); }
+.section--inv thead th:first-child { background: #14295f; border-right-color: var(--border-inv); }
+
+tbody tr:hover th[scope='row'], tbody tr:hover td { background: color-mix(in srgb, var(--accent) 4%, var(--surface)); }
+.section--inv tbody tr:hover th[scope='row'], .section--inv tbody tr:hover td { background: rgba(255, 255, 255, 0.05); }
+
+/* A wash of the status colour behind each cell. Weak enough that the text is
+   unaffected — measured — and strong enough that the pattern of absence is
+   visible across the row at a glance. */
+.cell--present { background: color-mix(in srgb, var(--status-present) 7%, transparent); }
+.cell--partial { background: color-mix(in srgb, var(--status-partial) 8%, transparent); }
+.cell--absent  { background: color-mix(in srgb, var(--status-absent) 5%, transparent); }
+
 .row-label { display: block; font-weight: 600; font-size: 1.0625rem; }
 .row-note { display: block; font-family: var(--font-mono); font-size: var(--label); color: var(--muted); margin-top: 0.15rem; }
 .section--inv .row-note { color: var(--muted-inv); }
 
-/* Status: colour is redundant. Glyph + label carry it in greyscale and print. */
-.status { display: flex; align-items: baseline; gap: 0.4rem; white-space: nowrap; }
-.status__glyph { font-size: 0.9em; line-height: 1; }
+/* Status as a chip. Glyph and label both stay — colour is redundant encoding,
+   never the only signal, because the three reserved hues are near-identical
+   in greyscale. */
+.status {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  white-space: nowrap;
+  padding: 0.22rem 0.55rem 0.22rem 0.45rem;
+  border-radius: var(--pill);
+  background: var(--surface);
+  box-shadow: inset 0 0 0 1px currentColor;
+  font-size: 0.8125rem;
+}
+.section--inv .status { background: rgba(255, 255, 255, 0.08); }
+.status__glyph { font-size: 0.85em; line-height: 1; }
 .status__label { font-weight: 600; }
+
+/* Per-row tally. */
+.col-score { width: 6.5rem; text-align: right; }
+th.col-score { text-align: right; }
+.score { display: inline-flex; flex-direction: column; align-items: flex-end; gap: 0.35rem; }
+.score__n { font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; letter-spacing: -0.02em; line-height: 1; }
+.score__of { font-size: 0.72em; color: var(--muted); font-weight: 600; }
+.section--inv .score__of { color: var(--muted-inv); }
+.score__bar { display: block; width: 3.25rem; height: 4px; border-radius: 4px; background: var(--border); overflow: hidden; }
+.section--inv .score__bar { background: var(--border-inv); }
+.score__bar > span {
+  display: block; height: 100%; border-radius: 4px;
+  width: calc(var(--score) * 100%);
+  background: linear-gradient(90deg, var(--cobalt), var(--violet));
+}
+
+.cite { display: block; font-family: var(--font-mono); font-size: 0.8125rem; color: var(--muted); margin-top: 0.4rem; line-height: 1.45; }
+.section--inv .cite { color: var(--muted-inv); }
+
 .status--present { color: var(--status-present); }
 .status--partial { color: var(--status-partial); }
 .status--absent  { color: var(--status-absent); }
@@ -855,9 +962,12 @@ input:focus-visible { border-color: var(--focus); }
    and makes the row uniform, which is what a trust strip is for. Colour
    versions of these marks appear in the hero cards instead. */
 
+/* Same surface as the section below it — a tinted band here made the strip
+   read as its own zone rather than as a quiet line under the hero. */
 .logos {
+  background: var(--surface);
   padding-block: clamp(2rem, 3.5vw, 3rem);
-  border-block: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
 }
 .logos__label {
   margin: 0 0 1.4rem;

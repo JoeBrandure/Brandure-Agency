@@ -33,30 +33,43 @@ const { caption, columns, rows, footnote } = Astro.props;
 
 <figure class="table-figure">
   <div class="table-scroll" tabindex="0" role="region" aria-label={caption}>
-    <table>
+    <table class="surface-table">
       <caption>{caption}</caption>
       <thead>
         <tr>
           <th scope="col">Prompt</th>
           {columns.map((c) => <th scope="col">{c}</th>)}
+          <th scope="col" class="col-score">Named</th>
         </tr>
       </thead>
       <tbody>
         {
-          rows.map((row) => (
-            <tr>
-              <th scope="row">
-                <span class="row-label">{row.label}</span>
-                {row.note && <span class="row-note">{row.note}</span>}
-              </th>
-              {row.cells.map((cell) => (
-                <td>
-                  <StatusCell status={cell.status} label={cell.label} />
-                  {cell.citation && <span class="cite">{cell.citation}</span>}
+          rows.map((row) => {
+            /* Named = cited outright, or named without ranking. Absent is the
+               only state that does not count. Shown per row because a reader
+               scanning five columns cannot hold the tally themselves. */
+            const named = row.cells.filter((c) => c.status !== 'absent').length;
+            return (
+              <tr>
+                <th scope="row">
+                  <span class="row-label">{row.label}</span>
+                  {row.note && <span class="row-note">{row.note}</span>}
+                </th>
+                {row.cells.map((cell) => (
+                  <td class={`cell cell--${cell.status}`}>
+                    <StatusCell status={cell.status} label={cell.label} />
+                    {cell.citation && <span class="cite">{cell.citation}</span>}
+                  </td>
+                ))}
+                <td class="col-score">
+                  <span class="score" style={`--score:${named / row.cells.length}`}>
+                    <span class="score__n">{named}<span class="score__of">/{row.cells.length}</span></span>
+                    <span class="score__bar" aria-hidden="true"><span></span></span>
+                  </span>
                 </td>
-              ))}
-            </tr>
-          ))
+              </tr>
+            );
+          })
         }
       </tbody>
     </table>

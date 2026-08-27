@@ -110,6 +110,54 @@ repo before building on anything here.
   enabled". Detection was always on — a Netlify form only registers once a
   deploy containing the markup has been scanned, and no such deploy existed
   yet. It was never a blocker.
+- **Mid-build audit of `/service`, `/method` and `/research`** (2026-08-27).
+  Commissioned as an audit, so findings first: two of them were coherence
+  failures that several previous passes had walked past.
+  - **The four stages had two different names.** `/service` and the home page
+    said Baseline / Diagnosis / Execution / Re-measurement; `/method` said
+    Surface / Cause / Act / Null, with nothing on any page connecting them. A
+    reader going Method → Service met eight stages instead of four, which
+    quietly undid the framework `/method` exists to establish. All three pages
+    now carry the SCAN name, with the plain-English label kept alongside on
+    `/service` (`Surface — the baseline`) and the section lede linking to
+    `/method`.
+  - **"Engine" and "surface" were used for the same thing and neither was
+    defined.** Selling copy now says engine throughout. The one exception is
+    the withdrawn finding, which quotes a claim about "four surfaces" — that is
+    the verbatim 13 August record, so the lede explains the discrepancy rather
+    than editing the record.
+  - **`.center-row` was never centring anything.** It is a `<p>`, so the global
+    measure cap made it a 626px box at the wrap's left edge; everything inside
+    centred within that. "All research →" sat 95px left of centre and the
+    pricing note read as left-aligned. Site-wide, present since the rule was
+    written.
+  - **Three numbered sequences in three different shapes** across the three
+    pages — accent on the top edge versus the left, filled badge versus bare
+    numeral. Standardised. The rails also broke between steps, because the
+    connector stopped at each item's own box.
+  - **`/research`'s step cards wasted their right third** — body capped at the
+    reading measure with a full-width line underneath, five times down the
+    page. The "Without it" failure is now a tinted panel beside the step.
+  - **The `/service` CTA and its form said the same thing twice and disagreed
+    on the turnaround** — "about a week" against "two working days" on one
+    screen.
+  - **`/method` had no section intro** before the four bands: hero, then a
+    tracker, then the word "Surface" with nothing framing it.
+  - Smaller: `Rules out: that your numbers went up because of us` read as
+    ruling out the thing we want to claim; "confounds" as a noun in a buyer-
+    facing heading; `5engines` / `DubaiLocation` / `Withdrawn13 August` read
+    aloud as one word; two research cards printed "Placeholder Placeholder";
+    straight quotes; 8px under a 64px CTA headline.
+  - **A bug in the instrument, not the site.** The contrast sampler assumed
+    `rgb()` with 0–255 values, but `color-mix()` serialises as
+    `color(srgb 0.15 0.27 0.72)` — 0–1 floats — so it read every mixed colour
+    as near-black and reported an 18:1 pass in light and a 1.44:1 failure in
+    dark for the same element. Fixed in the sampler and re-measured.
+  - **Verified after:** Lighthouse 100 / 100 / 100 on performance,
+    accessibility and SEO across all five pages (home flickers 99–100 on CLS
+    variance, confirmed over three runs); every changed element AA in both
+    themes from rendered pixels; no horizontal overflow at 390, 768, 1024 or
+    1440 on five pages; reduced-motion and JS-off unchanged.
 - **Eighth review pass on the site** (2026-08-27).
   - **`/method` written up.** It was a reserved route — four cards on a dark
     band with a placeholder chip. SCAN was already in the repo and is the

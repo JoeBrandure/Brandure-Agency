@@ -59,9 +59,9 @@ const schema = {
         </div>
       </div>
       <ul class="svc-facts" data-stagger>
-        <li><span class="svc-facts__n">{ENGINES.length}</span><span class="svc-facts__l">engines, reported separately — never blended into one score</span></li>
-        <li><span class="svc-facts__n">3</span><span class="svc-facts__l">things published with every number: the prompt set, the market, the run count</span></li>
-        <li><span class="svc-facts__n">0</span><span class="svc-facts__l">findings published from a single run, including our own</span></li>
+        <li><span class="svc-facts__n">{ENGINES.length}</span> <span class="svc-facts__l">engines, reported separately — never blended into one score</span></li>
+        <li><span class="svc-facts__n">3</span> <span class="svc-facts__l">things published with every number: the prompt set, the market, the run count</span></li>
+        <li><span class="svc-facts__n">0</span> <span class="svc-facts__l">findings published from a single run, including our own</span></li>
       </ul>
     </div>
   </section>
@@ -136,8 +136,9 @@ const schema = {
         <div class="section-head">
           <h2>A finding of ours that did not survive its re-run</h2>
           <p class="lede">
-            We ran a seven-category scan of Dubai in August. Half of it was
-            contaminated. This is what happened to the headline when we
+            We ran a seven-category scan of Dubai in August across four
+            surfaces &mdash; the scan predates Claude joining the set. Half of
+            it was contaminated. This is what happened to the headline when we
             re-ran the contaminated half clean.
           </p>
         </div>
@@ -147,7 +148,7 @@ const schema = {
 
           <div class="wd__pair">
             <article class="wd__panel wd__panel--old">
-              <p class="wd__when"><span class="wd__flag wd__flag--old">Withdrawn</span>{WITHDRAWN.before.date}</p>
+              <p class="wd__when"><span class="wd__flag wd__flag--old">Withdrawn</span> {WITHDRAWN.before.date}</p>
               <p class="wd__claim"><s>{WITHDRAWN.before.claim}</s></p>
               <p class="wd__note">{WITHDRAWN.before.note}</p>
             </article>
@@ -159,7 +160,7 @@ const schema = {
             </span>
 
             <article class="wd__panel wd__panel--new">
-              <p class="wd__when"><span class="wd__flag wd__flag--new">Stands, with caveats</span>{WITHDRAWN.after.date}</p>
+              <p class="wd__when"><span class="wd__flag wd__flag--new">Stands, with caveats</span> {WITHDRAWN.after.date}</p>
               <p class="wd__claim">{WITHDRAWN.after.claim}</p>
               <p class="wd__note">{WITHDRAWN.after.note}</p>
             </article>

@@ -56,7 +56,7 @@ export const SCAN: Stage[] = [
       'Settled preference: it knows you, sources exist, and it still prefers two incumbents. The hardest, and the one worth naming early.',
     ],
     rules:
-      'That absence has one cause and one fix. Publishing more pages solves the second problem and does nothing for the first or third — which is why "more content" is the default advice and the default disappointment.',
+      'That absence has one cause and one fix. Publishing more pages solves the second problem and does nothing for the first or third — which is why “more content” is the default advice and the default disappointment.',
   },
   {
     k: 'A',
@@ -84,7 +84,7 @@ export const SCAN: Stage[] = [
       'The comparison reported whichever way it falls — including the months it shows the work did nothing.',
     ],
     rules:
-      'That your numbers went up because of us. Answer engines move on their own: models update, competitors act, indexes refresh. Without a control set, every rise is a claim and every fall is an excuse.',
+      'That a rise proves we caused it. Answer engines move on their own: models update, competitors act, indexes refresh. Without a control set, every rise is a claim and every fall is an excuse.',
   },
 ];
 

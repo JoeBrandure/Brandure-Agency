@@ -61,7 +61,7 @@ import { ENGINE_MARKS } from '../data/engines';
     >
       <p class="rotator__note">
         <span class="rotator__market">{s.market ?? 'No market'}</span>
-        <span class="rotator__note-t">{s.note}</span>
+        {' '}<span class="rotator__note-t">{s.note}</span>
       </p>
 
       <div class="table-scroll" tabindex="0" role="region" aria-label={`${s.sector} example prompts across ${ENGINE_MARKS.length} answer engines`}>

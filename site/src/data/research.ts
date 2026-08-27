@@ -29,7 +29,7 @@ export const SCAN_STEPS = [
     n: '02',
     a: 'violet',
     t: 'Clean the session',
-    d: 'Logged out, no history, no personalisation, no prior turns in the thread. Recorded per surface, not assumed.',
+    d: 'Logged out, no history, no personalisation, no prior turns in the thread. Recorded per engine, not assumed.',
     wrong: 'A signed-in profile returns an answer built partly from who is asking. It reads exactly like a category finding and is not one.',
   },
   {
@@ -74,7 +74,7 @@ export const REFUSALS = [
   {
     n: '03',
     a: 'teal',
-    t: 'A comparison whose confounds are not separable',
+    t: 'A difference we cannot attribute',
     p: 'When two runs differ, the difference has to be attributable to something. Where it cannot be, the honest output is the question, not the number.',
     e: 'Between the two runs the signed-out Gemini served a different model tier. Personalisation removed, a platform change, a model difference and plain variance are all consistent with what we saw, and n=1 separates none of them.',
   },

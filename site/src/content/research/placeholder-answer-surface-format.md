@@ -2,7 +2,7 @@
 title: "Placeholder: how a category scan is reported"
 description: "Placeholder scaffolding showing the research template — tables, citations, method and limitations. No findings. Delete this file to remove it."
 published: 2026-08-19
-vertical: "Placeholder"
+vertical: "Report format"
 placeholder: true
 sources:
   - label: "Placeholder source entry — replace with a real citation"

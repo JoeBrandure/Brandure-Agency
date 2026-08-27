@@ -241,6 +241,52 @@ drifting gradient mesh, where cobalt at 12px measured 3.26:1 — and because the
 mesh moves, small coloured text on it is fragile by construction. The tile
 directly above carries the colour.
 
+### Alignment and layout fixes from the mid-build audit
+
+Four of these were invisible until measured, which is why they survived
+several passes:
+
+- **`.center-row` was never centring anything.** It is a `<p>`, so the global
+  `p { max-width: var(--measure) }` capped it at ~626px anchored to the wrap's
+  left edge, and everything inside centred within *that* box. "All research →"
+  sat 95px left of the page centre and the pricing note read as fully
+  left-aligned. `max-width: none`.
+- **Three numbered sequences, three different shapes.** `/service`,
+  `/research` and `/method` each had their own treatment — accent on the top
+  edge versus the left, a filled circle badge versus a bare mono numeral. All
+  three now use a filled badge on a rail with the accent down the left.
+  `/method`'s badge is its SCAN letter.
+- **The rails broke between steps.** The connector filled each item's own box
+  and stopped, leaving a gap across the grid gutter. A negative bottom margin
+  equal to the gutter bridges it.
+- **`/research`'s step cards wasted their right third.** The body is capped at
+  the reading measure, so in a 1120px card it wrapped at ~730px with the
+  "Without it" line running full width underneath — a narrow paragraph above a
+  wide one, five times down the page. The failure is now a tinted panel beside
+  the step, which fills the card and promotes it from footnote to the second
+  half of the point.
+- `.cta-card h2` had 8px under a 64px headline. Now 0.9rem.
+- The prompt rotator moved ahead of the deliverables on `/service`: that
+  section leans on "the frozen prompt set" four times, and the rotator is
+  where the phrase stops being jargon.
+
+### Copy fixes from the same audit
+
+- **The CTA and the form blurb said the same thing twice and disagreed on the
+  turnaround** — "about a week" against "two working days", on one screen. The
+  CTA now carries the pitch and the form blurb is operational only.
+- **`Rules out: that your numbers went up because of us`** read as ruling out
+  the thing we want to claim. Now "That a rise proves we caused it."
+- **"A comparison whose confounds are not separable"** — "confounds" as a noun
+  is research jargon in a heading a buyer meets cold. Now "A difference we
+  cannot attribute."
+- **`5engines`, `DubaiLocation belongs…`, `Withdrawn13 August`** — adjacent
+  spans with no whitespace between them. Visually fine, read aloud as one
+  word. A space between the spans fixes it without touching the layout.
+- The two placeholder research cards printed **"Placeholder Placeholder"** —
+  the vertical tag and the draft tag carried the same word.
+- Straight quotes replaced with typographic ones.
+
 ### The research page
 
 **What it is saying, since that was the question put to it.** No research is
@@ -287,6 +333,29 @@ detail from an internal scan marked "not client-safe", which means those
 findings are not safe to state as fact, which is exactly what the section
 refuses to do with them. The switch exists so that judgement can be reversed
 without unpicking the page.
+
+### The four stages are the same four everywhere
+
+`Baseline / Diagnosis / Execution / Re-measurement` on `/service` and the home
+page, `Surface / Cause / Act / Null` on `/method`, with nothing on any page
+connecting the two sets. A reader going Method → Service met eight stages
+instead of four, which quietly undid the framework `/method` exists to build.
+
+They now carry the SCAN name everywhere, with the plain-English label kept
+alongside it on `/service` (`Surface — the baseline`), because a deliverables
+list still reads better with the ordinary word in it. `DELIVERABLES[].n` is
+the SCAN letter rather than `01`–`04`, and the section lede links to `/method`.
+
+### "Engine", not "surface"
+
+Both words were used for the same thing and neither was ever defined — "five
+engines" in one paragraph, "all five surfaces" and "Five-surface visibility
+audit" in the next. Selling copy now says **engine** throughout.
+
+The one deliberate exception is the withdrawn finding on `/research`, which
+quotes a claim about "four surfaces". That is the verbatim 13 August record and
+editing it would falsify it, so the section lede explains the discrepancy
+instead: the scan predates Claude joining the set.
 
 ### The service page
 

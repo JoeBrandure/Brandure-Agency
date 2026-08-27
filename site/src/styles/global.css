@@ -412,7 +412,7 @@ a.card:hover, .card--hover:hover { transform: translateY(-3px); box-shadow: var(
   transform: translate3d(0, 0, 0) rotate(14deg);
   will-change: transform;
 }
-.cta-card h2 { color: #fff; margin: 0 0 0.5rem; max-width: 18ch; }
+.cta-card h2 { color: #fff; margin: 0 0 0.9rem; max-width: 18ch; }
 /* Full white, not tinted — the palest gradient stop leaves 4.68:1 of
    headroom and no more, so there is none to spend on transparency. */
 .cta-card p, .cta-card .lede { color: #fff; margin: 0; max-width: 48ch; }
@@ -1162,18 +1162,24 @@ input:focus-visible { border-color: var(--focus); }
   font-family: var(--font-mono); font-size: 0.8125rem; font-weight: 500;
   color: var(--btn-fg); background: var(--sa);
 }
-.deliv__line { flex: 1; width: 2px; background: var(--border); margin-top: 0.6rem; border-radius: 2px; }
+.deliv__line { flex: 1; width: 2px; background: var(--border); margin: 0.6rem 0 -1.25rem; border-radius: 2px; }
 .deliv__item:last-child .deliv__line { display: none; }
 
 .deliv__body { padding: 1.4rem 1.5rem 1.5rem; position: relative; overflow: hidden; }
+/* Left edge, not top. /research and /method both put the stage accent down
+   the left of the card; three numbered sequences on three pages should not be
+   three different shapes. */
 .deliv__body::before {
-  content: ''; position: absolute; inset: 0 0 auto 0; height: 3px; background: var(--sa);
+  content: ''; position: absolute; inset: 0 auto 0 0; width: 3px; background: var(--sa);
 }
 .deliv__when {
   font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.01em;
   color: var(--sa); margin: 0 0 0.3rem;
 }
 .deliv__t { font-size: clamp(1.35rem, 1rem + 0.9vw, 1.6rem); line-height: 1.1; letter-spacing: -0.025em; margin: 0 0 0.7rem; }
+/* The plain-English label beside the SCAN name, so a reader who has not seen
+   /method still knows what "Surface" means here. */
+.deliv__alias { font-size: 0.9375rem; font-weight: 500; color: var(--muted); letter-spacing: -0.01em; }
 .deliv__what { font-size: 1.0625rem; line-height: 1.55; margin: 0 0 1.2rem; max-width: 62ch; }
 
 .deliv__k {
@@ -1237,7 +1243,10 @@ input:focus-visible { border-color: var(--focus); }
      white-on-accent measured 1.63:1 there when the stage badges did this. */
   color: var(--btn-fg); background: var(--sa);
 }
-.scan__line { flex: 1; width: 2px; background: var(--border); margin-top: 0.55rem; border-radius: 2px; }
+/* margin-bottom is negative by the grid gap so the rail bridges the space
+   between steps instead of stopping at each item's own box, which read as a
+   broken line rather than one spine. */
+.scan__line { flex: 1; width: 2px; background: var(--border); margin: 0.55rem 0 -1rem; border-radius: 2px; }
 .scan__item:last-child .scan__line { display: none; }
 
 .scan__body {
@@ -1248,11 +1257,34 @@ input:focus-visible { border-color: var(--focus); }
   box-shadow: var(--shadow-card);
 }
 .scan__body::before { content: ''; position: absolute; inset: 0 auto 0 0; width: 3px; background: var(--sa); }
+/* Two columns on a wide screen. The body is capped at the reading measure, so
+   in a 1120px card it wrapped at ~730px and left the right third of every step
+   empty while the "Without it" line ran the full width underneath — a narrow
+   paragraph above a wide one, five times down the page. The failure now sits
+   beside the step as its own panel, which fills the card and promotes it from
+   footnote to the second half of the point. */
+@media (min-width: 62rem) {
+  .scan__body {
+    display: grid; grid-template-columns: 1fr 24rem;
+    column-gap: 1.75rem; align-items: start;
+  }
+  .scan__t { grid-column: 1; }
+  .scan__d { grid-column: 1; margin-bottom: 0; }
+  .scan__w { grid-column: 2; grid-row: 1 / span 2; }
+}
 .scan__t { font-size: 1.15rem; line-height: 1.2; letter-spacing: -0.02em; margin: 0 0 0.4rem; max-width: none; }
 .scan__d { margin: 0 0 0.85rem; font-size: var(--small); line-height: 1.55; max-width: 62ch; }
 .scan__w {
-  margin: 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.2rem 0.6rem;
+  margin: 0; display: flex; flex-wrap: wrap; align-content: start; gap: 0.35rem 0.6rem;
   padding-top: 0.75rem; border-top: 1px dashed var(--border); max-width: none;
+}
+@media (min-width: 62rem) {
+  .scan__w {
+    padding: 0.85rem 1rem; border-top: 0;
+    border-radius: var(--radius-sm);
+    background: color-mix(in srgb, var(--sa) 7%, transparent);
+  }
+  .scan__wt { flex: 1 1 100%; }
 }
 .scan__k {
   flex: 0 0 auto;
@@ -1260,6 +1292,15 @@ input:focus-visible { border-color: var(--focus); }
   color: var(--sa);
 }
 .scan__wt { flex: 1 1 18rem; min-width: 0; font-size: 0.8125rem; line-height: 1.55; color: var(--muted); }
+/* After the base .scan__k, not before it — an equal-specificity override that
+   sits earlier in the sheet loses, which is how this first shipped doing
+   nothing. Mixed towards ink because on its own 7% tint the bare accent
+   measured 4.48–4.54:1: passing on two steps, failing on one, and with no
+   headroom on any. Mixing towards --ink deepens it in light and lightens it in
+   dark, so one declaration covers both themes. */
+@media (min-width: 62rem) {
+  .scan__k { color: color-mix(in srgb, var(--sa) 68%, var(--ink)); }
+}
 
 /* ---------- /research: the withdrawn finding ---------- */
 
@@ -1522,8 +1563,12 @@ input:focus-visible { border-color: var(--focus); }
 
 .mth-stage__head { display: flex; align-items: center; gap: 0.9rem; margin-bottom: 0.9rem; }
 .mth-stage__no {
-  font-family: var(--font-mono); font-size: 0.75rem;
-  color: var(--sa); opacity: 0.7;
+  display: flex; align-items: center; justify-content: center;
+  width: 2.75rem; height: 2.75rem; flex: 0 0 auto;
+  border-radius: 50%;
+  font-family: var(--font-display); font-weight: 800; font-size: 1.15rem;
+  /* --btn-fg, not white: the accents lift towards white in dark theme. */
+  color: var(--btn-fg); background: var(--sa);
 }
 .mth-stage__when {
   margin: 0 0 0.15rem; max-width: none;
@@ -1809,7 +1854,12 @@ input:focus-visible { border-color: var(--focus); }
 .mb-0    { margin-bottom: 0; }
 .note-sm { font-size: var(--small); color: var(--muted); }
 .stack > * + * { margin-top: 1rem; }
-.center-row { display: flex; justify-content: center; }
+.center-row {
+  /* max-width: none is load-bearing. This is a <p>, so `p { max-width:
+     var(--measure) }` capped it at ~626px anchored to the wrap's left edge —
+     so "All research →" sat 95px left of the page centre and the pricing note
+     read as fully left-aligned. */
+  max-width: none; display: flex; justify-content: center; }
 
 /* Motion lives in motion.css. */
 

@@ -180,10 +180,10 @@ export const PROBLEMS = [
  * marketing faster than any single word does.
  */
 export const STAGES = [
-  { n: '01', a: 'cobalt', t: 'Baseline',   w: 'Week 1',  d: 'Your buyers’ real questions, agreed and frozen. All five engines, clean sessions, personalisation off.' },
-  { n: '02', a: 'violet', t: 'Diagnosis',  w: 'Week 2',  d: 'Which of the three causes applies: the model cannot identify you, cannot find you, or prefers a competitor.' },
-  { n: '03', a: 'teal',   t: 'Execution',  w: 'Ongoing', d: 'Fix what your site controls. Earn the third-party mentions the answers are actually built from.' },
-  { n: '04', a: 'deep',   t: 'Re-measure', w: 'Monthly', d: 'Same frozen questions, plus an untouched control set — so the change can be attributed, not asserted.' },
+  { n: 'S', a: 'cobalt', t: 'Surface', w: 'Week 1',  d: 'Your buyers’ real questions, agreed and frozen. All five engines, clean sessions, personalisation off.' },
+  { n: 'C', a: 'violet', t: 'Cause',   w: 'Week 2',  d: 'Which of the three causes applies: the model cannot identify you, cannot find you, or prefers a competitor.' },
+  { n: 'A', a: 'teal',   t: 'Act',     w: 'Ongoing', d: 'Fix what your site controls. Earn the third-party mentions the answers are actually built from.' },
+  { n: 'N', a: 'deep',   t: 'Null',    w: 'Monthly', d: 'Same frozen questions, plus an untouched control set — so the change can be attributed, not asserted.' },
 ] as const;
 
 /* ============================ FAQs ============================
@@ -330,7 +330,7 @@ export const FAQS_HOME = FAQS.slice(0, 6);
 
 export const OFFERS = [
   {
-    name: 'Five-surface visibility audit',
+    name: 'Five-engine visibility audit',
     price: 'AED 9,500',
     unit: 'fixed fee · one-off · four places per quarter',
     summary:
@@ -374,11 +374,18 @@ export const OFFERS = [
  * someone receives and can check.
  */
 
+/* The four stages here ARE the four SCAN stages on /method. They carried
+   different names — Baseline, Diagnosis, Execution, Re-measurement — with
+   nothing on either page connecting the two sets, so a reader going Method →
+   Service met eight stages instead of four. `n` is now the SCAN letter and
+   `stage` its SCAN name; `alias` keeps the plain-English label, which is
+   still the more useful phrase in a deliverables list. */
 export const DELIVERABLES = [
   {
-    n: '01',
+    n: 'S',
     a: 'cobalt',
-    stage: 'Baseline',
+    stage: 'Surface',
+    alias: 'the baseline',
     when: 'Week 1',
     days: '5 working days',
     what: 'We agree the questions your buyers actually type and freeze them. Every one runs on all five engines from clean, signed-out sessions.',
@@ -393,9 +400,10 @@ export const DELIVERABLES = [
     honest: 'If your category shows no buying-intent volume in AI answers yet, this is where we tell you and stop.',
   },
   {
-    n: '02',
+    n: 'C',
     a: 'violet',
-    stage: 'Diagnosis',
+    stage: 'Cause',
+    alias: 'the diagnosis',
     when: 'Week 2',
     days: '5 working days',
     what: 'Absence has three causes and they need completely different work. We establish which one applies to you, per engine.',
@@ -408,9 +416,10 @@ export const DELIVERABLES = [
     honest: 'Where a category is settled on two incumbents with no visible route in, we say so and decline the retainer.',
   },
   {
-    n: '03',
+    n: 'A',
     a: 'teal',
-    stage: 'Execution',
+    stage: 'Act',
+    alias: 'the execution',
     when: 'From week 3',
     days: 'Continuous',
     what: 'Fix what your own site controls. Then go and earn the third-party mentions the answers are actually built from — which is the slower half and the half that moves it.',
@@ -423,9 +432,10 @@ export const DELIVERABLES = [
     honest: 'Earned placement depends on third parties. We report the misses as well as the hits, because a plan with no misses in it is not being reported honestly.',
   },
   {
-    n: '04',
+    n: 'N',
     a: 'deep',
-    stage: 'Re-measurement',
+    stage: 'Null',
+    alias: 'the re-measurement',
     when: 'Every month',
     days: 'For the length of the engagement',
     what: 'The identical frozen prompt set, alongside a control set we deliberately leave untouched for the whole engagement.',

@@ -3,7 +3,7 @@ title: "Placeholder: method notes and citation practice"
 description: "Second placeholder, showing how method, sources and update history are recorded. No findings. Delete this file to remove it."
 published: 2026-08-18
 updated: 2026-08-19
-vertical: "Placeholder"
+vertical: "Method notes"
 placeholder: true
 sources:
   - label: "Placeholder source entry — replace with a real citation"

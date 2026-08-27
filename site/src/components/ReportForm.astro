@@ -9,7 +9,11 @@ interface Props { id: string; heading?: string; blurb?: string; inverted?: boole
 const {
   id,
   heading = 'Request a free visibility report',
-  blurb = 'We run your category across ChatGPT, Claude, Perplexity, Gemini and Google, and send you what comes back — who gets named, in what order, and which sources the answers are built from. No charge, no obligation.',
+  /* Deliberately short. This sits directly beneath a CTA that has already
+     made the pitch, and the old blurb repeated that pitch almost sentence for
+     sentence. The form's own intro should add what the CTA does not: the
+     format and the turnaround. */
+  blurb = 'Sent as a document rather than a dashboard login, usually within two working days.',
   inverted = false,
 } = Astro.props;
 const submitted = Astro.url.searchParams.get('submitted') === 'true';

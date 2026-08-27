@@ -81,6 +81,18 @@ const path = (vals: readonly number[]) =>
        slim tracker that follows the reader through the section. -->
   <section class="section mth-stages" id="stages">
     <div class="wrap">
+      {/* The four bands used to start straight after the hero with no framing,
+          so the reader met a tracker and then the word "Surface" with nothing
+          telling them what they were about to read. */}
+      <div class="section-head" data-reveal>
+        <h2>The four stages, in order</h2>
+        <p class="lede">
+          Each one answers a question the next one depends on. Skip the first
+          and you are guessing; skip the last and you can never prove the middle
+          two did anything.
+        </p>
+      </div>
+
       <div class="mth-track" aria-hidden="true">
         <ol class="mth-track__l">
           {SCAN.map((s) => (
@@ -98,7 +110,10 @@ const path = (vals: readonly number[]) =>
           <span class="mth-stage__ghost" aria-hidden="true">{s.k}</span>
 
           <div class="mth-stage__head">
-            <span class="mth-stage__no" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+            {/* A filled letter badge, matching the numbered rails on /service
+                and /research. It was a bare mono numeral floating between two
+                lines of text, which read as debris rather than as a step. */}
+            <span class="mth-stage__no" aria-hidden="true">{s.k}</span>
             <div>
               <p class="mth-stage__when">{s.when}</p>
               <h2 class="mth-stage__t">{s.name}</h2>

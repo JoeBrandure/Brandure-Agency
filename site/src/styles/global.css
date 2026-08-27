@@ -780,8 +780,36 @@ tbody tr:hover th[scope='row'], tbody tr:hover td { background: color-mix(in srg
 .status__label { font-weight: 600; }
 
 /* Per-row tally. */
-.col-score { text-align: right; }
+/* Everything from Intent rightwards is centred. The prompt is prose and stays
+   left; the rest are verdicts and counts, which line up better centred under
+   an equally centred heading. */
+.surface-table thead th.col-intent,
+.surface-table thead th.col-engine,
+.surface-table thead th.col-score,
+.surface-table td.col-intent,
+.surface-table td.cell,
+.surface-table td.col-score { text-align: center; }
+.surface-table td.cell .cite { text-align: center; }
+.surface-table thead th.col-engine .engine { justify-content: center; }
+.surface-table td.col-score .score { align-items: center; }
+
+.col-score { text-align: center; }
 .col-intent { white-space: nowrap; }
+
+/* ---------- Engine marks ----------
+   A chip in the engine's own colour with its mark, then the name. */
+.engine { display: inline-flex; align-items: center; gap: 0.45rem; white-space: nowrap; }
+.engine__chip {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 1.4rem; height: 1.4rem; flex: 0 0 auto;
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--ec) 14%, transparent);
+  color: var(--ei);
+}
+:root[data-theme='dark'] .engine__chip { background: color-mix(in srgb, var(--ec) 26%, transparent); color: var(--ec); }
+.engine__chip svg { width: 0.85rem; height: 0.85rem; display: block; }
+.engine__chip img { width: 0.95rem; height: 0.95rem; display: block; object-fit: contain; }
+.engine__n { font-weight: 600; }
 .intent {
   display: inline-block;
   font-size: 0.75rem; font-weight: 600; letter-spacing: 0.01em;
@@ -977,7 +1005,28 @@ input:focus-visible { border-color: var(--focus); }
    because a two-column comparison that collapses without its headers is
    unreadable. */
 
-.compare { border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; background: var(--surface); }
+.compare {
+  position: relative;
+  border: 1px solid var(--border); border-radius: var(--radius-lg);
+  overflow: hidden; background: var(--surface);
+  box-shadow: var(--shadow-card);
+}
+/* The answer-engine column is the point of the whole section, so it is given
+   a continuous tinted track and a coloured edge down its left side rather
+   than being tinted cell by cell. */
+@media (min-width: 48rem) {
+  .compare::before {
+    content: '';
+    position: absolute; top: 0; bottom: 0; right: 0;
+    width: calc((100% - 12rem) / 2);
+    background: linear-gradient(180deg,
+      color-mix(in srgb, var(--accent) 10%, transparent),
+      color-mix(in srgb, var(--violet) 9%, transparent));
+    border-left: 2px solid var(--accent);
+    pointer-events: none;
+  }
+}
+.compare__head, .compare__row { position: relative; z-index: 1; }
 .compare__head, .compare__row { display: grid; grid-template-columns: 1fr; }
 @media (min-width: 48rem) {
   .compare__head, .compare__row { grid-template-columns: 12rem 1fr 1fr; }
@@ -987,22 +1036,102 @@ input:focus-visible { border-color: var(--focus); }
   .compare__head { display: grid; background: var(--surface-sunk); border-bottom: 1px solid var(--border); }
 }
 .compare__t { padding: 0.85rem 1.1rem; font-size: 0.8125rem; font-weight: 600; }
-.compare__t--seo { color: var(--muted); }
+.compare__t--seo, .compare__t--axis {
+  color: var(--muted);
+  text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.6875rem;
+}
+.compare__t--axis { padding-left: 1.1rem; }
+/* The label that says which of the two columns this agency is paid to move.
+   It is the whole argument of the section, so it is stated rather than
+   implied by tint alone. */
+.compare__tag {
+  margin-left: auto;
+  font-size: 0.625rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--btn-fg); background: var(--accent);
+  padding: 0.2rem 0.5rem; border-radius: 999px;
+}
 /* --cobalt-deep, not --accent. Cobalt on the tinted head band measured
    4.19:1 at 13px — the token exists precisely for small text that needs more
    headroom, and it lifts this to 6.8:1. */
-.compare__t--aeo { color: var(--cobalt-deep); background: color-mix(in srgb, var(--accent) 7%, transparent); }
+.compare__t--aeo {
+  color: var(--cobalt-deep);
+  display: flex; align-items: center; gap: 0.45rem;
+}
+.compare__t--aeo::before {
+  content: ''; width: 0.5rem; height: 0.5rem; border-radius: 50%;
+  background: var(--accent); flex: 0 0 auto;
+}
 
 .compare__row + .compare__row { border-top: 1px solid var(--border); }
+.compare__row { transition: background var(--t-fast) var(--ease); }
 .compare__axis {
   padding: 1rem 1.1rem 0.4rem;
   font-size: 0.8125rem; font-weight: 600; color: var(--muted);
+  transition: color var(--t-fast) var(--ease);
 }
-@media (min-width: 48rem) { .compare__axis { padding: 1.05rem 1.1rem; align-self: center; } }
+@media (min-width: 48rem) {
+  .compare__axis {
+    padding: 1.05rem 1.1rem; align-self: center;
+    display: flex; align-items: baseline;
+  }
+}
+/* margin, not the flex gap: on a phone the axis is not a flex row, so a gap
+   would collapse and print "01What is being won". */
+.compare__i {
+  font-variant-numeric: tabular-nums;
+  font-size: 0.6875rem; font-weight: 700; color: var(--accent);
+  opacity: 0.55; margin-right: 0.5rem;
+}
 .compare__cell { padding: 0.35rem 1.1rem 0.9rem; font-size: var(--small); line-height: 1.5; }
 @media (min-width: 48rem) { .compare__cell { padding: 1.05rem 1.1rem; } }
-.compare__cell--aeo { background: color-mix(in srgb, var(--accent) 6%, transparent); color: var(--ink); font-weight: 500; }
-.compare__cell--seo { color: var(--muted); }
+.compare__cell--aeo { color: var(--ink); font-weight: 500; }
+@media (max-width: 47.99rem) {
+  .compare__cell--aeo {
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
+    border-left: 3px solid var(--accent);
+  }
+}
+/* A tick beside every answer-engine claim, so the column reads as the answer
+   rather than as the second of two equal options.
+   `position: relative` on the cell is load-bearing: without it the tick's
+   containing block is .compare__row, so left:1.1rem put every tick on top of
+   the axis label in the first column. */
+@media (min-width: 48rem) {
+  .compare__cell--aeo { padding-left: 2.6rem; position: relative; }
+  .compare__cell--aeo::before {
+    content: '';
+    position: absolute; left: 1.1rem; top: 1.35rem;
+    width: 0.95rem; height: 0.5rem;
+    border-left: 2.5px solid var(--accent); border-bottom: 2.5px solid var(--accent);
+    transform: rotate(-45deg);
+  }
+  .compare__row { align-items: stretch; }
+  /* A dash opposite every tick. The pairing is what makes the two columns
+     read as a verdict rather than as two descriptions of equal weight, and it
+     survives greyscale and colour blindness because the shapes differ. */
+  .compare__cell--seo { padding-left: 2.6rem; position: relative; }
+  .compare__cell--seo::before {
+    content: '';
+    position: absolute; left: 1.1rem; top: 1.55rem;
+    width: 0.85rem; height: 2px; border-radius: 2px;
+    background: var(--muted); opacity: 0.45;
+  }
+}
+.compare__row:hover { background: color-mix(in srgb, var(--accent) 4%, transparent); }
+.compare__row:hover .compare__axis, .compare__row:hover .compare__cell--seo { color: var(--ink); }
+.compare__cell--seo { color: var(--muted); transition: color var(--t-fast) var(--ease); }
+
+/* Full-width closing line, bookending the head band. It also hides the
+   ::before tint track, which runs the full height of .compare — hence the
+   opaque background and the stacking context. */
+.compare__foot {
+  position: relative; z-index: 1; margin: 0; max-width: none;
+  padding: 0.85rem 1.1rem;
+  background: var(--surface-sunk); border-top: 1px solid var(--border);
+  font-size: 0.8125rem; line-height: 1.55; color: var(--muted);
+}
+.compare__foot strong { color: var(--ink); }
 .compare__mob { display: block; font-size: 0.75rem; font-weight: 600; color: var(--muted); margin-bottom: 0.15rem; }
 @media (min-width: 48rem) { .compare__mob { display: none; } }
 
@@ -1119,23 +1248,116 @@ input:focus-visible { border-color: var(--focus); }
 }
 .no-js .rotator__progress { display: none; }
 
+/* Pill and text on one line, running the full width of the table below it.
+   Capping it at 78ch stacked the longer notes into a paragraph under the
+   pill, which looked like a different component to the short ones. */
 .rotator__note {
-  display: flex; align-items: baseline; gap: 0.6rem; flex-wrap: wrap;
+  display: flex; align-items: baseline; gap: 0.65rem;
   font-size: var(--small); color: var(--muted);
-  margin: 0 0 0.9rem; max-width: 78ch;
+  margin: 0 0 0.9rem; max-width: none;
 }
+.rotator__note-t { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 34rem) { .rotator__note { flex-wrap: wrap; } }
+/* --cobalt-deep, not --accent: cobalt on its own 11% tint measured 4.00:1 at
+   12px, which is the same trap as the comparison head band. */
 .rotator__market {
   flex: 0 0 auto;
   font-size: 0.75rem; font-weight: 600; letter-spacing: 0.01em;
-  color: var(--accent);
+  color: var(--cobalt-deep);
   background: color-mix(in srgb, var(--accent) 11%, transparent);
   border-radius: var(--radius-sm); padding: 0.18rem 0.5rem;
 }
-.rotator__foot { font-size: var(--small); color: var(--muted); margin: 0.9rem 0 0; max-width: 80ch; }
+.rotator__foot { font-size: var(--small); color: var(--muted); margin: 0.9rem 0 0; max-width: none; }
 .rotator__foot strong { color: var(--ink); }
 
 /* Without JavaScript every panel stays in the DOM; show the first only. */
 .no-js .rotator__panel[hidden] { display: none; }
+
+/* ---------- Testimonials ----------
+   Three columns scrolling vertically at different speeds, masked at both
+   ends. Rebuilt from a React + framer-motion + Tailwind component: the visual
+   idea is the same, the implementation is three CSS animations and no
+   JavaScript. */
+
+.tst__warn {
+  max-width: 62rem; margin: 0 auto 2rem;
+  padding: 0.9rem 1.1rem;
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--status-partial) 12%, transparent);
+  border-left: 3px solid var(--status-partial);
+  font-size: var(--small); line-height: 1.55;
+}
+.tst__warn strong { color: var(--status-partial-deep); }
+
+/* The rolling three-column treatment is a wide-screen flourish. Below 68rem
+   there is no room for three tracks, and the earlier version handled that by
+   hiding columns two and three — which silently dropped four of the six
+   quotes on a phone. Narrow screens get every quote instead, as an ordinary
+   static grid: the whole point of the section is that the words get read. */
+.tst__cols {
+  display: grid; grid-template-columns: 1fr; gap: 1.25rem;
+}
+@media (min-width: 46rem) { .tst__cols { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 68rem) {
+  .tst__cols {
+    grid-template-columns: repeat(3, 1fr);
+    max-height: 40rem; overflow: hidden;
+    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 12%, #000 88%, transparent);
+    mask-image: linear-gradient(to bottom, transparent, #000 12%, #000 88%, transparent);
+  }
+}
+
+.tst__col { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.25rem; align-content: start; }
+/* The duplicate half of each column exists only to make the loop seamless.
+   Where nothing loops it is every quote printed twice, so it goes. */
+@media (max-width: 67.99rem) {
+  .tst__card[aria-hidden='true'] { display: none; }
+}
+
+.tst__card {
+  margin: 0; max-width: none;
+  padding: 1.6rem 1.7rem 1.5rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  /* Same token as every other card on the site, so it separates from the
+     ground by border and shadow rather than by tint — which is what lets the
+     section sit on the plain background. */
+  background: var(--surface-card);
+  box-shadow: var(--shadow-card);
+  --ta: var(--cobalt);
+}
+.tst--cobalt { --ta: var(--cobalt); }
+.tst--violet { --ta: var(--violet); }
+.tst--teal   { --ta: var(--teal); }
+.tst--deep   { --ta: var(--cobalt-deep); }
+
+.tst__card blockquote { margin: 0; }
+.tst__card blockquote > p {
+  margin: 0 0 1.2rem; max-width: none;
+  font-size: 1.0625rem; line-height: 1.6; color: var(--ink);
+}
+.tst__card blockquote > p::before { content: '\201C'; color: var(--ta); font-weight: 700; }
+.tst__card blockquote > p::after { content: '\201D'; color: var(--ta); font-weight: 700; }
+
+.tst__flag {
+  display: inline-block; margin-bottom: 0.8rem;
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--status-partial);
+  background: color-mix(in srgb, var(--status-partial) 14%, transparent);
+  border-radius: var(--radius-sm); padding: 0.15rem 0.45rem;
+}
+
+.tst__card footer { display: flex; align-items: center; gap: 0.75rem; }
+.tst__mono {
+  display: flex; align-items: center; justify-content: center;
+  width: 2.4rem; height: 2.4rem; flex: 0 0 auto;
+  border-radius: 50%;
+  font-family: var(--font-display); font-weight: 700; font-size: 0.8125rem;
+  color: var(--btn-fg); background: var(--ta);
+}
+.tst__who { display: flex; flex-direction: column; min-width: 0; }
+.tst__who cite { font-style: normal; font-weight: 600; font-size: var(--small); }
+.tst__role { font-size: 0.8125rem; color: var(--muted); }
 
 /* ---------- Small utilities ----------
    Named rather than written inline. Every one of these replaced a

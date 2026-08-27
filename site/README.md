@@ -204,6 +204,22 @@ actually happens, and what lands on your desk at the end of each part.
   what is being won, where the answer comes from, what third place means, how
   it is measured and what a report proves. It is the single most useful thing
   the page can do, because it draws the line against what buyers assume this is.
+
+  The table takes a side rather than presenting two equal options: the
+  answer-engine column runs on a continuous tinted track with a coloured left
+  edge, its header carries a **"what we work on"** pill, every claim in it is
+  ticked, and every claim opposite it is dashed. Tick against dash is
+  redundant encoding — the shapes differ, so the verdict survives greyscale
+  and colour blindness. Rows are numbered, hovering a row lifts its tint and
+  brings the muted side up to full ink, and a full-width closing line under
+  the table says the two can both be true at once.
+
+  Two things that will break it if they are edited carelessly. The tick is
+  absolutely positioned and needs `position: relative` on its own cell —
+  without it the containing block is the row and every tick lands on top of
+  the axis label in the first column. And the closing line needs
+  `max-width: none`, because the global `p, li` measure caps it at 62ch and
+  leaves a half-width paragraph under a full-width table.
 - **Deliverables stated as artefacts, not activity.** "Entity work" describes
   effort; "a prioritised fix list with each change written out" is a thing
   someone receives and can check. Each of the four stages carries its own
@@ -217,8 +233,8 @@ actually happens, and what lands on your desk at the end of each part.
 ### Where things are on the home page
 
 Hero → logo strip → problem grid → gradient CTA → five-surface table →
-four-stage process → pricing → research → six questions with a link to `/faq`
-→ report form.
+four-stage process → pricing → research → client quotes → six questions with a
+link to `/faq` → report form.
 
 **One background throughout.** There are no inverted bands on the home page any
 more. Every section is either `--surface` or `--surface-sunk`, a 3% step, and
@@ -232,6 +248,51 @@ fifth needed approval; this one was asked for directly. It carries all 25
 questions grouped in four sections with a sticky section nav, and the full
 `FAQPage` structured data. The home page marks up only the six it actually
 shows — the same questions should not be claimed twice.
+
+### Client quotes
+
+`src/components/Testimonials.astro`, content in `src/data/testimonials.ts`,
+sitting between the research teaser and the questions.
+
+**Every quote is a placeholder and the section says so**, in a banner above
+the cards and again on each card. The four brands and their results are real —
+they are the same ones in the hero. The words are not. Publishing invented
+testimonials on a site whose whole proposition is "we measure rather than
+assert" would contradict it three sections below the measurement. To make it
+real: replace `quote`, `name` and `role` and set `placeholder: false`; the flag
+disappears from that card by itself. Where a client will not give a name, use
+their role and company rather than inventing a person.
+
+**No photographs.** The reference design this came from pulled headshots from
+Unsplash — stock photographs of people who are not the client, presented as if
+they were. Cards carry a brand monogram instead, which is honest and needs no
+external image host.
+
+**Rebuilt natively rather than dropped in.** The source component was React
+plus framer-motion, Tailwind and lucide. Using it as written would have added a
+client framework to a site built on static output with no client-side JS, about
+50KB of runtime for one section, a class system that does not exist here, and
+four requests to an external image host on a page that currently makes none.
+The visual idea is unchanged; the implementation is three CSS animations and no
+JavaScript.
+
+How it behaves:
+
+- three columns rolling at 46s, 58s and 52s so they never line up, masked top
+  and bottom, pausing on hover;
+- each column is duplicated once with the copy `aria-hidden`, so a screen
+  reader hears each quote once;
+- **below 68rem the roll stops and all six quotes render as a static grid.**
+  The first version hid columns two and three at narrow widths, which silently
+  dropped four of the six quotes on a phone — the point of the section is that
+  the words get read;
+- under `prefers-reduced-motion` the same thing happens at any width, and the
+  duplicate cards are hidden rather than the loop being frozen mid-card.
+
+The section sits on the plain background, not the sunk one, because the FAQ
+below it is sunk and the home page's rule is that no two sunk sections touch.
+Cards use `--surface-card` like every other card on the site, so they separate
+from the ground by border and shadow rather than by tint.
 
 ### The hero: client results
 
@@ -351,6 +412,33 @@ produces a local-services answer shape that misrepresents how the category is
 bought. That is the standing rule in `CLAUDE.md`, followed here rather than
 quietly attaching a city to all seven.
 
+Layout, as of the latest pass: the market chip and its note run as one line
+across the full width of the table rather than stacking into a narrow column;
+every column from **Intent** through **Named** is centred; and the footnote
+runs the table's full width instead of being capped at the body measure.
+
+### The engine marks
+
+Each engine column header carries a mark rather than a bare name, drawn by
+`src/components/EngineMark.astro` from the list in `src/data/engines.ts`.
+
+**The marks currently on the page are approximations, not the official
+logos.** Every vendor host that serves the real SVGs is denied by the build
+environment's network policy — `403` on `CONNECT`, confirmed against the agent
+proxy's own status endpoint — so the component draws fallbacks: a hexagonal
+knot for ChatGPT, a radial burst for Claude, a seek glyph for Perplexity, a
+four-point star for Gemini, a ringed G for Google.
+
+A subtly wrong competitor logo on a professional site is worse than no logo,
+so these want replacing before the site goes in front of a buyer. Dropping
+`chatgpt.svg`, `claude.svg`, `perplexity.svg`, `gemini.svg` and `google.svg`
+into `public/engines/` is the entire fix — the component matches on filename
+at build time and needs no code change. `public/engines/README.md` carries the
+naming rules and a note on nominative trade-mark use.
+
+The chip behind each mark is tinted from the brand colour; the mark itself
+gets no colour transform, so a supplied SVG renders exactly as published.
+
 ### The answer-surface table
 
 **Five engines, not four.** Claude was missing and is one of the five that
@@ -435,6 +523,39 @@ when the text is the luminance extreme, which is a trap worth naming.
 | Pill label | 6.91:1 | 6.10:1 |
 | Table row label | 13.95:1 | 12.55:1 |
 | Citation line | 8.00:1 | 7.27:1 |
+| **Engine marks and rotator** | | |
+| Engine name in the header | 5.21:1 | 7.35:1 |
+| Market chip | 6.47:1 | 8.18:1 |
+| Note and footnote | 5.21:1 | 7.35:1 |
+| **Comparison table** | | |
+| Column labels | 5.21:1 | 7.35:1 |
+| "What we work on" pill | 5.17:1 | 7.26:1 |
+| Answer-engine header | 7.53:1 | 9.67:1 |
+| Row number | 5.00:1 | 7.39:1 |
+| Search-engine cell | 5.63:1 | 7.98:1 |
+| Answer-engine cell | 15.00:1 | 14.92:1 |
+| Closing line | 5.21:1 | 7.35:1 |
+| **Client quotes** | | |
+| Quote | 17.63:1 | 14.92:1 |
+| Attribution | 17.63:1 | 14.92:1 |
+| Role and brand | 5.78:1 | 7.00:1 |
+| Placeholder flag | 5.01:1 | 8.21:1 |
+| Placeholder banner lead | 7.52:1 | 8.27:1 |
+| Monogram, worst of four | 4.68:1 | 8.17:1 |
+
+**Two tints needed deeper text tokens, and the reason is the same both times.**
+A colour tuned against the plain surface loses roughly a full point of contrast
+once it sits on its own 10–12% tint of itself. Cobalt on the rotator's market
+chip measured **4.00:1** and now uses `--cobalt-deep`; the amber on the
+placeholder banner measured **4.33:1** and now uses a new
+`--status-partial-deep`, which is `#5E4309` in light and unchanged in dark,
+where the existing amber already measures 7.40:1 on its own band.
+
+**A round shape defeats bounding-box sampling.** The monogram is white on a
+coloured circle, and sampling its bounding box reads the card corners outside
+the circle as "background", which reports 1.03:1. The figures above come from
+sampling the middle 44% of each element only. The same artefact hits the
+placeholder banner, whose box includes its own amber left rule.
 
 **A moving highlight is still a background.** The CTA card's glint originally
 swept the full width of the card. At 13% white it lightened the gradient under
@@ -616,3 +737,12 @@ greyscale, not assumed.
   Prices are sample figures marked as such on the page.
 - **The method page is a reserved route.** Structure only; the framework name
   and write-up follow later.
+- **Every client quote is a placeholder.** The four brands and their results
+  are real; the six sentences attributed to them are not. The section carries
+  a banner and a per-card flag saying so. It must not go live in this state —
+  invented testimonials on a site selling measurement are the one kind of
+  placeholder the proposition cannot survive. `src/data/testimonials.ts`.
+- **The engine marks are drawn approximations, not the official logos.** Every
+  vendor host is denied by the build environment's network policy. Dropping
+  the five real SVGs into `public/engines/` replaces them with no code change;
+  that directory's README has the naming rules.

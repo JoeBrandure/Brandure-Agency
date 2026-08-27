@@ -1,0 +1,82 @@
+---
+import { TESTIMONIALS } from '../data/testimonials';
+
+/**
+ * Three columns of quotes scrolling vertically at different speeds, masked
+ * top and bottom.
+ *
+ * REBUILT NATIVELY RATHER THAN DROPPED IN. The component this comes from is
+ * React + framer-motion + Tailwind + lucide, with avatars pulled from
+ * Unsplash. Using it as written would have meant adding a client framework to
+ * a site whose whole build is "static output, zero client-side JS by default",
+ * roughly 50KB of runtime for one section, a class system that does not exist
+ * here, and four requests to an external image host on a page that currently
+ * makes none. The visual idea is the same; the implementation is three CSS
+ * animations and no JavaScript at all.
+ *
+ * Two deliberate departures from the reference:
+ *   - no stock photographs. The original pulls headshots of strangers from
+ *     Unsplash and presents them as the people quoted. A brand monogram is
+ *     honest and needs no external host.
+ *   - each column is duplicated once and the copy is aria-hidden, so a screen
+ *     reader hears each quote a single time.
+ *
+ * Reduced motion stops all three columns and turns the region into a normal
+ * scrollable list rather than freezing it mid-loop.
+ */
+
+/* Three columns, each a different slice, so they do not read as one list cut
+   into thirds. */
+const cols = [
+  [TESTIMONIALS[0], TESTIMONIALS[3]],
+  [TESTIMONIALS[1], TESTIMONIALS[4]],
+  [TESTIMONIALS[2], TESTIMONIALS[5]],
+];
+const anyPlaceholder = TESTIMONIALS.some((t) => t.placeholder);
+---
+
+{/* Plain, not sunk: the section below it is sunk, and the home page's rule is
+    that no two sunk sections sit next to each other — otherwise the tint runs
+    unbroken for two thousand pixels and the boundary disappears. */}
+<section class="section tst" aria-labelledby="tst-h">
+  <div class="wrap" data-reveal>
+    <div class="section-head">
+      <h2 id="tst-h">What our clients say</h2>
+      <p class="lede">
+        The measurement is the product, so the thing worth hearing is whether
+        it changed how they see their own category.
+      </p>
+    </div>
+
+    {anyPlaceholder && (
+      <p class="tst__warn">
+        <strong>These quotes are placeholders.</strong> The brands and their
+        results are real; the words are written to show the layout and are
+        marked on every card. Nothing here goes live until each client has
+        given us the sentence they actually want to stand behind.
+      </p>
+    )}
+
+    <div class="tst__cols" role="region" aria-label="Client quotes">
+      {cols.map((col, ci) => (
+        <ul class:list={['tst__col', `tst__col--${ci + 1}`]} role="list">
+          {[...col, ...col].map((t, i) => (
+            <li class:list={['tst__card', `tst--${t.accent}`]} aria-hidden={i >= col.length ? 'true' : undefined}>
+              <blockquote>
+                {t.placeholder && <span class="tst__flag">Placeholder</span>}
+                <p>{t.quote}</p>
+                <footer>
+                  <span class="tst__mono" aria-hidden="true">{t.initials}</span>
+                  <span class="tst__who">
+                    <cite>{t.name}</cite>
+                    <span class="tst__role">{t.role} &middot; {t.brand}</span>
+                  </span>
+                </footer>
+              </blockquote>
+            </li>
+          ))}
+        </ul>
+      ))}
+    </div>
+  </div>
+</section>

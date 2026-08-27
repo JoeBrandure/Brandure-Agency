@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import ReportForm from '../components/ReportForm.astro';
 import PromptRotator from '../components/PromptRotator.astro';
 import LogoStrip from '../components/LogoStrip.astro';
+import Testimonials from '../components/Testimonials.astro';
 import { SITE } from '../consts';
 import { FAQS, FAQS_HOME, HERO_MODE, HERO_STATS, HERO_CASES, PROBLEMS, STAGES, OFFERS, ENGINES } from '../data/content';
 import { getCollection } from 'astro:content';
@@ -273,6 +274,9 @@ const faqSchema = {
       <p class="center-row mt-2"><a class="textlink" href="/research">All research &rarr;</a></p>
     </div>
   </section>
+
+  <!-- 8b. Client quotes, between the research teaser and the questions. -->
+  <Testimonials />
 
   <!-- 9. Objections — a subset. The full set lives on /faq. -->
   <section class="section section--sunk">

@@ -56,6 +56,10 @@
   --status-present: #2F6B4C;
   --status-partial: #856013;
   --status-absent:  #9A3B32;
+  /* Same reasoning as --cobalt-deep: the amber above is tuned against the
+     plain surface and measures 4.33:1 once it sits on its own 12% tint. This
+     is the variant for amber text on an amber band — 6.99:1 there. */
+  --status-partial-deep: #5E4309;
 
   /* Washes and gradients are built from the colours above — no new hues.
      Gradients are decorative surfaces only; text sitting on one gets its
@@ -168,6 +172,9 @@
 
   --status-present: #5FD39A; /* 10.36:1 */
   --status-partial: #E3B45C; /* 10.06:1 */
+  /* Dark needs no deeper variant — the amber already measures 7.40:1 on its
+     own band. Restated so the token exists in both themes. */
+  --status-partial-deep: #E3B45C;
   --status-absent:  #F0827A; /*  7.52:1 */
 
   --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.45), 0 8px 24px rgba(0, 0, 0, 0.5);

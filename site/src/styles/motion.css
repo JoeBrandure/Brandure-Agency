@@ -307,6 +307,31 @@
   box-shadow: 0 1px 0 0 var(--border), 0 10px 30px -22px rgba(0, 0, 0, 0.5);
 }
 
+/* ---------- Testimonial columns ----------
+   Each column is its own list, duplicated once in the markup, translated a
+   full half of its own height so the loop is seamless. Three different
+   durations so the columns never line up. */
+/* Only at the breakpoint that actually shows three columns. Below it the
+   section is a static grid of all six quotes, and a roll there would scroll
+   content out of a container that no longer clips or masks. */
+@media (min-width: 68rem) {
+  .tst__col { animation: tst-roll linear infinite; will-change: transform; }
+  .tst__col--1 { animation-duration: 46s; }
+  .tst__col--2 { animation-duration: 58s; }
+  .tst__col--3 { animation-duration: 52s; }
+  .tst__cols:hover .tst__col { animation-play-state: paused; }
+}
+@keyframes tst-roll {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(0, -50%, 0); }
+}
+.tst__card { transition: transform var(--dur-1) var(--ease-out), box-shadow var(--dur-1) var(--ease-out), border-color var(--dur-1) var(--ease-out); }
+.tst__card:hover {
+  transform: translate3d(0, -4px, 0);
+  border-color: color-mix(in srgb, var(--ta) 50%, var(--border));
+  box-shadow: var(--shadow-lift), 0 0 0 4px color-mix(in srgb, var(--ta) 10%, transparent);
+}
+
 /* ---------- Logo marquee ---------- */
 
 /* The track carries four copies of the set, so shifting 25% moves exactly one
@@ -319,6 +344,7 @@
   to   { transform: translate3d(-25%, 0, 0); }
 }
 .no-js .marquee__track { animation-play-state: running; }
+.no-js .tst__col { animation-play-state: running; }
 
 /* ================= Scroll-linked motion =================
    Driven by a scroll progress value written to a custom property, so the
@@ -481,6 +507,19 @@
   .site-header { transition: none !important; }
 
   .marquee__track { animation: none !important; transform: none !important; }
+
+  /* The columns stop and the region becomes an ordinary scrollable list
+     rather than freezing mid-loop with half a card showing. */
+  .tst__col { animation: none !important; transform: none !important; }
+  .tst__cols {
+    max-height: none !important;
+    -webkit-mask-image: none !important; mask-image: none !important;
+  }
+  /* The second copy of each column exists only to make the loop seamless.
+     With the loop stopped it is just every quote printed twice, so it goes.
+     It is already aria-hidden, which is what makes the selector safe. */
+  .tst__card[aria-hidden='true'] { display: none !important; }
+  .tst__card { transition: none !important; transform: none !important; }
   .marquee {
     overflow-x: auto;
     -webkit-mask-image: none;

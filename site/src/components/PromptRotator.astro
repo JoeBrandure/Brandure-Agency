@@ -1,7 +1,8 @@
 ---
 import StatusCell from './StatusCell.astro';
+import EngineMark from './EngineMark.astro';
 import { PROMPT_SETS } from '../data/promptsets';
-import { ENGINES } from '../data/content';
+import { ENGINE_MARKS } from '../data/engines';
 
 /**
  * Seven prompt sets, one per scanned sector, in one table that swaps between
@@ -60,16 +61,18 @@ import { ENGINES } from '../data/content';
     >
       <p class="rotator__note">
         <span class="rotator__market">{s.market ?? 'No market'}</span>
-        {s.note}
+        <span class="rotator__note-t">{s.note}</span>
       </p>
 
-      <div class="table-scroll" tabindex="0" role="region" aria-label={`${s.sector} example prompts across ${ENGINES.length} answer engines`}>
+      <div class="table-scroll" tabindex="0" role="region" aria-label={`${s.sector} example prompts across ${ENGINE_MARKS.length} answer engines`}>
         <table class="surface-table">
           <thead>
             <tr>
               <th scope="col">Prompt</th>
               <th scope="col" class="col-intent">Intent</th>
-              {ENGINES.map((e) => <th scope="col">{e}</th>)}
+              {ENGINE_MARKS.map((e) => (
+                <th scope="col" class="col-engine"><EngineMark slug={e.slug} short /></th>
+              ))}
               <th scope="col" class="col-score">Named</th>
             </tr>
           </thead>

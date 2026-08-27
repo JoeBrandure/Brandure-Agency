@@ -110,6 +110,56 @@ repo before building on anything here.
   enabled". Detection was always on — a Netlify form only registers once a
   deploy containing the markup has been scanned, and no such deploy existed
   yet. It was never a blocker.
+- **Sixth review pass on the site** (2026-08-27).
+  - **Engine marks replace typed-out names** in the rotator's column headers —
+    `src/components/EngineMark.astro`, `src/data/engines.ts`. **They are drawn
+    approximations, not the official logos.** Every vendor host that serves
+    the real SVGs is denied by this environment's network policy (403 on
+    CONNECT, confirmed against the agent proxy's status endpoint). Dropping
+    `chatgpt.svg`, `claude.svg`, `perplexity.svg`, `gemini.svg`, `google.svg`
+    into `site/public/engines/` replaces them with no code change. **This is a
+    gap, not a finished item** — a subtly wrong competitor logo on a
+    professional site is worse than no logo.
+  - **Rotator layout tidied** — market chip and its note run as one line the
+    full width of the table, Intent through Named centred, footnote no longer
+    capped at the body measure.
+  - **Comparison table on `/service` takes a side.** Continuous tinted track
+    with a coloured edge down the answer-engine column, a "what we work on"
+    pill in its header, ticks against dashes so the verdict survives greyscale
+    and colour blindness, numbered rows, row hover, and a full-width closing
+    line. **A real bug caught by screenshotting it:** the tick was absolutely
+    positioned in a cell that was not itself positioned, so all five ticks
+    rendered on top of the axis labels in the first column.
+  - **Client-quotes section added** between the research teaser and the
+    questions — `src/components/Testimonials.astro`,
+    `src/data/testimonials.ts`. **Every quote is a placeholder and the section
+    says so** in a banner and on each card. The four brands and their results
+    are real; the words are not. **This must not go live in this state.**
+    Invented testimonials on a site selling measurement is the one placeholder
+    the proposition cannot survive. Joe supplies the real sentences, or the
+    section comes out.
+  - **Rebuilt natively rather than pasted in.** The reference component was
+    React + framer-motion + Tailwind + lucide with Unsplash avatars: a client
+    framework on a site with no client JS, ~50KB for one section, and four
+    external image requests on a page that makes none. Same visual idea, three
+    CSS animations, no JavaScript. **No stock photographs of strangers**
+    presented as clients — brand monograms instead.
+  - **A content-loss bug found at 390px:** the first version hid columns two
+    and three below the wide breakpoint, silently dropping four of the six
+    quotes on a phone. Below 68rem the roll now stops and all six render as a
+    static grid.
+  - **Two tints needed deeper text tokens.** A colour tuned against the plain
+    surface loses about a point of contrast on its own 10–12% tint. Cobalt on
+    the market chip measured 4.00:1 (now `--cobalt-deep`); the amber on the
+    placeholder banner measured 4.33:1 (now a new `--status-partial-deep`).
+    Both were found by measuring, not by looking.
+  - **Verified, not asserted:** every new element AA in both themes measured
+    from rendered pixels with a centre-band sampler (a round monogram defeats
+    bounding-box sampling and falsely reports 1.03:1); Lighthouse 100 / 100 /
+    100 on performance, accessibility and SEO across index, service and faq
+    (best-practices 96 is PostHog blocked by this sandbox's proxy, not a site
+    defect); no horizontal overflow at 390, 768, 1024 or 1440 on all three
+    pages; reduced-motion and JS-off both degrade to static content.
 - **Fifth review pass on the site** (2026-08-25).
   - **Prompt rotator built** — `src/components/PromptRotator.astro` and
     `src/data/promptsets.ts`. Seven sector prompt sets, real prompts with real

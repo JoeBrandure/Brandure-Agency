@@ -1,0 +1,54 @@
+---
+import { readdirSync } from 'node:fs';
+import { ENGINE_MARKS } from '../data/engines';
+
+/**
+ * One engine's mark plus its name.
+ *
+ * Uses `public/engines/<slug>.svg` where a file exists; otherwise draws the
+ * inline fallback. See `src/data/engines.ts` for why the fallbacks exist and
+ * what should replace them.
+ */
+interface Props { slug: string; short?: boolean; }
+const { slug, short = false } = Astro.props;
+const e = ENGINE_MARKS.find((x) => x.slug === slug)!;
+
+let files: string[] = [];
+try { files = readdirSync('./public/engines'); } catch { files = []; }
+const file = files.find((f) => f.replace(/\.[^.]+$/, '') === slug);
+---
+<span class="engine" style={`--ec:${e.colour}; --ei:${e.ink}`}>
+  <span class="engine__chip" aria-hidden="true">
+    {file ? (
+      <img src={`/engines/${file}`} alt="" width="18" height="18" loading="lazy" decoding="async" />
+    ) : slug === 'gemini' ? (
+      /* Four-point star. The closest of the five to the real mark. */
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1c.6 5.6 4.4 9.4 10 10-5.6.6-9.4 4.4-10 10-.6-5.6-4.4-9.4-10-10 5.6-.6 9.4-4.4 10-10Z"/></svg>
+    ) : slug === 'google' ? (
+      /* Simplified G. */
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
+        <path d="M21 12a9 9 0 1 1-2.7-6.4" stroke-linecap="round"/>
+        <path d="M21 12h-8" stroke-linecap="round"/>
+      </svg>
+    ) : slug === 'claude' ? (
+      /* Radial burst. */
+      <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+        <path d="M12 2.5v19M2.5 12h19M5.3 5.3l13.4 13.4M18.7 5.3 5.3 18.7"/>
+      </svg>
+    ) : slug === 'perplexity' ? (
+      /* Seek glyph: a stem between two open chevrons. The first attempt drew
+         the full interlocking form and collapsed into an unreadable dense
+         grid at 16px, which looked like a mistake rather than a logo. */
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 4.5v15M5.5 9 12 4.5 18.5 9M5.5 15 12 19.5 18.5 15"/>
+      </svg>
+    ) : (
+      /* OpenAI: a simplified interlocking form. */
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linejoin="round">
+        <path d="M12 3.2 19.4 7.4v9.2L12 20.8 4.6 16.6V7.4L12 3.2Z"/>
+        <path d="M12 3.2v8.6l7.4 4.8M12 11.8 4.6 16.6"/>
+      </svg>
+    )}
+  </span>
+  <span class="engine__n">{short ? e.short : e.name}</span>
+</span>

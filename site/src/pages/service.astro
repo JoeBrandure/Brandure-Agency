@@ -80,13 +80,13 @@ const serviceSchema = {
 
       <div class="compare" data-stagger>
         <div class="compare__head" aria-hidden="true">
-          <span></span>
+          <span class="compare__t compare__t--axis">The difference</span>
           <span class="compare__t compare__t--seo">Search engine</span>
-          <span class="compare__t compare__t--aeo">Answer engine</span>
+          <span class="compare__t compare__t--aeo">Answer engine<span class="compare__tag">what we work on</span></span>
         </div>
-        {NOT_SEO.map((r) => (
+        {NOT_SEO.map((r, i) => (
           <div class="compare__row">
-            <span class="compare__axis">{r.axis}</span>
+            <span class="compare__axis"><span class="compare__i" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>{r.axis}</span>
             <span class="compare__cell compare__cell--seo">
               <span class="compare__mob">Search engine</span>{r.seo}
             </span>
@@ -95,6 +95,12 @@ const serviceSchema = {
             </span>
           </div>
         ))}
+        <p class="compare__foot">
+          <strong>Both can be true at once.</strong> A page can rank first and
+          still be absent from the answer above it, because the answer is built
+          from what other sites say about you rather than from what you say
+          about yourself.
+        </p>
       </div>
     </div>
   </section>

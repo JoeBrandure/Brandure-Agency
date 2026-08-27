@@ -152,6 +152,7 @@ are local numbers.
 | Service | 100 | 100 | 96 | 100 | 0 ms | 0.041 |
 | Questions (`/faq`) | 100 | 100 | 96 | 100 | 0 ms | 0 |
 | Research | 100 | 100 | 96 | 100 | 0 ms | 0.042 |
+| Method | 100 | 100 | 96 | 100 | 0 ms | 0 |
 
 Home has flickered between 99 and 100 across runs. It is entirely the CLS
 figure below; largest contentful paint is 0.6s and blocking time is zero.
@@ -193,6 +194,52 @@ on the real site. Re-check after the first live deploy.
 *SEO 66 on a placeholder* is the deliberate `noindex` doing its job — the audit
 marks any page blocked from indexing down. The identical page scores **100**
 with `placeholder: false`, which was tested directly rather than assumed.
+
+### The method page
+
+**SCAN — surface, cause, act, null.** The route was reserved: four cards on a
+dark band with a placeholder chip on them. The framework was already in the
+repo and is the strongest thing Brandure has to say, so this pass writes it up
+rather than replacing it. **That commits to the name**, which was listed as
+pending — changing it means editing `k` and `name` in `src/data/method.ts` and
+nothing else on the site.
+
+The page is built around the fourth stage. S, C and A are what any competent
+agency would claim to do; N is the one that makes the other three checkable,
+and it is the part a competitor cannot copy without also accepting the months
+where the honest answer is "nothing worked".
+
+- **The word as the hero** — four accent tiles that land in sequence, so SCAN
+  reads as being spelled out rather than arriving as a block.
+- **A sticky letter tracker** that follows the reader through the four bands,
+  driven by one IntersectionObserver with no scroll listener. It is a slim bar
+  inside one section, not a return of the scroll-pinned scrub sections that
+  were removed — it never holds the reader in place, and with JavaScript off it
+  renders in its resting state and the page reads fine without it.
+- **Four stage bands**, each with its letter set huge and faint behind the
+  content, its own accent down the left edge, three concrete actions, and a
+  **"Rules out"** line naming the specific wrong conclusion that stage prevents.
+- **Three shapes a re-measure can take** — the argument, drawn rather than
+  described: tracked moves and control does not; both move together; neither
+  moves. Each is a two-line chart that wipes in, with the tracked line in the
+  card's accent and the control line muted *and* dashed, so the two are
+  separable in greyscale.
+- What is measured, with the engine marks; what SCAN is not; CTA.
+
+**Two things that will break the charts if edited carelessly.** They do not use
+the site's `.draw` helper: that reveals a line by animating
+`stroke-dashoffset`, and these paths carry `vector-effect: non-scaling-stroke`,
+which makes dash values screen-space while `getTotalLength()` returns user
+units — the lines drew to 76% and stopped, and the dash pattern distinguishing
+the control line was overwritten by the draw mechanism's own dasharray. They
+use a `clip-path` wipe instead. And the key describes line *style*, not colour,
+because each card's tracked line takes that card's accent and a coloured
+swatch would match none of them.
+
+**The stage labels in the hero are `--ink`, not their accent.** They sit on the
+drifting gradient mesh, where cobalt at 12px measured 3.26:1 — and because the
+mesh moves, small coloured text on it is fragile by construction. The tile
+directly above carries the colour.
 
 ### The research page
 
@@ -302,21 +349,20 @@ shows — the same questions should not be claimed twice.
 `src/components/Testimonials.astro`, content in `src/data/testimonials.ts`,
 sitting between the research teaser and the questions.
 
-**The brands and the people are real. The words are still placeholders**, and
-the section says so in a banner above the cards and again on each card. Six
-brands, one quote each — Lurio, Viveonix, Little Lockets London, Fresh Gym,
-Williams Int. and Simons Designs, with the first names Joe supplied on
-2026-08-27. The sentences attributed to them are ours.
+Six brands, one quote each — Lurio, Viveonix, Little Lockets London, Fresh Gym,
+Williams Int. and Simons Designs, with the names and roles Joe supplied on
+2026-08-27. An earlier version repeated two brands to fill the columns, which
+reads as a thin client list dressed up as a fuller one.
 
-Attaching a real person's first name to a sentence they did not say is a step
-worse than an anonymous placeholder, not a step better, so the flag matters
-more now than it did before the names arrived. To make it real: replace `quote`
-and `role` with what the client actually said and their actual title, then set
-`placeholder: false`. The flag disappears from that card by itself, and the
-banner disappears once no card carries one.
+**The brands, names and roles are real. The sentences are not.** Joe asked for
+the placeholder marking to come off after supplying the names, so the banner
+and the per-card flags are gone and the section reads as finished. That was his
+call and it is recorded rather than argued again — but the outstanding job is
+still to replace each `quote` with what that person actually said.
 
-An earlier version repeated Lurio and Viveonix to fill the columns, which reads
-as a thin client list dressed up as a fuller one.
+`placeholder` remains on the interface and still works: set one back to `true`
+and its card carries a flag again, and the banner returns above the grid.
+Nothing else has to change.
 
 **No photographs.** The reference design this came from pulled headshots from
 Unsplash — stock photographs of people who are not the client, presented as if
@@ -606,9 +652,19 @@ when the text is the luminance extreme, which is a trap worth naming.
 | Quote | 17.63:1 | 14.92:1 |
 | Attribution | 17.63:1 | 14.92:1 |
 | Role and brand | 5.78:1 | 7.00:1 |
-| Placeholder flag | 5.01:1 | 8.21:1 |
-| Placeholder banner lead | 7.52:1 | 8.27:1 |
 | Monogram, worst of four | 4.68:1 | 8.17:1 |
+| **/method** | | |
+| Hero letter tile | 5.17:1 | 7.26:1 |
+| Stage label under the tile | 11.22:1 | 11.46:1 |
+| Tracker chip | 5.78:1 | 7.05:1 |
+| Stage "week" line | 5.12:1 | 6.48:1 |
+| Stage bullet | 17.63:1 | 14.92:1 |
+| "Rules out" key | 5.12:1 | 6.48:1 |
+| "Rules out" text | 5.78:1 | 7.00:1 |
+| Chart verdict | 4.92:1 | 9.92:1 |
+| Chart body | 5.67:1 | 6.68:1 |
+| Chart key | 5.16:1 | 7.35:1 |
+| Null-stage footnote | 14.00:1 | 13.53:1 |
 
 **Two tints needed deeper text tokens, and the reason is the same both times.**
 A colour tuned against the plain surface loses roughly a full point of contrast
@@ -802,14 +858,15 @@ greyscale, not assumed.
 - **Case studies and pricing are invented.** `/work` uses generic sample names
   with no implied client relationship and is excluded from search indexing.
   Prices are sample figures marked as such on the page.
-- **The method page is a reserved route.** Structure only; the framework name
-  and write-up follow later.
-- **Every client quote is a placeholder.** The six brands and the first names
-  are real; the sentences attributed to them are not. The section carries a
-  banner and a per-card flag saying so. It must not go live in this state —
-  invented testimonials on a site selling measurement are the one kind of
-  placeholder the proposition cannot survive, and a real first name on an
-  invented sentence is worse than an anonymous one. `src/data/testimonials.ts`.
+- ~~The method page is a reserved route.~~ **Closed 2026-08-27** — written up
+  as SCAN. See "The method page" above for what changing the name would take.
+- **The client quotes are still our words.** The six brands, names and roles
+  are real; the sentences are not, and as of 2026-08-27 they no longer carry a
+  visible flag — Joe's call. Replacing each `quote` with what that person
+  actually said is the outstanding job. `src/data/testimonials.ts`.
+- **`/method` commits to SCAN as the framework name.** The route was reserved
+  with the name pending. Writing the page up meant naming it; changing it means
+  editing `k` and `name` in `src/data/method.ts` and nothing else on the site.
 - **`/research` publishes detail from an internal scan.** The withdrawn-finding
   section quotes the 13 and 17 August Dubai scans, which are marked "not
   client-safe" in the repo. It states them as a retraction rather than as fact,

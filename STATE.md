@@ -110,6 +110,45 @@ repo before building on anything here.
   enabled". Detection was always on — a Netlify form only registers once a
   deploy containing the markup has been scanned, and no such deploy existed
   yet. It was never a blocker.
+- **Eighth review pass on the site** (2026-08-27).
+  - **`/method` written up.** It was a reserved route — four cards on a dark
+    band with a placeholder chip. SCAN was already in the repo and is the
+    strongest thing Brandure has to say, so this writes it up rather than
+    replacing it: the word as four accent tiles that land in sequence, a sticky
+    letter tracker that follows the reader through four stage bands, each band
+    carrying its letter huge behind the content, three concrete actions and a
+    **"Rules out"** line naming the wrong conclusion that stage prevents.
+  - **The fourth stage is the page.** "Three shapes a re-measure can take",
+    drawn rather than described — tracked moves and control does not; both move
+    together; neither moves — with the tracked line in the card's accent and
+    the control line muted *and* dashed so the pair survives greyscale. The
+    closing line states the cost plainly: a control set means reporting the
+    months where nothing moved and handing the category credit for the months
+    where everything did.
+  - **DECISION TAKEN, REVERSIBLE.** Writing the page up meant naming the
+    framework, which STATE had listed as pending. It commits to **SCAN**.
+    Changing it means editing `k` and `name` in `site/src/data/method.ts`;
+    nothing else on the site depends on it. **Method page is no longer a
+    reserved route** — the "known gap" is closed.
+  - **A real bug caught by measuring the rendered chart:**
+    `vector-effect: non-scaling-stroke` puts `stroke-dasharray` in screen units
+    while `getTotalLength()` returns user units, so the site's `.draw` helper
+    stopped every line at 76% — and its own dasharray overwrote the dash that
+    distinguishes the control line from the tracked one. Replaced with a
+    `clip-path` wipe, which fixes both at once.
+  - **Testimonial roles supplied and the placeholder marking removed** at
+    Joe's instruction — Tom (Co-Founder & CEO), Dan (CEO), Joanne (Co-Founder),
+    Gary (Founder & CEO), Marc (Founder), Simon (Founder). **The sentences are
+    still ours.** The position is recorded rather than argued again: replacing
+    each quote with what that person actually said is outstanding, and setting
+    `placeholder: true` on any card brings its flag and the banner back.
+  - **Verified:** every new element AA in both themes from rendered pixels —
+    which caught the hero's stage labels at 3.26:1 on the drifting mesh, now
+    `--ink`; Lighthouse 100 / 100 / 100 across index, service, faq, research
+    and method, TBT 0ms on all five; no horizontal overflow at 390, 768, 1024
+    or 1440 on all five; reduced-motion drops the tracker's stickiness and
+    renders every letter, band edge and chart complete, and JS-off does the
+    same with the tracker's progress bar reading full rather than stuck at zero.
 - **Seventh review pass on the site** (2026-08-27).
   - **The official engine logos are in.** The direct vendor hosts are denied by
     the environment's network policy, but the npm registry is on that policy's

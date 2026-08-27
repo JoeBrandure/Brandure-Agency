@@ -1,70 +1,286 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import EngineMark from '../components/EngineMark.astro';
 import { SITE } from '../consts';
-import { ENGINES } from '../data/content';
+import { ENGINE_MARKS } from '../data/engines';
+import { SCAN, NULL_CASES, NOT_SCAN } from '../data/method';
 
-/* Route reserved for the named methodology. Content follows later — a named
-   framework is a citable entity and does AEO work as well as positioning. */
-const stages = [
-  { k: 'S', name: 'Surface', d: 'Establish which engines matter for this category and how each one currently answers it.' },
-  { k: 'C', name: 'Cause', d: 'Separate entity failure from source absence from settled preference. Different problems, different fixes.' },
-  { k: 'A', name: 'Act', d: 'Entity corrections, answer-shaped content, and placement into the sources that actually get cited.' },
-  { k: 'N', name: 'Null', d: 'A control set held deliberately unoptimised, so movement can be attributed rather than claimed.' },
-];
+/* This was a reserved route: four cards on a dark band with a placeholder chip
+   on them. The framework was already here and already the strongest thing
+   Brandure has to say, so this pass writes it up rather than replacing it.
+
+   The page is built around the fourth stage. S, C and A are what any competent
+   agency would claim to do. N is the one that makes the other three checkable,
+   and it is the only part a competitor cannot copy without also accepting the
+   months where the answer is "nothing worked". */
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  '@id': `${SITE.url}/method#howto`,
+  name: 'SCAN — answer engine optimisation method',
+  description:
+    'Surface, Cause, Act, Null. How Brandure structures an answer engine optimisation engagement so that a change in AI answers can be attributed rather than asserted.',
+  url: `${SITE.url}/method`,
+  step: SCAN.map((s, i) => ({
+    '@type': 'HowToStep',
+    position: i + 1,
+    name: s.name,
+    text: s.d,
+  })),
+};
+
+/* Chart geometry, shared by the three null-stage figures. Values are 0–100 and
+   are drawn bottom-up, so y is inverted here rather than in the data. */
+const CW = 260;
+const CH = 118;
+const path = (vals: readonly number[]) =>
+  vals
+    .map((v, i) => {
+      const x = (i / (vals.length - 1)) * CW;
+      const y = CH - (v / 100) * CH;
+      return `${i === 0 ? 'M' : 'L'}${x.toFixed(1)} ${y.toFixed(1)}`;
+    })
+    .join(' ');
 ---
 <BaseLayout
   title="Method"
-  description="The SCAN method: surface, cause, act, null. How Brandure structures an answer engine optimisation engagement so results can be attributed rather than asserted."
+  description="SCAN: surface, cause, act, null. The four-stage method behind every Brandure engagement — and the control set that makes a change in AI answers attributable rather than merely claimed."
+  schemas={[schema]}
 >
-  <section class="hero">
-    <div class="wrap-narrow">
+  <!-- 1. Hero. The word itself, as four letters that mean something. -->
+  <section class="hero hero--short">
+    <div class="mesh" aria-hidden="true">
+      <div class="mesh__layer mesh__layer--1"><div class="mesh__blob mesh__blob--1"></div></div>
+      <div class="mesh__layer mesh__layer--2"><div class="mesh__blob mesh__blob--2"></div></div>
+    </div>
+    <div class="wrap mth-hero" data-load>
       <p class="eyebrow">Method</p>
-      <h1 class="statement statement--sub" data-split>SCAN</h1>
-      <p class="lede">
-        Four stages. The fourth is the one most agencies skip, and it is the
-        only reason to believe the other three worked.
+      <h1 class="mth-word">
+        <span class="sr-only">SCAN — surface, cause, act, null.</span>
+        {SCAN.map((s, i) => (
+          <span class:list={['mth-l', `stages--${s.a}`]} style={`--i:${i}`} aria-hidden="true">
+            <span class="mth-l__k">{s.k}</span>
+            <span class="mth-l__n">{s.name}</span>
+          </span>
+        ))}
+      </h1>
+      <p class="lede mth-hero__l">
+        Four stages. Three of them any competent agency would claim. The fourth
+        is the one almost nobody runs, and it is the only reason to believe the
+        other three worked.
       </p>
-      <p><span class="sample-flag">Placeholder</span> &nbsp;The framework name and full write-up are reserved. This page holds the route and the structure.</p>
+      <div class="hero-actions">
+        <a class="btn" href="#null">Why the fourth stage exists</a>
+        <a class="btn btn--ghost" href="/service">See how an engagement runs</a>
+      </div>
     </div>
   </section>
 
-  <section class="section section--inv">
+  <!-- 2. The four stages. One band each, with the letter behind it, and a
+       slim tracker that follows the reader through the section. -->
+  <section class="section mth-stages" id="stages">
+    <div class="wrap">
+      <div class="mth-track" aria-hidden="true">
+        <ol class="mth-track__l">
+          {SCAN.map((s) => (
+            <li class:list={['mth-track__i', `stages--${s.a}`]} data-track={s.k}>
+              <span class="mth-track__k">{s.k}</span>
+              <span class="mth-track__n">{s.name}</span>
+            </li>
+          ))}
+        </ol>
+        <span class="mth-track__bar"><span class="mth-track__fill"></span></span>
+      </div>
+
+      {SCAN.map((s, i) => (
+        <article class:list={['mth-stage', `stages--${s.a}`]} data-stage={s.k} data-reveal>
+          <span class="mth-stage__ghost" aria-hidden="true">{s.k}</span>
+
+          <div class="mth-stage__head">
+            <span class="mth-stage__no" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+            <div>
+              <p class="mth-stage__when">{s.when}</p>
+              <h2 class="mth-stage__t">{s.name}</h2>
+            </div>
+          </div>
+
+          <p class="mth-stage__d">{s.d}</p>
+
+          <ul class="mth-stage__does">
+            {s.does.map((d) => <li>{d}</li>)}
+          </ul>
+
+          <p class="mth-stage__rules">
+            <span class="mth-stage__k">Rules out</span>
+            <span class="mth-stage__rt">{s.rules}</span>
+          </p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <!-- 3. The argument. Three shapes a re-measure can take, drawn rather than
+       described, because the whole claim is that they are distinguishable. -->
+  <section class="section section--sunk" id="null">
     <div class="wrap" data-reveal>
-      <div class="grid grid--4" data-stagger>
-        {stages.map((s) => (
-          <div class="card">
-            <span class="mono" style="color:var(--accent-inv);font-size:var(--h3)">{s.k}</span>
-            <h2 style="font-size:var(--h3);margin:0.4rem 0 0.35rem">{s.name}</h2>
-            <p style="margin:0;font-size:var(--small)">{s.d}</p>
+      <div class="section-head">
+        <h2>Three shapes a re-measure can take</h2>
+        <p class="lede">
+          Answer engines move on their own. Without something held still to
+          compare against, all three of these look identical on a chart — and
+          the first is the only one that supports an invoice.
+        </p>
+      </div>
+
+      <div class="nul" data-stagger>
+        {NULL_CASES.map((c) => (
+          <figure class:list={['nul__c', `stages--${c.a}`]}>
+            {/* Not the site's `.draw` helper. That reveals a line by animating
+                stroke-dashoffset, and these paths carry
+                `vector-effect: non-scaling-stroke`, which makes dash values
+                screen-space while getTotalLength() returns user units — the
+                lines drew to 76% and stopped, and the dash pattern that
+                separates the control line was overwritten. A clip wipe reveals
+                both lines together and leaves their dashes alone. */}
+            <svg class="nul__g" viewBox={`0 0 ${CW} ${CH}`} role="img"
+                 aria-label={`${c.t} ${c.verdict}`} preserveAspectRatio="none">
+              <path class="nul__fill" d={`${path(c.tracked)} L${CW} ${CH} L0 ${CH} Z`} />
+              <line class="nul__base" x1="0" y1={CH - 0.5} x2={CW} y2={CH - 0.5} />
+              <path class="nul__p nul__p--ctl" d={path(c.control)} />
+              <path class="nul__p nul__p--trk" d={path(c.tracked)} />
+            </svg>
+
+            <figcaption>
+              <p class="nul__t">{c.t}</p>
+              <p class="nul__v">{c.verdict}</p>
+              <p class="nul__d">{c.d}</p>
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+
+      {/* The key describes line style, not colour: each card's tracked line
+          takes that card's accent, so a coloured swatch here would match none
+          of them. Solid against dashed also survives greyscale. */}
+      <p class="nul__key">
+        <span class="nul__ki nul__ki--trk">Solid — the tracked set, the prompts we work on</span>
+        <span class="nul__ki nul__ki--ctl">Dashed — the control set, held still and never touched</span>
+      </p>
+
+      <p class="nul__foot">
+        <strong>This is the part that costs us.</strong> A control set means
+        reporting the months where nothing moved, and handing the category
+        credit for the months where everything did. We would rather report a
+        small attributable gain than a large unattributable one, because the
+        second is indistinguishable from luck and both of us know it.
+      </p>
+    </div>
+  </section>
+
+  <!-- 4. What is measured, with the engines named and marked. -->
+  <section class="section">
+    <div class="wrap" data-reveal>
+      <div class="section-head">
+        <h2>Five engines, five separate answers</h2>
+        <p class="lede">
+          Reported one by one and never blended. A single visibility score
+          averages away the only useful information in the measurement — which
+          engine you are losing, and to whom.
+        </p>
+      </div>
+      <ul class="mth-eng" data-stagger>
+        {ENGINE_MARKS.map((e) => (
+          <li><EngineMark slug={e.slug} /></li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- 5. The contrast. -->
+  <section class="section section--sunk">
+    <div class="wrap" data-reveal>
+      <div class="section-head">
+        <h2>What SCAN is not</h2>
+      </div>
+      <div class="grid grid--3" data-stagger>
+        {NOT_SCAN.map((n) => (
+          <div class="card mth-not">
+            <span class="mth-not__x" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
+                <path d="M6 6l12 12M18 6L6 18"/>
+              </svg>
+            </span>
+            <h3>{n.t}</h3>
+            <p class="note-sm mb-0">{n.d}</p>
           </div>
         ))}
       </div>
     </div>
   </section>
 
-  <section class="section">
-    <div class="wrap-narrow" data-reveal>
-      <h2>Why the null stage exists</h2>
-      <p>
-        Answer engines move on their own. Models update, competitors act,
-        indexes refresh. A brand can rise across a quarter having done nothing
-        at all, and fall having done everything right.
-      </p>
-      <p>
-        So every engagement carries a set of prompts we deliberately leave
-        untouched. If the tracked set moves and the control set does not, the
-        work is the likeliest explanation. If both move together, the category
-        moved and we say so.
-      </p>
-      <p>
-        It is the difference between a number that went up and a result. We
-        would rather report a small attributable gain than a large
-        unattributable one.
-      </p>
-      <h2>What gets measured</h2>
-      <p>Each of {ENGINES.length} engines separately, never blended:</p>
-      <ul>{ENGINES.map((e) => <li>{e}</li>)}</ul>
-      <p><a class="textlink" href="/service">See how an engagement runs &rarr;</a></p>
+  <!-- 6. CTA. -->
+  <section class="section section--tight">
+    <div class="wrap" data-reveal>
+      <div class="cta-card">
+        <span class="cta-card__glint" aria-hidden="true"><span class="cta-card__sheen"></span></span>
+        <div>
+          <h2>Stage one, on us</h2>
+          <p class="lede">
+            The free report is Surface, run on your category. You keep it
+            whether or not anything follows, and it is useful on its own.
+          </p>
+        </div>
+        <a class="btn cta-card__btn" href="/#report">Get a free visibility report</a>
+      </div>
     </div>
   </section>
 </BaseLayout>
+
+<script is:inline>
+  /* The letter tracker follows the reader through the four stage bands. It is
+     progressive enhancement only: with JavaScript off the tracker still renders
+     with every letter in its resting state, and the stages read fine without
+     it. No scroll listener — one IntersectionObserver, and the rootMargin puts
+     the trigger line a third of the way down the viewport so a letter lights
+     when its band is being read rather than when it first appears. */
+  (function () {
+    var track = document.querySelector('.mth-track');
+    if (!track || !('IntersectionObserver' in window)) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    var items = [].slice.call(track.querySelectorAll('[data-track]'));
+    var fill = track.querySelector('.mth-track__fill');
+    var stages = [].slice.call(document.querySelectorAll('[data-stage]'));
+    if (!items.length || !stages.length) return;
+
+    track.setAttribute('data-live', 'true');
+
+    function setActive(k) {
+      var hit = -1;
+      items.forEach(function (el, i) {
+        var on = el.getAttribute('data-track') === k;
+        el.classList.toggle('is-on', on);
+        if (on) hit = i;
+      });
+      if (fill && hit >= 0) {
+        fill.style.transform = 'scaleX(' + (hit + 1) / items.length + ')';
+      }
+    }
+
+    var seen = {};
+    var io = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (e) {
+          seen[e.target.getAttribute('data-stage')] = e.isIntersecting;
+        });
+        for (var i = stages.length - 1; i >= 0; i--) {
+          var k = stages[i].getAttribute('data-stage');
+          if (seen[k]) { setActive(k); return; }
+        }
+      },
+      { rootMargin: '-33% 0px -55% 0px', threshold: 0 },
+    );
+    stages.forEach(function (s) { io.observe(s); });
+  })();
+</script>

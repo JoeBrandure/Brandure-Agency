@@ -1399,6 +1399,248 @@ input:focus-visible { border-color: var(--focus); }
   font-size: 0.8125rem; font-weight: 600; color: var(--accent);
 }
 
+/* ================= /method — SCAN =================
+   The page is built around the fourth stage, so the first three are given a
+   consistent, unfussy treatment and the argument gets the room. */
+
+/* ---------- Hero: the word ---------- */
+
+.mth-hero { display: grid; justify-items: start; }
+.mth-word {
+  display: flex; flex-wrap: wrap; gap: 0.5rem 0.65rem;
+  margin: 0.4rem 0 1.4rem; max-width: none;
+}
+.mth-l {
+  --sa: var(--cobalt);
+  display: grid; justify-items: center; gap: 0.35rem;
+}
+.mth-l.stages--cobalt { --sa: var(--cobalt); }
+.mth-l.stages--violet { --sa: var(--violet); }
+.mth-l.stages--teal   { --sa: var(--teal); }
+.mth-l.stages--deep   { --sa: var(--cobalt-deep); }
+
+.mth-l__k {
+  display: flex; align-items: center; justify-content: center;
+  width: clamp(3.8rem, 2.6rem + 5.4vw, 7rem);
+  height: clamp(3.8rem, 2.6rem + 5.4vw, 7rem);
+  border-radius: var(--radius);
+  font-family: var(--font-display); font-weight: 800;
+  font-size: clamp(2.1rem, 1.4rem + 3.2vw, 4.1rem); line-height: 1;
+  letter-spacing: -0.04em;
+  /* --btn-fg, not white. The accents lift towards white in dark theme and
+     white-on-accent measured 1.63:1 there when the stage badges did this. */
+  color: var(--btn-fg); background: var(--sa);
+  box-shadow: 0 10px 30px -18px var(--sa);
+}
+/* --ink, not the accent. These labels sit on the hero's drifting gradient
+   mesh, where cobalt at 12px measured 3.26:1 — and because the mesh moves,
+   any small coloured text on it is fragile by construction. The tile directly
+   above carries the colour, so the association survives. */
+.mth-l__n {
+  font-size: 0.75rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--ink);
+}
+.mth-hero__l { max-width: 52ch; }
+
+/* ---------- The tracker ----------
+   Sticky, but slim and inside one section — not the scroll-pinned scrub
+   sections that were removed. It never holds the reader in place. */
+
+.mth-track {
+  position: sticky; top: var(--header-h); z-index: 3;
+  margin: 0 0 2rem;
+  padding: 0.7rem 0 0;
+  /* 96%, not 92%. A stage band scrolls under this bar, and at 92% its heading
+     read through the blur — the same call the site header already makes. */
+  background: color-mix(in srgb, var(--surface) 96%, transparent);
+  -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+  box-shadow: 0 8px 20px -18px rgba(0, 0, 0, 0.5);
+}
+.mth-track__l {
+  list-style: none; margin: 0 0 0.55rem; padding: 0;
+  display: flex; flex-wrap: wrap; gap: 0.3rem 0.45rem;
+}
+.mth-track__i {
+  --sa: var(--cobalt);
+  margin: 0; max-width: none;
+  display: inline-flex; align-items: center; gap: 0.45rem;
+  padding: 0.3rem 0.7rem; border-radius: 999px;
+  border: 1px solid var(--border); background: var(--surface-card);
+  font-size: 0.75rem; color: var(--muted);
+}
+.mth-track__i.stages--cobalt { --sa: var(--cobalt); }
+.mth-track__i.stages--violet { --sa: var(--violet); }
+.mth-track__i.stages--teal   { --sa: var(--teal); }
+.mth-track__i.stages--deep   { --sa: var(--cobalt-deep); }
+.mth-track__k { font-family: var(--font-display); font-weight: 800; color: var(--sa); }
+.mth-track__i.is-on {
+  color: var(--ink); font-weight: 600;
+  border-color: color-mix(in srgb, var(--sa) 45%, var(--border));
+  background: color-mix(in srgb, var(--sa) 10%, var(--surface-card));
+}
+@media (max-width: 33rem) { .mth-track__n { display: none; } }
+.mth-track__bar { display: block; height: 2px; background: var(--border); border-radius: 2px; overflow: hidden; }
+.mth-track__fill {
+  display: block; height: 100%; transform-origin: 0 50%; transform: scaleX(0);
+  background: linear-gradient(90deg, var(--cobalt), var(--violet) 45%, var(--teal) 78%, var(--cobalt-deep));
+}
+/* Without the runtime the tracker is decoration, so the bar reads as full
+   rather than as a progress meter stuck at zero. */
+.mth-track:not([data-live]) .mth-track__fill { transform: scaleX(1); }
+
+/* ---------- A stage band ---------- */
+
+.mth-stage {
+  --sa: var(--cobalt);
+  position: relative; overflow: hidden;
+  padding: 2rem 1.75rem 1.9rem;
+  border: 1px solid var(--border); border-radius: var(--radius-lg);
+  background: var(--surface-card);
+  box-shadow: var(--shadow-card);
+}
+.mth-stage.stages--cobalt { --sa: var(--cobalt); }
+.mth-stage.stages--violet { --sa: var(--violet); }
+.mth-stage.stages--teal   { --sa: var(--teal); }
+.mth-stage.stages--deep   { --sa: var(--cobalt-deep); }
+.mth-stage + .mth-stage { margin-top: 1.25rem; }
+.mth-stage::before { content: ''; position: absolute; inset: 0 auto 0 0; width: 4px; background: var(--sa); }
+@media (min-width: 54rem) { .mth-stage { padding: 2.4rem 2.6rem 2.2rem; } }
+
+/* The letter, large and behind everything. aria-hidden — the heading beside
+   it already says the stage name. */
+.mth-stage__ghost {
+  position: absolute; right: -0.06em; top: 50%; transform: translateY(-50%);
+  font-family: var(--font-display); font-weight: 800;
+  font-size: clamp(9rem, 5rem + 22vw, 20rem); line-height: 0.8;
+  letter-spacing: -0.06em;
+  color: color-mix(in srgb, var(--sa) 9%, transparent);
+  pointer-events: none; user-select: none;
+}
+@media (max-width: 46rem) { .mth-stage__ghost { opacity: 0.55; } }
+
+.mth-stage > *:not(.mth-stage__ghost) { position: relative; z-index: 1; }
+
+.mth-stage__head { display: flex; align-items: center; gap: 0.9rem; margin-bottom: 0.9rem; }
+.mth-stage__no {
+  font-family: var(--font-mono); font-size: 0.75rem;
+  color: var(--sa); opacity: 0.7;
+}
+.mth-stage__when {
+  margin: 0 0 0.15rem; max-width: none;
+  font-size: 0.75rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--sa);
+}
+.mth-stage__t {
+  margin: 0; max-width: none;
+  font-size: clamp(1.6rem, 1.2rem + 1.4vw, 2.2rem); line-height: 1.05; letter-spacing: -0.03em;
+}
+.mth-stage__d {
+  margin: 0 0 1.3rem;
+  font-size: var(--lede); line-height: 1.5; max-width: 46ch;
+}
+
+.mth-stage__does { list-style: none; margin: 0 0 1.4rem; padding: 0; display: grid; gap: 0.65rem; }
+@media (min-width: 60rem) { .mth-stage__does { grid-template-columns: repeat(3, 1fr); gap: 0.65rem 1.5rem; } }
+.mth-stage__does li {
+  position: relative; margin: 0; max-width: none; padding-left: 1.5rem;
+  font-size: var(--small); line-height: 1.55;
+}
+.mth-stage__does li::before {
+  content: ''; position: absolute; left: 0; top: 0.45em;
+  width: 0.7rem; height: 0.7rem; border-radius: 50%;
+  background: color-mix(in srgb, var(--sa) 18%, transparent);
+  box-shadow: inset 0 0 0 2px var(--sa);
+}
+
+.mth-stage__rules {
+  margin: 0; max-width: none;
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.25rem 0.7rem;
+  padding-top: 1rem; border-top: 1px dashed var(--border);
+}
+.mth-stage__k {
+  flex: 0 0 auto;
+  font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase;
+  color: var(--sa);
+}
+.mth-stage__rt { flex: 1 1 22rem; min-width: 0; font-size: var(--small); line-height: 1.55; color: var(--muted); }
+
+/* ---------- The three null-stage figures ---------- */
+
+.nul { display: grid; gap: 1.25rem; }
+@media (min-width: 56rem) { .nul { grid-template-columns: repeat(3, 1fr); } }
+.nul__c {
+  --sa: var(--teal);
+  margin: 0; max-width: none;
+  display: flex; flex-direction: column;
+  padding: 1.35rem 1.45rem 1.4rem;
+  border: 1px solid var(--border); border-radius: var(--radius-lg);
+  background: var(--surface-card); box-shadow: var(--shadow-card);
+}
+.nul__c.stages--violet { --sa: var(--violet); }
+.nul__c.stages--teal   { --sa: var(--teal); }
+.nul__c.stages--deep   { --sa: var(--cobalt-deep); }
+
+.nul__g {
+  display: block; width: 100%; height: 8.75rem;
+  margin-bottom: 1.1rem;
+}
+.nul__base { stroke: var(--border); stroke-width: 1; vector-effect: non-scaling-stroke; }
+.nul__fill { fill: color-mix(in srgb, var(--sa) 10%, transparent); stroke: none; }
+.nul__p { fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+/* The control line is dashed as well as muted, so the two are separable
+   without colour — the same redundant-encoding rule as the status cells.
+   With non-scaling-stroke the dash is in screen units, which is what keeps it
+   even across a chart that stretches horizontally. */
+.nul__p--ctl { stroke: var(--muted); opacity: 0.7; stroke-dasharray: 5 4; }
+.nul__p--trk { stroke: var(--sa); }
+
+.nul__t { margin: 0 0 0.35rem; max-width: none; font-size: 1.0625rem; font-weight: 600; line-height: 1.3; }
+.nul__v { margin: 0 0 0.6rem; max-width: none; font-size: var(--small); font-weight: 700; color: var(--sa); }
+.nul__d { margin: 0; max-width: none; font-size: 0.8125rem; line-height: 1.6; color: var(--muted); }
+
+.nul__key {
+  display: flex; flex-wrap: wrap; gap: 0.4rem 1.4rem;
+  margin: 1.25rem 0 0; max-width: none;
+  font-size: 0.75rem; color: var(--muted);
+}
+.nul__ki { display: inline-flex; align-items: center; gap: 0.5rem; }
+.nul__ki::before { content: ''; width: 1.4rem; height: 0; border-top-width: 2.5px; border-top-style: solid; }
+.nul__ki--trk::before { border-color: var(--ink); }
+.nul__ki--ctl::before { border-color: var(--muted); border-top-style: dashed; }
+
+.nul__foot {
+  margin: 1.6rem 0 0; max-width: none;
+  padding: 1.05rem 1.25rem; border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--cobalt-deep) 8%, transparent);
+  border-left: 3px solid var(--cobalt-deep);
+  font-size: var(--small); line-height: 1.6;
+}
+.nul__foot strong { color: var(--ink); }
+
+/* ---------- Engines row and the contrast cards ---------- */
+
+.mth-eng {
+  list-style: none; margin: 0; padding: 0;
+  display: flex; flex-wrap: wrap; gap: 0.7rem;
+}
+.mth-eng > li {
+  margin: 0; max-width: none;
+  padding: 0.7rem 1.05rem; border-radius: 999px;
+  border: 1px solid var(--border); background: var(--surface-card);
+}
+.mth-eng .engine__n { font-size: var(--small); }
+
+.mth-not { position: relative; }
+.mth-not__x {
+  display: flex; align-items: center; justify-content: center;
+  width: 2rem; height: 2rem; margin-bottom: 0.8rem;
+  border-radius: var(--radius-sm);
+  color: var(--status-absent);
+  background: color-mix(in srgb, var(--status-absent) 12%, transparent);
+}
+.mth-not__x svg { width: 1rem; height: 1rem; display: block; }
+.mth-not h3 { margin: 0 0 0.45rem; font-size: 1.0625rem; max-width: none; }
+
 /* ---------- Prompt rotator ----------
    Seven sector prompt sets in one table that swaps between them. */
 

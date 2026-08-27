@@ -307,6 +307,47 @@
   box-shadow: 0 1px 0 0 var(--border), 0 10px 30px -22px rgba(0, 0, 0, 0.5);
 }
 
+/* ---------- /method: SCAN ----------
+   The four hero letters land in sequence rather than all at once, so the word
+   reads as being spelled out. They are inside [data-load], which the runtime
+   marks .is-in on first paint. */
+.hero [data-load] .mth-l {
+  opacity: 0; transform: translate3d(0, var(--rise), 0) scale(0.94);
+  transition:
+    opacity var(--dur-2) var(--ease-out),
+    transform var(--dur-2) var(--ease-out);
+  transition-delay: calc(var(--stagger) * var(--i, 0) + 60ms);
+}
+.hero [data-load].is-in .mth-l { opacity: 1; transform: none; }
+
+.mth-track__i { transition: background var(--dur-1) var(--ease), border-color var(--dur-1) var(--ease), color var(--dur-1) var(--ease); }
+.mth-track__fill { transition: transform var(--dur-3) var(--ease-out); }
+
+/* The band's left edge grows into place and its accent tint arrives with it,
+   so a stage reads as switching on rather than sliding up like a card. */
+.mth-stage::before { transform: scaleY(0); transform-origin: top; transition: transform var(--dur-3) var(--ease-out); }
+.mth-stage.is-in::before, .is-in .mth-stage::before { transform: scaleY(1); }
+.mth-stage__ghost { transition: color var(--dur-3) var(--ease), transform var(--dur-3) var(--ease-out); }
+.mth-stage:hover .mth-stage__ghost { color: color-mix(in srgb, var(--sa) 15%, transparent); }
+.mth-stage { transition: border-color var(--dur-1) var(--ease-out), box-shadow var(--dur-1) var(--ease-out); }
+.mth-stage:hover {
+  border-color: color-mix(in srgb, var(--sa) 40%, var(--border));
+  box-shadow: var(--shadow-lift);
+}
+
+/* The three null-stage charts wipe in left to right. A clip, not a
+   stroke-dashoffset draw: these paths carry `vector-effect: non-scaling-stroke`,
+   which puts dash values in screen units while getTotalLength() returns user
+   units, so a dash-based reveal stopped the lines at 76% — and it overwrote the
+   dash pattern that tells the control line from the tracked one. */
+.nul__g {
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path var(--dur-3) var(--ease-out);
+}
+.is-in .nul__g { clip-path: inset(0 0 0 0); }
+.nul__c:nth-child(2) .nul__g { transition-delay: var(--stagger); }
+.nul__c:nth-child(3) .nul__g { transition-delay: calc(var(--stagger) * 2); }
+
 /* ---------- /research: the scan steps ----------
    The rail draws down between the numbers as the list arrives, so the five
    steps read as one process rather than five cards. The line scales from its
@@ -579,6 +620,14 @@
     mask-image: none;
   }
 
+  /* /method: the letters, the band edges and the drawn lines all default to a
+     hidden state that only `.is-in` clears. */
+  .hero [data-load] .mth-l { opacity: 1 !important; transform: none !important; transition: none !important; }
+  .mth-stage::before { transform: none !important; transition: none !important; }
+  .mth-stage, .mth-stage__ghost, .mth-track__i, .mth-track__fill { transition: none !important; }
+  .mth-track { position: static !important; }
+  .nul__g { clip-path: none !important; transition: none !important; }
+
   /* Every one of these has a hidden default state that only `.is-in` clears.
      That is the same shape as the global `tbody tr { opacity: 0 }` bug, so
      each needs an explicit escape here and in the no-js block below. */
@@ -607,6 +656,9 @@
 .no-js .hero [data-load] > *,
 .no-js .table-figure tbody tr { opacity: 1; transform: none; }
 .no-js [data-reveal] > .cta-card { box-shadow: 0 34px 80px -34px var(--btn-shadow); }
+.no-js .hero [data-load] .mth-l { opacity: 1; transform: none; }
+.no-js .mth-stage::before { transform: none; }
+.no-js .nul__g { clip-path: none; }
 .no-js .scan__line { transform: none; }
 .no-js .wd__panel--old .wd__claim s { background-size: 100% 2px; }
 .no-js .cov__dot { transform: none; opacity: 1; }

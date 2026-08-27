@@ -1,26 +1,52 @@
 ---
-import { readdirSync } from 'node:fs';
+import { readdirSync, readFileSync } from 'node:fs';
 import { ENGINE_MARKS } from '../data/engines';
 
 /**
  * One engine's mark plus its name.
  *
  * Uses `public/engines/<slug>.svg` where a file exists; otherwise draws the
- * inline fallback. See `src/data/engines.ts` for why the fallbacks exist and
- * what should replace them.
+ * inline fallback. See `src/data/engines.ts` for what the fallbacks are.
+ *
+ * The file is INLINED, not referenced with `<img>`, and that matters for one
+ * of the five: OpenAI's mark is monochrome and published as
+ * `fill="currentColor"`. Inside an `<img>` that resolves against the image's
+ * own document and comes out black, which disappears on a dark chip. Inlined,
+ * it inherits the chip's colour and works in both themes. The four
+ * multicoloured marks carry their own hard-coded fills and are unaffected
+ * either way — nothing here recolours them.
  */
 interface Props { slug: string; short?: boolean; }
 const { slug, short = false } = Astro.props;
 const e = ENGINE_MARKS.find((x) => x.slug === slug)!;
 
-let files: string[] = [];
-try { files = readdirSync('./public/engines'); } catch { files = []; }
-const file = files.find((f) => f.replace(/\.[^.]+$/, '') === slug);
+/* Read once per build, not once per instance — the rotator renders this
+   component 35 times per page. */
+const cache: Map<string, string> = ((globalThis as any).__engineMarks ??= new Map());
+if (!cache.has(slug)) {
+  let files: string[] = [];
+  try { files = readdirSync('./public/engines'); } catch { files = []; }
+  const file = files.find((f) => f.replace(/\.[^.]+$/, '') === slug && /\.svg$/i.test(f));
+  let raw = '';
+  if (file) { try { raw = readFileSync(`./public/engines/${file}`, 'utf8'); } catch { raw = ''; } }
+  cache.set(slug, raw);
+}
+const raw = cache.get(slug)!;
+
+/* Gemini's mark carries gradient definitions referenced by id. Inlining the
+   same file 14 times a page would repeat those ids, which is invalid HTML and
+   is exactly the sort of thing an accessibility audit flags. Each instance
+   gets its own suffix. The counter is per-build, so ids are stable for a given
+   build and unique within a document. */
+const n = ((globalThis as any).__engineMarkN = (((globalThis as any).__engineMarkN as number) ?? 0) + 1);
+const markup = raw
+  ? raw.replace(/id="([^"]+)"/g, `id="$1-b${n}"`).replace(/url\(#([^)]+)\)/g, `url(#$1-b${n})`)
+  : '';
 ---
 <span class="engine" style={`--ec:${e.colour}; --ei:${e.ink}`}>
   <span class="engine__chip" aria-hidden="true">
-    {file ? (
-      <img src={`/engines/${file}`} alt="" width="18" height="18" loading="lazy" decoding="async" />
+    {markup ? (
+      <Fragment set:html={markup} />
     ) : slug === 'gemini' ? (
       /* Four-point star. The closest of the five to the real mark. */
       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1c.6 5.6 4.4 9.4 10 10-5.6.6-9.4 4.4-10 10-.6-5.6-4.4-9.4-10-10 5.6-.6 9.4-4.4 10-10Z"/></svg>

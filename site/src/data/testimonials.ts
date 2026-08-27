@@ -1,22 +1,27 @@
 /**
  * Client testimonials.
  *
- * ⚠️ EVERY QUOTE BELOW IS A PLACEHOLDER AND THE PAGE SAYS SO.
+ * ⚠️ THE NAMES AND BRANDS ARE REAL. THE WORDS ARE STILL PLACEHOLDERS.
  *
- * The section is built and working; the words are not real. They are written
- * in the register a real quote from each of these four clients might take, so
- * the layout can be judged — and each is marked on the card itself, not only
- * in a footnote.
+ * Joe supplied the six brand/first-name pairs on 2026-08-27. The sentences
+ * attributed to them are written by us to show the layout, and every card
+ * still carries a flag saying so.
  *
- * The four brands ARE real and their results are the ones Joe supplied. The
- * quotes are not. Publishing invented testimonials on a site whose entire
- * proposition is "we measure rather than assert" would contradict it on the
- * page directly above the measurement, so this must not go live as-is.
+ * Publishing invented testimonials on a site whose whole proposition is "we
+ * measure rather than assert" would contradict it three sections below the
+ * measurement. **This must not go live in this state.** Attaching a real
+ * person's first name to a sentence they did not say is a step worse than an
+ * anonymous placeholder, not a step better, so the flag matters more now than
+ * it did before the names arrived.
  *
- * TO MAKE IT REAL: replace `quote`, `name` and `role` with what the client
- * actually said and set `placeholder: false`. The flag disappears from that
- * card automatically. Where a client will not give a name, use their role and
- * company alone rather than inventing a person.
+ * TO MAKE IT REAL: replace `quote` and `role` with what the client actually
+ * said and their actual title, then set `placeholder: false`. The flag
+ * disappears from that card automatically, and the banner disappears once no
+ * card carries one.
+ *
+ * Six brands, one quote each — the earlier version repeated Lurio and Viveonix
+ * to fill the columns, which reads as a thin client list dressed up as a
+ * fuller one.
  *
  * NO PHOTOGRAPHS. The reference design pulled avatars from Unsplash — stock
  * photographs of people who are not the client, presented as if they were. A
@@ -24,10 +29,9 @@
  */
 export interface Testimonial {
   quote: string;
-  /** Person, or an empty string where only the company is named. */
+  /** First name as supplied. Surnames are not invented. */
   name: string;
   role: string;
-  /** Matches a slug in public/logos/ so the monogram picks up the brand. */
   brand: string;
   initials: string;
   accent: 'cobalt' | 'violet' | 'teal' | 'deep';
@@ -37,7 +41,7 @@ export interface Testimonial {
 export const TESTIMONIALS: Testimonial[] = [
   {
     quote: 'We had no idea we were invisible in ChatGPT until the first report landed. It named three competitors and not us, on the exact question our buyers ask.',
-    name: 'Placeholder name',
+    name: 'Tom',
     role: 'Placeholder role',
     brand: 'Lurio',
     initials: 'L',
@@ -46,7 +50,7 @@ export const TESTIMONIALS: Testimonial[] = [
   },
   {
     quote: 'The part that convinced me was the control set. They showed the questions they had not touched moving differently to the ones they had.',
-    name: 'Placeholder name',
+    name: 'Dan',
     role: 'Placeholder role',
     brand: 'Viveonix',
     initials: 'V',
@@ -55,7 +59,7 @@ export const TESTIMONIALS: Testimonial[] = [
   },
   {
     quote: 'Our SEO agency could not explain why we were missing from AI answers. This was the first time anyone showed us the actual sources the answers were built from.',
-    name: 'Placeholder name',
+    name: 'Joanne',
     role: 'Placeholder role',
     brand: 'Little Lockets London',
     initials: 'LL',
@@ -64,7 +68,7 @@ export const TESTIMONIALS: Testimonial[] = [
   },
   {
     quote: 'They told us in week two that one of our categories was not worth the retainer yet. That is when I started trusting the rest of it.',
-    name: 'Placeholder name',
+    name: 'Gary',
     role: 'Placeholder role',
     brand: 'Fresh Gym',
     initials: 'FG',
@@ -73,19 +77,19 @@ export const TESTIMONIALS: Testimonial[] = [
   },
   {
     quote: 'Every number in the monthly report traces back to a run we can see. No score on its own, no dashboard we have to take on faith.',
-    name: 'Placeholder name',
+    name: 'Marc',
     role: 'Placeholder role',
-    brand: 'Lurio',
-    initials: 'L',
+    brand: 'Williams Int.',
+    initials: 'WI',
     accent: 'violet',
     placeholder: true,
   },
   {
     quote: 'Getting mentioned on the sites the models actually cite was slower than we wanted and worth more than everything else combined.',
-    name: 'Placeholder name',
+    name: 'Simon',
     role: 'Placeholder role',
-    brand: 'Viveonix',
-    initials: 'V',
+    brand: 'Simons Designs',
+    initials: 'SD',
     accent: 'cobalt',
     placeholder: true,
   },

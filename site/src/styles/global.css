@@ -1201,6 +1201,204 @@ input:focus-visible { border-color: var(--focus); }
 }
 .deliv__honest strong { color: var(--sa); }
 
+/* ---------- Screen-reader-only text ----------
+   Used where a visual device carries meaning a screen reader cannot get at —
+   the coverage dots, and the "Without it" key on the scan steps, which is a
+   heading for its sentence rather than a decoration. */
+.sr-only {
+  position: absolute; width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden;
+  clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; border: 0;
+}
+
+/* ---------- /research: how a scan runs ----------
+   A numbered spine, like the deliverables rail, but each step carries the
+   failure it prevents rather than a list of artefacts. Two-part cards: what
+   we do, then what goes wrong without it. */
+
+.scan { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; }
+.scan__item {
+  display: grid; grid-template-columns: 2.5rem 1fr; gap: 0 1.1rem;
+  margin: 0; max-width: none;
+}
+.scan__item.stages--cobalt { --sa: var(--cobalt); }
+.scan__item.stages--violet { --sa: var(--violet); }
+.scan__item.stages--teal   { --sa: var(--teal); }
+.scan__item.stages--deep   { --sa: var(--cobalt-deep); }
+@media (min-width: 48rem) { .scan__item { grid-template-columns: 3.25rem 1fr; gap: 0 1.4rem; } }
+
+.scan__rail { display: flex; flex-direction: column; align-items: center; }
+.scan__n {
+  display: flex; align-items: center; justify-content: center;
+  width: 2.5rem; height: 2.5rem; flex: 0 0 auto;
+  border-radius: 50%;
+  font-family: var(--font-mono); font-size: 0.75rem; font-weight: 500;
+  /* --btn-fg, not white: the accents lift towards white in dark theme, and
+     white-on-accent measured 1.63:1 there when the stage badges did this. */
+  color: var(--btn-fg); background: var(--sa);
+}
+.scan__line { flex: 1; width: 2px; background: var(--border); margin-top: 0.55rem; border-radius: 2px; }
+.scan__item:last-child .scan__line { display: none; }
+
+.scan__body {
+  position: relative; overflow: hidden;
+  padding: 1.15rem 1.35rem 1.2rem;
+  border: 1px solid var(--border); border-radius: var(--radius);
+  background: var(--surface-card);
+  box-shadow: var(--shadow-card);
+}
+.scan__body::before { content: ''; position: absolute; inset: 0 auto 0 0; width: 3px; background: var(--sa); }
+.scan__t { font-size: 1.15rem; line-height: 1.2; letter-spacing: -0.02em; margin: 0 0 0.4rem; max-width: none; }
+.scan__d { margin: 0 0 0.85rem; font-size: var(--small); line-height: 1.55; max-width: 62ch; }
+.scan__w {
+  margin: 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.2rem 0.6rem;
+  padding-top: 0.75rem; border-top: 1px dashed var(--border); max-width: none;
+}
+.scan__k {
+  flex: 0 0 auto;
+  font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase;
+  color: var(--sa);
+}
+.scan__wt { flex: 1 1 18rem; min-width: 0; font-size: 0.8125rem; line-height: 1.55; color: var(--muted); }
+
+/* ---------- /research: the withdrawn finding ---------- */
+
+.wd { display: grid; gap: 1.25rem; }
+.wd__cat {
+  margin: 0; max-width: none;
+  font-size: 0.75rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase;
+  color: var(--muted);
+}
+.wd__pair { display: grid; gap: 1rem; align-items: stretch; }
+@media (min-width: 54rem) { .wd__pair { grid-template-columns: 1fr auto 1fr; gap: 0 1.25rem; } }
+
+.wd__panel {
+  position: relative; overflow: hidden;
+  padding: 1.3rem 1.45rem;
+  border: 1px solid var(--border); border-radius: var(--radius);
+  background: var(--surface-card); box-shadow: var(--shadow-card);
+}
+.wd__panel::before { content: ''; position: absolute; inset: 0 0 auto 0; height: 3px; background: var(--wa); }
+.wd__panel--old { --wa: var(--status-absent); }
+.wd__panel--new { --wa: var(--status-present); }
+
+.wd__when {
+  margin: 0 0 0.7rem; max-width: none;
+  display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem;
+  font-size: 0.75rem; color: var(--muted);
+}
+.wd__flag {
+  font-size: 0.625rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase;
+  padding: 0.2rem 0.5rem; border-radius: 999px;
+  color: var(--wa); background: color-mix(in srgb, var(--wa) 14%, transparent);
+}
+.wd__claim { margin: 0 0 0.6rem; font-size: 1.0625rem; line-height: 1.5; max-width: 40ch; }
+.wd__panel--old .wd__claim { color: var(--muted); }
+.wd__panel--old .wd__claim s { text-decoration-color: var(--status-absent); text-decoration-thickness: 2px; }
+.wd__note { margin: 0; font-size: 0.8125rem; line-height: 1.55; color: var(--muted); max-width: none; }
+
+.wd__arrow {
+  display: flex; align-items: center; justify-content: center;
+  color: var(--muted);
+}
+.wd__arrow svg { width: 1.5rem; height: 1.5rem; display: block; }
+@media (max-width: 53.99rem) { .wd__arrow svg { transform: rotate(90deg); } }
+
+.wd__held {
+  margin: 0; max-width: none;
+  padding: 1rem 1.2rem; border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--teal) 9%, transparent);
+  border-left: 3px solid var(--teal);
+  font-size: var(--small); line-height: 1.55;
+}
+.wd__held strong { color: var(--ink); }
+
+/* ---------- /research: AI Overview coverage dots ----------
+   Seven dots per row, one per category scanned. Filled means the overview
+   fired. Deliberately not a chart: two rows of seven is the whole dataset,
+   and a bar chart of fourteen booleans is decoration. */
+
+.cov {
+  margin: 0.25rem 0 0; padding: 1.25rem 1.35rem 1.15rem;
+  border: 1px solid var(--border); border-radius: var(--radius);
+  background: var(--surface-card);
+}
+.cov__cap {
+  font-size: 0.8125rem; line-height: 1.5; color: var(--muted);
+  margin: 0 0 1rem; max-width: 62ch;
+}
+/* One row per category, two cells each — named rather than a row of
+   anonymous squares, because the point is which category reversed. */
+.cov__grid {
+  /* minmax(0, 1fr), not 1fr: an auto-sized track takes its floor from the
+     column's min-content, and the "went the other way" chip is unbreakable.
+     At 390px that pushed the whole figure 37px past the viewport. */
+  display: grid; grid-template-columns: minmax(0, 1fr) 3.5rem 3.5rem;
+  align-items: center; column-gap: 0.5rem;
+  max-width: 34rem;
+}
+@media (min-width: 34rem) { .cov__grid { grid-template-columns: minmax(0, 1fr) 5rem 5rem; } }
+.cov__h {
+  font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase;
+  color: var(--muted); text-align: center; padding-bottom: 0.55rem;
+}
+.cov__cat {
+  font-size: 0.8125rem; line-height: 1.4; color: var(--muted);
+  padding: 0.42rem 0; border-top: 1px solid var(--border);
+}
+/* The one row that went the other way is the whole reason the caveat exists,
+   so it is marked rather than left to be spotted. */
+.cov__cat.is-lost { color: var(--ink); font-weight: 600; }
+.cov__cat.is-lost::after {
+  content: 'went the other way'; margin-left: 0.5rem;
+  font-size: 0.625rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--status-partial-deep);
+  background: color-mix(in srgb, var(--status-partial) 14%, transparent);
+  padding: 0.12rem 0.4rem; border-radius: 999px;
+  display: inline-block;
+}
+.cov__cell {
+  display: flex; align-items: center; justify-content: center;
+  padding: 0.42rem 0; border-top: 1px solid var(--border);
+}
+.cov__dot {
+  width: 1.15rem; height: 1.15rem; border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--muted) 14%, transparent);
+  box-shadow: inset 0 0 0 1px var(--border);
+}
+.cov__dot.is-on {
+  background: var(--accent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 60%, transparent);
+}
+.cov__cat--tot {
+  border-top-width: 2px; color: var(--ink); font-weight: 600;
+  font-size: 0.6875rem; letter-spacing: 0.07em; text-transform: uppercase;
+}
+.cov__cell--tot { border-top-width: 2px; }
+.cov__n {
+  font-family: var(--font-display); font-weight: 700; font-size: 1.15rem;
+  letter-spacing: -0.02em; line-height: 1;
+}
+.cov__of { font-size: 0.75rem; font-weight: 500; color: var(--muted); }
+.cov__caveat {
+  margin: 1.1rem 0 0; padding-top: 0.9rem; border-top: 1px solid var(--border);
+  font-size: 0.8125rem; line-height: 1.55; color: var(--muted); max-width: none;
+}
+.cov__caveat strong { color: var(--ink); }
+
+/* ---------- /research: the piece list ----------
+   Cards rather than the old bare rows, which read as an empty shelf with a
+   sign on it. */
+.piece-grid { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.25rem; }
+@media (min-width: 46rem) { .piece-grid { grid-template-columns: 1fr 1fr; } }
+.piece-grid > li { margin: 0; max-width: none; }
+.piece { display: flex; flex-direction: column; height: 100%; }
+.piece h3 { margin: 0 0 0.5rem; max-width: none; }
+.piece__go {
+  margin-top: auto; padding-top: 1rem;
+  font-size: 0.8125rem; font-weight: 600; color: var(--accent);
+}
+
 /* ---------- Prompt rotator ----------
    Seven sector prompt sets in one table that swaps between them. */
 

@@ -148,9 +148,10 @@ are local numbers.
 
 | Page | Performance | Accessibility | Best practices | SEO | TBT | CLS |
 |---|---|---|---|---|---|---|
-| Home | 100 | 100 | 96 | 100 | 0 ms | 0.049 |
-| Service | 100 | 100 | 96 | 100 | 0 ms | 0.042 |
+| Home | 100 | 100 | 96 | 100 | 0 ms | 0.025 |
+| Service | 100 | 100 | 96 | 100 | 0 ms | 0.041 |
 | Questions (`/faq`) | 100 | 100 | 96 | 100 | 0 ms | 0 |
+| Research | 100 | 100 | 96 | 100 | 0 ms | 0.042 |
 
 Home has flickered between 99 and 100 across runs. It is entirely the CLS
 figure below; largest contentful paint is 0.6s and blocking time is zero.
@@ -192,6 +193,53 @@ on the real site. Re-check after the first live deploy.
 *SEO 66 on a placeholder* is the deliberate `noindex` doing its job — the audit
 marks any page blocked from indexing down. The identical page scores **100**
 with `placeholder: false`, which was tested directly rather than assumed.
+
+### The research page
+
+**What it is saying, since that was the question put to it.** No research is
+published yet, and none can be invented — a fabricated finding on a site whose
+proposition is "we measure rather than assert" destroys the thing it is
+decorating. The old page listed two placeholder pieces under a promise to
+publish, which reads as an empty shelf with a sign on it.
+
+So the page argues the programme instead of listing articles:
+
+- **Three commitments in the hero** — five engines reported separately, three
+  things published with every number, zero findings published from a single
+  run.
+- **"How a scan runs"** — five steps on a numbered spine, each carrying the
+  specific failure it prevents rather than a description of the activity. The
+  rail draws down between the numbers as the steps arrive. Content in
+  `SCAN_STEPS`.
+- **"What we will not publish"** — three disqualifiers, each illustrated with a
+  scan of Brandure's own that hit it. A standard nothing has ever failed is not
+  a standard, so all three examples are self-implicating. Content in
+  `REFUSALS`.
+- **A finding of ours that did not survive its re-run** — the strongest thing
+  on the page, because it costs something to say. The 13 August Dubai scan's
+  headline for aesthetic clinics was "four surfaces, four disjoint lists, no
+  overlap"; the clean 17 August re-run contradicted it and it was downgraded to
+  "consensus is low, not absent". Shown as a struck-through claim beside its
+  replacement, with what survived underneath.
+- **A coverage figure** — whether a Google AI Overview fired at all, per
+  category, across both runs. One row per category rather than two rows of
+  anonymous squares, because the point is *which* category reversed: four
+  gained an overview and one lost it, which is what makes a single clean
+  explanation unlikely. Only the row that went backwards is marked.
+- The piece list, as cards, with the empty shelf stated plainly.
+
+**Everything on the page comes from the repo's own scan record** —
+`research/vertical-sprint/scans/2026-08-13-dubai/` and `.../2026-08-17-dubai-rerun/`.
+No figure is invented, nothing is a finding about a client, and where a claim
+cannot be separated from its confounds the confound is on the page rather than
+in a footnote. Both runs are n=1 and the page says so twice.
+
+**`SHOW_WITHDRAWN` in `src/data/research.ts` removes the withdrawn-finding
+section in one edit.** It is the most exposed part of the page — it publishes
+detail from an internal scan marked "not client-safe", which means those
+findings are not safe to state as fact, which is exactly what the section
+refuses to do with them. The switch exists so that judgement can be reversed
+without unpicking the page.
 
 ### The service page
 
@@ -254,14 +302,21 @@ shows — the same questions should not be claimed twice.
 `src/components/Testimonials.astro`, content in `src/data/testimonials.ts`,
 sitting between the research teaser and the questions.
 
-**Every quote is a placeholder and the section says so**, in a banner above
-the cards and again on each card. The four brands and their results are real —
-they are the same ones in the hero. The words are not. Publishing invented
-testimonials on a site whose whole proposition is "we measure rather than
-assert" would contradict it three sections below the measurement. To make it
-real: replace `quote`, `name` and `role` and set `placeholder: false`; the flag
-disappears from that card by itself. Where a client will not give a name, use
-their role and company rather than inventing a person.
+**The brands and the people are real. The words are still placeholders**, and
+the section says so in a banner above the cards and again on each card. Six
+brands, one quote each — Lurio, Viveonix, Little Lockets London, Fresh Gym,
+Williams Int. and Simons Designs, with the first names Joe supplied on
+2026-08-27. The sentences attributed to them are ours.
+
+Attaching a real person's first name to a sentence they did not say is a step
+worse than an anonymous placeholder, not a step better, so the flag matters
+more now than it did before the names arrived. To make it real: replace `quote`
+and `role` with what the client actually said and their actual title, then set
+`placeholder: false`. The flag disappears from that card by itself, and the
+banner disappears once no card carries one.
+
+An earlier version repeated Lurio and Viveonix to fill the columns, which reads
+as a thin client list dressed up as a fuller one.
 
 **No photographs.** The reference design this came from pulled headshots from
 Unsplash — stock photographs of people who are not the client, presented as if
@@ -422,22 +477,34 @@ runs the table's full width instead of being capped at the body measure.
 Each engine column header carries a mark rather than a bare name, drawn by
 `src/components/EngineMark.astro` from the list in `src/data/engines.ts`.
 
-**The marks currently on the page are approximations, not the official
-logos.** Every vendor host that serves the real SVGs is denied by the build
-environment's network policy — `403` on `CONNECT`, confirmed against the agent
-proxy's own status endpoint — so the component draws fallbacks: a hexagonal
-knot for ChatGPT, a radial burst for Claude, a seek glyph for Perplexity, a
-four-point star for Gemini, a ringed G for Google.
+**All five are the official marks.** The direct vendor hosts are denied by the
+build environment's network policy — `403` on `CONNECT`, confirmed against the
+agent proxy's own status endpoint — but the npm registry is on that policy's
+allowlist, and `@lobehub/icons-static-svg` (MIT, v1.94.0) redistributes all
+five. They are copied into `public/engines/` under slug names with their
+`<title>` stripped and otherwise untouched. `public/engines/README.md` carries
+the provenance and a note on nominative trade-mark use.
 
-A subtly wrong competitor logo on a professional site is worse than no logo,
-so these want replacing before the site goes in front of a buyer. Dropping
-`chatgpt.svg`, `claude.svg`, `perplexity.svg`, `gemini.svg` and `google.svg`
-into `public/engines/` is the entire fix — the component matches on filename
-at build time and needs no code change. `public/engines/README.md` carries the
-naming rules and a note on nominative trade-mark use.
+The drawn fallbacks are still in the component and no longer render. They are
+kept because the lookup is a file lookup: delete or rename a file and the site
+draws a rough shape rather than a broken image.
 
-The chip behind each mark is tinted from the brand colour; the mark itself
-gets no colour transform, so a supplied SVG renders exactly as published.
+**The file is inlined, not referenced with `<img>`, and that matters for one of
+the five.** OpenAI's mark is monochrome and published as `fill="currentColor"`.
+Inside an `<img>` that resolves against the image's own document and comes out
+black, which disappears on a dark chip. Inlined, it inherits the chip's colour
+and works in both themes. The four multicoloured marks carry their own fills
+and nothing recolours them.
+
+Two consequences of inlining, both handled in `EngineMark.astro`: the file is
+read once per build rather than once per instance (the rotator renders this
+component 35 times a page), and every `id` gets a per-instance suffix — Gemini's
+mark carries gradient definitions referenced by id, and 14 copies of the same
+ids on one page is invalid HTML.
+
+The chip behind each mark is tinted from the brand colour, sampled from the
+files rather than assumed — Claude `#D97757`, Perplexity `#22B8CD`, Gemini
+`#3186FF`. Get this wrong and the chip disagrees with the logo sitting on it.
 
 ### The answer-surface table
 
@@ -737,12 +804,15 @@ greyscale, not assumed.
   Prices are sample figures marked as such on the page.
 - **The method page is a reserved route.** Structure only; the framework name
   and write-up follow later.
-- **Every client quote is a placeholder.** The four brands and their results
-  are real; the six sentences attributed to them are not. The section carries
-  a banner and a per-card flag saying so. It must not go live in this state —
+- **Every client quote is a placeholder.** The six brands and the first names
+  are real; the sentences attributed to them are not. The section carries a
+  banner and a per-card flag saying so. It must not go live in this state —
   invented testimonials on a site selling measurement are the one kind of
-  placeholder the proposition cannot survive. `src/data/testimonials.ts`.
-- **The engine marks are drawn approximations, not the official logos.** Every
-  vendor host is denied by the build environment's network policy. Dropping
-  the five real SVGs into `public/engines/` replaces them with no code change;
-  that directory's README has the naming rules.
+  placeholder the proposition cannot survive, and a real first name on an
+  invented sentence is worse than an anonymous one. `src/data/testimonials.ts`.
+- **`/research` publishes detail from an internal scan.** The withdrawn-finding
+  section quotes the 13 and 17 August Dubai scans, which are marked "not
+  client-safe" in the repo. It states them as a retraction rather than as fact,
+  which is the opposite of the thing that marking guards against — but it is a
+  judgement call, and `SHOW_WITHDRAWN` in `src/data/research.ts` reverses it in
+  one edit.

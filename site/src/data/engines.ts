@@ -5,20 +5,23 @@
  * at build time and uses it if present. Where no file exists it draws the
  * inline fallback below.
  *
- * THE FALLBACKS ARE APPROXIMATIONS, NOT OFFICIAL ARTWORK. None of these
- * vendors' assets could be fetched from this build environment — every host
- * is blocked by the proxy — so they are drawn from the shapes the marks are
- * known to take. The Gemini four-point star and the Google G are close; the
- * OpenAI knot and the Perplexity glyph are simplified.
+ * ALL FIVE OFFICIAL MARKS ARE NOW IN `public/engines/`, so the fallbacks
+ * below no longer render. They are kept because the lookup is a file lookup:
+ * delete or rename a file and the site draws a rough shape rather than a
+ * broken image.
  *
- * **Drop the official SVG into `public/engines/` named by slug and it replaces
- * the fallback on the next build, with no code change.** That is the intended
- * end state — a subtly wrong competitor logo on a professional site is worse
- * than no logo, so this should not ship as-is if the real files are available.
+ * The direct vendor hosts are blocked by this environment's network policy.
+ * The files came instead from `@lobehub/icons-static-svg` (MIT, v1.94.0),
+ * which is reachable because the npm registry is on the proxy's allowlist —
+ * `openai.svg`, `claude-color.svg`, `perplexity-color.svg`, `gemini-color.svg`
+ * and `google-color.svg`, copied under slug names with their `<title>`
+ * stripped and otherwise untouched. See `public/engines/README.md`.
  *
- * `colour` is each engine's own brand colour, used for the mark and for a
- * tint behind it. These are stated rather than sampled and are worth checking
- * against the vendors' brand pages.
+ * `colour` tints the chip behind each mark and must track what the mark
+ * actually uses, or chip and logo disagree. Sampled from the files, not
+ * assumed: Claude #D97757, Perplexity #22B8CD, Gemini #3186FF. ChatGPT's mark
+ * is monochrome and inherits `ink`; the green is OpenAI's own and is used for
+ * the chip only. Google's mark is four-colour, so the chip takes its red.
  */
 export interface Engine {
   slug: string;
@@ -33,7 +36,7 @@ export interface Engine {
 export const ENGINE_MARKS: Engine[] = [
   { slug: 'chatgpt',    name: 'ChatGPT',            short: 'ChatGPT',    colour: '#10A37F', ink: '#0B7A5E' },
   { slug: 'claude',     name: 'Claude',             short: 'Claude',     colour: '#D97757', ink: '#B4522F' },
-  { slug: 'perplexity', name: 'Perplexity',         short: 'Perplexity', colour: '#20808D', ink: '#166069' },
-  { slug: 'gemini',     name: 'Gemini',             short: 'Gemini',     colour: '#4285F4', ink: '#1A62D4' },
+  { slug: 'perplexity', name: 'Perplexity',         short: 'Perplexity', colour: '#22B8CD', ink: '#166069' },
+  { slug: 'gemini',     name: 'Gemini',             short: 'Gemini',     colour: '#3186FF', ink: '#1A62D4' },
   { slug: 'google',     name: 'Google AI Overview', short: 'Google AIO', colour: '#EA4335', ink: '#B5271B' },
 ];

@@ -1,53 +1,277 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
+import { SITE } from '../../consts';
+import { ENGINES } from '../../data/content';
+import { SCAN_STEPS, REFUSALS, WITHDRAWN, AIO_COVERAGE, SHOW_WITHDRAWN } from '../../data/research';
+
+/* The page had a job it was not doing. It listed two placeholder pieces under
+   a promise to publish, which reads as an empty shelf with a sign on it.
+   Nothing can be done about the shelf — no research is published yet, and
+   inventing some would contradict the entire proposition three clicks from
+   the measurement that sells it.
+
+   So the page argues the programme rather than listing articles: how a scan is
+   run, what disqualifies a result from being published, and one finding of our
+   own that did not survive its re-run. The last of those is the persuasive
+   part, because it costs something to show. */
 
 const all = (await getCollection('research')).sort(
   (a, b) => b.data.published.valueOf() - a.data.published.valueOf(),
 );
 const anyReal = all.some((p) => !p.data.placeholder);
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  '@id': `${SITE.url}/research#collection`,
+  name: 'Research',
+  description:
+    'How Brandure measures answer surfaces: the method behind every scan, what disqualifies a result from publication, and the findings we have withdrawn.',
+  url: `${SITE.url}/research`,
+  isPartOf: { '@id': `${SITE.url}/#website` },
+};
 ---
 <BaseLayout
   title="Research"
-  description="Original measurement of how AI answer engines treat specific categories and markets — which brands get named, which sources the answers are grounded on, and how much the engines disagree."
+  description="How Brandure measures AI answer surfaces — the method behind every scan, what disqualifies a result from being published, and a finding of our own that did not survive its re-run."
+  schemas={[schema]}
 >
-  <section class="hero">
-    <div class="wrap-narrow">
-      <p class="eyebrow">Research</p>
-      <h1 class="statement statement--sub" data-split>We publish what we measure.</h1>
-      <p class="lede">Method attached to every piece, so a finding can be checked or repeated rather than taken on trust.</p>
+  <!-- 1. Hero. The claim, and the three commitments that make it checkable. -->
+  <section class="hero hero--short">
+    <div class="mesh" aria-hidden="true">
+      <div class="mesh__layer mesh__layer--1"><div class="mesh__blob mesh__blob--1"></div></div>
+      <div class="mesh__layer mesh__layer--2"><div class="mesh__blob mesh__blob--2"></div></div>
+    </div>
+    <div class="wrap svc-hero">
+      <div data-load>
+        <p class="eyebrow">Research</p>
+        <h1 class="statement" data-split>We publish the method, not just the number.</h1>
+        <p class="lede">
+          Almost every published figure about AI visibility rests on a single
+          run, on one engine, with no prompt set attached. Those are not
+          measurements, they are anecdotes with a percentage sign. Here is what
+          we do instead — and what we throw away.
+        </p>
+        <div class="hero-actions">
+          <a class="btn" href="#method">How a scan runs</a>
+          <a class="btn btn--ghost" href="#withdrawn">A finding we withdrew</a>
+        </div>
+      </div>
+      <ul class="svc-facts" data-stagger>
+        <li><span class="svc-facts__n">{ENGINES.length}</span><span class="svc-facts__l">engines, reported separately — never blended into one score</span></li>
+        <li><span class="svc-facts__n">3</span><span class="svc-facts__l">things published with every number: the prompt set, the market, the run count</span></li>
+        <li><span class="svc-facts__n">0</span><span class="svc-facts__l">findings published from a single run, including our own</span></li>
+      </ul>
     </div>
   </section>
 
+  <!-- 2. The method as a five-step spine. Each step is here because of a
+       specific failure, so each carries the failure with it. -->
+  <section class="section section--sunk" id="method">
+    <div class="wrap" data-reveal>
+      <div class="section-head">
+        <h2>How a scan runs</h2>
+        <p class="lede">
+          Five steps. Each one exists because of a specific way the result goes
+          wrong without it, so each is listed with the failure it prevents.
+        </p>
+      </div>
+
+      <ol class="scan" data-stagger>
+        {SCAN_STEPS.map((s, i) => (
+          <li class:list={['scan__item', `stages--${s.a}`]} style={`--i:${i}`}>
+            <span class="scan__rail" aria-hidden="true">
+              <span class="scan__n">{s.n}</span>
+              <span class="scan__line"></span>
+            </span>
+            <div class="scan__body">
+              <h3 class="scan__t">{s.t}</h3>
+              <p class="scan__d">{s.d}</p>
+              <p class="scan__w">
+                <span class="scan__k" aria-hidden="true">Without it</span>
+                <span class="scan__wt"><span class="sr-only">Without it: </span>{s.wrong}</span>
+              </p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- 3. The refusals. Each with a self-implicating example, because a
+       standard nobody has ever failed is not a standard. -->
   <section class="section">
-    <div class="wrap">
-      {!anyReal && (
-        <div class="card" style="border-style:dashed;margin-bottom:2rem">
-          <p style="margin:0"><span class="sample-flag">Placeholder</span> &nbsp;<strong>No research published yet.</strong> The entries below are scaffolding showing the format. They carry no findings and are excluded from search indexing, the sitemap and the feed until real pieces replace them.</p>
+    <div class="wrap" data-reveal>
+      <div class="section-head">
+        <h2>What we will not publish</h2>
+        <p class="lede">
+          Three disqualifiers. Each one is illustrated with a scan of our own
+          that hit it — a standard nothing has ever failed is not a standard.
+        </p>
+      </div>
+
+      <div class="problem-grid" data-stagger>
+        {REFUSALS.map((r) => (
+          <div class:list={['card', 'problem', `problem--${r.a}`]}>
+            <span class="problem__n" aria-hidden="true">{r.n}</span>
+            <h3>{r.t}</h3>
+            <p class="problem__p">{r.p}</p>
+            <div class="problem__effect">
+              <span class="problem__k">Our own</span>
+              <p>{r.e}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. The withdrawn finding. The one thing on this page that costs
+       something to say, and therefore the only part that proves the rest.
+       SHOW_WITHDRAWN in src/data/research.ts removes it in one edit. -->
+  {SHOW_WITHDRAWN && (
+    <section class="section section--sunk" id="withdrawn">
+      <div class="wrap" data-reveal>
+        <div class="section-head">
+          <h2>A finding of ours that did not survive its re-run</h2>
+          <p class="lede">
+            We ran a seven-category scan of Dubai in August. Half of it was
+            contaminated. This is what happened to the headline when we
+            re-ran the contaminated half clean.
+          </p>
         </div>
+
+        <div class="wd" data-stagger>
+          <p class="wd__cat">{WITHDRAWN.category}</p>
+
+          <div class="wd__pair">
+            <article class="wd__panel wd__panel--old">
+              <p class="wd__when"><span class="wd__flag wd__flag--old">Withdrawn</span>{WITHDRAWN.before.date}</p>
+              <p class="wd__claim"><s>{WITHDRAWN.before.claim}</s></p>
+              <p class="wd__note">{WITHDRAWN.before.note}</p>
+            </article>
+
+            <span class="wd__arrow" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 12h15M13 6l6 6-6 6"/>
+              </svg>
+            </span>
+
+            <article class="wd__panel wd__panel--new">
+              <p class="wd__when"><span class="wd__flag wd__flag--new">Stands, with caveats</span>{WITHDRAWN.after.date}</p>
+              <p class="wd__claim">{WITHDRAWN.after.claim}</p>
+              <p class="wd__note">{WITHDRAWN.after.note}</p>
+            </article>
+          </div>
+
+          <p class="wd__held"><strong>What held.</strong> {WITHDRAWN.held}</p>
+
+          <!-- The coverage shift: one row per category, two cells each. Read
+               down the rows and the reversal is the one row that goes the
+               other way, which is the detail the caveat rests on. -->
+          <figure class="cov">
+            <figcaption class="cov__cap">
+              Whether a Google AI Overview fired at all, per category, before
+              and after decontamination. Same prompt, same market, four days
+              apart.
+            </figcaption>
+
+            <div class="cov__grid">
+              <span class="cov__h"></span>
+              <span class="cov__h">13 Aug</span>
+              <span class="cov__h">17 Aug</span>
+
+              {AIO_COVERAGE.categories.map((c, i) => (
+                <>
+                  {/* Only the category that went the other way is marked. Four
+                      gained an overview and one lost it, and it is the loss
+                      that makes a single clean explanation unlikely — so it is
+                      the loss the table points at, not every change. */}
+                  <span class:list={['cov__cat', AIO_COVERAGE.before[i] && !AIO_COVERAGE.after[i] && 'is-lost']}>{c}</span>
+                  {(['before', 'after'] as const).map((k) => (
+                    <span class="cov__cell">
+                      <span class:list={['cov__dot', AIO_COVERAGE[k][i] && 'is-on']} aria-hidden="true"></span>
+                      <span class="sr-only">{k === 'before' ? '13 August' : '17 August'}: {AIO_COVERAGE[k][i] ? 'fired' : 'did not fire'}</span>
+                    </span>
+                  ))}
+                </>
+              ))}
+
+              <span class="cov__cat cov__cat--tot">Fired</span>
+              {(['before', 'after'] as const).map((k) => (
+                <span class="cov__cell cov__cell--tot">
+                  <span class="cov__n">{AIO_COVERAGE[k].filter(Boolean).length}<span class="cov__of">/7</span></span>
+                </span>
+              ))}
+            </div>
+
+            <p class="cov__caveat"><strong>And plainly:</strong> {AIO_COVERAGE.caveat}</p>
+          </figure>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- 5. The shelf. Honest about being empty. -->
+  <section class="section">
+    <div class="wrap" data-reveal>
+      <div class="section-head">
+        <h2>Published pieces</h2>
+        <p class="lede">
+          Every piece carries its prompt set verbatim, the market it ran in, the
+          engines queried, the date and the runs per prompt.
+        </p>
+      </div>
+
+      {!anyReal && (
+        <p class="tst__warn">
+          <strong>Nothing is published yet.</strong> The entries below are
+          scaffolding that shows the format and carry no findings. They are
+          excluded from search indexing, the sitemap and the feed, and they will
+          be deleted rather than dressed up. The first real piece follows the
+          Dubai re-run reaching a run count that can carry a claim.
+        </p>
       )}
 
       {all.length === 0 ? (
         <p>Nothing published yet.</p>
       ) : (
-        <ul class="piece-list" data-stagger>
+        <ul class="piece-grid" data-stagger>
           {all.map((p) => (
             <li>
-              <p class="meta">
-                <time datetime={p.data.published.toISOString().slice(0, 10)}>{p.data.published.toISOString().slice(0, 10)}</time>
-              </p>
-              <div>
+              <a class="card card--link piece" href={`/research/${p.id}`}>
                 <p class="meta">
+                  <time datetime={p.data.published.toISOString().slice(0, 10)}>{p.data.published.toISOString().slice(0, 10)}</time>
                   <span class="tag">{p.data.vertical}</span>
                   {p.data.placeholder && <span class="tag tag--draft">Placeholder</span>}
                 </p>
-                <h2><a href={`/research/${p.id}`}>{p.data.title}</a></h2>
-                <p style="color:var(--muted)">{p.data.description}</p>
-              </div>
+                <h3>{p.data.title}</h3>
+                <p class="note-sm mb-0">{p.data.description}</p>
+                <span class="piece__go" aria-hidden="true">Read the format &rarr;</span>
+              </a>
             </li>
           ))}
         </ul>
       )}
+    </div>
+  </section>
+
+  <!-- 6. CTA. -->
+  <section class="section section--tight">
+    <div class="wrap" data-reveal>
+      <div class="cta-card">
+        <span class="cta-card__glint" aria-hidden="true"><span class="cta-card__sheen"></span></span>
+        <div>
+          <h2>Your category, measured the same way</h2>
+          <p class="lede">
+            Same method, same disclosure — the prompt set, the market, the run
+            count and the source behind every mention. No charge and no
+            sequence.
+          </p>
+        </div>
+        <a class="btn cta-card__btn" href="/#report">Get a free visibility report</a>
+      </div>
     </div>
   </section>
 </BaseLayout>

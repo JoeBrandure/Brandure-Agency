@@ -307,6 +307,59 @@
   box-shadow: 0 1px 0 0 var(--border), 0 10px 30px -22px rgba(0, 0, 0, 0.5);
 }
 
+/* ---------- /research: the scan steps ----------
+   The rail draws down between the numbers as the list arrives, so the five
+   steps read as one process rather than five cards. The line scales from its
+   top edge on a delay matched to the step's own stagger index. */
+.scan__line { transform-origin: top; transform: scaleY(0); }
+.is-in .scan__line, [data-stagger].is-in .scan__line {
+  transform: scaleY(1);
+  transition: transform var(--dur-3) var(--ease-out);
+  transition-delay: calc(var(--stagger) * var(--i, 0) + var(--dur-1));
+}
+.scan__n { transition: box-shadow var(--dur-1) var(--ease-out); }
+.scan__body { transition: border-color var(--dur-1) var(--ease-out), box-shadow var(--dur-1) var(--ease-out); }
+.scan__item:hover .scan__body {
+  border-color: color-mix(in srgb, var(--sa) 45%, var(--border));
+  box-shadow: var(--shadow-lift);
+}
+.scan__item:hover .scan__n { box-shadow: 0 0 0 5px color-mix(in srgb, var(--sa) 16%, transparent); }
+
+/* ---------- /research: the withdrawn finding ----------
+   The strike-through draws across the old claim rather than arriving struck,
+   which is the difference between showing a retraction and showing a
+   sentence that was always crossed out. */
+.wd__panel--old .wd__claim s {
+  text-decoration: none;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-position: 0 60%;
+  background-size: 0% 2px;
+  color: var(--status-absent);
+}
+.is-in .wd__panel--old .wd__claim s {
+  background-size: 100% 2px;
+  transition: background-size var(--dur-3) var(--ease-out) calc(var(--stagger) * 2);
+}
+.wd__panel { transition: box-shadow var(--dur-1) var(--ease-out), border-color var(--dur-1) var(--ease-out); }
+.wd__panel:hover { border-color: color-mix(in srgb, var(--wa) 45%, var(--border)); box-shadow: var(--shadow-lift); }
+/* Rows fill in top to bottom, so the reader's eye travels down the seven
+   categories once rather than being handed fourteen squares at once. The
+   delay is driven off the grid cell's position, three columns per row. */
+.cov__dot { transform: scale(0.6); opacity: 0; }
+.is-in .cov__dot {
+  transform: none; opacity: 1;
+  transition: transform var(--dur-2) var(--ease-out), opacity var(--dur-2) var(--ease-out);
+}
+.cov__cell:nth-of-type(3n + 1) .cov__dot { transition-delay: calc(var(--stagger) * 0.5); }
+.cov__grid > .cov__cell:nth-child(-n + 6)  .cov__dot { transition-delay: calc(var(--stagger) * 0.5); }
+.cov__grid > .cov__cell:nth-child(n + 7)   .cov__dot { transition-delay: calc(var(--stagger) * 1.0); }
+.cov__grid > .cov__cell:nth-child(n + 10)  .cov__dot { transition-delay: calc(var(--stagger) * 1.5); }
+.cov__grid > .cov__cell:nth-child(n + 13)  .cov__dot { transition-delay: calc(var(--stagger) * 2.0); }
+.cov__grid > .cov__cell:nth-child(n + 16)  .cov__dot { transition-delay: calc(var(--stagger) * 2.5); }
+.cov__grid > .cov__cell:nth-child(n + 19)  .cov__dot { transition-delay: calc(var(--stagger) * 3.0); }
+.cov__grid > .cov__cell:nth-child(n + 22)  .cov__dot { transition-delay: calc(var(--stagger) * 3.5); }
+
 /* ---------- Testimonial columns ----------
    Each column is its own list, duplicated once in the markup, translated a
    full half of its own height so the loop is seamless. Three different
@@ -526,6 +579,17 @@
     mask-image: none;
   }
 
+  /* Every one of these has a hidden default state that only `.is-in` clears.
+     That is the same shape as the global `tbody tr { opacity: 0 }` bug, so
+     each needs an explicit escape here and in the no-js block below. */
+  .scan__line { transform: none !important; transition: none !important; }
+  .scan__body, .scan__n, .wd__panel { transition: none !important; }
+  .wd__panel--old .wd__claim s {
+    background-size: 100% 2px !important; transition: none !important;
+  }
+  .cov__dot { transform: none !important; opacity: 1 !important; transition: none !important; }
+  .cov__tip { display: none !important; }
+
   .stages__item { opacity: 1 !important; transform: none !important; transition: none !important; }
   .stages__node { transform: scale(1) !important; transition: none !important; }
   .stages__fill { transform: scaleX(1) scaleY(1) !important; transition: none !important; }
@@ -543,6 +607,9 @@
 .no-js .hero [data-load] > *,
 .no-js .table-figure tbody tr { opacity: 1; transform: none; }
 .no-js [data-reveal] > .cta-card { box-shadow: 0 34px 80px -34px var(--btn-shadow); }
+.no-js .scan__line { transform: none; }
+.no-js .wd__panel--old .wd__claim s { background-size: 100% 2px; }
+.no-js .cov__dot { transform: none; opacity: 1; }
 .no-js .stages__item { opacity: 1; transform: none; }
 .no-js .stages__node { transform: scale(1); }
 .no-js .stages__fill { transform: scaleX(1) scaleY(1); }

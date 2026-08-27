@@ -110,6 +110,54 @@ repo before building on anything here.
   enabled". Detection was always on — a Netlify form only registers once a
   deploy containing the markup has been scanned, and no such deploy existed
   yet. It was never a blocker.
+- **Seventh review pass on the site** (2026-08-27).
+  - **The official engine logos are in.** The direct vendor hosts are denied by
+    the environment's network policy, but the npm registry is on that policy's
+    allowlist and `@lobehub/icons-static-svg` (MIT, v1.94.0) redistributes all
+    five. Copied into `site/public/engines/` under slug names, `<title>`
+    stripped, otherwise untouched. **This closes the gap flagged in the sixth
+    pass.** Chip tints re-sampled from the files so they agree with the logos.
+  - **Inlined rather than `<img>`-referenced,** because OpenAI's mark is
+    monochrome `fill="currentColor"` and inside an `<img>` comes out black,
+    which disappears on a dark chip. Two consequences handled: the file is read
+    once per build rather than 35 times a page, and every `id` gets a
+    per-instance suffix — Gemini's mark carries gradient definitions referenced
+    by id, and 14 copies of the same ids on a page is invalid HTML.
+  - **Testimonial names supplied by Joe** — Lurio/Tom, Little Lockets/Joanne,
+    Viveonix/Dan, Fresh Gym/Gary, plus two new brands, Williams Int./Marc and
+    Simons Designs/Simon. Six brands, one quote each; the earlier version
+    repeated two brands to fill the columns. **The words are still ours and
+    still flagged.** A real first name on an invented sentence is worse than an
+    anonymous placeholder, not better, so the banner and per-card flags stay
+    until Joe supplies the actual sentences.
+  - **`/research` rebuilt.** It listed two placeholder pieces under a promise to
+    publish, which reads as an empty shelf with a sign on it. Nothing can be
+    done about the shelf — no research is published and inventing some would
+    destroy the proposition — so the page now argues the programme: three
+    commitments, a five-step "how a scan runs" spine carrying the failure each
+    step prevents, three disqualifiers each illustrated with a Brandure scan
+    that hit it, and **a finding of ours that did not survive its re-run.**
+  - **The withdrawn finding is the page.** The 13 Aug Dubai headline for
+    aesthetic clinics — "four surfaces, four disjoint lists, no overlap" — was
+    contradicted by the clean 17 Aug re-run and is shown struck through beside
+    its weaker replacement, with what survived underneath and a coverage figure
+    showing the one category that went the other way. Every figure comes from
+    `research/vertical-sprint/scans/`; nothing is invented; both runs are n=1
+    and the page says so twice.
+  - **DECISION NEEDED FROM JOE.** That section publishes detail from scans
+    marked "not client-safe". It states them as a retraction rather than as
+    fact, which is the opposite of what that marking guards against — but it is
+    a judgement call and it is Joe's to make. `SHOW_WITHDRAWN` in
+    `site/src/data/research.ts` removes the section in one edit.
+  - **A real overflow bug caught at 390px:** `grid-template-columns: 1fr` takes
+    its floor from the column's min-content, and an unbreakable chip in that
+    column pushed the coverage figure 37px past the viewport. `minmax(0, 1fr)`.
+  - **Verified:** every new element AA in both themes from rendered pixels
+    (the gradient-clipped hero figures re-measured separately, since the
+    computed-style sampler reads `color: transparent` and reports nonsense);
+    Lighthouse 100 / 100 / 100 across index, service, faq and research; no
+    horizontal overflow at 390, 768, 1024 or 1440 on five pages; reduced-motion
+    and JS-off both render the new sections complete; no duplicate ids.
 - **Sixth review pass on the site** (2026-08-27).
   - **Engine marks replace typed-out names** in the rotator's column headers —
     `src/components/EngineMark.astro`, `src/data/engines.ts`. **They are drawn

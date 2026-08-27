@@ -1,8 +1,7 @@
 # Answer-engine marks
 
-Drop official SVGs in here and they replace the drawn fallbacks with no code
-change. `EngineMark.astro` reads this directory at build time and matches on
-filename, so the file must be named for the slug in `src/data/engines.ts`:
+`EngineMark.astro` reads this directory at build time and matches on filename,
+so a file must be named for the slug in `src/data/engines.ts`:
 
     chatgpt.svg
     claude.svg
@@ -10,29 +9,54 @@ filename, so the file must be named for the slug in `src/data/engines.ts`:
     gemini.svg
     google.svg
 
-`.png` works too — the lookup ignores the extension — but SVG is what these
-marks are published as and what stays sharp in the table header at 18px.
+All five are present. Delete or rename one and the component falls back to a
+drawn approximation of that mark rather than a broken image.
 
-## Why the directory is currently empty
+## Provenance
 
-Every vendor host that serves these marks is denied by this environment's
-network policy (`403` on `CONNECT`, confirmed against the agent proxy status
-endpoint), so the files could not be fetched during the build sessions. The
-component draws approximations instead: a hexagonal knot for ChatGPT, a
-radial burst for Claude, a seek glyph for Perplexity, a four-point star for
-Gemini, a ringed G for Google.
+These are the official marks, not drawings. The vendors' own hosts are denied
+by this environment's network policy (`403` on `CONNECT`, confirmed against the
+agent proxy's status endpoint), but the npm registry is on that policy's
+allowlist, so the files came from **`@lobehub/icons-static-svg` v1.94.0 (MIT)**:
 
-They are approximations and are labelled as such in `src/data/engines.ts`. A
-subtly wrong competitor logo on a professional site is worse than no logo, so
-these should be replaced with the real files before the site is put in front
-of a buyer.
+| File here | Source file in the package |
+|---|---|
+| `chatgpt.svg` | `openai.svg` |
+| `claude.svg` | `claude-color.svg` |
+| `perplexity.svg` | `perplexity-color.svg` |
+| `gemini.svg` | `gemini-color.svg` |
+| `google.svg` | `google-color.svg` |
+
+The only edit is a stripped `<title>` — the chip is `aria-hidden` and the engine
+name sits beside it as text, so the title was a duplicate accessible name. Paths
+and fills are untouched.
+
+## They are inlined, not linked
+
+The component reads the file and inlines the markup rather than pointing an
+`<img>` at it. That is load-bearing for `chatgpt.svg`: OpenAI's mark is
+monochrome and published as `fill="currentColor"`, which inside an `<img>`
+resolves against the image's own document and renders black — invisible on a
+dark chip. Inlined, it inherits the chip's colour and works in both themes.
+
+Two consequences, both handled in `EngineMark.astro`:
+
+- the file is read **once per build**, not once per instance — the prompt
+  rotator renders this component 35 times per page;
+- every `id` gets a per-instance suffix. `gemini.svg` carries gradient
+  definitions referenced by id, and 14 copies of the same ids in one document
+  is invalid HTML.
+
+If you replace a file, keep it as an SVG whose fills are either hard-coded or
+`currentColor`. A file with an embedded raster or an external reference will not
+survive inlining.
 
 ## Licence note
 
-These are third-party trade marks used to identify the engines being
-measured. Nominative use in a comparison table is the ordinary case for that,
-but take each vendor's brand guidelines as the authority: several require the
-mark be used unmodified, at a minimum size, and with clear space around it,
-and some prohibit recolouring. The chip in `EngineMark.astro` applies a tinted
-background derived from the brand colour and no colour transform to the mark
-itself, so a supplied SVG renders as published.
+These are third-party trade marks used to identify the engines being measured.
+Nominative use in a comparison table is the ordinary case for that, but take
+each vendor's brand guidelines as the authority: several require the mark be
+used unmodified, at a minimum size, and with clear space around it, and some
+prohibit recolouring. The chip applies a tinted background derived from the
+brand colour and **no colour transform to the mark itself**, so each renders as
+published.

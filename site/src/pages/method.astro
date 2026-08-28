@@ -1,13 +1,15 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import EngineMark from '../components/EngineMark.astro';
+import PromptRotator from '../components/PromptRotator.astro';
 import { SITE } from '../consts';
 import { ENGINE_MARKS } from '../data/engines';
 import { SCAN, NULL_CASES, NOT_SCAN } from '../data/method';
 
-/* This was a reserved route: four cards on a dark band with a placeholder chip
-   on them. The framework was already here and already the strongest thing
-   Brandure has to say, so this pass writes it up rather than replacing it.
+/* METHOD IS THE HOW PAGE. It owns SCAN and every instrument the method runs
+   on — the frozen prompt set, the coding scheme, the held-back prompts.
+   /service shows the four letters and links here; nothing that explains a
+   stage belongs over there.
 
    The page is built around the fourth stage. S, C and A are what any competent
    agency would claim to do. N is the one that makes the other three checkable,
@@ -20,7 +22,7 @@ const schema = {
   '@id': `${SITE.url}/method#howto`,
   name: 'SCAN — answer engine optimisation method',
   description:
-    'Surface, Cause, Act, Null. How Brandure structures an answer engine optimisation engagement so that a change in AI answers can be attributed rather than asserted.',
+    'Surface, Cause, Act, Net. How Brandure structures an answer engine optimisation engagement so that a change in AI answers can be attributed rather than asserted.',
   url: `${SITE.url}/method`,
   step: SCAN.map((s, i) => ({
     '@type': 'HowToStep',
@@ -30,7 +32,7 @@ const schema = {
   })),
 };
 
-/* Chart geometry, shared by the three null-stage figures. Values are 0–100 and
+/* Chart geometry, shared by the three net-stage figures. Values are 0–100 and
    are drawn bottom-up, so y is inverted here rather than in the data. */
 const CW = 260;
 const CH = 118;
@@ -45,7 +47,7 @@ const path = (vals: readonly number[]) =>
 ---
 <BaseLayout
   title="Method"
-  description="SCAN: surface, cause, act, null. The four-stage method behind every Brandure engagement — and the control set that makes a change in AI answers attributable rather than merely claimed."
+  description="SCAN: surface, cause, act, net. The four-stage method behind every Brandure engagement, and how holding a set of prompts back turns a number that went up into a figure we can attribute."
   schemas={[schema]}
 >
   <!-- 1. Hero. The word itself, as four letters that mean something. -->
@@ -57,7 +59,7 @@ const path = (vals: readonly number[]) =>
     <div class="wrap mth-hero" data-load>
       <p class="eyebrow">Method</p>
       <h1 class="mth-word">
-        <span class="sr-only">SCAN — surface, cause, act, null.</span>
+        <span class="sr-only">SCAN — surface, cause, act, net.</span>
         {SCAN.map((s, i) => (
           <span class:list={['mth-l', `stages--${s.a}`]} style={`--i:${i}`} aria-hidden="true">
             <span class="mth-l__k">{s.k}</span>
@@ -71,7 +73,7 @@ const path = (vals: readonly number[]) =>
         other three worked.
       </p>
       <div class="hero-actions">
-        <a class="btn" href="#null">Why the fourth stage exists</a>
+        <a class="btn" href="#net">Why the fourth stage exists</a>
         <a class="btn btn--ghost" href="/service">See how an engagement runs</a>
       </div>
     </div>
@@ -135,16 +137,34 @@ const path = (vals: readonly number[]) =>
     </div>
   </section>
 
-  <!-- 3. The argument. Three shapes a re-measure can take, drawn rather than
-       described, because the whole claim is that they are distinguishable. -->
-  <section class="section section--sunk" id="null">
+  <!-- 3. The instrument behind stage one. Moved here from /service: a frozen
+       prompt set is a method artefact, and showing it is how the phrase stops
+       being jargon. /service now only names the stage. -->
+  <section class="section section--sunk">
     <div class="wrap" data-reveal>
       <div class="section-head">
-        <h2>Three shapes a re-measure can take</h2>
+        <h2>What a frozen prompt set looks like</h2>
         <p class="lede">
-          Answer engines move on their own. Without something held still to
-          compare against, all three of these look identical on a chart — and
-          the first is the only one that supports an invoice.
+          Stage one, made concrete. Yours is agreed with you and specific to
+          your category — these are the shapes. The questions a buyer types when
+          they are choosing, not when they are researching a topic.
+        </p>
+      </div>
+      <PromptRotator />
+    </div>
+  </section>
+
+  <!-- 4. The argument. Three shapes a re-measure can take, drawn rather than
+       described, because the whole claim is that they are distinguishable. -->
+  <section class="section" id="net">
+    <div class="wrap" data-reveal>
+      <div class="section-head">
+        <h2>Gross is easy. Net is the hard one.</h2>
+        <p class="lede">
+          Answer engines move on their own, so part of any rise was never yours.
+          Hold some prompts back and the three cases below separate. Report the
+          gross number and all three look identical — which is why almost
+          everyone reports the gross number.
         </p>
       </div>
 
@@ -179,22 +199,22 @@ const path = (vals: readonly number[]) =>
           takes that card's accent, so a coloured swatch here would match none
           of them. Solid against dashed also survives greyscale. */}
       <p class="nul__key">
-        <span class="nul__ki nul__ki--trk">Solid — the tracked set, the prompts we work on</span>
-        <span class="nul__ki nul__ki--ctl">Dashed — the control set, held still and never touched</span>
+        <span class="nul__ki nul__ki--trk">Solid — the prompts we work on</span>
+        <span class="nul__ki nul__ki--ctl">Dashed — the prompts held back, never touched</span>
       </p>
 
       <p class="nul__foot">
-        <strong>This is the part that costs us.</strong> A control set means
-        reporting the months where nothing moved, and handing the category
-        credit for the months where everything did. We would rather report a
-        small attributable gain than a large unattributable one, because the
-        second is indistinguishable from luck and both of us know it.
+        <strong>This is the part that costs us.</strong> Reporting net means
+        reporting the months where nothing moved, and handing the category the
+        credit for the months where everything did. We would rather show you a
+        small number we can stand behind than a large one neither of us can
+        tell apart from luck.
       </p>
     </div>
   </section>
 
-  <!-- 4. What is measured, with the engines named and marked. -->
-  <section class="section">
+  <!-- 5. What is measured, with the engines named and marked. -->
+  <section class="section section--sunk">
     <div class="wrap" data-reveal>
       <div class="section-head">
         <h2>Five engines, five separate answers</h2>
@@ -212,8 +232,8 @@ const path = (vals: readonly number[]) =>
     </div>
   </section>
 
-  <!-- 5. The contrast. -->
-  <section class="section section--sunk">
+  <!-- 6. The contrast. -->
+  <section class="section">
     <div class="wrap" data-reveal>
       <div class="section-head">
         <h2>What SCAN is not</h2>
@@ -234,7 +254,7 @@ const path = (vals: readonly number[]) =>
     </div>
   </section>
 
-  <!-- 6. CTA. -->
+  <!-- 7. CTA. -->
   <section class="section section--tight">
     <div class="wrap" data-reveal>
       <div class="cta-card">

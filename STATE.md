@@ -110,6 +110,43 @@ repo before building on anything here.
   enabled". Detection was always on — a Netlify form only registers once a
   deploy containing the markup has been scanned, and no such deploy existed
   yet. It was never a blocker.
+- **Service and Method separated** (2026-08-27). They were doing the same job
+  twice: `/service` walked all four stages in as much detail as `/method` did,
+  so neither page owned the method and a reader got it twice.
+  - **`/service` is now organised by what you buy.** Why this buyer needs it
+    (a new "cost of absence" section — the commercial consequence, distinct
+    from the home page's "why you are absent"), why it is not the thing they
+    already pay for, then two packages with every artefact attached to the one
+    it belongs to and the price on the same card. It **shows** SCAN — four
+    letters, one line each, a link — and refuses to explain it.
+  - **`/method` is now organised by how it runs.** SCAN in full plus every
+    instrument. The prompt rotator moved here from `/service`: a frozen prompt
+    set is a method artefact.
+  - **The test for where a paragraph belongs:** explains how a stage works →
+    Method. Describes something that lands on a desk → Service.
+  - **`PACKAGES` replaced `OFFERS` and `DELIVERABLES`.** Splitting prices from
+    artefacts was what let the method leak onto the commercial page. `covers`
+    names the SCAN stages each package includes, so the relationship is stated
+    without the method being restated.
+  - **Measured duplication before and after:** shared seven-word runs between
+    `/service` and `/method` fell from a page-length overlap to 38, and those
+    38 are the four SCAN one-liners, which are deliberate. `/service` against
+    the home page fell 106 → 76, the remainder being the shared report form.
+- **N in SCAN is Net, not Null** (2026-08-27). Joe's objection was that Null
+  read as "why do I need you for this bit?" — correct, and the problem was the
+  word rather than the stage. The mechanism is unchanged: a share of the
+  prompts is held back at baseline and never worked on. But "Null" named our
+  instrument and described the one thing we deliberately do not do. **"Net"
+  states it from the client's side** — the movement that is actually theirs
+  once the market's own is subtracted — and gross-against-net needs no
+  explaining to this buyer. Reversible in `k` and `name` in
+  `site/src/data/method.ts`.
+- **A recurring defect now has a written rule.** Accent text on a tint of its
+  own accent loses about a point of contrast; it has now been caught on five
+  elements, the last of which had been shipping on the home page for several
+  passes. `color-mix(in srgb, var(--accent) 68-72%, var(--ink))` fixes it in
+  both themes without a new token, because `--ink` flips. Recorded in
+  `site/README.md`.
 - **Mid-build audit of `/service`, `/method` and `/research`** (2026-08-27).
   Commissioned as an audit, so findings first: two of them were coherence
   failures that several previous passes had walked past.

@@ -183,7 +183,7 @@ export const STAGES = [
   { n: 'S', a: 'cobalt', t: 'Surface', w: 'Week 1',  d: 'Your buyers’ real questions, agreed and frozen. All five engines, clean sessions, personalisation off.' },
   { n: 'C', a: 'violet', t: 'Cause',   w: 'Week 2',  d: 'Which of the three causes applies: the model cannot identify you, cannot find you, or prefers a competitor.' },
   { n: 'A', a: 'teal',   t: 'Act',     w: 'Ongoing', d: 'Fix what your site controls. Earn the third-party mentions the answers are actually built from.' },
-  { n: 'N', a: 'deep',   t: 'Null',    w: 'Monthly', d: 'Same frozen questions, plus an untouched control set — so the change can be attributed, not asserted.' },
+  { n: 'N', a: 'deep',   t: 'Net',     w: 'Monthly', d: 'Your gain with the market’s own movement taken out — because some of any rise was never yours.' },
 ] as const;
 
 /* ============================ FAQs ============================
@@ -247,7 +247,7 @@ export const FAQS = [
   {
     group: 'What gets measured',
     q: 'What is a control set and why does it matter?',
-    a: 'A group of prompts we deliberately leave untouched for the length of the engagement. If your tracked prompts improve and the control set moves the same way, the change was the market, not us. Without one you have a number that went up and no way to attribute it.',
+    a: 'A share of your prompts held back at baseline and never worked on, so the market has somewhere to show itself. If your worked prompts improve and the held ones move the same way, the rise was the category and not us. It is what lets us report a net gain rather than a gross number, and without one you have a figure that went up and no way to say why.',
   },
   {
     group: 'What gets measured',
@@ -328,40 +328,7 @@ export const FAQS = [
 /** The subset shown on the home page. The rest live on /faq. */
 export const FAQS_HOME = FAQS.slice(0, 6);
 
-export const OFFERS = [
-  {
-    name: 'Five-engine visibility audit',
-    price: 'AED 9,500',
-    unit: 'fixed fee · one-off · four places per quarter',
-    summary:
-      'The entry product. Your category measured across all five answer engines from clean sessions, with the causes of every absence identified.',
-    includes: [
-      'Prompt set agreed with you and frozen',
-      'All five engines, clean sessions, recorded separately',
-      'Who is named, in what order, and what each answer cited',
-      'Entity check — whether models can resolve who you are',
-      'Prioritised list of what would move the position',
-    ],
-    cta: 'Start with the audit',
-    primary: true,
-  },
-  {
-    name: 'Ongoing retainer',
-    price: 'from AED 14,000',
-    unit: 'per month · minimum three months',
-    summary:
-      'Continuous tracking plus execution — entity work, answer-shaped content and earned placement — with re-measurement against a control set.',
-    includes: [
-      'Everything in the audit, re-run monthly',
-      'Control prompts held unoptimised to isolate cause',
-      'Entity and structured-data corrections',
-      'Answer-shaped content and placement outreach',
-      'Monthly report with raw counts, not just a score',
-    ],
-    cta: 'Talk about a retainer',
-    primary: false,
-  },
-] as const;
+
 
 /* ============================ SERVICE PAGE ============================
  * The service page's job is to answer one question the home page raises and
@@ -374,78 +341,117 @@ export const OFFERS = [
  * someone receives and can check.
  */
 
-/* The four stages here ARE the four SCAN stages on /method. They carried
-   different names — Baseline, Diagnosis, Execution, Re-measurement — with
-   nothing on either page connecting the two sets, so a reader going Method →
-   Service met eight stages instead of four. `n` is now the SCAN letter and
-   `stage` its SCAN name; `alias` keeps the plain-English label, which is
-   still the more useful phrase in a deliverables list. */
-export const DELIVERABLES = [
+/**
+ * What a client actually buys, and what is inside it.
+ *
+ * This replaces two separate structures — OFFERS (prices) and DELIVERABLES
+ * (artefacts, listed stage by stage). Splitting them meant /service walked the
+ * four stages in as much detail as /method did, so the two pages said the same
+ * thing twice and neither owned it.
+ *
+ * The division now: `/service` is organised by what you buy, `/method` by how
+ * it runs. Artefacts belong to a purchase, so they live here; the
+ * stage-by-stage explanation belongs to the method, so it lives in
+ * src/data/method.ts and `/service` only shows the four letters and links out.
+ *
+ * `covers` names the SCAN stages a package includes, so the connection to
+ * /method is stated without the method being re-explained.
+ */
+export const PACKAGES = [
   {
-    n: 'S',
+    key: 'audit',
+    name: 'The visibility audit',
     a: 'cobalt',
-    stage: 'Surface',
-    alias: 'the baseline',
-    when: 'Week 1',
-    days: '5 working days',
-    what: 'We agree the questions your buyers actually type and freeze them. Every one runs on all five engines from clean, signed-out sessions.',
-    /* What the client physically receives. */
+    covers: ['S', 'C'],
+    coversLabel: 'Surface and Cause, run once',
+    price: 'AED 9,500',
+    unit: 'fixed fee · one-off · four places per quarter',
+    lede: 'Where you stand across all five engines, and which of the three causes is keeping you out.',
+    summary:
+      'The front door, and it stands on its own. You could act on the report with your existing team and never speak to us again — that is deliberate, because a measurement that only ever produces a reason to hire us is not a measurement.',
     gets: [
       'The frozen prompt set, verbatim, with the market stated per prompt',
       'Who was named on each engine, in what order',
       'Every domain each answer was built from',
       'The run count behind every cell, and the model version where it varies',
-    ],
-    /* The uncomfortable thing we will say at this stage. */
-    honest: 'If your category shows no buying-intent volume in AI answers yet, this is where we tell you and stop.',
-  },
-  {
-    n: 'C',
-    a: 'violet',
-    stage: 'Cause',
-    alias: 'the diagnosis',
-    when: 'Week 2',
-    days: '5 working days',
-    what: 'Absence has three causes and they need completely different work. We establish which one applies to you, per engine.',
-    gets: [
-      'Which of the three causes applies, engine by engine',
+      'Which of the three causes applies to you, engine by engine',
       'The entity check — whether a model can resolve who you are at all',
-      'The source map: which third-party domains the answers are built from',
       'A prioritised fix list, with each change written out rather than named',
     ],
-    honest: 'Where a category is settled on two incumbents with no visible route in, we say so and decline the retainer.',
+    honest:
+      'If your category shows no buying-intent volume in AI answers yet, this is where we tell you and stop. You still keep the report.',
+    /* Written for the home page, which teases rather than lists. Lifting the
+       first few `gets` lines put the same four bullets on two pages. */
+    teaser: [
+      'Five engines, measured separately',
+      'The cause of every absence, named',
+      'A fix list you could hand to your own team',
+    ],
+    cta: 'Start with the audit',
+    primary: true,
   },
   {
-    n: 'A',
-    a: 'teal',
-    stage: 'Act',
-    alias: 'the execution',
-    when: 'From week 3',
-    days: 'Continuous',
-    what: 'Fix what your own site controls. Then go and earn the third-party mentions the answers are actually built from — which is the slower half and the half that moves it.',
+    key: 'retainer',
+    name: 'The ongoing retainer',
+    a: 'violet',
+    covers: ['S', 'C', 'A', 'N'],
+    coversLabel: 'All four stages, monthly',
+    price: 'from AED 14,000',
+    unit: 'per month · minimum three months',
+    lede: 'The audit re-run every month, with the work in between and a net figure at the end of it.',
+    summary:
+      'Everything above, plus the execution — entity corrections, answer-shaped content, and the earned placement that is the slower half and the half that moves it. Then the same measurement again, against prompts held back so the number can be attributed.',
     gets: [
+      'Everything in the audit, re-run monthly against the identical prompt set',
       'Entity and structured-data corrections, made or specified for your team',
       'Content built to be lifted into an answer cleanly',
       'A placement plan naming target sources in priority order',
       'Outreach run against that plan, with what landed and what did not',
-    ],
-    honest: 'Earned placement depends on third parties. We report the misses as well as the hits, because a plan with no misses in it is not being reported honestly.',
-  },
-  {
-    n: 'N',
-    a: 'deep',
-    stage: 'Null',
-    alias: 'the re-measurement',
-    when: 'Every month',
-    days: 'For the length of the engagement',
-    what: 'The identical frozen prompt set, alongside a control set we deliberately leave untouched for the whole engagement.',
-    gets: [
-      'Before and after on the tracked set and the control set, side by side',
-      'The divergence between them stated plainly, in one sentence',
-      'Raw counts behind every figure, never a score on its own',
+      'A held-back set of prompts, so the market’s own movement is visible',
+      'Your net gain per engine, with the raw counts behind every figure',
       'What we would do next, and what we would stop doing',
     ],
-    honest: 'If the control set moved the same way your tracked set did, the change was the market and not us. We will say that.',
+    honest:
+      'Earned placement depends on third parties, so we report the misses as well as the hits. And if the held prompts moved the same way your worked ones did, the rise was the market. We will say that.',
+    teaser: [
+      'Everything in the audit, every month',
+      'The entity, content and placement work itself',
+      'A net figure, not a gross one',
+    ],
+    cta: 'Talk about a retainer',
+    primary: false,
+  },
+] as const;
+
+/**
+ * What being absent actually costs, for /service.
+ *
+ * Distinct from PROBLEMS on the home page, which explains *why* a brand is
+ * absent — the mechanics. This is the commercial consequence, which is the
+ * thing that makes a buyer act. Deliberately none of it is a statistic: the
+ * argument holds without one, and a number here would have to be invented.
+ */
+export const COST_OF_ABSENCE = [
+  {
+    n: '01',
+    a: 'cobalt',
+    t: 'It does not show up as a loss',
+    p: 'A buyer asks, gets three names, and picks one. You were never in the answer, so there is no impression, no click and no bounce.',
+    e: 'Every tool you already pay for reports this as nothing happening. It is the only channel where losing looks identical to not being in the market.',
+  },
+  {
+    n: '02',
+    a: 'violet',
+    t: 'The shortlist closes before you are in it',
+    p: 'Ten blue links let a buyer discover you at position seven. An answer engine hands over a shortlist it has already made.',
+    e: 'Second page used to mean less traffic. Not being named means not being considered — there is no equivalent of page two to climb from.',
+  },
+  {
+    n: '03',
+    a: 'teal',
+    t: 'The gap widens while you wait',
+    p: 'Answers are grounded on a small, slow-moving set of sources. Every month a competitor holds those citations, the association hardens.',
+    e: 'This is the one that decides urgency. Displacing an incumbent from an established source set costs materially more than getting there first.',
   },
 ] as const;
 

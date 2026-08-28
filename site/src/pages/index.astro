@@ -5,7 +5,7 @@ import PromptRotator from '../components/PromptRotator.astro';
 import LogoStrip from '../components/LogoStrip.astro';
 import Testimonials from '../components/Testimonials.astro';
 import { SITE } from '../consts';
-import { FAQS, FAQS_HOME, HERO_MODE, HERO_STATS, HERO_CASES, PROBLEMS, STAGES, OFFERS, ENGINES } from '../data/content';
+import { FAQS, FAQS_HOME, HERO_MODE, HERO_STATS, HERO_CASES, PROBLEMS, STAGES, PACKAGES, ENGINES } from '../data/content';
 import { getCollection } from 'astro:content';
 import { readdirSync } from 'node:fs';
 
@@ -228,8 +228,11 @@ const faqSchema = {
         <p class="lede">Capacity is deliberately capped. The audit is the front door and stands on its own.</p>
       </div>
 
+      {/* A teaser, not the detail. The full artefact list per package lives on
+          /service, which is the page organised around what you buy — repeating
+          it here is what made three pages say the same thing. */}
       <div class="price-grid" data-stagger>
-        {OFFERS.map((o) => (
+        {PACKAGES.map((o) => (
           <div class="card offer">
             <div class="offer__head">
               <h3>{o.name}</h3>
@@ -237,13 +240,14 @@ const faqSchema = {
               <span class="offer__unit">{o.unit}</span>
             </div>
             <div class="offer__body">
-              <p>{o.summary}</p>
-              <ul>{o.includes.map((i) => <li>{i}</li>)}</ul>
-              <a class:list={['btn', !o.primary && 'btn--ghost']} href={o.primary ? '#report' : '/service'}>{o.cta}</a>
+              <p>{o.lede}</p>
+              <ul>{o.teaser.map((i) => <li>{i}</li>)}</ul>
+              <a class:list={['btn', !o.primary && 'btn--ghost']} href={o.primary ? '#report' : '/service#buy'}>{o.cta}</a>
             </div>
           </div>
         ))}
       </div>
+      <p class="center-row mt-1"><a class="textlink" href="/service#buy">Everything in both, in full &rarr;</a></p>
 
       <p class="center-row mt-2">
         <span class="note-sm"><span class="sample-flag">Sample pricing</span> &nbsp;Figures are placeholders for layout. Real pricing is set before launch.</span>

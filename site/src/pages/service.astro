@@ -1,14 +1,23 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ReportForm from '../components/ReportForm.astro';
-import PromptRotator from '../components/PromptRotator.astro';
-import { OFFERS, ENGINES, DELIVERABLES, NOT_SEO } from '../data/content';
+import { PACKAGES, ENGINES, COST_OF_ABSENCE, NOT_SEO } from '../data/content';
+import { SCAN } from '../data/method';
 import { SITE } from '../consts';
 
-/* The page answers one question the home page raises and does not close:
-   what actually happens, and what lands on your desk at the end of each part.
-   Everything below is stated as an artefact — a file, a list, a document —
-   rather than as activity, because activity is not checkable. */
+/* SERVICE IS THE COMMERCIAL PAGE. What we sell, why it exists, and why this
+   buyer needs it now. It shows SCAN and refuses to explain it.
+
+   Until 2026-08-27 this page walked all four stages in as much detail as
+   /method did — same four headings, same artefacts, same arguments — so the
+   two pages said the same thing twice and neither owned it. The split now:
+
+     /service  organised by what you buy   → packages, artefacts, price
+     /method   organised by how it runs    → SCAN in full, the instruments
+
+   The four-letter strip below is the only SCAN content on this page and it
+   links out rather than expanding. Anything explaining *how* a stage works
+   belongs on /method; anything describing what lands on a desk belongs here. */
 
 const serviceSchema = {
   '@context': 'https://schema.org',
@@ -17,27 +26,27 @@ const serviceSchema = {
   name: 'Answer engine optimisation',
   serviceType: 'Answer engine optimisation',
   description:
-    'Answer surface measurement across five engines, diagnosis of the cause of absence, entity and content work, earned third-party placement, and monthly re-measurement against an untouched control set.',
+    'Answer engine visibility measured across ChatGPT, Claude, Perplexity, Gemini and Google, the cause of every absence diagnosed, the entity, content and earned-placement work that follows, and a monthly net figure separating what the work moved from what the market moved.',
   provider: { '@id': `${SITE.url}/#organization` },
   areaServed: SITE.areaServed.map((c) => ({ '@type': 'Country', identifier: c })),
   url: `${SITE.url}/service`,
   hasOfferCatalog: {
     '@type': 'OfferCatalog',
     name: 'Engagements',
-    itemListElement: OFFERS.map((o) => ({
+    itemListElement: PACKAGES.map((p) => ({
       '@type': 'Offer',
-      name: o.name,
-      description: o.summary,
+      name: p.name,
+      description: p.lede,
     })),
   },
 };
 ---
 <BaseLayout
   title="Service"
-  description="What a Brandure engagement actually delivers: a frozen prompt set run across five answer engines, the cause of every absence diagnosed, the fix work itself, and monthly re-measurement against an untouched control set."
+  description="What Brandure sells: a five-engine visibility audit that stands on its own, and a retainer that does the work and reports a net figure rather than a gross one. Prices stated."
   schemas={[serviceSchema]}
 >
-  <!-- Hero: the promise and the constraint in the same breath. -->
+  <!-- 1. Hero: the offer and the constraint in the same breath. -->
   <section class="hero hero--short">
     <div class="mesh" aria-hidden="true">
       <div class="mesh__layer mesh__layer--1"><div class="mesh__blob mesh__blob--1"></div></div>
@@ -54,20 +63,47 @@ const serviceSchema = {
         </p>
         <div class="hero-actions">
           <a class="btn" href="#report">Get a free visibility report</a>
-          <a class="btn btn--ghost" href="#stages">What you receive</a>
+          <a class="btn btn--ghost" href="#buy">What you buy</a>
         </div>
       </div>
       <ul class="svc-facts" data-stagger>
         <li><span class="svc-facts__n">{ENGINES.length}</span> <span class="svc-facts__l">engines, measured and reported separately — never one blended score</span></li>
         <li><span class="svc-facts__n">2</span> <span class="svc-facts__l">weeks from frozen prompt set to a diagnosed cause per engine</span></li>
-        <li><span class="svc-facts__n">1</span> <span class="svc-facts__l">control set, left deliberately untouched, so a change can be attributed</span></li>
+        <li><span class="svc-facts__n">1</span> <span class="svc-facts__l">net figure a month, with the market’s own movement taken out of it</span></li>
       </ul>
     </div>
   </section>
 
-  <!-- What it is not. The single most useful thing this page can do is draw
-       the line against the thing buyers assume it is. -->
+  <!-- 2. Why this buyer needs it. The commercial consequence of absence, which
+       is a different argument from the home page's "why you are absent". -->
   <section class="section section--sunk">
+    <div class="wrap" data-reveal>
+      <div class="section-head">
+        <h2>Being left out of the answer costs more than it looks like</h2>
+        <p class="lede">
+          Not because the loss is large at first, but because it is invisible,
+          it closes the shortlist, and it compounds while you wait.
+        </p>
+      </div>
+
+      <div class="problem-grid problem-grid--3" data-stagger>
+        {COST_OF_ABSENCE.map((c) => (
+          <div class:list={['card', 'problem', `problem--${c.a}`]}>
+            <span class="problem__n" aria-hidden="true">{c.n}</span>
+            <h3>{c.t}</h3>
+            <p class="problem__p">{c.p}</p>
+            <div class="problem__effect">
+              <span class="problem__k">Why it matters</span>
+              <p>{c.e}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. What it is not. The line against the thing buyers assume it is. -->
+  <section class="section">
     <div class="wrap" data-reveal>
       <div class="section-head">
         <h2>This is not an SEO retainer with a new name</h2>
@@ -105,93 +141,86 @@ const serviceSchema = {
     </div>
   </section>
 
-  <!-- The prompt sets. Moved ahead of the deliverables: that section leans on
-       "the frozen prompt set" four times, and this is where the phrase stops
-       being jargon and becomes a thing on the screen. -->
-  <section class="section">
+  <!-- 4. SCAN, shown and not explained. Four letters, one line each, and a way
+       out to the page that owns the detail. -->
+  <section class="section section--sunk">
     <div class="wrap" data-reveal>
       <div class="section-head">
-        <h2>What a frozen prompt set looks like</h2>
+        <h2>Every engagement runs the same four stages</h2>
         <p class="lede">
-          Yours is agreed with you and specific to your category. These are the
-          shapes — the questions a buyer types when they are choosing, not when
-          they are researching a topic.
-        </p>
-      </div>
-      <PromptRotator />
-    </div>
-  </section>
-
-  <!-- The four stages, as deliverables. -->
-  <section class="section section--sunk" id="stages">
-    <div class="wrap" data-reveal>
-      <div class="section-head">
-        <h2>What lands on your desk, stage by stage</h2>
-        <p class="lede">
-          The four stages of <a class="textlink" href="/method">SCAN</a>, stated
-          as artefacts rather than activity. &ldquo;Entity work&rdquo; describes
-          effort; a fix list with every change written out is a thing you can
-          hold us to.
+          We call it SCAN. Same four, same order, whether you buy the audit or
+          the retainer — and the fourth is the one that makes the first three
+          worth paying for.
         </p>
       </div>
 
-      <ol class="deliv">
-        {DELIVERABLES.map((d, i) => (
-          <li class:list={['deliv__item', `stages--${d.a}`]} style={`--i:${i}`}>
-            <div class="deliv__rail" aria-hidden="true">
-              <span class="deliv__n">{d.n}</span>
-              <span class="deliv__line"></span>
-            </div>
-            <div class="deliv__body card">
-              <div class="deliv__top">
-                <div>
-                  <p class="deliv__when">{d.when} &middot; {d.days}</p>
-                  <h3 class="deliv__t">{d.stage} <span class="deliv__alias">&mdash; {d.alias}</span></h3>
-                </div>
-              </div>
-              <p class="deliv__what">{d.what}</p>
-
-              <p class="deliv__k">You receive</p>
-              <ul class="deliv__list">
-                {d.gets.map((g) => <li>{g}</li>)}
-              </ul>
-
-              <p class="deliv__honest"><strong>And plainly:</strong> {d.honest}</p>
-            </div>
+      <ol class="scan-strip" data-stagger>
+        {SCAN.map((s) => (
+          <li class:list={['scan-strip__i', `stages--${s.a}`]}>
+            <span class="scan-strip__k" aria-hidden="true">{s.k}</span>
+            <h3 class="scan-strip__t">{s.name}</h3>
+            <p class="scan-strip__d">{s.d}</p>
           </li>
         ))}
       </ol>
+
+      <p class="center-row mt-2">
+        <a class="btn btn--ghost" href="/method">How each stage works &rarr;</a>
+      </p>
     </div>
   </section>
 
-  <!-- Pricing. -->
-  <section class="section" id="pricing">
+  <!-- 5. What you buy. Artefacts attached to a purchase, with the price on the
+       same card, because "what you get" and "what it costs" are one question. -->
+  <section class="section" id="buy">
     <div class="wrap" data-reveal>
       <div class="section-head">
         <h2>Two ways in</h2>
-        <p class="lede">The audit is the front door and stands on its own. Nothing obliges you to the retainer afterwards.</p>
+        <p class="lede">
+          The audit is the front door and stands on its own. Nothing obliges you
+          to the retainer afterwards.
+        </p>
       </div>
-      <div class="price-grid" data-stagger>
-        {OFFERS.map((o) => (
-          <div class="card offer">
-            <div class="offer__head">
-              <h3>{o.name}</h3>
-              <span class="offer__price">{o.price}</span>
-              <span class="offer__unit">{o.unit}</span>
+
+      <div class="pkg" data-stagger>
+        {PACKAGES.map((p) => (
+          <article class:list={['pkg__c', `stages--${p.a}`]}>
+            <div class="pkg__head">
+              <p class="pkg__covers">
+                <span class="pkg__letters" aria-hidden="true">
+                  {SCAN.map((s) => (
+                    <span class:list={['pkg__l', p.covers.includes(s.k) && 'is-on', `stages--${s.a}`]}>{s.k}</span>
+                  ))}
+                </span>
+                <span class="pkg__coversl">{p.coversLabel}</span>
+              </p>
+              <h3 class="pkg__n">{p.name}</h3>
+              <p class="pkg__lede">{p.lede}</p>
+              <p class="pkg__price"><span class="pkg__pn">{p.price}</span> <span class="pkg__pu">{p.unit}</span></p>
             </div>
-            <div class="offer__body">
-              <p>{o.summary}</p>
-              <ul>{o.includes.map((i) => <li>{i}</li>)}</ul>
-              <a class:list={['btn', !o.primary && 'btn--ghost']} href="#report">{o.cta}</a>
+
+            <div class="pkg__body">
+              <p class="pkg__s">{p.summary}</p>
+
+              <p class="pkg__k">What lands on your desk</p>
+              <ul class="pkg__gets">
+                {p.gets.map((g) => <li>{g}</li>)}
+              </ul>
+
+              <p class="pkg__honest"><strong>And plainly:</strong> {p.honest}</p>
+              <a class:list={['btn', !p.primary && 'btn--ghost', 'pkg__cta']} href="#report">{p.cta}</a>
             </div>
-          </div>
+          </article>
         ))}
       </div>
-      <p class="center-row mt-2"><span class="note-sm"><span class="sample-flag">Sample pricing</span> &nbsp;Figures are placeholders for layout. Real pricing is set before launch.</span></p>
+
+      <p class="center-row mt-2">
+        <span class="note-sm"><span class="sample-flag">Sample pricing</span> &nbsp;Figures are placeholders for layout. Real pricing is set before launch.</span>
+      </p>
     </div>
   </section>
 
-  <!-- The refusal. Kept as its own moment because it is the whole positioning. -->
+  <!-- 6. The refusal. Kept as its own moment because it is the whole positioning. -->
   <section class="section section--tight">
     <div class="wrap" data-reveal>
       <div class="cta-card">
@@ -216,9 +245,9 @@ const serviceSchema = {
         <div data-reveal>
           <h2 class="statement statement--sub" data-split>Find out where you stand.</h2>
           <p class="lede">
-            Your category, run across all five engines. Who gets named, in
-            what order, and which sources each answer was built from. You keep
-            it whether or not anything follows.
+            Your category, run across all five engines. Who gets named, in what
+            order, and which sources each answer was built from. You keep it
+            whether or not anything follows.
           </p>
         </div>
         <ReportForm id="report-form" heading="Start with the free report" />

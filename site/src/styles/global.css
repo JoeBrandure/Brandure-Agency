@@ -355,11 +355,17 @@ a.card:hover, .card--hover:hover { transform: translateY(-3px); box-shadow: var(
   background: var(--pa-soft);
   border-left: 3px solid var(--pa);
 }
+/* Mixed towards ink, not the bare accent. This label sits on --pa-soft, which
+   is a 10% tint of the same accent, and the bare accent measured 4.35:1 there.
+   It is the fifth element on this site to hit that trap: ACCENT TEXT ON ITS
+   OWN TINT ALWAYS LOSES ABOUT A POINT OF CONTRAST. Mixing towards --ink
+   deepens it in light and lightens it in dark, so one declaration covers both
+   themes and no per-theme token is needed. */
 .problem__k {
   display: block;
   font-family: var(--font-mono); font-size: var(--label);
   letter-spacing: var(--ls-label); text-transform: uppercase;
-  color: var(--pa); margin-bottom: 0.35rem;
+  color: color-mix(in srgb, var(--pa) 70%, var(--ink)); margin-bottom: 0.35rem;
 }
 .problem__effect p { margin: 0; font-size: var(--small); color: var(--ink); max-width: none; }
 
@@ -1685,6 +1691,131 @@ input:focus-visible { border-color: var(--focus); }
 }
 .mth-not__x svg { width: 1rem; height: 1rem; display: block; }
 .mth-not h3 { margin: 0 0 0.45rem; font-size: 1.0625rem; max-width: none; }
+
+/* ================= /service — the commercial furniture =================
+   Two components, both of which exist because the page is organised by what
+   you buy rather than by how the method runs. */
+
+/* ---------- The SCAN strip ----------
+   Four letters, one line each, and a link out. This is the ONLY SCAN content
+   on /service: the page shows the method and refuses to explain it, because
+   /method owns the explanation and two pages explaining it is why neither
+   owned it before. */
+
+.scan-strip { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; }
+@media (min-width: 46rem) { .scan-strip { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 68rem) { .scan-strip { grid-template-columns: repeat(4, 1fr); } }
+
+.scan-strip__i {
+  --sa: var(--cobalt);
+  position: relative; overflow: hidden;
+  margin: 0; max-width: none;
+  padding: 1.5rem 1.4rem 1.4rem;
+  border: 1px solid var(--border); border-radius: var(--radius-lg);
+  background: var(--surface-card); box-shadow: var(--shadow-card);
+}
+.scan-strip__i.stages--cobalt { --sa: var(--cobalt); }
+.scan-strip__i.stages--violet { --sa: var(--violet); }
+.scan-strip__i.stages--teal   { --sa: var(--teal); }
+.scan-strip__i.stages--deep   { --sa: var(--cobalt-deep); }
+.scan-strip__i::before { content: ''; position: absolute; inset: 0 auto 0 0; width: 3px; background: var(--sa); }
+
+.scan-strip__k {
+  display: flex; align-items: center; justify-content: center;
+  width: 2.5rem; height: 2.5rem; margin-bottom: 0.9rem;
+  border-radius: 50%;
+  font-family: var(--font-display); font-weight: 800; font-size: 1.05rem;
+  /* --btn-fg, not white: the accents lift towards white in dark theme. */
+  color: var(--btn-fg); background: var(--sa);
+}
+.scan-strip__t { margin: 0 0 0.4rem; max-width: none; font-size: 1.25rem; line-height: 1.15; letter-spacing: -0.02em; }
+.scan-strip__d { margin: 0; max-width: none; font-size: var(--small); line-height: 1.55; color: var(--muted); }
+
+/* ---------- The packages ----------
+   Price and artefacts on one card, because "what do I get" and "what does it
+   cost" are one question and splitting them across two sections made the
+   reader hold half an answer in their head. */
+
+.pkg { display: grid; gap: 1.5rem; align-items: stretch; }
+@media (min-width: 60rem) { .pkg { grid-template-columns: 1fr 1fr; } }
+
+.pkg__c {
+  --sa: var(--cobalt);
+  position: relative; overflow: hidden;
+  display: flex; flex-direction: column; height: 100%;
+  margin: 0; max-width: none;
+  border: 1px solid var(--border); border-radius: var(--radius-lg);
+  background: var(--surface-card); box-shadow: var(--shadow-card);
+}
+.pkg__c.stages--cobalt { --sa: var(--cobalt); }
+.pkg__c.stages--violet { --sa: var(--violet); }
+.pkg__c::before { content: ''; position: absolute; inset: 0 0 auto 0; height: 4px; background: var(--sa); }
+
+.pkg__head {
+  padding: 1.9rem 1.75rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+  background: color-mix(in srgb, var(--sa) 6%, transparent);
+}
+.pkg__covers { display: flex; align-items: center; gap: 0.7rem; margin: 0 0 0.9rem; max-width: none; }
+/* All four letters shown, the ones this package covers filled. It states the
+   relationship to the method without restating the method. */
+.pkg__letters { display: inline-flex; gap: 0.25rem; }
+.pkg__l {
+  display: flex; align-items: center; justify-content: center;
+  width: 1.5rem; height: 1.5rem; border-radius: var(--radius-sm);
+  font-family: var(--font-display); font-weight: 800; font-size: 0.75rem;
+  /* Same rule as above — muted on its own tint measured 4.50:1. */
+  color: color-mix(in srgb, var(--muted) 60%, var(--ink));
+  background: color-mix(in srgb, var(--muted) 12%, transparent);
+}
+.pkg__l.is-on.stages--cobalt { color: var(--btn-fg); background: var(--cobalt); }
+.pkg__l.is-on.stages--violet { color: var(--btn-fg); background: var(--violet); }
+.pkg__l.is-on.stages--teal   { color: var(--btn-fg); background: var(--teal); }
+.pkg__l.is-on.stages--deep   { color: var(--btn-fg); background: var(--cobalt-deep); }
+.pkg__coversl {
+  font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase;
+  color: var(--muted);
+}
+.pkg__n { margin: 0 0 0.5rem; max-width: none; font-size: clamp(1.5rem, 1.1rem + 1.2vw, 1.9rem); line-height: 1.1; letter-spacing: -0.03em; }
+.pkg__lede { margin: 0 0 1.2rem; max-width: 42ch; font-size: 1.0625rem; line-height: 1.5; color: var(--muted); }
+.pkg__price { margin: 0; max-width: none; display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.2rem 0.6rem; }
+.pkg__pn { font-family: var(--font-display); font-weight: 800; font-size: 1.75rem; letter-spacing: -0.03em; line-height: 1; }
+.pkg__pu { font-size: 0.8125rem; color: var(--muted); }
+
+.pkg__body { display: flex; flex-direction: column; flex: 1; padding: 1.5rem 1.75rem 1.75rem; }
+.pkg__s { margin: 0 0 1.3rem; max-width: none; font-size: var(--small); line-height: 1.6; }
+.pkg__k {
+  margin: 0 0 0.7rem; max-width: none;
+  font-size: 0.75rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--muted);
+}
+.pkg__gets { list-style: none; margin: 0 0 1.3rem; padding: 0; display: grid; gap: 0.55rem; }
+.pkg__gets li {
+  position: relative; margin: 0; max-width: none; padding-left: 1.5rem;
+  font-size: var(--small); line-height: 1.5;
+}
+.pkg__gets li::before {
+  content: ''; position: absolute; left: 0; top: 0.45em;
+  width: 0.7rem; height: 0.7rem; border-radius: 50%;
+  background: color-mix(in srgb, var(--sa) 18%, transparent);
+  box-shadow: inset 0 0 0 2px var(--sa);
+}
+.pkg__honest {
+  margin: 0 0 1.4rem; max-width: none;
+  padding: 0.85rem 1rem; border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--sa) 8%, transparent);
+  border-left: 3px solid var(--sa);
+  font-size: 0.8125rem; line-height: 1.55;
+}
+/* Mixed towards ink for the same reason the research panels are: the bare
+   accent on its own tint sits a hair above AA with no headroom. */
+.pkg__honest strong { color: color-mix(in srgb, var(--sa) 68%, var(--ink)); }
+.pkg__cta { margin-top: auto; align-self: flex-start; }
+
+/* Three across rather than the default two, for the cost-of-absence cards. */
+@media (min-width: 60rem) {
+  .problem-grid--3 { grid-template-columns: repeat(3, 1fr); }
+}
 
 /* ---------- Prompt rotator ----------
    Seven sector prompt sets in one table that swaps between them. */

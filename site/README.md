@@ -334,6 +334,47 @@ findings are not safe to state as fact, which is exactly what the section
 refuses to do with them. The switch exists so that judgement can be reversed
 without unpicking the page.
 
+### Service and Method do different jobs
+
+They used to do the same job twice. `/service` walked all four stages in as
+much detail as `/method` did — same four headings, same artefacts, same
+arguments — so neither page owned the method and a reader got it twice.
+
+**`/service` is organised by what you buy.** Why this buyer needs it, why it
+is not the thing they already pay for, the two packages with every artefact
+attached to the one it belongs to, and the price on the same card. It **shows**
+SCAN — four letters, one line each, and a link — and refuses to explain it.
+
+**`/method` is organised by how it runs.** SCAN in full, the failure each stage
+prevents, and every instrument the method depends on. The prompt rotator moved
+here from `/service`: a frozen prompt set is a method artefact, and showing it
+is how the phrase stops being jargon.
+
+The test for where a paragraph belongs: **if it explains how a stage works it
+is Method; if it describes something that lands on a desk it is Service.**
+
+`PACKAGES` in `src/data/content.ts` replaced two structures — `OFFERS`
+(prices) and `DELIVERABLES` (artefacts, listed stage by stage). Splitting them
+was what let the method leak onto the commercial page. `covers` names the SCAN
+stages each package includes, so the relationship is stated without the method
+being restated, and the home page carries a short `teaser` written for it
+rather than lifting the first few artefact lines.
+
+### The N in SCAN is Net, not Null
+
+It was Null until 2026-08-27. The mechanism has not changed — a share of the
+prompts is held back at baseline and never worked on — but "Null" named *our
+instrument* and described the one thing in the method we deliberately do not
+do, so it read as a stage the client pays for and gets nothing from.
+
+**Net states it from their side:** the movement that is actually theirs once
+the market's own is subtracted. Gross against net needs no explaining to this
+buyer, and it gives the page its sharpest line — everyone else reports the
+rise, we report the part of it we caused.
+
+Changing it back, or to something else, means editing `k` and `name` in
+`src/data/method.ts`. `STAGES` in `content.ts` mirrors it for the home page.
+
 ### The four stages are the same four everywhere
 
 `Baseline / Diagnosis / Execution / Re-measurement` on `/service` and the home
@@ -672,6 +713,22 @@ artwork is a decision, not a build step. Worth doing before launch.
 **Heading wording.** "Trusted by" asserts client relationships and the repo
 records none. Proceeding with it was instructed directly, so it stands, but the
 contradiction is on the record here rather than resolved silently.
+
+### One rule that has now caught five elements
+
+**Accent-coloured text on a tint of its own accent loses about a point of
+contrast.** The token is tuned against the plain surface; the tint lifts the
+background under it; the ratio drops to somewhere between 4.0 and 4.5:1.
+
+Caught so far on the rotator's market chip, the placeholder banner's lead, the
+comparison table's head, `/research`'s "Without it" panels, and the problem
+cards' "The effect" label — the last of which had been shipping on the home
+page for several passes.
+
+The fix that works in both themes without a new token is
+`color-mix(in srgb, var(--accent) 68-72%, var(--ink))`: it deepens the colour
+in light and lightens it in dark, because `--ink` flips. Reach for that before
+adding another `*-deep` token.
 
 ### Colour contrast, measured on the rendered page
 

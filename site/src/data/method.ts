@@ -48,7 +48,7 @@ export const SCAN: Stage[] = [
       'Every answer gets marked the same way: named with a source, named without one, or not there at all.',
     ],
     rules:
-      'The idea that checking ChatGPT tells you where you stand. The five engines disagree with each other constantly, and one averaged score won’t tell you which one is costing you business.',
+      'The idea that checking ChatGPT tells you where you stand. The five disagree constantly. One averaged score won’t tell you which is costing you business.',
   },
   {
     k: 'C',
@@ -62,7 +62,7 @@ export const SCAN: Stage[] = [
       'It prefers someone else. It knows you, the mentions exist, and it still names two competitors. This is the hard one, and we’d rather tell you early.',
     ],
     rules:
-      'The assumption that one fix covers it. Publishing more pages helps with the second problem and does nothing at all for the other two, which is why “just write more content” is the advice everyone gives and nobody gets much from.',
+      'The assumption that one fix covers it. Publishing more pages helps with the second problem and does nothing for the other two. That’s why “just write more content” is the advice everyone gives and nobody gets much from.',
   },
   {
     k: 'A',
@@ -71,9 +71,9 @@ export const SCAN: Stage[] = [
     a: 'teal',
     when: 'Ongoing',
     does: [
-      'We make the basic facts about your business consistent everywhere an AI can find them, so it stops hesitating over who you are.',
-      'We write pages an AI can quote from directly, rather than pages it has to rewrite and therefore skips.',
-      'We go after mentions on the specific sites your category’s answers are built from. This is the slow part and the part that moves it.'
+      'We make the basic facts about your business consistent everywhere an AI can find them. It stops hesitating over who you are.',
+      'We write pages an AI can quote from directly, instead of pages it has to rewrite and therefore skips.',
+      'We go after mentions on the sites your category’s answers are actually built from. This is the slow part, and the part that moves it.'
     ],
     rules:
       'The assumption that this is a website job. Most of an AI answer comes from what other sites say about you, so most of the work happens somewhere you don’t control.',
@@ -90,12 +90,12 @@ export const SCAN: Stage[] = [
     a: 'deep',
     when: 'Monthly',
     does: [
-      'We set aside a group of your questions at the start and never touch them, so your category has somewhere to show its own movement.',
+      'We set aside a group of your questions at the start and never touch them. That gives your category somewhere to show its own movement.',
       'Both groups get measured again together. Same day, same engines, same conditions.',
       'The gap between them is your net gain, and it’s the first number in the report.',
     ],
     rules:
-      'A number that went up being sold to you as a result. These engines move on their own — models get updated, competitors do things, sources get re-indexed — so part of any rise was never down to your agency. Everyone else reports the rise. We report the share of it we caused.',
+      'A number that went up being sold to you as a result. These engines move on their own. Models get updated, competitors do things, sources get re-indexed. Part of any rise was never down to your agency. Everyone else reports the rise. We report the share we caused.',
   },
 ];
 
@@ -109,7 +109,7 @@ export const NULL_CASES = [
   {
     t: 'The ones we worked on moved. The ones we left alone didn’t.',
     verdict: 'Net gain. That was us.',
-    d: 'The gap between the two lines is what you paid for, and it’s the first number in your report. Most agencies can’t show you this picture, because they never set anything aside to compare against.',
+    d: 'The gap between the two lines is what you paid for. It’s the first number in your report. Most agencies can’t show you this picture, because they never set anything aside to compare against.',
     a: 'teal',
     tracked: [18, 22, 30, 44, 58, 70],
     control: [20, 19, 22, 21, 23, 22],
@@ -117,7 +117,7 @@ export const NULL_CASES = [
   {
     t: 'Both moved, by about the same amount.',
     verdict: 'Net zero. Your category moved, we didn’t.',
-    d: 'An AI update or a competitor going quiet lifts everybody at once. Your headline number looks great. Your net number is nothing, and that is what we’ll tell you, even though it costs us the credit.',
+    d: 'An AI update or a competitor going quiet lifts everybody at once. Your headline number looks great. Your net number is nothing. That’s what we’ll tell you, even though it costs us the credit.',
     a: 'violet',
     tracked: [18, 26, 36, 48, 60, 68],
     control: [20, 27, 35, 46, 57, 66],

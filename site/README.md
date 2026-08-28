@@ -334,6 +334,42 @@ findings are not safe to state as fact, which is exactly what the section
 refuses to do with them. The switch exists so that judgement can be reversed
 without unpicking the page.
 
+### The one sourced statistic
+
+**84% of what AI answers cite is media a brand does not own.** Muck Rack, "What
+Is AI Reading?" / Generative Pulse, May 2026 — more than 25 million links from
+ChatGPT, Claude and Gemini across 17 industries. The figure has held between
+82% and 89% across three editions running back to July 2025. Method at
+generativepulse.ai/report. Corroborated independently by AirOps (85%) and by an
+academic study of LLM brand sourcing (85.7% of URL citations non-owned).
+
+It lives on the home page between the problem grid and the CTA, with **the
+source and its caveat on the page rather than in a footnote**. A site whose
+proposition is "we show our working" cannot put its only statistic behind a
+superscript.
+
+**Two things before quoting it anywhere else.** Muck Rack sells PR software, so
+they have a commercial interest in earned media mattering; the sample size and
+the stability across three editions are why it is used anyway, and the page says
+so. And it is a **citation-share** figure, not a promise about anyone's results
+— it says where the inputs come from, not what a given brand would gain. The
+copy must never imply otherwise. `PRIZE` in `src/data/content.ts` carries both
+warnings at the point of definition.
+
+### Sentence length and clipping
+
+`scratchpad/lint.mjs` checks three things across every page at 1440px and 390px:
+
+- **Clipping** — an element whose content actually exceeds its box and is
+  hidden. It excludes `.split .w` (the headline word-reveal mask) and
+  `.sr-only`, both of which are `overflow: hidden` by design. Without those
+  exclusions it reports 15 false positives on the home page alone.
+- **Sentence length** — anything over 28 words, and headings over 12.
+- **Em-dash count per page.** The habit kept creeping back; where a dash was
+  doing a full stop's job it is now a full stop.
+
+All five pages currently report zero on the first two.
+
 ### The voice, and where it comes from
 
 Modelled on **growthagency.co**, which Joe supplied on 2026-08-27 as the

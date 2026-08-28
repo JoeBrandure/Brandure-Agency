@@ -5,7 +5,7 @@ import PromptRotator from '../components/PromptRotator.astro';
 import LogoStrip from '../components/LogoStrip.astro';
 import Testimonials from '../components/Testimonials.astro';
 import { SITE } from '../consts';
-import { FAQS, FAQS_HOME, HERO_MODE, HERO_STATS, HERO_CASES, PROBLEMS, STAGES, PACKAGES, ENGINES } from '../data/content';
+import { FAQS, FAQS_HOME, HERO_MODE, HERO_STATS, HERO_CASES, PROBLEMS, STAGES, PACKAGES, ENGINES, PRIZE } from '../data/content';
 import { getCollection } from 'astro:content';
 import { readdirSync } from 'node:fs';
 
@@ -69,7 +69,7 @@ const faqSchema = {
     </div>
     <div class="wrap hero-grid">
       <div data-load>
-        <h1 class="statement" data-split>Getting you named in AI answers &ndash; without the guesswork.</h1>
+        <h1 class="statement" data-split>Getting you named in AI answers, without the guesswork.</h1>
         <p class="lede">
           Measured across all five engines, so you can see exactly what moved and
           why.
@@ -161,6 +161,27 @@ const faqSchema = {
     </div>
   </section>
 
+  <!-- 3b. The prize. One sourced number, with the source and the caveat on the
+       page rather than in a footnote, because the whole proposition is that we
+       show our working. -->
+  <section class="section section--tight">
+    <div class="wrap" data-reveal>
+      <figure class="prize">
+        <div class="prize__fig">
+          <span class="prize__n"><span data-count={PRIZE.n}>{PRIZE.n}</span><span class="prize__s">{PRIZE.suffix}</span></span>
+          <p class="prize__claim">{PRIZE.claim}</p>
+        </div>
+        <div class="prize__body">
+          <p class="prize__point">{PRIZE.point}</p>
+          <figcaption class="prize__src">
+            <span class="prize__k">Source</span>
+            <span>{PRIZE.source} <em>{PRIZE.caveat}</em></span>
+          </figcaption>
+        </div>
+      </figure>
+    </div>
+  </section>
+
   <!-- 4. Gradient CTA card — the turn from problem to service -->
   <section class="section section--tight">
     <div class="wrap" data-reveal>
@@ -226,7 +247,7 @@ const faqSchema = {
   <section class="section section--sunk" id="pricing">
     <div class="wrap" data-reveal>
       <div class="section-head">
-        <h2>You&rsquo;re here to get named in AI answers. Here are two ways we do that:</h2>
+        <h2>Two ways we get you there.</h2>
         <p class="lede">Four new companies a quarter, no more. Most people start with the audit.</p>
       </div>
 

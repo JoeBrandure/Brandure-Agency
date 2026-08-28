@@ -1695,6 +1695,49 @@ input:focus-visible { border-color: var(--focus); }
 .mth-not__x svg { width: 1rem; height: 1rem; display: block; }
 .mth-not h3 { margin: 0 0 0.45rem; font-size: 1.0625rem; max-width: none; }
 
+/* ---------- The sourced statistic ----------
+   One number, the claim beside it, and the source and its caveat underneath.
+   The source is on the page rather than in a footnote because a site whose
+   proposition is "we show our working" cannot put its only statistic behind a
+   superscript. */
+
+.prize {
+  margin: 0; max-width: none;
+  display: grid; gap: 1.5rem;
+  padding: 2rem 1.9rem;
+  border: 1px solid var(--border); border-radius: var(--radius-lg);
+  background: var(--surface-card); box-shadow: var(--shadow-card);
+  position: relative; overflow: hidden;
+}
+.prize::before { content: ''; position: absolute; inset: 0 auto 0 0; width: 4px; background: var(--accent); }
+@media (min-width: 54rem) {
+  .prize { grid-template-columns: minmax(0, 20rem) minmax(0, 1fr); gap: 2.5rem; align-items: center; padding: 2.4rem 2.6rem; }
+}
+.prize__fig { display: grid; gap: 0.5rem; }
+.prize__n {
+  font-family: var(--font-display); font-weight: 800;
+  font-size: clamp(3.6rem, 2.4rem + 5vw, 5.5rem); line-height: 0.9; letter-spacing: -0.045em;
+  background: linear-gradient(100deg, var(--cobalt), var(--violet));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.prize__s { font-size: 0.5em; }
+.prize__claim { margin: 0; max-width: 20ch; font-size: var(--lede); line-height: 1.35; font-weight: 600; }
+.prize__point { margin: 0 0 1.1rem; max-width: 54ch; font-size: 1.0625rem; line-height: 1.6; }
+.prize__src {
+  display: flex; flex-wrap: wrap; gap: 0.3rem 0.7rem;
+  padding-top: 0.9rem; border-top: 1px solid var(--border);
+  font-size: 0.75rem; line-height: 1.55; color: var(--muted);
+}
+/* :not(.prize__k) matters. The label is a span too, so a bare `span` rule gave
+   it a 20rem flex-basis and pushed the source text 380px to the right of it. */
+.prize__src span:not(.prize__k) { flex: 1 1 20rem; min-width: 0; }
+.prize__src em { font-style: normal; display: block; margin-top: 0.3rem; opacity: 0.85; }
+.prize__k {
+  flex: 0 0 auto;
+  font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase;
+  color: color-mix(in srgb, var(--accent) 70%, var(--ink));
+}
+
 /* ================= /service — the commercial furniture =================
    Two components, both of which exist because the page is organised by what
    you buy rather than by how the method runs. */

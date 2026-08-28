@@ -50,7 +50,7 @@ export const SCAN_STEPS = [
     n: '05',
     a: 'deep',
     t: 'Record where the answer came from',
-    d: 'We log where each mention came from: the directory, the trade title, the competitor’s page, the brand’s own site.',
+    d: 'We log where each mention came from. The directory, the trade title, the competitor’s page, the brand’s own site.',
     wrong: 'Without that, there’s nothing to act on. Knowing you’re missing doesn’t tell you where to go and get mentioned.',
   },
 ] as const;
@@ -69,7 +69,7 @@ export const REFUSALS = [
     a: 'violet',
     t: 'Anything measured while signed in',
     p: 'An answer given to someone signed in is partly a description of that person. On the page it looks identical to a description of the market.',
-    e: 'Half of that same scan — 14 of 28 results, the Gemini and Google Search columns — was run on a signed-in profile by mistake. We re-ran them properly on 17 August instead of publishing them.',
+    e: 'Half of that same scan was run on a signed-in profile by mistake. 14 of 28 results, the Gemini and Google Search columns. We re-ran them properly on 17 August instead of publishing them.',
   },
   {
     n: '03',
@@ -106,7 +106,7 @@ export const WITHDRAWN = {
     claim: 'There’s some overlap after all. Three brands appeared on two engines each.',
     note: 'Clean sessions, same questions. A much weaker claim than the one it replaced, and still only one run.',
   },
-  held: 'The underlying point survived. Answers in this market lean heavily on brands’ own pages and self-published “best of” lists rather than independent sources. That showed up in both runs, and it was the finding most at risk from the contamination.',
+  held: 'The underlying point survived. Answers in this market lean heavily on brands’ own pages and self-published “best of” lists, not on independent sources. That showed up in both runs, and it was the finding most at risk from the contamination.',
 } as const;
 
 /**

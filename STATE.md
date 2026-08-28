@@ -110,6 +110,30 @@ repo before building on anything here.
   enabled". Detection was always on — a Netlify form only registers once a
   deploy containing the markup has been scanned, and no such deploy existed
   yet. It was never a blocker.
+- **Quantified prize added, sourced** (2026-08-28). Joe asked for the
+  equivalent of the reference site's "you're likely sitting on 10-30% untapped
+  revenue". **84% of what AI answers cite is media a brand does not own** —
+  Muck Rack, "What Is AI Reading?", May 2026, 25M+ links from ChatGPT, Claude
+  and Gemini across 17 industries, holding 82–89% across three editions since
+  July 2025. Corroborated by AirOps (85%) and an academic LLM-sourcing study
+  (85.7%).
+  - **The source and its caveat sit on the page**, not in a footnote. Muck Rack
+    sells PR software and has an interest in the answer; that is stated, and
+    the sample size is why it is used anyway.
+  - **It is a citation-share figure, not a results promise.** It says where the
+    inputs come from, not what a brand would gain. `PRIZE` in
+    `site/src/data/content.ts` carries that warning at the point of definition,
+    because it is the obvious way for this number to get misused later.
+  - No figure was invented. The "20-40% extra visibility" shape Joe sketched
+    has no published support and would have had to be made up.
+- **Sentence-length and clipping audit** (2026-08-28). `scratchpad/lint.mjs`
+  checks clipping, sentences over 28 words, headings over 12, and em-dash count
+  per page, at 1440px and 390px. Eight long sentences and one long heading
+  fixed; em-dashes cut roughly in half where a full stop did the job. All five
+  pages now report zero long sentences and zero clipping.
+  - **The clipping check needs its exclusions or it is useless:** `.split .w`
+    (the headline word-reveal mask) and `.sr-only` are `overflow: hidden` by
+    design and produced 15 false positives on the home page alone.
 - **Copy rewritten against a supplied reference** (2026-08-27). Two earlier
   attempts missed because they were written from instinct. Joe supplied
   **growthagency.co** as the model; the site is blocked by this environment's

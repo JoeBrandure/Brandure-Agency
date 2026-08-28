@@ -195,12 +195,12 @@ export const FAQS = [
   {
     group: 'The basics',
     q: 'What is answer engine optimisation?',
-    a: 'Getting your brand named and recommended inside the answers AI tools give — ChatGPT, Claude, Perplexity, Gemini and Google’s AI Overviews — instead of only ranking in a list of links. A search engine hands your buyer options. An answer engine hands them a decision.',
+    a: 'Getting your brand named and recommended inside the answers AI tools give. ChatGPT, Claude, Perplexity, Gemini, Google’s AI Overviews. A search engine hands your buyer a list of options. An answer engine hands them a decision.',
   },
   {
     group: 'The basics',
     q: 'How is this different from SEO?',
-    a: 'Ranking third on Google still gets you seen. Coming third in an AI’s judgement usually means it doesn’t mention you at all. The work is different too: SEO is largely about your own site, while AEO is largely about whether the AI knows who you are and whether the sources it trusts talk about you.',
+    a: 'Ranking third on Google still gets you seen. Coming third in an AI’s judgement usually means it doesn’t mention you at all. The work differs too. SEO is mostly about your own site. AEO is mostly about whether the AI knows who you are, and whether the sources it trusts talk about you.',
   },
   {
     group: 'The basics',
@@ -227,12 +227,12 @@ export const FAQS = [
   {
     group: 'What gets measured',
     q: 'How do you decide which questions to test?',
-    a: 'We agree them with you up front and then leave them alone. They’re the questions someone types when they’re close to buying — comparisons, alternatives, “best X for Y” — rather than the ones they type when they’re reading around a subject. If the questions change between runs, you can’t compare the results.',
+    a: 'We agree them with you up front, then leave them alone. They’re the questions someone types when they’re close to buying. Comparisons, alternatives, “best X for Y”. Not the ones they type when they’re reading around a subject. If the questions change between runs, you can’t compare the results.',
   },
   {
     group: 'What gets measured',
     q: 'Do you add our city or country to the questions?',
-    a: 'Only if your buyers do. If nobody types “in Dubai” when they look for what you sell, adding it gives you a different test rather than a sharper one. B2B software is the clearest example: put a city in and you get a local-services answer that has nothing to do with how anyone buys it. We work this out with you rather than guessing.',
+    a: 'Only if your buyers do. If nobody types “in Dubai” when they look for what you sell, adding it gives you a different test rather than a sharper one. B2B software is the clearest case. Put a city in and you get a local-services answer that has nothing to do with how anyone buys it. We work this out with you rather than guessing.',
   },
   {
     group: 'What gets measured',
@@ -247,7 +247,7 @@ export const FAQS = [
   {
     group: 'What gets measured',
     q: 'What is a control set and why does it matter?',
-    a: 'A group of your questions that we deliberately leave alone for the whole engagement. If the ones we work on improve and the ones we left alone improve by the same amount, your category moved and we didn’t cause it. That’s how you get a net figure instead of a number that went up for reasons nobody can explain.',
+    a: 'A group of your questions that we deliberately leave alone for the whole engagement. If the ones we work on improve and the ones we left alone improve by the same amount, your category moved and we didn’t cause it. That’s how you get a net figure rather than a number nobody can explain.',
   },
   {
     group: 'What gets measured',
@@ -264,12 +264,12 @@ export const FAQS = [
   {
     group: 'What actually moves it',
     q: 'Can we just publish more content?',
-    a: 'On its own, usually not. Studies of tens of millions of AI citations keep finding the same thing: most of them point at sites the brand doesn’t own — press, directories, review platforms, forums. You can add pages to your own domain all year and watch the answer stay exactly where it was.',
+    a: 'On its own, usually not. Studies of tens of millions of AI citations keep finding the same thing. Most point at sites the brand doesn’t own. Press, directories, review platforms, forums. You can add pages to your own domain all year and watch the answer stay where it was.',
   },
   {
     group: 'What actually moves it',
     q: 'Does schema and structured data help?',
-    a: 'It helps the AI work out who you are, which is a real problem worth fixing. On its own it won’t get you named. We do this work early because it’s quick and cheap and it takes one of the three causes off the table, then we get on with the part that actually moves the answer.',
+    a: 'It helps the AI work out who you are, which is a real problem worth fixing. On its own it won’t get you named. We do it early because it’s quick and cheap and it takes one of the three causes off the table. Then we get on with the part that actually moves the answer.',
   },
   {
     group: 'What actually moves it',
@@ -284,7 +284,7 @@ export const FAQS = [
   {
     group: 'What actually moves it',
     q: 'Can you guarantee we appear in AI answers?',
-    a: 'No, and be careful of anyone who says they can. These tools change how they build answers without telling anybody. What we can do is show you where you stand now, work on the causes we can influence, and measure again so you can see what changed and why.',
+    a: 'No, and be careful of anyone who says they can. These tools change how they build answers without telling anybody. What we can do is show you where you stand now, work on the causes we can influence, then measure again. You will see what changed and why.',
   },
   {
     group: 'What actually moves it',
@@ -301,7 +301,7 @@ export const FAQS = [
   {
     group: 'Working together',
     q: 'What does the free report actually include?',
-    a: 'Your category run across all five engines: who gets named, in what order, and which sources each answer was built from. It’s the real thing rather than a sample. Take it to your own team and act on it if you’d rather.',
+    a: 'Your category run across all five engines: who gets named, in what order, and which sources each answer was built from. It’s the real thing, not a sample. Take it to your own team and act on it if you’d rather.',
   },
   {
     group: 'Working together',
@@ -422,6 +422,37 @@ export const PACKAGES = [
     primary: false,
   },
 ] as const;
+
+/**
+ * THE ONE SOURCED STATISTIC ON THE SITE.
+ *
+ * Muck Rack, "What Is AI Reading?" / Generative Pulse, May 2026 edition. More
+ * than 25 million links from ChatGPT, Claude and Gemini responses across 17
+ * industries. Earned media accounts for 84% of all AI citations; the figure has
+ * held between 82% and 89% across three editions running back to July 2025.
+ * Method at generativepulse.ai/report.
+ *
+ * TWO THINGS TO KNOW BEFORE QUOTING IT ELSEWHERE. Muck Rack sells PR software,
+ * so they have a commercial interest in earned media mattering — that is worth
+ * saying out loud, and the sample size and the stability across three editions
+ * are why it is used anyway. And it is a citation-share figure, not a promise
+ * about anyone's results. It says where the inputs come from. It does not say
+ * what a given brand would gain, and the copy must never imply that it does.
+ *
+ * Corroborated independently: AirOps 2026 State of AI Search puts brand
+ * mentions from third-party pages at 85%, and an academic study of LLM brand
+ * sourcing puts non-owned URL citations at 85.7%.
+ */
+export const PRIZE = {
+  n: '84',
+  suffix: '%',
+  claim: 'of what AI answers cite is media you don’t own.',
+  point: 'Most businesses are busy optimising the other 16%. That gap is the opportunity, and it is where almost all of the work sits.',
+  source:
+    'Muck Rack, “What Is AI Reading?”, May 2026. 25 million+ links from ChatGPT, Claude and Gemini across 17 industries. Held between 82% and 89% across three editions since July 2025.',
+  caveat:
+    'Muck Rack sells PR software, so read it with that in mind. We use it because of the sample size and because the number has barely moved in a year.',
+} as const;
 
 /**
  * What being absent actually costs, for /service.

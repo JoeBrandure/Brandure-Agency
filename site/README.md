@@ -334,6 +334,36 @@ findings are not safe to state as fact, which is exactly what the section
 refuses to do with them. The switch exists so that judgement can be reversed
 without unpicking the page.
 
+### How the copy is written
+
+Rewritten end to end on 2026-08-27 because it read as written to be admired
+rather than to be read. The audience is a business owner or marketing director
+who has noticed they are losing work and does not have twenty minutes.
+
+What went, and why it kept creeping back in:
+
+- **Antithesis.** "Not a measurement, an anecdote with a percentage sign."
+  "Artefacts, not activity." Once a page it is a device; three times a page it
+  is a tic, and it was on almost every line.
+- **Aphoristic definitions.** "A measurement that only ever produces a reason
+  to hire us is not a measurement." Clever, and nobody talks like that.
+- **Literary inversion.** "Then, and only then, do the work."
+- **Abstract nouns as subjects.** Sentences whose subject is "a prompt set" or
+  "the unit of competition" rather than you, us, or the AI.
+- **Field vocabulary in headings.** "Freeze the prompt set" became "Agree the
+  questions, then leave them alone". Entity resolution, grounding and control
+  sets read as competence to someone already in AEO and as noise to the person
+  buying.
+
+What replaced it: second person, short declaratives, concrete nouns, and the
+consequence stated before the mechanism. British English throughout, per
+`CLAUDE.md`.
+
+`scratchpad/tells.mjs` scans the built pages for those constructions. It is
+deliberately over-sensitive — "rather than" and a single em-dash aside are
+ordinary English and will trip it — so read the sentences it flags rather than
+the count.
+
 ### Service and Method do different jobs
 
 They used to do the same job twice. `/service` walked all four stages in as

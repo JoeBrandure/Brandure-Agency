@@ -57,7 +57,7 @@ const faqSchema = {
 
 <BaseLayout
   title={SITE.name}
-  description="Brandure measures where your brand appears in AI-generated answers across ChatGPT, Claude, Perplexity, Gemini and Google — then does the work that changes it. Request a free visibility report."
+  description="We show you where your brand stands inside AI answers on ChatGPT, Claude, Perplexity, Gemini and Google, then do the work to get you named. Start with a free visibility report."
   schemas={[serviceSchema, faqSchema]}
 >
   <!-- 1. Hero — statement left, real measured figures right -->
@@ -69,11 +69,11 @@ const faqSchema = {
     </div>
     <div class="wrap hero-grid">
       <div data-load>
-        <h1 class="statement" data-split>Your buyers asked an AI. You were not the answer.</h1>
+        <h1 class="statement" data-split>Your buyers asked an AI. It named someone else.</h1>
         <p class="lede">
-          Your SEO still works. It just stops paying when the answer arrives
-          before the links. We measure where you stand inside AI answers, then
-          do the work that gets you named.
+          Your SEO is probably fine. It just stops earning when an answer appears
+          above the links and nobody scrolls past it. We show you where you stand
+          inside those answers, then do the work to get you named.
         </p>
         <div class="hero-actions">
           <a class="btn" href="#report">Get a free visibility report</a>
@@ -137,10 +137,10 @@ const faqSchema = {
   <section class="section">
     <div class="wrap" data-reveal>
       <div class="section-head">
-        <h2>You are not coming up in AI answers, so you are losing buyers you never see</h2>
+        <h2>You are missing from AI answers, and losing work you never hear about</h2>
         <p class="lede">
-          Here is what is usually going wrong, and why none of it shows up in a
-          dashboard you already look at.
+          Here is what is usually behind it, and why none of it turns up in any
+          report you currently read.
         </p>
       </div>
 
@@ -168,8 +168,8 @@ const faqSchema = {
         <div>
           <h2>We fix all four, in that order</h2>
           <p class="lede">
-            Measured, diagnosed, fixed, then measured again against a set of
-            questions left deliberately untouched.
+            Measure it, work out the cause, fix it, then measure again against a
+            set of questions we deliberately left alone.
           </p>
         </div>
         <a class="btn cta-card__btn" href="#report">Get a free visibility report</a>
@@ -186,8 +186,9 @@ const faqSchema = {
       <div class="section-head">
         <h2 class="statement statement--sub">One question. Five different answers.</h2>
         <p class="lede">
-          Same question, same day, five engines. Different companies named,
-          different sources behind them. Pick a sector.
+          The same question, on the same day, across five engines. Different
+          companies named each time, built from different sources. Pick a sector
+          and see.
         </p>
       </div>
       <PromptRotator />
@@ -199,8 +200,8 @@ const faqSchema = {
   <section class="section stages">
     <div class="wrap" data-reveal>
       <div class="section-head">
-        <h2>The four-stage process</h2>
-        <p class="lede">Baseline, diagnosis, execution, re-measurement. Every engagement runs the same four, in the same order.</p>
+        <h2>How we work</h2>
+        <p class="lede">Four stages, and every engagement runs the same four in the same order. We call it SCAN.</p>
       </div>
 
       <ol class="stages__track" data-timeline>
@@ -224,8 +225,8 @@ const faqSchema = {
   <section class="section section--sunk" id="pricing">
     <div class="wrap" data-reveal>
       <div class="section-head">
-        <h2>Two ways in</h2>
-        <p class="lede">Capacity is deliberately capped. The audit is the front door and stands on its own.</p>
+        <h2>Two ways to work with us</h2>
+        <p class="lede">We cap how many we take on at once. Most people start with the audit.</p>
       </div>
 
       {/* A teaser, not the detail. The full artefact list per package lives on
@@ -260,7 +261,7 @@ const faqSchema = {
     <div class="wrap" data-reveal>
       <div class="section-head">
         <h2>We publish what we measure</h2>
-        <p class="lede">Method attached, so any finding can be checked or repeated rather than taken on trust.</p>
+        <p class="lede">Every piece comes with the method attached, so you can check it or run it yourself instead of taking our word for it.</p>
       </div>
       <div class="grid grid--3" data-stagger>
         {pieces.map((p) => (
@@ -286,7 +287,7 @@ const faqSchema = {
   <section class="section section--sunk">
     <div class="wrap-narrow" data-reveal>
       <div class="section-head">
-        <h2>The questions we get asked</h2>
+        <h2>Questions people ask us</h2>
       </div>
       <div class="qa" data-stagger>
         {FAQS_HOME.map((f, i) => (
@@ -307,11 +308,11 @@ const faqSchema = {
     <div class="wrap">
       <div class="hero-grid">
         <div data-reveal>
-          <h2 class="statement statement--sub" data-split>Find out what the engines say about you.</h2>
+          <h2 class="statement statement--sub" data-split>See what the AI says about you.</h2>
           <p class="lede">
-            Your category, run across all five engines. Who gets named, in what
-            order, and which sources each answer was built from. No charge, no
-            obligation, no sequence.
+            We run your category across all five engines and send you what comes
+            back: who gets named, in what order, and which sources each answer
+            was built from. No charge, and nobody will chase you afterwards.
           </p>
         </div>
         <ReportForm id="report-form" />

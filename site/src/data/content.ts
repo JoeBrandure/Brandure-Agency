@@ -100,7 +100,7 @@ export const HERO_CASES = [
     brand: 'Lurio',
     metric: '92',
     suffix: '%',
-    label: 'increase in AI search appearances across three LLMs.',
+    label: 'more appearances in AI answers, across three engines.',
   },
   {
     slug: 'viveonix',
@@ -110,7 +110,7 @@ export const HERO_CASES = [
     brand: 'Viveonix',
     metric: '183',
     suffix: '%',
-    label: 'increase in quality leads from optimised LLM searches.',
+    label: 'more qualified leads coming in from AI search.',
   },
   {
     slug: 'littlelockets',
@@ -120,7 +120,7 @@ export const HERO_CASES = [
     brand: 'Little Lockets London',
     metric: '79',
     suffix: '%',
-    label: 'increase in online revenue through LLM searches at conversion stage.',
+    label: 'more online revenue from buyers who arrived via AI search.',
   },
   {
     slug: 'fresh',
@@ -130,7 +130,7 @@ export const HERO_CASES = [
     brand: 'Fresh Gym',
     metric: '205',
     suffix: '%',
-    label: 'increase in reach from AI search suggestions.',
+    label: 'more reach from being recommended in AI answers.',
   },
 ] as const;
 
@@ -148,29 +148,29 @@ export const PROBLEMS = [
     n: '01',
     accent: 'cobalt',
     t: 'The AI chooses for them',
-    p: 'Google hands over ten links and lets someone pick. ChatGPT hands over three names and has already picked.',
-    e: 'If you are not one of the three you are not in the running — and nothing in your analytics shows it, because there is no visit to miss.',
+    p: 'Google gives your buyer ten links and lets them choose. ChatGPT gives them three names and has already chosen.',
+    e: 'If you are not one of those three, you are not in the running. And you will never see it happen, because there is no click to lose and nothing to show up in your analytics.',
   },
   {
     n: '02',
     accent: 'violet',
     t: 'Every AI says something different',
-    p: 'Ask ChatGPT, Claude, Perplexity, Gemini and Google the same question on the same day and different companies come back.',
-    e: 'One overall “AI score” averages five different answers into a number that cannot tell you which one to go and fix.',
+    p: 'Ask ChatGPT, Claude, Perplexity, Gemini and Google the same question on the same day and you get five different lists of companies.',
+    e: 'So a single “AI visibility score” is really an average of five different answers. It might tell you that you have a problem. It cannot tell you where.',
   },
   {
     n: '03',
     accent: 'teal',
     t: 'Your website is not what decides',
-    p: 'These answers are built mostly from other people’s pages — directories, press, review sites, forums — not from yours.',
-    e: 'You can add twenty pages to your own site and the answer will not move. Getting mentioned elsewhere is what moves it.',
+    p: 'These answers get assembled from other people’s pages. Directories, trade press, review sites, forums. Your own site is a small part of it.',
+    e: 'You could publish twenty new pages this month and the answer would not budge. What moves it is getting mentioned somewhere else.',
   },
   {
     n: '04',
     accent: 'deep',
     t: 'Nobody can tell you why',
-    p: 'There are three reasons an AI leaves you out: it does not know who you are, it cannot find you anywhere it trusts, or it simply prefers someone else.',
-    e: 'Each one needs completely different work. Anyone quoting a monthly fee before finding out which applies is guessing.',
+    p: 'There are three reasons an AI leaves you out. It does not know who you are, it cannot find you anywhere it trusts, or it just prefers a competitor.',
+    e: 'Each one takes completely different work to fix. If someone quotes you a monthly fee before finding out which one you have got, they are guessing.',
   },
 ] as const;
 
@@ -180,10 +180,10 @@ export const PROBLEMS = [
  * marketing faster than any single word does.
  */
 export const STAGES = [
-  { n: 'S', a: 'cobalt', t: 'Surface', w: 'Week 1',  d: 'Your buyers’ real questions, agreed and frozen. All five engines, clean sessions, personalisation off.' },
-  { n: 'C', a: 'violet', t: 'Cause',   w: 'Week 2',  d: 'Which of the three causes applies: the model cannot identify you, cannot find you, or prefers a competitor.' },
-  { n: 'A', a: 'teal',   t: 'Act',     w: 'Ongoing', d: 'Fix what your site controls. Earn the third-party mentions the answers are actually built from.' },
-  { n: 'N', a: 'deep',   t: 'Net',     w: 'Monthly', d: 'Your gain with the market’s own movement taken out — because some of any rise was never yours.' },
+  { n: 'S', a: 'cobalt', t: 'Surface', w: 'Week 1',  d: 'We agree the questions your buyers actually type, then run them across all five engines from clean sessions.' },
+  { n: 'C', a: 'violet', t: 'Cause',   w: 'Week 2',  d: 'We find out which of the three reasons applies to you: the AI cannot identify you, cannot find you, or prefers a competitor.' },
+  { n: 'A', a: 'teal',   t: 'Act',     w: 'Ongoing', d: 'We fix what your own site controls, then go and earn the mentions elsewhere that the answers are really built from.' },
+  { n: 'N', a: 'deep',   t: 'Net',     w: 'Monthly', d: 'Every month you see what moved because of the work, with the market’s own movement taken out of the figure.' },
 ] as const;
 
 /* ============================ FAQs ============================
@@ -195,133 +195,133 @@ export const FAQS = [
   {
     group: 'The basics',
     q: 'What is answer engine optimisation?',
-    a: 'It is the work of getting a brand named, cited and recommended inside AI-generated answers — ChatGPT, Claude, Perplexity, Gemini, Google AI Overviews — rather than only ranking in a list of blue links. The unit of competition is different: a search engine returns options, an answer engine returns a conclusion.',
+    a: 'Getting your brand named and recommended inside the answers AI tools give — ChatGPT, Claude, Perplexity, Gemini and Google’s AI Overviews — instead of only ranking in a list of links. A search engine hands your buyer options. An answer engine hands them a decision.',
   },
   {
     group: 'The basics',
     q: 'How is this different from SEO?',
-    a: 'Search returns a list and lets you choose. An answer engine returns a conclusion and has already chosen. Ranking third on a page still gets you seen; coming third in a model’s judgement usually means not being named at all. The levers differ too — whether a model can resolve who you are, and which third-party sources it grounds on when it answers.',
+    a: 'Ranking third on Google still gets you seen. Coming third in an AI’s judgement usually means it does not mention you at all. The work is different too: SEO is largely about your own site, while AEO is largely about whether the AI knows who you are and whether the sources it trusts talk about you.',
   },
   {
     group: 'The basics',
     q: 'Does our SEO still matter?',
-    a: 'Yes, and we would not advise dropping it. Strong search fundamentals help a model find and trust you, and the traditional results page has not gone away. What has changed is that a good ranking stops paying when an answer arrives above it and the reader never scrolls. AEO is additive to SEO, not a replacement for it.',
+    a: 'Yes, and we would not tell you to drop it. Good search fundamentals help an AI find you and trust you, and plenty of buyers still use the ordinary results page. The problem is that a top ranking stops earning when an answer appears above it and nobody scrolls. Treat this as something you add to SEO, not something you swap it for.',
   },
   {
     group: 'The basics',
     q: 'Is this the same as GEO, LLMO or AI SEO?',
-    a: 'Broadly yes — the field is young and the vocabulary is not settled. Generative engine optimisation, large language model optimisation and answer engine optimisation all describe the same problem. We use AEO because it names the thing being optimised for: the answer, not the model.',
+    a: 'Broadly, yes. The field is new and nobody has settled on a name. GEO, LLMO, AI SEO and AEO all describe the same problem. We say AEO because the thing you are trying to get into is the answer.',
   },
   {
     group: 'The basics',
     q: 'Is it too early to bother with this?',
-    a: 'That is a fair question and the honest answer depends on your category. In some, AI answers already carry meaningful buying-intent volume; in others they do not yet. That is exactly what the free report tells you, and if the answer is "not yet for you" we will say so.',
+    a: 'It depends on your category, and that is worth finding out before you spend anything. In some sectors buyers are already choosing suppliers this way. In others it has not arrived yet. The free report will tell you which one you are in, and if the answer is “not yet”, we will say so.',
   },
 
   /* ---- What gets measured ---- */
   {
     group: 'What gets measured',
     q: 'Which engines do you measure?',
-    a: 'ChatGPT, Claude, Perplexity, Gemini and Google AI Overviews, each reported separately. They disagree with each other more than most people expect, so a single blended score hides the thing you need to know.',
+    a: 'ChatGPT, Claude, Perplexity, Gemini and Google’s AI Overviews, each reported on its own. They disagree with each other far more than people expect, so averaging them into one score hides the part you actually need.',
   },
   {
     group: 'What gets measured',
     q: 'How do you decide which questions to test?',
-    a: 'We agree a prompt set with you and freeze it. They are the questions a buyer types when they are choosing — comparisons, alternatives, "best X for Y" — not the ones they type when they are researching a topic. A prompt set that drifts between runs is not a measurement, it is two different tests wearing the same name.',
+    a: 'We agree them with you up front and then leave them alone. They are the questions someone types when they are close to buying — comparisons, alternatives, “best X for Y” — rather than the ones they type when they are reading around a subject. If the questions change between runs, you cannot compare the results.',
   },
   {
     group: 'What gets measured',
     q: 'Do you add our city or country to the questions?',
-    a: 'Only if your buyers would. Adding a geography a buyer never types does not sharpen the test, it changes it — B2B software in particular gets pushed into a local-services answer shape that has nothing to do with how the category is bought. Whether a market belongs in the prompt is something we establish with you rather than assume.',
+    a: 'Only if your buyers do. If nobody types “in Dubai” when they look for what you sell, adding it gives you a different test rather than a sharper one. B2B software is the clearest example: put a city in and you get a local-services answer that has nothing to do with how anyone buys it. We work this out with you rather than guessing.',
   },
   {
     group: 'What gets measured',
     q: 'How do you stop your own search history skewing the results?',
-    a: 'Every run is from a clean session with personalisation off and the account signed out. A signed-in run measures the operator’s own history rather than the market. Where a model version differs between runs we record it, because a change in the model can look exactly like a change in your position.',
+    a: 'Every run is signed out, with no history and no personalisation. If we stayed logged in we would be measuring our own browsing rather than your market. We also note the model version each time, because an AI update can look exactly like a change in your position.',
   },
   {
     group: 'What gets measured',
     q: 'How often do you re-measure?',
-    a: 'Monthly on a retainer, against the identical frozen prompt set. Answers move on their own — sometimes considerably — so a single reading is a snapshot, not a baseline.',
+    a: 'Monthly on a retainer, using the same questions every time. These answers shift on their own, sometimes a lot, so one reading tells you where you were on that day rather than where you stand.',
   },
   {
     group: 'What gets measured',
     q: 'What is a control set and why does it matter?',
-    a: 'A share of your prompts held back at baseline and never worked on, so the market has somewhere to show itself. If your worked prompts improve and the held ones move the same way, the rise was the category and not us. It is what lets us report a net gain rather than a gross number, and without one you have a figure that went up and no way to say why.',
+    a: 'A group of your questions that we deliberately leave alone for the whole engagement. If the ones we work on improve and the ones we left alone improve by the same amount, your category moved and we did not cause it. That is how you get a net figure instead of a number that went up for reasons nobody can explain.',
   },
   {
     group: 'What gets measured',
     q: 'How many times do you run each prompt?',
-    a: 'More than once, and the number is stated in every report. Answer engines are not deterministic — the same question can return different brands minutes apart — so a single run per prompt is an anecdote. Any report that does not tell you its run count is hiding its sample size.',
+    a: 'More than once, and we print the number in the report. Ask the same AI the same question twice and you can get two different lists of companies, so one run tells you very little. If a report does not say how many runs are behind it, ask.',
   },
 
   /* ---- What actually moves it ---- */
   {
     group: 'What actually moves it',
     q: 'What actually changes whether an AI names us?',
-    a: 'Three things, in rough order of weight. Whether the model can resolve who you are and what you do. Whether the sources it grounds on mention you. And whether your own content is structured so an answer can be lifted from it cleanly. Most of the weight sits in the second one, which is the least comfortable because it is earned rather than published.',
+    a: 'Three things. Whether the AI can work out who you are and what you sell. Whether the sources it draws on mention you. And whether your own pages are written so an answer can be lifted straight out of them. Most of the weight sits on the second one, which is the awkward one, because you cannot publish your way to it.',
   },
   {
     group: 'What actually moves it',
     q: 'Can we just publish more content?',
-    a: 'Usually not on its own. Published research across tens of millions of AI citations consistently finds the large majority point at sources a brand does not own — press, directories, review sites, forums. Adding pages to your own domain can leave the answer entirely unchanged.',
+    a: 'On its own, usually not. Studies of tens of millions of AI citations keep finding the same thing: most of them point at sites the brand does not own — press, directories, review platforms, forums. You can add pages to your own domain all year and watch the answer stay exactly where it was.',
   },
   {
     group: 'What actually moves it',
     q: 'Does schema and structured data help?',
-    a: 'It helps a model resolve who you are, which is a real failure mode and worth fixing. It is not, by itself, what gets you named. We do the entity and structured-data work because it is cheap and it removes one of the three causes — not because it is the lever.',
+    a: 'It helps the AI work out who you are, which is a real problem worth fixing. On its own it will not get you named. We do this work early because it is quick and cheap and it takes one of the three causes off the table, then we get on with the part that actually moves the answer.',
   },
   {
     group: 'What actually moves it',
     q: 'Do you do Reddit and forum posting?',
-    a: 'We do not astroturf. Community platforms are cited heavily by these models, so being genuinely present and genuinely useful there matters — but planted posts get removed, get you banned, and get attributed back to the brand. We would rather lose the ranking than earn it that way.',
+    a: 'Not fake ones. These models lean heavily on community sites, so being genuinely useful there does matter. Planted posts get spotted, deleted, and traced back to the brand that paid for them. It is not a risk worth taking with your name on it.',
   },
   {
     group: 'What actually moves it',
     q: 'How long before anything moves?',
-    a: 'Entity and structured-data corrections can register within weeks. Earned placement is slower and depends on third parties, so it is measured in months. We re-measure on a fixed schedule against a control set rather than claiming a timeline we cannot hold.',
+    a: 'The technical fixes can show up within a few weeks. Getting mentioned on other people’s sites takes months, because it depends on people who do not work for you. We would rather re-measure every month and show you where it has got to than promise a date we cannot control.',
   },
   {
     group: 'What actually moves it',
     q: 'Can you guarantee we appear in AI answers?',
-    a: 'No, and neither can anyone else. Answer engines change their grounding behaviour without notice. What we can do is measure the position you hold now, act on the causes we can influence, and measure again against a control set so you can see what the work actually moved.',
+    a: 'No, and be careful of anyone who says they can. These tools change how they build answers without telling anybody. What we can do is show you where you stand now, work on the causes we can influence, and measure again so you can see what changed and why.',
   },
   {
     group: 'What actually moves it',
     q: 'What if a competitor is already dominant?',
-    a: 'Sometimes that is decisive and sometimes it is not — an incumbent named by one engine is often absent from another. The baseline shows which. Where a category is genuinely settled with no visible route in, we say so and decline the work.',
+    a: 'Sometimes that settles it and often it does not. A competitor who owns ChatGPT in your category is frequently missing from Perplexity or Gemini entirely. The first measurement shows you which. If it turns out the category really is closed, we will tell you and turn the work down.',
   },
 
   /* ---- Working together ---- */
   {
     group: 'Working together',
     q: 'What if our category is already locked up?',
-    a: 'Then we say so and decline the work. Some categories are settled on two incumbents with no visible route in. A measurement that only ever produces a reason to hire us is not a measurement, and we would rather lose the engagement than sell against our own data.',
+    a: 'Then we tell you and turn the work down. Some categories really are sewn up by two incumbents with no way in. If our measurement always happened to conclude that you should hire us, it would not be worth much to you.',
   },
   {
     group: 'Working together',
     q: 'What does the free report actually include?',
-    a: 'Your category run across all five engines from clean sessions: who gets named, in what order, and which sources each answer was built from. It is a real measurement, not a teaser — you can act on it whether or not you engage us.',
+    a: 'Your category run across all five engines: who gets named, in what order, and which sources each answer was built from. It is the real thing rather than a sample. Take it to your own team and act on it if you would rather.',
   },
   {
     group: 'Working together',
     q: 'Do you need access to our website?',
-    a: 'Not for the report. For execution we need whatever is required to make the changes agreed — usually CMS access or a developer on your side to implement. We are happy to hand specifications to your existing team instead.',
+    a: 'Not for the report. Once we start making changes we need either CMS access or a developer on your side. If you would rather keep us out of your site entirely, we will write the changes up and hand them to your team.',
   },
   {
     group: 'Working together',
     q: 'Will you work with our existing SEO or PR agency?',
-    a: 'Yes, and it often works better that way. Earned placement overlaps heavily with what a PR team already does; entity and structured-data fixes overlap with SEO. We would rather brief your incumbents than duplicate them.',
+    a: 'Yes, and it usually works better that way. Getting mentioned on third-party sites is most of what a PR team already does, and the technical fixes sit close to SEO. We would rather brief the people you already pay than charge you twice for the same work.',
   },
   {
     group: 'Working together',
     q: 'What does reporting look like?',
-    a: 'Raw counts alongside any summary figure, every engine separately, the control set beside the tracked set, and the prompt list, market, date and run count attached. If a number cannot be traced back to the runs behind it, it does not go in.',
+    a: 'Every engine separately, never one blended score. Raw counts next to any summary figure. The questions we left alone shown beside the ones we worked on. And the prompt list, market, date and run count attached, so anything in the report can be traced back and checked.',
   },
   {
     group: 'Working together',
     q: 'Who is this not for?',
-    a: 'Anyone wanting a guaranteed position, anyone wanting volume of content for its own sake, and anyone in a category where AI answers carry no buying-intent volume yet. We would rather establish that in the free report than three months into a retainer.',
+    a: 'Anyone who wants a guaranteed position. Anyone who wants a set number of blog posts a month. And anyone in a category where buyers are not using AI to choose suppliers yet. Better to find that out in the free report than three months into a retainer.',
   },
 ] as const;
 
@@ -368,7 +368,7 @@ export const PACKAGES = [
     unit: 'fixed fee · one-off · four places per quarter',
     lede: 'Where you stand across all five engines, and which of the three causes is keeping you out.',
     summary:
-      'The front door, and it stands on its own. You could act on the report with your existing team and never speak to us again — that is deliberate, because a measurement that only ever produces a reason to hire us is not a measurement.',
+      'Most people start here. You get a proper measurement of your category and a list of what would change it, and you can hand the whole thing to your own team and never speak to us again. That is on purpose. If the only conclusion we ever reached was “hire us”, the report would not be worth reading.',
     gets: [
       'The frozen prompt set, verbatim, with the market stated per prompt',
       'Who was named on each engine, in what order',
@@ -376,10 +376,10 @@ export const PACKAGES = [
       'The run count behind every cell, and the model version where it varies',
       'Which of the three causes applies to you, engine by engine',
       'The entity check — whether a model can resolve who you are at all',
-      'A prioritised fix list, with each change written out rather than named',
+      'A prioritised list of fixes, with each change written out so your team could action it',
     ],
     honest:
-      'If your category shows no buying-intent volume in AI answers yet, this is where we tell you and stop. You still keep the report.',
+      'If buyers in your category are not using AI to choose suppliers yet, this is where we tell you and stop. You keep the report either way.',
     /* Written for the home page, which teases rather than lists. Lifting the
        first few `gets` lines put the same four bullets on two pages. */
     teaser: [
@@ -400,7 +400,7 @@ export const PACKAGES = [
     unit: 'per month · minimum three months',
     lede: 'The audit re-run every month, with the work in between and a net figure at the end of it.',
     summary:
-      'Everything above, plus the execution — entity corrections, answer-shaped content, and the earned placement that is the slower half and the half that moves it. Then the same measurement again, against prompts held back so the number can be attributed.',
+      'Everything in the audit, plus us actually doing the work. We fix the technical side, write content an AI can lift from cleanly, and go after mentions on the sites your category’s answers are built from. Then we measure again, and show you how much of the change was us.',
     gets: [
       'Everything in the audit, re-run monthly against the identical prompt set',
       'Entity and structured-data corrections, made or specified for your team',
@@ -412,7 +412,7 @@ export const PACKAGES = [
       'What we would do next, and what we would stop doing',
     ],
     honest:
-      'Earned placement depends on third parties, so we report the misses as well as the hits. And if the held prompts moved the same way your worked ones did, the rise was the market. We will say that.',
+      'Getting mentioned elsewhere depends on people who do not work for you, so you will see the pitches that landed and the ones that did not. And if the questions we left alone improved as much as the ones we worked on, your category moved and we did not. We will tell you.',
     teaser: [
       'Everything in the audit, every month',
       'The entity, content and placement work itself',
@@ -435,32 +435,32 @@ export const COST_OF_ABSENCE = [
   {
     n: '01',
     a: 'cobalt',
-    t: 'It does not show up as a loss',
-    p: 'A buyer asks, gets three names, and picks one. You were never in the answer, so there is no impression, no click and no bounce.',
-    e: 'Every tool you already pay for reports this as nothing happening. It is the only channel where losing looks identical to not being in the market.',
+    t: 'You never find out it happened',
+    p: 'Someone asks ChatGPT for a supplier, gets three names, and calls one of them. You were not in the answer, so there was no impression, no click and no enquiry.',
+    e: 'Every reporting tool you pay for will show this as a quiet month. There is nothing in your dashboard that distinguishes losing a deal this way from never having been in the running.',
   },
   {
     n: '02',
     a: 'violet',
-    t: 'The shortlist closes before you are in it',
-    p: 'Ten blue links let a buyer discover you at position seven. An answer engine hands over a shortlist it has already made.',
-    e: 'Second page used to mean less traffic. Not being named means not being considered — there is no equivalent of page two to climb from.',
+    t: 'The shortlist is made without you',
+    p: 'On a results page a buyer could still find you at position seven. An AI hands them a shortlist it has already drawn up.',
+    e: 'Page two used to mean less traffic. Not being named means you are not on the list at all, and there is no page two to climb up from.',
   },
   {
     n: '03',
     a: 'teal',
-    t: 'The gap widens while you wait',
-    p: 'Answers are grounded on a small, slow-moving set of sources. Every month a competitor holds those citations, the association hardens.',
-    e: 'This is the one that decides urgency. Displacing an incumbent from an established source set costs materially more than getting there first.',
+    t: 'It gets more expensive the longer you leave it',
+    p: 'These answers get built from a fairly small set of sources that does not change quickly. Every month your competitor holds those mentions, the association gets a bit more fixed.',
+    e: 'This is the part that decides how urgent it is. Getting there first is far cheaper than prising someone else out later.',
   },
 ] as const;
 
 /** What separates this from an SEO retainer, stated as a comparison. */
 export const NOT_SEO = [
   {
-    axis: 'What is being won',
-    seo: 'A position in a list the buyer then chooses from',
-    aeo: 'Inclusion in a shortlist the model has already chosen',
+    axis: 'What you are competing for',
+    seo: 'A place on a list your buyer then chooses from',
+    aeo: 'A place on a shortlist the AI has already chosen',
   },
   {
     axis: 'Where the answer comes from',
@@ -468,18 +468,18 @@ export const NOT_SEO = [
     aeo: 'Mostly other people’s pages, cited',
   },
   {
-    axis: 'What third place means',
-    seo: 'Still visible, still clicked',
-    aeo: 'Usually not named at all',
+    axis: 'What coming third gets you',
+    seo: 'Still on the page, still getting clicks',
+    aeo: 'Usually no mention at all',
   },
   {
-    axis: 'How it is measured',
+    axis: 'How you measure it',
     seo: 'Rank, impressions, clicks',
-    aeo: 'Named or not, per engine, against a control set',
+    aeo: 'Named or not named, engine by engine',
   },
   {
-    axis: 'What a report proves',
-    seo: 'Traffic moved',
-    aeo: 'Position moved, and that the market did not move with it',
+    axis: 'What the report tells you',
+    seo: 'Your traffic went up',
+    aeo: 'Your position went up, and your competitors’ did not',
   },
 ] as const;

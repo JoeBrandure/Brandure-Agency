@@ -6,7 +6,7 @@ export const SITE = {
   linkedin: 'https://www.linkedin.com/company/brandure',
   areaServed: ['AE', 'GB', 'US'],
   description:
-    'Brandure is an answer engine optimisation agency. We measure where a brand appears in AI-generated answers across ChatGPT, Claude, Perplexity, Gemini and Google, and do the work that changes it.',
+    'Brandure is an answer engine optimisation agency. We show businesses where they stand inside AI answers on ChatGPT, Claude, Perplexity, Gemini and Google, then do the work to get them named.',
 } as const;
 
 /** PostHog: organisation "Brandure Agency", EU region. phc_ keys are public

@@ -110,6 +110,24 @@ repo before building on anything here.
   enabled". Detection was always on — a Netlify form only registers once a
   deploy containing the markup has been scanned, and no such deploy existed
   yet. It was never a blocker.
+- **Site copy rewritten end to end** (2026-08-27). It read as written to be
+  admired rather than read. The audience is a business owner or marketing
+  director losing work to competitors and short of time, and the register was
+  wrong for them throughout.
+  - Removed: the antithesis tic ("not a measurement, an anecdote with a
+    percentage sign"), aphoristic definitions ("a measurement that only ever
+    produces a reason to hire us is not a measurement"), literary inversion
+    ("then, and only then"), abstract nouns as sentence subjects, and field
+    vocabulary in headings.
+  - Replaced with: second person, short declaratives, concrete nouns, and the
+    consequence before the mechanism. British English throughout.
+  - Covers every page — home, service, method, research, FAQ — plus all 25 FAQ
+    answers, the prompt-set notes, the packages, the SCAN stage copy and the
+    meta descriptions. Client figures and their labels were not touched beyond
+    matching the site's "engines" wording.
+  - `scratchpad/tells.mjs` scans the built pages for those constructions. It is
+    deliberately over-sensitive, so it is a prompt to re-read a sentence rather
+    than a pass/fail.
 - **Service and Method separated** (2026-08-27). They were doing the same job
   twice: `/service` walked all four stages in as much detail as `/method` did,
   so neither page owned the method and a reader got it twice.

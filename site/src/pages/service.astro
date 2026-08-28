@@ -43,7 +43,7 @@ const serviceSchema = {
 ---
 <BaseLayout
   title="Service"
-  description="What Brandure sells: a five-engine visibility audit that stands on its own, and a retainer that does the work and reports a net figure rather than a gross one. Prices stated."
+  description="What we sell and what it costs. A one-off audit that shows you where you stand across five AI engines and why, and a monthly retainer that does the work and shows you how much of the change was us."
   schemas={[serviceSchema]}
 >
   <!-- 1. Hero: the offer and the constraint in the same breath. -->
@@ -54,12 +54,12 @@ const serviceSchema = {
     </div>
     <div class="wrap svc-hero">
       <div data-load>
-        <h1 class="statement" data-split>Measure first. Then, and only then, do the work.</h1>
+        <h1 class="statement" data-split>Find out where you stand before you spend anything fixing it.</h1>
         <p class="lede">
-          Without a baseline there is no way to show that anything done
-          afterwards worked — and no honest way to charge for it. Every
-          engagement starts with a measurement you could act on even if you
-          never hired us.
+          Every engagement starts with a measurement of your category across all
+          five AI engines. You will see who is getting named instead of you and
+          why. It is useful on its own, and it is yours to keep whether you go
+          any further with us or not.
         </p>
         <div class="hero-actions">
           <a class="btn" href="#report">Get a free visibility report</a>
@@ -68,8 +68,8 @@ const serviceSchema = {
       </div>
       <ul class="svc-facts" data-stagger>
         <li><span class="svc-facts__n">{ENGINES.length}</span> <span class="svc-facts__l">engines, measured and reported separately — never one blended score</span></li>
-        <li><span class="svc-facts__n">2</span> <span class="svc-facts__l">weeks from frozen prompt set to a diagnosed cause per engine</span></li>
-        <li><span class="svc-facts__n">1</span> <span class="svc-facts__l">net figure a month, with the market’s own movement taken out of it</span></li>
+        <li><span class="svc-facts__n">2</span> <span class="svc-facts__l">weeks from agreeing the questions to knowing why you are missing</span></li>
+        <li><span class="svc-facts__n">1</span> <span class="svc-facts__l">net figure a month, with your category’s own movement taken out</span></li>
       </ul>
     </div>
   </section>
@@ -79,10 +79,10 @@ const serviceSchema = {
   <section class="section section--sunk">
     <div class="wrap" data-reveal>
       <div class="section-head">
-        <h2>Being left out of the answer costs more than it looks like</h2>
+        <h2>The leads you are losing here never show up anywhere</h2>
         <p class="lede">
-          Not because the loss is large at first, but because it is invisible,
-          it closes the shortlist, and it compounds while you wait.
+          Three reasons this one behaves differently from every other channel
+          you report on.
         </p>
       </div>
 
@@ -108,9 +108,9 @@ const serviceSchema = {
       <div class="section-head">
         <h2>This is not an SEO retainer with a new name</h2>
         <p class="lede">
-          The two overlap in places and we will happily work alongside your SEO
-          team. But they are not the same job, and the differences decide what
-          gets measured.
+          There is real overlap, and we are happy to work alongside whoever
+          handles your SEO. They are still two different jobs, and the
+          differences change what you should be measuring.
         </p>
       </div>
 
@@ -132,10 +132,10 @@ const serviceSchema = {
           </div>
         ))}
         <p class="compare__foot">
-          <strong>Both can be true at once.</strong> A page can rank first and
-          still be absent from the answer above it, because the answer is built
-          from what other sites say about you rather than from what you say
-          about yourself.
+          <strong>Both of these can be true on the same day.</strong> You can
+          rank first on Google and be missing from the AI answer sitting above
+          it, because that answer was built from what other sites say about
+          you rather than what you say about yourself.
         </p>
       </div>
     </div>
@@ -148,9 +148,9 @@ const serviceSchema = {
       <div class="section-head">
         <h2>Every engagement runs the same four stages</h2>
         <p class="lede">
-          We call it SCAN. Same four, same order, whether you buy the audit or
-          the retainer — and the fourth is the one that makes the first three
-          worth paying for.
+          We call it SCAN. You get the same four in the same order whether you
+          buy the audit or the retainer, and the fourth one is what lets you
+          check the other three actually worked.
         </p>
       </div>
 
@@ -177,8 +177,8 @@ const serviceSchema = {
       <div class="section-head">
         <h2>Two ways in</h2>
         <p class="lede">
-          The audit is the front door and stands on its own. Nothing obliges you
-          to the retainer afterwards.
+          Most people start with the audit. Nothing about it commits you to the
+          retainer afterwards.
         </p>
       </div>
 
@@ -226,12 +226,12 @@ const serviceSchema = {
       <div class="cta-card">
         <span class="cta-card__glint" aria-hidden="true"><span class="cta-card__sheen"></span></span>
         <div>
-          <h2>We will tell you when the answer is no</h2>
+          <h2>Sometimes the honest answer is “do not bother yet”</h2>
           <p class="lede">
-            If the baseline shows a category already settled on two incumbents
-            with no visible route in, we say so and decline the work. A
-            measurement that only ever produces a reason to hire us is not a
-            measurement.
+            If the first measurement shows your category sewn up by two
+            competitors with no way in, we will tell you and turn the work
+            down. You would be right to be suspicious of an agency whose
+            research always concludes that you should hire them.
           </p>
         </div>
         <a class="btn cta-card__btn" href="#report">Start with the measurement</a>
@@ -243,11 +243,11 @@ const serviceSchema = {
     <div class="wrap">
       <div class="hero-grid">
         <div data-reveal>
-          <h2 class="statement statement--sub" data-split>Find out where you stand.</h2>
+          <h2 class="statement statement--sub" data-split>See what the AI says about you.</h2>
           <p class="lede">
-            Your category, run across all five engines. Who gets named, in what
-            order, and which sources each answer was built from. You keep it
-            whether or not anything follows.
+            We run your category across all five engines and send you what comes
+            back: who gets named, in what order, and which sources each answer
+            was built from. No charge, and nobody will chase you afterwards.
           </p>
         </div>
         <ReportForm id="report-form" heading="Start with the free report" />

@@ -39,44 +39,44 @@ export const SCAN: Stage[] = [
   {
     k: 'S',
     name: 'Surface',
-    d: 'Which engines decide this category, and what each one currently answers.',
+    d: 'We find out which engines your buyers actually use, and what each one says about your category right now.',
     a: 'cobalt',
     when: 'Week 1',
     does: [
-      'A prompt set agreed with you and frozen — the questions a buyer types when choosing, not when researching.',
-      'Every prompt run on all five engines from clean, logged-out sessions, repeated rather than sampled once.',
-      'Each answer coded the same way: named and cited, named without a citation, or absent.',
+      'We agree the questions with you first. The ones someone types when they are choosing a supplier, not reading around the subject.',
+      'Every question goes to all five engines, signed out, more than once. One run tells you almost nothing.',
+      'Every answer gets marked the same way: named with a source, named without one, or not there at all.',
     ],
     rules:
-      'That one engine speaks for all of them. The five disagree with each other more than they agree, and a blended score hides which one you are actually losing.',
+      'The idea that checking ChatGPT tells you where you stand. The five engines disagree with each other constantly, and one averaged score will not tell you which one is costing you business.',
   },
   {
     k: 'C',
     name: 'Cause',
-    d: 'Why you are absent — which is three different problems wearing the same symptom.',
+    d: 'We work out why you are missing. There are three possible reasons and they need completely different fixes.',
     a: 'violet',
     when: 'Week 2',
     does: [
-      'Entity failure: the model cannot resolve who you are, so it cannot recommend you with any confidence.',
-      'Source absence: the model resolves you fine, but nothing it trusts has anything to say about you.',
-      'Settled preference: it knows you, sources exist, and it still prefers two incumbents. The hardest, and the one worth naming early.',
+      'It cannot identify you. The AI is unsure who you are or what you sell, so it will not put your name forward.',
+      'It cannot find anything about you. It knows who you are, but none of the sources it trusts mention you.',
+      'It prefers someone else. It knows you, the mentions exist, and it still names two competitors. This is the hard one, and we would rather tell you early.',
     ],
     rules:
-      'That absence has one cause and one fix. Publishing more pages solves the second problem and does nothing for the first or third — which is why “more content” is the default advice and the default disappointment.',
+      'The assumption that one fix covers it. Publishing more pages helps with the second problem and does nothing at all for the other two, which is why “just write more content” is the advice everyone gives and nobody gets much from.',
   },
   {
     k: 'A',
     name: 'Act',
-    d: 'The work itself, chosen by the cause rather than by what is easiest to bill.',
+    d: 'We do the work, and which work we do depends entirely on what stage two found.',
     a: 'teal',
     when: 'Ongoing',
     does: [
-      'Entity corrections: the machine-readable facts about you made consistent everywhere a model can reach them.',
-      'Answer-shaped content: pages a model can lift a clean, attributable paragraph from without rewriting it.',
-      'Earned placement into the specific sources the answers in your category are actually built from.',
+      'We make the basic facts about your business consistent everywhere an AI can find them, so it stops hesitating over who you are.',
+      'We write pages an AI can quote from directly, rather than pages it has to rewrite and therefore skips.',
+      'We go after mentions on the specific sites your category’s answers are built from. This is the slow part and the part that moves it.'
     ],
     rules:
-      'That the fix is on your own website. Most answers are assembled from what other sites say about you, so most of the work is not on your domain at all.',
+      'The assumption that this is a website job. Most of an AI answer comes from what other sites say about you, so most of the work happens somewhere you do not control.',
   },
   {
     k: 'N',
@@ -86,16 +86,16 @@ export const SCAN: Stage[] = [
        as a stage the client was paying for and getting nothing from. The
        mechanism is unchanged; what changed is whose side it is stated from.
        Gross against net is a distinction this buyer already uses every day. */
-    d: 'What actually moved because of the work, once the market’s own movement has been taken out of the number.',
+    d: 'Every month we show you what moved because of us, with your category’s own movement taken out of the figure.',
     a: 'deep',
     when: 'Monthly',
     does: [
-      'A share of your prompts is held back at baseline and never worked on, so the market has somewhere to show itself.',
-      'Held and worked prompts are re-measured together — same day, same engines, same conditions.',
-      'The difference between them is your net gain. It is the figure the report leads with.',
+      'We set aside a group of your questions at the start and never touch them, so your category has somewhere to show its own movement.',
+      'Both groups get measured again together. Same day, same engines, same conditions.',
+      'The gap between them is your net gain, and it is the first number in the report.',
     ],
     rules:
-      'A gross number passed off as a result. Answer engines move on their own — models update, competitors act, indexes refresh — so some of any rise was never yours. Everyone else reports the rise. We report the part of it we caused.',
+      'A number that went up being sold to you as a result. These engines move on their own — models get updated, competitors do things, sources get re-indexed — so part of any rise was never down to your agency. Everyone else reports the rise. We report the share of it we caused.',
   },
 ];
 
@@ -107,25 +107,25 @@ export const SCAN: Stage[] = [
  */
 export const NULL_CASES = [
   {
-    t: 'Worked prompts move. Held prompts do not.',
-    verdict: 'Net gain. The work caused it.',
-    d: 'The gap between the two lines is the number your report leads with. It is also the only shape most reporting cannot produce, because nothing was held back to measure against.',
+    t: 'The ones we worked on moved. The ones we left alone did not.',
+    verdict: 'Net gain. That was us.',
+    d: 'The gap between the two lines is what you paid for, and it is the first number in your report. Most agencies cannot show you this picture, because they never set anything aside to compare against.',
     a: 'teal',
     tracked: [18, 22, 30, 44, 58, 70],
     control: [20, 19, 22, 21, 23, 22],
   },
   {
-    t: 'Both move together.',
-    verdict: 'Net zero. The market moved, not us.',
-    d: 'A model update or a competitor exit lifts everyone. Your gross number looks excellent. Your net number is nothing, and that is what we report — which costs us the credit and keeps the figure honest.',
+    t: 'Both moved, by about the same amount.',
+    verdict: 'Net zero. Your category moved, we did not.',
+    d: 'An AI update or a competitor going quiet lifts everybody at once. Your headline number looks great. Your net number is nothing, and that is what we will tell you, even though it costs us the credit.',
     a: 'violet',
     tracked: [18, 26, 36, 48, 60, 68],
     control: [20, 27, 35, 46, 57, 66],
   },
   {
-    t: 'Neither moves.',
+    t: 'Neither moved.',
     verdict: 'Nothing has worked yet.',
-    d: 'The uncomfortable one. A month of this is information and tells us where to push. Three is a reason to change the plan or end the engagement, and we will be the ones to say so.',
+    d: 'The awkward one. One month like this tells us where to push harder. Three months like this and we change the plan or end it, and we will be the ones to raise it.',
     a: 'deep',
     tracked: [18, 20, 19, 21, 20, 22],
     control: [20, 19, 21, 20, 22, 21],
@@ -134,7 +134,7 @@ export const NULL_CASES = [
 
 /** What SCAN deliberately is not. Short, because the point is the contrast. */
 export const NOT_SCAN = [
-  { t: 'Not a visibility score', d: 'One number across five engines tells you nothing you can act on. Every engine is reported separately, always.' },
-  { t: 'Not a dashboard', d: 'A live chart nobody can reproduce is a claim with a graph on it. Every figure traces back to a run you can see.' },
-  { t: 'Not a monthly activity report', d: 'Hours spent is not a result. The report leads with your net gain per engine — the movement left after the market’s own is taken out.' },
+  { t: 'Not a single visibility score', d: 'One number covering five engines cannot tell you which one to go and fix. You get each engine on its own, every time.' },
+  { t: 'Not a dashboard login', d: 'A live chart you cannot check is just a claim with a graph attached. Every figure we give you traces back to a run you can look at.' },
+  { t: 'Not a list of what we did', d: 'Hours worked is not a result. The report opens with your net gain on each engine, then explains what caused it.' },
 ] as const;

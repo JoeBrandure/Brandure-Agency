@@ -47,7 +47,7 @@ const path = (vals: readonly number[]) =>
 ---
 <BaseLayout
   title="Method"
-  description="SCAN: surface, cause, act, net. The four-stage method behind every Brandure engagement, and how holding a set of prompts back turns a number that went up into a figure we can attribute."
+  description="SCAN — surface, cause, act, net. The four stages behind every engagement, and why we hold some of your questions back so you can see how much of any improvement was actually us."
   schemas={[schema]}
 >
   <!-- 1. Hero. The word itself, as four letters that mean something. -->
@@ -68,9 +68,9 @@ const path = (vals: readonly number[]) =>
         ))}
       </h1>
       <p class="lede mth-hero__l">
-        Four stages. Three of them any competent agency would claim. The fourth
-        is the one almost nobody runs, and it is the only reason to believe the
-        other three worked.
+        Surface, Cause, Act, Net. Any decent agency would claim the first three.
+        The fourth is the one almost nobody does, and it is how you check the
+        other three were worth paying for.
       </p>
       <div class="hero-actions">
         <a class="btn" href="#net">Why the fourth stage exists</a>
@@ -89,9 +89,9 @@ const path = (vals: readonly number[]) =>
       <div class="section-head" data-reveal>
         <h2>The four stages, in order</h2>
         <p class="lede">
-          Each one answers a question the next one depends on. Skip the first
-          and you are guessing; skip the last and you can never prove the middle
-          two did anything.
+          Each stage answers a question the next one needs. Skip the first and
+          you are guessing at the problem. Skip the last and you will never know
+          whether the middle two did anything.
         </p>
       </div>
 
@@ -130,7 +130,7 @@ const path = (vals: readonly number[]) =>
 
           <p class="mth-stage__rules">
             <span class="mth-stage__k">Rules out</span>
-            <span class="mth-stage__rt">{s.rules}</span>
+            {' '}<span class="mth-stage__rt">{s.rules}</span>
           </p>
         </article>
       ))}
@@ -143,11 +143,11 @@ const path = (vals: readonly number[]) =>
   <section class="section section--sunk">
     <div class="wrap" data-reveal>
       <div class="section-head">
-        <h2>What a frozen prompt set looks like</h2>
+        <h2>The questions we actually test</h2>
         <p class="lede">
-          Stage one, made concrete. Yours is agreed with you and specific to
-          your category — these are the shapes. The questions a buyer types when
-          they are choosing, not when they are researching a topic.
+          Stage one in practice. Yours would be written around your category and
+          agreed with you first — these are examples. Notice that they are the
+          questions someone types when they are close to buying.
         </p>
       </div>
       <PromptRotator />
@@ -159,12 +159,13 @@ const path = (vals: readonly number[]) =>
   <section class="section" id="net">
     <div class="wrap" data-reveal>
       <div class="section-head">
-        <h2>Gross is easy. Net is the hard one.</h2>
+        <h2>Why we hold some of your questions back</h2>
         <p class="lede">
-          Answer engines move on their own, so part of any rise was never yours.
-          Hold some prompts back and the three cases below separate. Report the
-          gross number and all three look identical — which is why almost
-          everyone reports the gross number.
+          These engines move on their own, so part of any improvement was never
+          down to your agency. Leave a group of questions untouched and you can
+          tell these three situations apart. Report the headline number and all
+          three look identical, which is why most people report the headline
+          number.
         </p>
       </div>
 
@@ -200,15 +201,15 @@ const path = (vals: readonly number[]) =>
           of them. Solid against dashed also survives greyscale. */}
       <p class="nul__key">
         <span class="nul__ki nul__ki--trk">Solid — the prompts we work on</span>
-        <span class="nul__ki nul__ki--ctl">Dashed — the prompts held back, never touched</span>
+        {' '}<span class="nul__ki nul__ki--ctl">Dashed — the prompts held back, never touched</span>
       </p>
 
       <p class="nul__foot">
-        <strong>This is the part that costs us.</strong> Reporting net means
-        reporting the months where nothing moved, and handing the category the
-        credit for the months where everything did. We would rather show you a
-        small number we can stand behind than a large one neither of us can
-        tell apart from luck.
+        <strong>This is the part that costs us money.</strong> It means telling
+        you about the months where nothing moved, and giving your category the
+        credit in the months where everything did. We would rather show you a
+        small number we can stand behind than a big one neither of us can tell
+        apart from luck.
       </p>
     </div>
   </section>
@@ -219,9 +220,9 @@ const path = (vals: readonly number[]) =>
       <div class="section-head">
         <h2>Five engines, five separate answers</h2>
         <p class="lede">
-          Reported one by one and never blended. A single visibility score
-          averages away the only useful information in the measurement — which
-          engine you are losing, and to whom.
+          You get each of these reported on its own, never averaged together.
+          A single visibility score throws away the one thing you need: which
+          engine you are losing on, and who is winning it.
         </p>
       </div>
       <ul class="mth-eng" data-stagger>
@@ -263,7 +264,8 @@ const path = (vals: readonly number[]) =>
           <h2>Stage one, on us</h2>
           <p class="lede">
             The free report is Surface, run on your category. You keep it
-            whether or not anything follows, and it is useful on its own.
+            whether or not you take it any further, and there is enough in it to
+            act on by yourself.
           </p>
         </div>
         <a class="btn cta-card__btn" href="/#report">Get a free visibility report</a>

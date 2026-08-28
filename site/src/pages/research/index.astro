@@ -34,7 +34,7 @@ const schema = {
 ---
 <BaseLayout
   title="Research"
-  description="How Brandure measures AI answer surfaces — the method behind every scan, what disqualifies a result from being published, and a finding of our own that did not survive its re-run."
+  description="How we measure AI answers: the five steps behind every scan, the three things that stop us publishing a result, and one of our own findings that did not survive being checked."
   schemas={[schema]}
 >
   <!-- 1. Hero. The claim, and the three commitments that make it checkable. -->
@@ -46,12 +46,11 @@ const schema = {
     <div class="wrap svc-hero">
       <div data-load>
         <p class="eyebrow">Research</p>
-        <h1 class="statement" data-split>We publish the method, not just the number.</h1>
+        <h1 class="statement" data-split>We show our working.</h1>
         <p class="lede">
-          Almost every published figure about AI visibility rests on a single
-          run, on one engine, with no prompt set attached. Those are not
-          measurements, they are anecdotes with a percentage sign. Here is what
-          we do instead — and what we throw away.
+          Most AI visibility statistics you will read come from asking one
+          engine one question, once, with no list of what was asked. Here is how
+          we do it instead, and what we throw away when it does not hold up.
         </p>
         <div class="hero-actions">
           <a class="btn" href="#method">How a scan runs</a>
@@ -60,8 +59,8 @@ const schema = {
       </div>
       <ul class="svc-facts" data-stagger>
         <li><span class="svc-facts__n">{ENGINES.length}</span> <span class="svc-facts__l">engines, reported separately — never blended into one score</span></li>
-        <li><span class="svc-facts__n">3</span> <span class="svc-facts__l">things published with every number: the prompt set, the market, the run count</span></li>
-        <li><span class="svc-facts__n">0</span> <span class="svc-facts__l">findings published from a single run, including our own</span></li>
+        <li><span class="svc-facts__n">3</span> <span class="svc-facts__l">things printed beside every number: the questions, the market, the run count</span></li>
+        <li><span class="svc-facts__n">0</span> <span class="svc-facts__l">findings published off a single run, including our own</span></li>
       </ul>
     </div>
   </section>
@@ -71,10 +70,10 @@ const schema = {
   <section class="section section--sunk" id="method">
     <div class="wrap" data-reveal>
       <div class="section-head">
-        <h2>How a scan runs</h2>
+        <h2>How we run a scan</h2>
         <p class="lede">
-          Five steps. Each one exists because of a specific way the result goes
-          wrong without it, so each is listed with the failure it prevents.
+          Five steps. Each one is here because of a specific way the results go
+          wrong without it, so we have listed what each one prevents.
         </p>
       </div>
 
@@ -89,8 +88,8 @@ const schema = {
               <h3 class="scan__t">{s.t}</h3>
               <p class="scan__d">{s.d}</p>
               <p class="scan__w">
-                <span class="scan__k" aria-hidden="true">Without it</span>
-                <span class="scan__wt"><span class="sr-only">Without it: </span>{s.wrong}</span>
+                <span class="scan__k" aria-hidden="true">Skip it and</span>
+                {' '}<span class="scan__wt"><span class="sr-only">Skip it and: </span>{s.wrong}</span>
               </p>
             </div>
           </li>
@@ -106,8 +105,9 @@ const schema = {
       <div class="section-head">
         <h2>What we will not publish</h2>
         <p class="lede">
-          Three disqualifiers. Each one is illustrated with a scan of our own
-          that hit it — a standard nothing has ever failed is not a standard.
+          Three things that disqualify a result. We have used our own work as
+          the example each time, because a rule nothing has ever failed is not
+          much of a rule.
         </p>
       </div>
 
@@ -134,12 +134,12 @@ const schema = {
     <section class="section section--sunk" id="withdrawn">
       <div class="wrap" data-reveal>
         <div class="section-head">
-          <h2>A finding of ours that did not survive its re-run</h2>
+          <h2>One of our own findings did not survive being checked</h2>
           <p class="lede">
-            We ran a seven-category scan of Dubai in August across four
-            surfaces &mdash; the scan predates Claude joining the set. Half of
-            it was contaminated. This is what happened to the headline when we
-            re-ran the contaminated half clean.
+            In August we scanned seven categories in Dubai across four engines,
+            before we added Claude to the set. Half the results turned out to be
+            contaminated. Here is what happened to our headline finding when we
+            re-ran that half properly.
           </p>
         </div>
 
@@ -173,9 +173,9 @@ const schema = {
                other way, which is the detail the caveat rests on. -->
           <figure class="cov">
             <figcaption class="cov__cap">
-              Whether a Google AI Overview fired at all, per category, before
-              and after decontamination. Same prompt, same market, four days
-              apart.
+              Whether a Google AI Overview appeared at all, category by
+              category, before and after we cleaned up the sessions. Same
+              question, same market, four days apart.
             </figcaption>
 
             <div class="cov__grid">
@@ -220,18 +220,18 @@ const schema = {
       <div class="section-head">
         <h2>Published pieces</h2>
         <p class="lede">
-          Every piece carries its prompt set verbatim, the market it ran in, the
-          engines queried, the date and the runs per prompt.
+          Each one comes with the exact questions we asked, the market, the
+          engines, the date and how many times we ran it.
         </p>
       </div>
 
       {!anyReal && (
         <p class="tst__warn">
-          <strong>Nothing is published yet.</strong> The entries below are
-          scaffolding that shows the format and carry no findings. They are
-          excluded from search indexing, the sitemap and the feed, and they will
-          be deleted rather than dressed up. The first real piece follows the
-          Dubai re-run reaching a run count that can carry a claim.
+          <strong>Nothing is published yet.</strong> The two entries below show
+          the format and contain no findings. They are hidden from search
+          engines and will be deleted rather than tidied up. The first real
+          piece goes out once the Dubai re-run has enough runs behind it to
+          support a claim.
         </p>
       )}
 
@@ -266,9 +266,9 @@ const schema = {
         <div>
           <h2>Your category, measured the same way</h2>
           <p class="lede">
-            Same method, same disclosure — the prompt set, the market, the run
-            count and the source behind every mention. No charge and no
-            sequence.
+            Same method, same disclosure: the questions, the market, the run
+            count, and where every mention came from. No charge, and nobody will
+            chase you afterwards.
           </p>
         </div>
         <a class="btn cta-card__btn" href="/#report">Get a free visibility report</a>

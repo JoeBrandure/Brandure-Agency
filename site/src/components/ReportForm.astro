@@ -13,7 +13,7 @@ const {
      made the pitch, and the old blurb repeated that pitch almost sentence for
      sentence. The form's own intro should add what the CTA does not: the
      format and the turnaround. */
-  blurb = 'Sent as a document rather than a dashboard login, usually within two working days.',
+  blurb = 'You will get it as a document, not a dashboard login. Usually back within two working days.',
   inverted = false,
 } = Astro.props;
 const submitted = Astro.url.searchParams.get('submitted') === 'true';
@@ -24,7 +24,7 @@ const submitted = Astro.url.searchParams.get('submitted') === 'true';
 
   {submitted ? (
     <div class="note" role="status">
-      <p><strong>Request received.</strong> We will come back to you at the address you gave, usually within two working days.</p>
+      <p><strong>Got it, thanks.</strong> We will come back to you on the address you gave, usually within two working days.</p>
     </div>
   ) : (
     <>
@@ -58,7 +58,7 @@ const submitted = Astro.url.searchParams.get('submitted') === 'true';
           <span class="hint">However your buyers would describe it — "employment law in Dubai", "AI note-taking tools".</span>
         </div>
         <p><button class="btn" type="submit">Request the report</button></p>
-        <p class="hint">We use your details to run the report and reply. Nothing else, and we do not pass them on.</p>
+        <p class="hint">We use your details to run the report and get back to you. Nothing else, and we will not pass them on.</p>
       </form>
     </>
   )}

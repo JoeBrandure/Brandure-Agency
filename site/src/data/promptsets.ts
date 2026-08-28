@@ -47,7 +47,7 @@ export const PROMPT_SETS: PromptSet[] = [
     id: 'legal',
     sector: 'Legal',
     market: 'Dubai',
-    note: 'Location belongs in every prompt — nobody instructs a firm in another jurisdiction.',
+    note: 'The city goes in every question here. Nobody hires a law firm in a country they are not operating in.',
     rows: [
       { prompt: 'Best employment lawyers in Dubai for expat contract disputes', intent: 'Choosing', cells: [
         { status: 'present', citation: 'Legal 500 profile' }, { status: 'absent' }, { status: 'partial', citation: 'named, unranked' }, { status: 'absent' }, { status: 'absent' } ] },
@@ -63,7 +63,7 @@ export const PROMPT_SETS: PromptSet[] = [
     id: 'saas',
     sector: 'B2B SaaS',
     market: null,
-    note: 'Deliberately no market. Buyers search for the tool, not for a tool near them — a city here would produce a local-services answer and measure the wrong thing.',
+    note: 'No city on purpose. Nobody looks for project software near them, and adding a location would give us a local-services answer instead of the one buyers actually see.',
     rows: [
       { prompt: 'Best HR software for a 200-person company', intent: 'Choosing', cells: [
         { status: 'present', citation: 'G2 category page' }, { status: 'present', citation: 'G2 category page' }, { status: 'partial', citation: 'listed seventh' }, { status: 'absent' }, { status: 'absent' } ] },
@@ -79,7 +79,7 @@ export const PROMPT_SETS: PromptSet[] = [
     id: 'aesthetics',
     sector: 'Aesthetics',
     market: 'UAE',
-    note: 'A local recommendation by nature. Answers lean heavily on review platforms rather than clinic sites.',
+    note: 'People want somewhere they can get to, so location matters. Answers here lean heavily on review platforms, not on the clinics’ own sites.',
     rows: [
       { prompt: 'Best clinic for lip filler in Dubai Marina', intent: 'Choosing', cells: [
         { status: 'present', citation: 'Google reviews' }, { status: 'absent' }, { status: 'partial', citation: 'named, unranked' }, { status: 'present', citation: 'maps listing' }, { status: 'present', citation: 'local pack' } ] },
@@ -95,7 +95,7 @@ export const PROMPT_SETS: PromptSet[] = [
     id: 'hospitality',
     sector: 'Hospitality',
     market: 'UK',
-    note: 'Travel is the category where AI answers moved earliest. Aggregators dominate the citations.',
+    note: 'Travel is where AI answers took hold first. Booking aggregators supply most of the sources.',
     rows: [
       { prompt: 'Best boutique hotels in the Cotswolds for a weekend', intent: 'Choosing', cells: [
         { status: 'present', citation: 'Condé Nast list' }, { status: 'present', citation: 'Condé Nast list' }, { status: 'partial', citation: 'Booking.com' }, { status: 'absent' }, { status: 'partial', citation: 'maps only' } ] },
@@ -111,7 +111,7 @@ export const PROMPT_SETS: PromptSet[] = [
     id: 'manufacturing',
     sector: 'Manufacturing',
     market: 'UK',
-    note: 'Long, specific, technical questions — exactly the shape that triggers an AI summary most often.',
+    note: 'Long, specific, technical questions. Exactly the sort that tends to produce an AI summary instead of a list of links.',
     rows: [
       { prompt: 'UK suppliers of stainless steel pressure vessels to PED standard', intent: 'Discovering', cells: [
         { status: 'partial', citation: 'trade directory' }, { status: 'absent' }, { status: 'present', citation: 'trade directory' }, { status: 'absent' }, { status: 'absent' } ] },
@@ -127,7 +127,7 @@ export const PROMPT_SETS: PromptSet[] = [
     id: 'education',
     sector: 'Education',
     market: 'US',
-    note: 'Rankings and reference sites own this category almost entirely.',
+    note: 'League tables and reference sites supply nearly all of the answers in this category.',
     rows: [
       { prompt: 'Best US universities for an online MBA while working', intent: 'Choosing', cells: [
         { status: 'present', citation: 'US News ranking' }, { status: 'present', citation: 'US News ranking' }, { status: 'present', citation: 'US News ranking' }, { status: 'partial', citation: 'named, unranked' }, { status: 'partial', citation: 'ranking snippet' } ] },
@@ -143,7 +143,7 @@ export const PROMPT_SETS: PromptSet[] = [
     id: 'automotive',
     sector: 'Automotive',
     market: 'Dubai',
-    note: 'Stock and price change weekly, so answers age fast — a category where re-measurement matters more than most.',
+    note: 'Stock and prices change every week, so answers go stale fast. Worth re-measuring more often than most.',
     rows: [
       { prompt: 'Where to buy a used Range Rover in Dubai with warranty', intent: 'Choosing', cells: [
         { status: 'present', citation: 'Dubizzle' }, { status: 'absent' }, { status: 'present', citation: 'Dubizzle' }, { status: 'partial', citation: 'maps listing' }, { status: 'partial', citation: 'local pack' } ] },

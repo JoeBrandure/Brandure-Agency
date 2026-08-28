@@ -21,37 +21,37 @@ export const SCAN_STEPS = [
   {
     n: '01',
     a: 'cobalt',
-    t: 'Freeze the prompt set',
-    d: 'The questions are written down, agreed, and never edited once a run has been taken against them.',
-    wrong: 'Edit one prompt and every comparison built on the set is silently invalid. Nothing errors, the numbers still look like numbers.',
+    t: 'Agree the questions, then leave them alone',
+    d: 'We write the questions down, agree them with you, and never change them once we have measured against them.',
+    wrong: 'Change one question and every before-and-after built on that set stops meaning anything. Nothing breaks, no warning appears, the numbers still look like numbers.',
   },
   {
     n: '02',
     a: 'violet',
-    t: 'Clean the session',
-    d: 'Logged out, no history, no personalisation, no prior turns in the thread. Recorded per engine, not assumed.',
-    wrong: 'A signed-in profile returns an answer built partly from who is asking. It reads exactly like a category finding and is not one.',
+    t: 'Start from a clean session',
+    d: 'Signed out, no browsing history, no personalisation, nothing earlier in the conversation. We record the state for each engine rather than assuming it.',
+    wrong: 'Stay signed in and the answer is partly about the person asking. It looks exactly like a finding about your market, and it is not one.',
   },
   {
     n: '03',
     a: 'teal',
     t: 'Run it more than once',
-    d: 'Every published cell rests on repeated runs, and the count is printed beside the result.',
-    wrong: 'A single run cannot tell a real difference between engines from ordinary run-to-run variance. Most published AEO numbers are single runs.',
+    d: 'Every result we publish comes from several runs, and the number of runs is printed next to it.',
+    wrong: 'Ask once and you cannot tell a real difference from ordinary randomness. Most AEO figures you will read are based on a single run.',
   },
   {
     n: '04',
     a: 'cobalt',
-    t: 'Code every cell the same way',
-    d: 'Named and cited, named without a citation, or absent. Three states, applied identically across all five engines.',
-    wrong: 'A blended visibility score hides which engine moved. The engines disagree with each other more than they agree.',
+    t: 'Mark every answer the same way',
+    d: 'Named with a source, named without one, or not there at all. Three options, applied the same way on all five engines.',
+    wrong: 'An averaged score hides which engine actually moved, and these five disagree with each other far more than they agree.',
   },
   {
     n: '05',
     a: 'deep',
-    t: 'Record what the answer was built from',
-    d: 'The source behind each mention is logged — the directory, the trade title, the competitor page, the brand’s own site.',
-    wrong: 'Without the source there is no route to a fix. Knowing you are absent is not the same as knowing why.',
+    t: 'Record where the answer came from',
+    d: 'We log where each mention came from: the directory, the trade title, the competitor’s page, the brand’s own site.',
+    wrong: 'Without that, there is nothing to act on. Knowing you are missing does not tell you where to go and get mentioned.',
   },
 ] as const;
 
@@ -60,23 +60,23 @@ export const REFUSALS = [
   {
     n: '01',
     a: 'cobalt',
-    t: 'A single run, presented as a finding',
-    p: 'One run per cell cannot separate a real difference between engines from ordinary variance. It is the most common way an AEO number is produced and the least defensible.',
-    e: 'Our own 13 August Dubai scan is n=1 across all 28 cells. That is why none of it is published as a finding.',
+    t: 'Anything based on a single run',
+    p: 'Ask an AI something once and you cannot tell a genuine difference from ordinary randomness. It is the most common way an AEO figure gets produced and the hardest one to defend.',
+    e: 'Our own Dubai scan on 13 August was a single run on all 28 results. That is why none of it appears here as a finding.',
   },
   {
     n: '02',
     a: 'violet',
-    t: 'A contaminated session',
-    p: 'An answer served to a signed-in profile is partly a description of that profile. It is indistinguishable, on the page, from a description of the category.',
-    e: 'Half of that same scan — 14 of 28 cells, the Gemini and Google Search columns — was contaminated by a signed-in profile. We re-ran them clean on 17 August rather than publishing.',
+    t: 'Anything measured while signed in',
+    p: 'An answer given to someone signed in is partly a description of that person. On the page it looks identical to a description of the market.',
+    e: 'Half of that same scan — 14 of 28 results, the Gemini and Google Search columns — was run on a signed-in profile by mistake. We re-ran them properly on 17 August instead of publishing them.',
   },
   {
     n: '03',
     a: 'teal',
-    t: 'A difference we cannot attribute',
-    p: 'When two runs differ, the difference has to be attributable to something. Where it cannot be, the honest output is the question, not the number.',
-    e: 'Between the two runs the signed-out Gemini served a different model tier. Personalisation removed, a platform change, a model difference and plain variance are all consistent with what we saw, and n=1 separates none of them.',
+    t: 'Any change we cannot explain',
+    p: 'If two runs come back different, we need to be able to say what changed. When we cannot, what we have is a question rather than a finding.',
+    e: 'Between our two runs, Gemini served a different model. Removing personalisation, a change at Google, a different model and plain randomness would all produce what we saw, and a single run cannot tell them apart.',
   },
 ] as const;
 
@@ -98,15 +98,15 @@ export const WITHDRAWN = {
   category: 'Aesthetic clinics, Dubai',
   before: {
     date: '13 August 2026',
-    claim: 'Four surfaces, four disjoint lists. No brand appears on more than one.',
-    note: 'Headline finding of the scan. Half the cells behind it were served to a signed-in profile.',
+    claim: 'Four engines, four completely different lists. No brand appeared on more than one.',
+    note: 'The headline finding of that scan. Half the results behind it came from a signed-in profile.',
   },
   after: {
     date: '17 August 2026',
-    claim: 'Consensus is low, not absent. Three brands appear on two surfaces each.',
-    note: 'Clean sessions, same prompt set. Materially weaker than the claim it replaced — and still n=1.',
+    claim: 'There is some overlap after all. Three brands appeared on two engines each.',
+    note: 'Clean sessions, same questions. A much weaker claim than the one it replaced, and still only one run.',
   },
-  held: 'The mechanic underneath held. Answers in this market are grounded heavily on brands’ own pages and self-published listicles rather than on independent sources — visible in both runs, and the finding most exposed to the contamination.',
+  held: 'The underlying point survived. Answers in this market lean heavily on brands’ own pages and self-published “best of” lists rather than independent sources. That showed up in both runs, and it was the finding most at risk from the contamination.',
 } as const;
 
 /**
@@ -119,5 +119,5 @@ export const AIO_COVERAGE = {
   before: [false, false, false, true, false, false, false],
   after: [true, true, false, false, true, true, false],
   caveat:
-    'One category lost its AI Overview while four gained one, which makes a single clean explanation unlikely. n=1 on both runs cannot separate a platform change from variance.',
+    'One category lost its AI Overview while four gained one, which makes any single explanation hard to believe. Both runs were single runs, so we cannot tell a change at Google from ordinary randomness.',
 } as const;

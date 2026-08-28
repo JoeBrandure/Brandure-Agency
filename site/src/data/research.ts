@@ -30,14 +30,14 @@ export const SCAN_STEPS = [
     a: 'violet',
     t: 'Start from a clean session',
     d: 'Signed out, no browsing history, no personalisation, nothing earlier in the conversation. We record the state for each engine rather than assuming it.',
-    wrong: 'Stay signed in and the answer is partly about the person asking. It looks exactly like a finding about your market, and it is not one.',
+    wrong: 'Stay signed in and the answer is partly about the person asking. It looks exactly like a finding about your market, and it isn’t one.',
   },
   {
     n: '03',
     a: 'teal',
     t: 'Run it more than once',
     d: 'Every result we publish comes from several runs, and the number of runs is printed next to it.',
-    wrong: 'Ask once and you cannot tell a real difference from ordinary randomness. Most AEO figures you will read are based on a single run.',
+    wrong: 'Ask once and you can’t tell a real difference from ordinary randomness. Most AEO figures you’ll read are based on a single run.',
   },
   {
     n: '04',
@@ -51,7 +51,7 @@ export const SCAN_STEPS = [
     a: 'deep',
     t: 'Record where the answer came from',
     d: 'We log where each mention came from: the directory, the trade title, the competitor’s page, the brand’s own site.',
-    wrong: 'Without that, there is nothing to act on. Knowing you are missing does not tell you where to go and get mentioned.',
+    wrong: 'Without that, there’s nothing to act on. Knowing you’re missing doesn’t tell you where to go and get mentioned.',
   },
 ] as const;
 
@@ -61,8 +61,8 @@ export const REFUSALS = [
     n: '01',
     a: 'cobalt',
     t: 'Anything based on a single run',
-    p: 'Ask an AI something once and you cannot tell a genuine difference from ordinary randomness. It is the most common way an AEO figure gets produced and the hardest one to defend.',
-    e: 'Our own Dubai scan on 13 August was a single run on all 28 results. That is why none of it appears here as a finding.',
+    p: 'Ask an AI something once and you can’t tell a genuine difference from ordinary randomness. It’s the most common way an AEO figure gets produced and the hardest one to defend.',
+    e: 'Our own Dubai scan on 13 August was a single run on all 28 results. That’s why none of it appears here as a finding.',
   },
   {
     n: '02',
@@ -74,9 +74,9 @@ export const REFUSALS = [
   {
     n: '03',
     a: 'teal',
-    t: 'Any change we cannot explain',
-    p: 'If two runs come back different, we need to be able to say what changed. When we cannot, what we have is a question rather than a finding.',
-    e: 'Between our two runs, Gemini served a different model. Removing personalisation, a change at Google, a different model and plain randomness would all produce what we saw, and a single run cannot tell them apart.',
+    t: 'Any change we can’t explain',
+    p: 'If two runs come back different, we need to be able to say what changed. When we can’t, what we have is a question rather than a finding.',
+    e: 'Between our two runs, Gemini served a different model. Removing personalisation, a change at Google, a different model and plain randomness would all produce what we saw, and a single run can’t tell them apart.',
   },
 ] as const;
 
@@ -103,7 +103,7 @@ export const WITHDRAWN = {
   },
   after: {
     date: '17 August 2026',
-    claim: 'There is some overlap after all. Three brands appeared on two engines each.',
+    claim: 'There’s some overlap after all. Three brands appeared on two engines each.',
     note: 'Clean sessions, same questions. A much weaker claim than the one it replaced, and still only one run.',
   },
   held: 'The underlying point survived. Answers in this market lean heavily on brands’ own pages and self-published “best of” lists rather than independent sources. That showed up in both runs, and it was the finding most at risk from the contamination.',
@@ -119,5 +119,5 @@ export const AIO_COVERAGE = {
   before: [false, false, false, true, false, false, false],
   after: [true, true, false, false, true, true, false],
   caveat:
-    'One category lost its AI Overview while four gained one, which makes any single explanation hard to believe. Both runs were single runs, so we cannot tell a change at Google from ordinary randomness.',
+    'One category lost its AI Overview while four gained one, which makes any single explanation hard to believe. Both runs were single runs, so we can’t tell a change at Google from ordinary randomness.',
 } as const;

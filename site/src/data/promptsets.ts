@@ -47,7 +47,7 @@ export const PROMPT_SETS: PromptSet[] = [
     id: 'legal',
     sector: 'Legal',
     market: 'Dubai',
-    note: 'The city goes in every question here. Nobody hires a law firm in a country they are not operating in.',
+    note: 'The city goes in every question here. Nobody hires a law firm in a country they aren’t operating in.',
     rows: [
       { prompt: 'Best employment lawyers in Dubai for expat contract disputes', intent: 'Choosing', cells: [
         { status: 'present', citation: 'Legal 500 profile' }, { status: 'absent' }, { status: 'partial', citation: 'named, unranked' }, { status: 'absent' }, { status: 'absent' } ] },

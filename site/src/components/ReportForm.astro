@@ -8,12 +8,12 @@
 interface Props { id: string; heading?: string; blurb?: string; inverted?: boolean; }
 const {
   id,
-  heading = 'Request a free visibility report',
+  heading = 'Get your free visibility report',
   /* Deliberately short. This sits directly beneath a CTA that has already
      made the pitch, and the old blurb repeated that pitch almost sentence for
-     sentence. The form's own intro should add what the CTA does not: the
+     sentence. The form's own intro should add what the CTA doesn’t: the
      format and the turnaround. */
-  blurb = 'You will get it as a document, not a dashboard login. Usually back within two working days.',
+  blurb = 'You’ll get it as a document, not a dashboard login. Usually back within two working days.',
   inverted = false,
 } = Astro.props;
 const submitted = Astro.url.searchParams.get('submitted') === 'true';
@@ -24,7 +24,7 @@ const submitted = Astro.url.searchParams.get('submitted') === 'true';
 
   {submitted ? (
     <div class="note" role="status">
-      <p><strong>Got it, thanks.</strong> We will come back to you on the address you gave, usually within two working days.</p>
+      <p><strong>Got it, thanks.</strong> We’ll come back to you on the address you gave, usually within two working days.</p>
     </div>
   ) : (
     <>
@@ -57,7 +57,7 @@ const submitted = Astro.url.searchParams.get('submitted') === 'true';
           <input id={`${id}-category`} type="text" name="category" required />
           <span class="hint">However your buyers would describe it — "employment law in Dubai", "AI note-taking tools".</span>
         </div>
-        <p><button class="btn" type="submit">Request the report</button></p>
+        <p><button class="btn" type="submit">Send me the report</button></p>
         <p class="hint">We use your details to run the report and get back to you. Nothing else, and we will not pass them on.</p>
       </form>
     </>

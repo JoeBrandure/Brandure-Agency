@@ -175,6 +175,9 @@ code, kbd, .mono { font-family: var(--font-mono); font-size: 0.9em; }
 }
 .section-head .statement--sub { font-size: clamp(1.9rem, 1.1rem + 2.2vw, 3rem); line-height: 1.06; }
 .section-head .lede { text-align: center; max-width: 54ch; margin-bottom: 0; }
+/* The line that hands the reader into the cards below. Heavier than the lede
+   above it, because it is a prompt rather than context. */
+.section-head__kick { margin-top: 1rem !important; font-weight: 600; color: var(--ink) !important; }
 .section-head--left { align-items: flex-start; text-align: left; margin-inline: 0; }
 .section-head--left h2, .section-head--left .lede { text-align: left; }
 

@@ -334,6 +334,38 @@ findings are not safe to state as fact, which is exactly what the section
 refuses to do with them. The switch exists so that judgement can be reversed
 without unpicking the page.
 
+### The voice, and where it comes from
+
+Modelled on **growthagency.co**, which Joe supplied on 2026-08-27 as the
+reference. Their pattern, and what we took from it:
+
+- **Contractions everywhere.** "You're spending more, but not scaling faster."
+  Not having them was the single loudest thing making our copy read as
+  machine-written.
+- **Headings are the reader's situation, in their words.** "Your data is a
+  mess." Not a description of a phenomenon — a sentence the reader would say
+  about themselves. Ours became "You're losing deals you'll never hear about."
+- **Short sentences. Fragments allowed.** "Budgets go up, but ROI plateaus."
+- **Outcome first, mechanism later or never.** Their H1 is "Delivering revenue
+  growth – without the fluff." Ours follows the same shape.
+- **The buyer is named.** They say "modern CMO" and "Only 5 CMOs accepted per
+  quarter". We cap at four new companies a quarter and say so.
+- **Warm CTAs.** "Let's build your growth engine", "get your growth scorecard".
+  Ours are "Show me where I stand", "See what you get", "Book a call".
+- **The problem/effect box pairing** they use is the one we already had, which
+  is why that component stayed.
+
+**Two things of theirs we did not take.** Emoji in headings — 🚀 ✅ 📊 — which
+would fight this site's more restrained design; that is a brand call rather
+than a copy one, so it is left for Joe. And an invented quantified prize
+("you're likely sitting on 10-30% untapped revenue"), because we have no
+figure to support one.
+
+One correction to an earlier pass: they **do** use the antithesis this site had
+stripped out — "Scaling starts with visibility, not budget", "scale systems,
+not people". Three times on a long page, as short aphorisms. The fault was
+never the device, it was the volume and the sentence length.
+
 ### How the copy is written
 
 Rewritten end to end on 2026-08-27 because it read as written to be admired

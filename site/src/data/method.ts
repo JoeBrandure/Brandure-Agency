@@ -43,23 +43,23 @@ export const SCAN: Stage[] = [
     a: 'cobalt',
     when: 'Week 1',
     does: [
-      'We agree the questions with you first. The ones someone types when they are choosing a supplier, not reading around the subject.',
+      'We agree the questions with you first. The ones someone types when they’re choosing a supplier, not reading around the subject.',
       'Every question goes to all five engines, signed out, more than once. One run tells you almost nothing.',
       'Every answer gets marked the same way: named with a source, named without one, or not there at all.',
     ],
     rules:
-      'The idea that checking ChatGPT tells you where you stand. The five engines disagree with each other constantly, and one averaged score will not tell you which one is costing you business.',
+      'The idea that checking ChatGPT tells you where you stand. The five engines disagree with each other constantly, and one averaged score won’t tell you which one is costing you business.',
   },
   {
     k: 'C',
     name: 'Cause',
-    d: 'We work out why you are missing. There are three possible reasons and they need completely different fixes.',
+    d: 'We work out why you’re missing. There are three possible reasons and they need completely different fixes.',
     a: 'violet',
     when: 'Week 2',
     does: [
-      'It cannot identify you. The AI is unsure who you are or what you sell, so it will not put your name forward.',
-      'It cannot find anything about you. It knows who you are, but none of the sources it trusts mention you.',
-      'It prefers someone else. It knows you, the mentions exist, and it still names two competitors. This is the hard one, and we would rather tell you early.',
+      'It can’t identify you. The AI is unsure who you are or what you sell, so it won’t put your name forward.',
+      'It can’t find anything about you. It knows who you are, but none of the sources it trusts mention you.',
+      'It prefers someone else. It knows you, the mentions exist, and it still names two competitors. This is the hard one, and we’d rather tell you early.',
     ],
     rules:
       'The assumption that one fix covers it. Publishing more pages helps with the second problem and does nothing at all for the other two, which is why “just write more content” is the advice everyone gives and nobody gets much from.',
@@ -76,7 +76,7 @@ export const SCAN: Stage[] = [
       'We go after mentions on the specific sites your category’s answers are built from. This is the slow part and the part that moves it.'
     ],
     rules:
-      'The assumption that this is a website job. Most of an AI answer comes from what other sites say about you, so most of the work happens somewhere you do not control.',
+      'The assumption that this is a website job. Most of an AI answer comes from what other sites say about you, so most of the work happens somewhere you don’t control.',
   },
   {
     k: 'N',
@@ -84,7 +84,7 @@ export const SCAN: Stage[] = [
     /* Was "Null", which named our instrument — a null condition — and
        described the one thing in the method we deliberately do NOT do. It read
        as a stage the client was paying for and getting nothing from. The
-       mechanism is unchanged; what changed is whose side it is stated from.
+       mechanism is unchanged; what changed is whose side it’s stated from.
        Gross against net is a distinction this buyer already uses every day. */
     d: 'Every month we show you what moved because of us, with your category’s own movement taken out of the figure.',
     a: 'deep',
@@ -92,7 +92,7 @@ export const SCAN: Stage[] = [
     does: [
       'We set aside a group of your questions at the start and never touch them, so your category has somewhere to show its own movement.',
       'Both groups get measured again together. Same day, same engines, same conditions.',
-      'The gap between them is your net gain, and it is the first number in the report.',
+      'The gap between them is your net gain, and it’s the first number in the report.',
     ],
     rules:
       'A number that went up being sold to you as a result. These engines move on their own — models get updated, competitors do things, sources get re-indexed — so part of any rise was never down to your agency. Everyone else reports the rise. We report the share of it we caused.',
@@ -107,17 +107,17 @@ export const SCAN: Stage[] = [
  */
 export const NULL_CASES = [
   {
-    t: 'The ones we worked on moved. The ones we left alone did not.',
+    t: 'The ones we worked on moved. The ones we left alone didn’t.',
     verdict: 'Net gain. That was us.',
-    d: 'The gap between the two lines is what you paid for, and it is the first number in your report. Most agencies cannot show you this picture, because they never set anything aside to compare against.',
+    d: 'The gap between the two lines is what you paid for, and it’s the first number in your report. Most agencies can’t show you this picture, because they never set anything aside to compare against.',
     a: 'teal',
     tracked: [18, 22, 30, 44, 58, 70],
     control: [20, 19, 22, 21, 23, 22],
   },
   {
     t: 'Both moved, by about the same amount.',
-    verdict: 'Net zero. Your category moved, we did not.',
-    d: 'An AI update or a competitor going quiet lifts everybody at once. Your headline number looks great. Your net number is nothing, and that is what we will tell you, even though it costs us the credit.',
+    verdict: 'Net zero. Your category moved, we didn’t.',
+    d: 'An AI update or a competitor going quiet lifts everybody at once. Your headline number looks great. Your net number is nothing, and that is what we’ll tell you, even though it costs us the credit.',
     a: 'violet',
     tracked: [18, 26, 36, 48, 60, 68],
     control: [20, 27, 35, 46, 57, 66],
@@ -125,7 +125,7 @@ export const NULL_CASES = [
   {
     t: 'Neither moved.',
     verdict: 'Nothing has worked yet.',
-    d: 'The awkward one. One month like this tells us where to push harder. Three months like this and we change the plan or end it, and we will be the ones to raise it.',
+    d: 'The awkward one. One month like this tells us where to push harder. Three months like this and we change the plan or end it, and we’ll be the ones to raise it.',
     a: 'deep',
     tracked: [18, 20, 19, 21, 20, 22],
     control: [20, 19, 21, 20, 22, 21],
@@ -134,7 +134,7 @@ export const NULL_CASES = [
 
 /** What SCAN deliberately is not. Short, because the point is the contrast. */
 export const NOT_SCAN = [
-  { t: 'Not a single visibility score', d: 'One number covering five engines cannot tell you which one to go and fix. You get each engine on its own, every time.' },
-  { t: 'Not a dashboard login', d: 'A live chart you cannot check is just a claim with a graph attached. Every figure we give you traces back to a run you can look at.' },
-  { t: 'Not a list of what we did', d: 'Hours worked is not a result. The report opens with your net gain on each engine, then explains what caused it.' },
+  { t: 'Not a single visibility score', d: 'One number covering five engines can’t tell you which one to go and fix. You get each engine on its own, every time.' },
+  { t: 'Not a dashboard login', d: 'A live chart you can’t check is just a claim with a graph attached. Every figure we give you traces back to a run you can look at.' },
+  { t: 'Not a list of what we did', d: 'Hours worked isn’t a result. The report opens with your net gain on each engine, then explains what caused it.' },
 ] as const;

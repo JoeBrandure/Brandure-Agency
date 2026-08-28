@@ -13,7 +13,7 @@ import { SCAN_STEPS, REFUSALS, WITHDRAWN, AIO_COVERAGE, SHOW_WITHDRAWN } from '.
 
    So the page argues the programme rather than listing articles: how a scan is
    run, what disqualifies a result from being published, and one finding of our
-   own that did not survive its re-run. The last of those is the persuasive
+   own that didn’t survive its re-run. The last of those is the persuasive
    part, because it costs something to show. */
 
 const all = (await getCollection('research')).sort(
@@ -34,7 +34,7 @@ const schema = {
 ---
 <BaseLayout
   title="Research"
-  description="How we measure AI answers: the five steps behind every scan, the three things that stop us publishing a result, and one of our own findings that did not survive being checked."
+  description="How we measure AI answers: the five steps behind every scan, the three things that stop us publishing a result, and one of our own findings that didn’t survive being checked."
   schemas={[schema]}
 >
   <!-- 1. Hero. The claim, and the three commitments that make it checkable. -->
@@ -48,9 +48,9 @@ const schema = {
         <p class="eyebrow">Research</p>
         <h1 class="statement" data-split>We show our working.</h1>
         <p class="lede">
-          Most AI visibility statistics you will read come from asking one
-          engine one question, once, with no list of what was asked. Here is how
-          we do it instead, and what we throw away when it does not hold up.
+          Most AI visibility statistics you’ll read come from asking one
+          engine one question, once, with no list of what was asked. Here’s how
+          we do it instead, and what we throw away when it doesn’t hold up.
         </p>
         <div class="hero-actions">
           <a class="btn" href="#method">How a scan runs</a>
@@ -99,14 +99,14 @@ const schema = {
   </section>
 
   <!-- 3. The refusals. Each with a self-implicating example, because a
-       standard nobody has ever failed is not a standard. -->
+       standard nobody has ever failed isn’t a standard. -->
   <section class="section">
     <div class="wrap" data-reveal>
       <div class="section-head">
-        <h2>What we will not publish</h2>
+        <h2>What we won’t publish</h2>
         <p class="lede">
           Three things that disqualify a result. We have used our own work as
-          the example each time, because a rule nothing has ever failed is not
+          the example each time, because a rule nothing has ever failed isn’t
           much of a rule.
         </p>
       </div>
@@ -134,11 +134,11 @@ const schema = {
     <section class="section section--sunk" id="withdrawn">
       <div class="wrap" data-reveal>
         <div class="section-head">
-          <h2>One of our own findings did not survive being checked</h2>
+          <h2>One of our own findings didn’t survive being checked</h2>
           <p class="lede">
             In August we scanned seven categories in Dubai across four engines,
             before we added Claude to the set. Half the results turned out to be
-            contaminated. Here is what happened to our headline finding when we
+            contaminated. Here’s what happened to our headline finding when we
             re-ran that half properly.
           </p>
         </div>
@@ -186,7 +186,7 @@ const schema = {
               {AIO_COVERAGE.categories.map((c, i) => (
                 <>
                   {/* Only the category that went the other way is marked. Four
-                      gained an overview and one lost it, and it is the loss
+                      gained an overview and one lost it, and it’s the loss
                       that makes a single clean explanation unlikely — so it is
                       the loss the table points at, not every change. */}
                   <span class:list={['cov__cat', AIO_COVERAGE.before[i] && !AIO_COVERAGE.after[i] && 'is-lost']}>{c}</span>
@@ -228,7 +228,7 @@ const schema = {
       {!anyReal && (
         <p class="tst__warn">
           <strong>Nothing is published yet.</strong> The two entries below show
-          the format and contain no findings. They are hidden from search
+          the format and contain no findings. They’re hidden from search
           engines and will be deleted rather than tidied up. The first real
           piece goes out once the Dubai re-run has enough runs behind it to
           support a claim.
@@ -271,7 +271,7 @@ const schema = {
             chase you afterwards.
           </p>
         </div>
-        <a class="btn cta-card__btn" href="/#report">Get a free visibility report</a>
+        <a class="btn cta-card__btn" href="/#report">Show me where I stand</a>
       </div>
     </div>
   </section>

@@ -110,6 +110,27 @@ repo before building on anything here.
   enabled". Detection was always on — a Netlify form only registers once a
   deploy containing the markup has been scanned, and no such deploy existed
   yet. It was never a blocker.
+- **Copy rewritten against a supplied reference** (2026-08-27). Two earlier
+  attempts missed because they were written from instinct. Joe supplied
+  **growthagency.co** as the model; the site is blocked by this environment's
+  network proxy, so he pasted it.
+  - What their copy does that ours did not: contractions throughout; headings
+    that state the reader's own situation ("Your data is a mess") rather than
+    describe a phenomenon; short sentences and fragments; outcome before
+    mechanism; the buyer named; warm CTAs ("Let's build your growth engine");
+    concrete scarcity.
+  - Applied across every page and every CTA label. The home H1 now follows
+    their shape — "Getting you named in AI answers – without the guesswork."
+  - **A correction to the previous pass:** the antithesis construction that
+    pass stripped out is one they use freely — "scale systems, not people".
+    The fault was volume and sentence length, not the device.
+  - Not taken: emoji in headings, which would fight this site's design and is
+    a brand call rather than a copy one; and their quantified prize
+    ("10-30% untapped revenue"), because we have no figure to support one.
+  - **A tooling trap worth recording:** a blanket contraction regex produced
+    "whether the AI knows who you're" and "we'd not tell you". A contracted
+    verb cannot end its clause. The guarded pass now blocks who/what/where/how
+    and requires a following word.
 - **Site copy rewritten end to end** (2026-08-27). It read as written to be
   admired rather than read. The audience is a business owner or marketing
   director losing work to competitors and short of time, and the register was

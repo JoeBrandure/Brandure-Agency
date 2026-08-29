@@ -1,11 +1,17 @@
 /**
- * Content for /research.
+ * Content that USED TO DRIVE /research. Nothing here is rendered any more.
  *
- * WHAT THIS PAGE IS SAYING, since it was the question asked of it: no research
- * is published yet, and a page that pretends otherwise would undo the one
- * thing the agency sells. So the page argues the programme instead of listing
- * articles — here is how a scan is run, here is what disqualifies a result,
- * and here is a finding of our own that did not survive its re-run.
+ * As of 2026-08-29 /research is an index of published pieces and nothing else.
+ * The method spine, the publication refusals and the withdrawn Dubai finding
+ * were all cut from it on instruction: they put the substance in the section
+ * headings, so the page argued a case instead of listing work, and it gave
+ * away a finding before that finding had a piece of its own.
+ *
+ * KEPT, NOT DELETED, because it is real and sourced. The withdrawn finding in
+ * particular is the strongest thing here and belongs in
+ * src/content/research/ as a piece in its own right — a scan we published, a
+ * re-run that contradicted half of it, and what survived. Writing that up is
+ * the obvious first real entry on the index.
  *
  * Everything below is drawn from the repo's own scan record:
  *   research/vertical-sprint/scans/2026-08-13-dubai/scan.md

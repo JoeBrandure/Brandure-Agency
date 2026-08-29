@@ -1476,6 +1476,72 @@ input:focus-visible { border-color: var(--focus); }
   font-size: 0.8125rem; font-weight: 600; color: var(--accent);
 }
 
+/* ---------- /research: the piece index ----------
+   One card per row rather than a two-up grid. The index is the page now, so
+   each entry gets the width to carry a full title and a real summary instead
+   of a truncated one — that was the brief: larger cards, more in the heading
+   and the description, and the detail behind the click. */
+.rlist { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.1rem; counter-reset: none; }
+.rlist__i { margin: 0; max-width: none; }
+
+.rcard {
+  display: grid; gap: 0 1.6rem; align-items: start;
+  padding: clamp(1.4rem, 2.4vw, 2.1rem);
+  border: 1px solid var(--border); border-radius: var(--radius);
+  background: var(--surface-card);
+  text-decoration: none; color: inherit;
+  transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+}
+@media (min-width: 52rem) { .rcard { grid-template-columns: 4.5rem 1fr; } }
+.rcard:hover, .rcard:focus-visible {
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
+  box-shadow: var(--shadow-card);
+}
+
+/* The index number is decoration and a position marker, nothing more, so it
+   sits well back and never competes with the title beside it. */
+.rcard__i {
+  font-family: var(--font-display); font-weight: 700;
+  font-size: clamp(1.5rem, 2.6vw, 2.25rem); line-height: 1;
+  color: color-mix(in srgb, var(--muted) 45%, transparent);
+  letter-spacing: -0.03em;
+}
+@media (max-width: 51.99rem) { .rcard__i { display: none; } }
+
+.rcard__body { min-width: 0; }
+.rcard__meta {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 0.75rem;
+  margin: 0 0 0.7rem; max-width: none;
+  font-size: var(--small); color: var(--muted);
+}
+.rcard__upd { font-style: italic; }
+
+/* A step up from the h3 default. These titles are the entry points to the
+   whole section, so they are the largest thing in the card by some way. */
+.rcard__t {
+  margin: 0 0 0.55rem; max-width: 32ch;
+  font-size: clamp(1.375rem, 1rem + 1.4vw, 2rem);
+  line-height: 1.12; letter-spacing: -0.025em;
+}
+.rcard__d {
+  margin: 0; max-width: 68ch;
+  font-size: var(--body); line-height: 1.6; color: var(--muted);
+}
+.rcard__go {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  margin: 1rem 0 0; max-width: none;
+  font-size: 0.8125rem; font-weight: 600; color: var(--accent);
+}
+.rcard__go svg { width: 1em; height: 1em; transition: transform 160ms ease; }
+.rcard:hover .rcard__go svg { transform: translateX(3px); }
+
+/* Centred hero for the research index — the pieces below are the page, so the
+   hero does not need the two-column treatment /service and /method use. */
+.res-hero { display: flex; flex-direction: column; align-items: center; text-align: center; }
+.res-hero .statement, .res-hero .lede { text-align: center; }
+.res-hero .lede { max-width: 62ch; }
+
 /* ================= /method — SCAN =================
    The page is built around the fourth stage, so the first three are given a
    consistent, unfussy treatment and the argument gets the room. */

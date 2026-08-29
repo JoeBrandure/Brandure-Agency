@@ -79,7 +79,13 @@
   display: inline-block;
   overflow: hidden;
   vertical-align: bottom;
-  padding-bottom: 0.06em; /* room for descenders inside the mask */
+  /* Descender room inside the mask. 0.06em was not enough: display headings
+     run at line-height 0.95, so the inline box is shorter than the glyphs it
+     contains and `overflow: hidden` sheared the tails off g, y, p and j on
+     every hero on the site. The negative margin cancels the padding so line
+     spacing is untouched — the mask gets taller, the layout does not. */
+  padding-bottom: 0.22em;
+  margin-bottom: -0.22em;
 }
 .split .w > i {
   display: inline-block;
@@ -579,7 +585,7 @@
     transition: none !important;
   }
 
-  .split .w { overflow: visible; padding-bottom: 0; }
+  .split .w { overflow: visible; padding-bottom: 0; margin-bottom: 0; }
   .split .w > i { transform: none !important; transition: none !important; }
 
   .mesh__blob {

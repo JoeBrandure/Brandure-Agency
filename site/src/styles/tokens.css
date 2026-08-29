@@ -112,7 +112,7 @@
   --ls-label:   0.12em;
 
   --measure: 62ch;
-  --measure-display: 18ch; /* forced wrap on display headlines */
+  --measure-display: 21ch; /* forced wrap on display headlines */
   --wrap: 76rem;
   --wrap-narrow: 48rem;
 

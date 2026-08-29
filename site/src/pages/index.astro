@@ -161,9 +161,13 @@ const faqSchema = {
     </div>
   </section>
 
-  <!-- 3b. The prize. One sourced number, with the source and the caveat on the
-       page rather than in a footnote, because the whole proposition is that we
-       show our working. -->
+  <!-- 3b. The prize. One number and what it means for the reader.
+       THE SOURCE BLOCK WAS REMOVED ON JOE'S INSTRUCTION, 2026-08-29. It is
+       still carried in PRIZE.source and PRIZE.caveat and is still the only
+       reason the figure is on the site at all — it is not ours, it is Muck
+       Rack's, and they sell PR software. Anyone editing this number must read
+       those two fields before touching the claim. If the citation is wanted
+       back on a page, /research is the place for it. -->
   <section class="section section--tight">
     <div class="wrap" data-reveal>
       <figure class="prize">
@@ -173,10 +177,6 @@ const faqSchema = {
         </div>
         <div class="prize__body">
           <p class="prize__point">{PRIZE.point}</p>
-          <figcaption class="prize__src">
-            <span class="prize__k">Source</span>
-            <span>{PRIZE.source} <em>{PRIZE.caveat}</em></span>
-          </figcaption>
         </div>
       </figure>
     </div>

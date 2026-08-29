@@ -169,12 +169,26 @@ code, kbd, .mono { font-family: var(--font-mono); font-size: 0.9em; }
 /* A step below --h2. At the full display size a three-line centred heading
    filled the column edge to edge and read as condensed rather than large. */
 .section-head h2 {
-  text-align: center; max-width: 22ch; margin-bottom: 0.7rem;
+  text-align: center; max-width: 22ch; margin-bottom: 0.85rem;
   font-size: clamp(1.9rem, 1.1rem + 2.2vw, 3rem);
   line-height: 1.06; letter-spacing: -0.032em;
 }
 .section-head .statement--sub { font-size: clamp(1.9rem, 1.1rem + 2.2vw, 3rem); line-height: 1.06; }
-.section-head .lede { text-align: center; max-width: 54ch; margin-bottom: 0; }
+/* A step BELOW the body lede, not equal to it. At the shared --lede size the
+   heading and the paragraph under it ran 48px against 24px — a 2:1 step that
+   reads as one size at a centred three-line block, so the lede looked like a
+   second heading that had gone on too long. 20px against 48px is 2.4:1 and
+   the two stop competing. Section heads only; body ledes are unchanged. */
+.section-head .lede {
+  text-align: center; max-width: 52ch; margin-bottom: 0;
+  font-size: clamp(1.05rem, 0.95rem + 0.5vw, 1.25rem);
+  line-height: 1.55;
+  /* Colour deliberately left on --muted. The size drop moves this text out of
+     the 18pt large-text band and into the 4.5:1 bucket, so it was checked
+     rather than assumed: 5.63:1 light, 7.98:1 dark, sampled from pixels. It
+     passes at the smaller size, and darkening it would have cost the tonal
+     separation that size hierarchy alone does not replace. */
+}
 /* The line that hands the reader into the cards below. Heavier than the lede
    above it, because it is a prompt rather than context. */
 .section-head__kick { margin-top: 1rem !important; font-weight: 600; color: var(--ink) !important; }

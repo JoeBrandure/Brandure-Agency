@@ -68,6 +68,53 @@ Apply these to every response and deliverable in this repo.
   behaviour, licence (noun) / license (verb).
 - **No filler openers.** Start with the substance.
 
+### Marketing voice — write in Joe's, not in Claude's
+
+Applies to every outward-facing line: site headings and subheadings, blog and
+research copy, decks, outreach. Derived from lines Joe wrote himself on
+2026-08-29 and confirmed as the base to work from.
+
+The lines he wrote:
+
+> Providing everything you need to deliver AI Search growth at scale.
+> From unknown AI Search confusion to actual measurable AEO growth.
+> Any of these sound familiar? You're not alone.
+> Marketing your business today is a balancing act; with marketing shifts
+> happening every quarter. Add AI Search to that mix and it can be
+> overwhelming to keep up.
+
+What is actually happening in them:
+
+- **Gerund openers for capability claims.** "Providing everything you need
+  to…", "Delivering…". The sentence starts on the thing being done, not on a
+  subject pronoun. No "We provide".
+- **From X to Y for transformation claims.** Named bad state on the left,
+  named commercial outcome on the right. Both halves concrete.
+- **Direct questions to the reader** where a statement would be a lecture.
+  "Any of these sound familiar?" not "Many businesses experience the
+  following."
+- **Empathy, then the complication.** Acknowledge the reader's existing load
+  first, then add AI Search on top of it as the extra weight. The second
+  clause is what makes the first one land.
+- **Plain intensifiers, not corporate ones.** "actual measurable", "at scale",
+  "without the fluff". Never "unlock", "leverage", "seamless", "supercharge",
+  "in today's landscape".
+- **Semicolons and a slightly run-on rhythm.** He writes the way he talks. Do
+  not tidy his sentences into two clean short ones — that is what makes copy
+  read as machine-written.
+- **"AI Search", capitalised.** Not "AI answers", not "generative search", not
+  "LLM results", in outward-facing copy. Internal and method documents may use
+  precise terms; marketing uses his.
+- **Revenue growth is the outcome frame.** Visibility, citations and mentions
+  are the mechanism. The headline names the money.
+
+Two failure modes to check for before returning copy. First, antithesis
+volume: "not X, it's Y" is a device Joe's own references use and is fine in
+moderation — the tell is stacking three of them in one section, not the device
+itself. Second, the two-beat fragment cadence ("One question. Five answers.
+Different every time.") — effective once on a page as a hook, corrosive when
+every heading does it.
+
 ## Standing rules
 
 Operational constraints, not style. They apply to every task in this repo and

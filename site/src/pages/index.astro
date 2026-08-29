@@ -190,8 +190,9 @@ const faqSchema = {
         <div>
           <h2>We fix all four.</h2>
           <p class="lede">
-            Measure it. Find the cause. Fix it. Then measure again against a set
-            of questions we left alone, so you can see what was actually us.
+            We measure it, find the cause and fix it; then measure again against
+            a set of questions we deliberately left alone, so you can see what
+            was actually us.
           </p>
         </div>
         <a class="btn cta-card__btn" href="#report">Get a free visibility report</a>
@@ -222,7 +223,7 @@ const faqSchema = {
   <section class="section stages">
     <div class="wrap" data-reveal>
       <div class="section-head">
-        <h2>How we work</h2>
+        <h2>Delivering it in four stages, in the same order, every time.</h2>
         <p class="lede">Every engagement runs the same four stages, in the same order. We call it SCAN.</p>
       </div>
 
@@ -247,8 +248,10 @@ const faqSchema = {
   <section class="section section--sunk" id="pricing">
     <div class="wrap" data-reveal>
       <div class="section-head">
+        {/* No subheading here, and none on /service either. The packages
+            sections carry a price and a card list; a lede between the heading
+            and the cards was hedging in front of the number. */}
         <h2>Two ways we get you there.</h2>
-        <p class="lede">Four new companies a quarter, no more. Most people start with the audit.</p>
       </div>
 
       {/* A teaser, not the detail. The full artefact list per package lives on
@@ -330,11 +333,15 @@ const faqSchema = {
     <div class="wrap">
       <div class="hero-grid">
         <div data-reveal>
-          <h2 class="statement statement--sub" data-split>See what the AI says about you.</h2>
+          {/* THIS BLOCK IS THE CANONICAL FORM SECTION. It is repeated verbatim
+              on /service and /faq — same heading, same lede — because the ask
+              is the same ask and three different framings of it read as three
+              different offers. Change it here and change it there. */}
+          <h2 class="statement statement--sub" data-split>Find out what AI Search is telling your buyers right now.</h2>
           <p class="lede">
-            We run your category across all five engines and send you what comes
-            back. Who gets named, in what order, and where each answer came
-            from. Free, and nobody will chase you afterwards.
+            Your category across all five engines. Who gets named, in what
+            order, and where each answer came from. It is a top-level read,
+            it is free, and there is no obligation attached to it.
           </p>
         </div>
         <ReportForm id="report-form" />

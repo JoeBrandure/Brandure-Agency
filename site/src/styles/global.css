@@ -1689,7 +1689,9 @@ input:focus-visible { border-color: var(--focus); }
 
 .mth-eng {
   list-style: none; margin: 0; padding: 0;
-  display: flex; flex-wrap: wrap; gap: 0.7rem;
+  /* Centred, because the section head above it is. Without this the row
+     packed left under a centred heading and read as a stray list. */
+  display: flex; flex-wrap: wrap; gap: 0.7rem; justify-content: center;
 }
 .mth-eng > li {
   margin: 0; max-width: none;

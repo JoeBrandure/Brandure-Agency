@@ -50,7 +50,7 @@ const schema = {
         <p class="lede">
           Most AI visibility statistics you’ll read come from asking one
           engine one question, once, with no list of what was asked. Here’s how
-          we do it instead, and what we throw away when it doesn’t hold up.
+          we do it instead.
         </p>
         <div class="hero-actions">
           <a class="btn" href="#method">How a scan runs</a>
@@ -111,7 +111,10 @@ const schema = {
         </p>
       </div>
 
-      <div class="problem-grid" data-stagger>
+      {/* --3, not the default 2-up. Three cards in a two-column grid left an
+          orphan on the second row; /service already uses this modifier for
+          its three cost-of-absence cards. */}
+      <div class="problem-grid problem-grid--3" data-stagger>
         {REFUSALS.map((r) => (
           <div class:list={['card', 'problem', `problem--${r.a}`]}>
             <span class="problem__n" aria-hidden="true">{r.n}</span>

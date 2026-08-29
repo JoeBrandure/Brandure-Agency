@@ -67,11 +67,11 @@ const path = (vals: readonly number[]) =>
           </span>
         ))}
       </h1>
-      <p class="lede mth-hero__l">
-        Surface, Cause, Act, Net. Any decent agency would claim the first three.
-        The fourth is the one almost nobody does, and it’s how you check the
-        other three were worth paying for.
-      </p>
+      {/* No lede. The H1 above already spells the four letters out with their
+          names underneath, so a paragraph restating them was the third time
+          the page said SCAN before saying anything else. What it added after
+          that — that most agencies skip the fourth stage — argued the point
+          rather than stating it. The stage bands below state it. */}
       <div class="hero-actions">
         <a class="btn" href="#net">Why the fourth stage matters</a>
         <a class="btn btn--ghost" href="/service">See what you get</a>
@@ -146,8 +146,8 @@ const path = (vals: readonly number[]) =>
         <h2>The questions we actually test</h2>
         <p class="lede">
           Stage one in practice. Yours would be written around your category and
-          agreed with you first — these are examples. Notice that they’re the
-          questions someone types when they’re close to buying.
+          agreed with you first. These are the questions someone types when
+          they’re close to buying.
         </p>
       </div>
       <PromptRotator />
@@ -161,11 +161,10 @@ const path = (vals: readonly number[]) =>
       <div class="section-head">
         <h2>Why we hold some of your questions back</h2>
         <p class="lede">
-          These engines move on their own, so part of any improvement was never
-          down to your agency. Leave a group of questions untouched and you can
-          tell these three situations apart. Report the headline number and all
-          three look identical, which is why most people report the headline
-          number.
+          These engines move on their own. We leave a group of questions
+          untouched so you can tell these three situations apart. Report the
+          headline number and all three look identical, which is why most
+          agencies report the headline number.
         </p>
       </div>
 

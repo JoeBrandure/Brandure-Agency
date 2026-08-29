@@ -72,7 +72,17 @@ const faqSchema = {
 
   <section class="section section--sunk" id="report">
     <div class="wrap-narrow" data-reveal>
-      <ReportForm id="report-form" heading="Still not answered? Start with the report" />
+      {/* Same heading and lede as the home page and /service. The form ask is
+          one ask; three framings of it read as three different offers. */}
+      <div class="section-head">
+        <h2 class="statement statement--sub">Find out what AI Search is telling your buyers right now.</h2>
+        <p class="lede">
+          Your category across all five engines. Who gets named, in what order,
+          and where each answer came from. It is a top-level read, it is free,
+          and there is no obligation attached to it.
+        </p>
+      </div>
+      <ReportForm id="report-form" />
     </div>
   </section>
 </BaseLayout>

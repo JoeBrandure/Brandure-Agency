@@ -79,13 +79,14 @@
   display: inline-block;
   overflow: hidden;
   vertical-align: bottom;
-  /* Descender room inside the mask. 0.06em was not enough: display headings
-     run at line-height 0.95, so the inline box is shorter than the glyphs it
-     contains and `overflow: hidden` sheared the tails off g, y, p and j on
-     every hero on the site. The negative margin cancels the padding so line
-     spacing is untouched — the mask gets taller, the layout does not. */
-  padding-bottom: 0.22em;
-  margin-bottom: -0.22em;
+  /* Descender room inside the mask. At the line-heights set in tokens.css a
+     tail reaches 0.13em past the bottom of this box, so the mask needs at
+     least that much or `overflow: hidden` shears it. The negative margin
+     takes the same amount back out of the layout so line advance is
+     unchanged; it can do that safely only because the line-height above
+     already clears the next line's cap height. Change one and check both. */
+  padding-bottom: 0.15em;
+  margin-bottom: -0.15em;
 }
 .split .w > i {
   display: inline-block;

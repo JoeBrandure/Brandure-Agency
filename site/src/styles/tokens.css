@@ -102,8 +102,14 @@
   --small:     0.875rem;
   --label:     0.75rem;
 
-  --lh-display: 0.95;
-  --lh-h2:      1.0;
+  /* Manrope reports fontAscent 1.073em and fontDescent 0.300em, so its glyph
+     box is 1.373em tall. At line-height 0.95 the box overhangs the line by
+     0.21em top and bottom, and a descender lands 0.16em BELOW the next line's
+     cap top — the tails could not render without colliding, which is why they
+     were being clipped instead. Collision-free needs >= 0.979; these leave a
+     small gap on top of that. Measured, not chosen by eye. */
+  --lh-display: 1.02;
+  --lh-h2:      1.05;
   --lh-lede:    1.5;
   --lh-body:    1.65;
 

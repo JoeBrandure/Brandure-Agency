@@ -170,14 +170,15 @@ const faqSchema = {
        back on a page, /research is the place for it. -->
   <section class="section section--tight">
     <div class="wrap" data-reveal>
+      {/* Not a card any more. Once the source block came off, the box had a
+          third of its width doing nothing. A statistic this size does not need
+          a container to be read as one — the number is the container. */}
       <figure class="prize">
-        <div class="prize__fig">
+        <div class="prize__stat">
           <span class="prize__n"><span data-count={PRIZE.n}>{PRIZE.n}</span><span class="prize__s">{PRIZE.suffix}</span></span>
           <p class="prize__claim">{PRIZE.claim}</p>
         </div>
-        <div class="prize__body">
-          <p class="prize__point">{PRIZE.point}</p>
-        </div>
+        <p class="prize__point">{PRIZE.point}</p>
       </figure>
     </div>
   </section>

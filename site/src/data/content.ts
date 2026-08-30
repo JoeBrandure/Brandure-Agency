@@ -100,7 +100,7 @@ export const HERO_CASES = [
     brand: 'Lurio',
     metric: '92',
     suffix: '%',
-    label: 'more appearances in AI answers, across three engines.',
+    label: 'more AI answer appearances',
   },
   {
     slug: 'viveonix',
@@ -110,7 +110,7 @@ export const HERO_CASES = [
     brand: 'Viveonix',
     metric: '183',
     suffix: '%',
-    label: 'more qualified leads coming in from AI search.',
+    label: 'more qualified leads from AI Search',
   },
   {
     slug: 'littlelockets',
@@ -120,7 +120,7 @@ export const HERO_CASES = [
     brand: 'Little Lockets London',
     metric: '79',
     suffix: '%',
-    label: 'more online revenue from buyers who arrived via AI search.',
+    label: 'more online revenue from AI Search',
   },
   {
     slug: 'fresh',
@@ -130,7 +130,7 @@ export const HERO_CASES = [
     brand: 'Fresh Gym',
     metric: '205',
     suffix: '%',
-    label: 'more reach from being recommended in AI answers.',
+    label: 'more reach in AI answers',
   },
 ] as const;
 

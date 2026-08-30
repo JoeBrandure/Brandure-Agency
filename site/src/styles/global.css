@@ -270,8 +270,12 @@ a.card:hover, .card--hover:hover { transform: translateY(-3px); box-shadow: var(
    are invisible on a light card. A tile behind all four is consistent; a tile
    behind only the two that need it is not. */
 
-.case-grid { display: grid; gap: 0.9rem; grid-template-columns: 1fr; }
-@media (min-width: 30rem) { .case-grid { grid-template-columns: 1fr 1fr; } }
+/* Two up from 22rem, not 30rem. Stacked one-per-row these four cards were
+   about 900px of scrolling on a phone — the hero ran a screen and a half
+   before the reader reached anything else, and the proof was the thing
+   pushing it down. Paired, the whole hero fits inside about 1.1 screens. */
+.case-grid { display: grid; gap: 0.65rem; grid-template-columns: 1fr 1fr; }
+@media (min-width: 34rem) { .case-grid { gap: 0.9rem; } }
 
 .case {
   margin: 0;
@@ -381,6 +385,20 @@ a.card:hover, .card--hover:hover { transform: translateY(-3px); box-shadow: var(
   border-radius: var(--radius-sm);
   background: var(--pa-soft);
   border-left: 3px solid var(--pa);
+}
+/* HIDDEN ON PHONES. Each of these is a second paragraph elaborating on a
+   problem the card above has already stated in one sentence — roughly 100
+   words across the four, on the screen that decides whether the reader stays.
+   The card still makes its point without it. On anything wider they stay,
+   because there the elaboration costs nothing.
+   Note this is display:none, so it is in the DOM and indexed but not read out
+   by a screen reader on a narrow viewport. That is the trade: it is secondary
+   content by construction, and nothing else depends on it. */
+@media (max-width: 47.99rem) {
+  .problem__effect { display: none; }
+  /* With the effect gone the paragraph is last, and its bottom margin left a
+     line of dead space inside every card. */
+  .problem__p { margin-bottom: 0; }
 }
 /* Mixed towards ink, not the bare accent. This label sits on --pa-soft, which
    is a 10% tint of the same accent, and the bare accent measured 4.35:1 there.
@@ -1985,7 +2003,18 @@ input:focus-visible { border-color: var(--focus); }
   display: flex; align-items: center; justify-content: space-between;
   gap: 1rem; flex-wrap: wrap; margin-bottom: 0.75rem;
 }
-.rotator__tabs { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.rotator__tabs { display: flex; flex-wrap: wrap; gap: 0.4rem; min-width: 0; }
+/* One scrolling row on a phone instead of three wrapped ones. Seven sector
+   chips wrapped to three rows and pushed the demo itself below the fold on the
+   very screen that is meant to show it working. */
+@media (max-width: 45.99rem) {
+  .rotator__tabs {
+    flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none;
+    -webkit-overflow-scrolling: touch; padding-bottom: 0.15rem;
+  }
+  .rotator__tabs::-webkit-scrollbar { display: none; }
+  .rotator__tab { flex: 0 0 auto; }
+}
 .rotator__tab {
   font: inherit; font-size: var(--small); font-weight: 600;
   color: var(--muted);
@@ -2088,6 +2117,13 @@ input:focus-visible { border-color: var(--focus); }
    Where nothing loops it is every quote printed twice, so it goes. */
 @media (max-width: 67.99rem) {
   .tst__card[aria-hidden='true'] { display: none; }
+}
+/* Three quotes on a phone, not six. Stacked one per row, six quotes ran about
+   1,800px and 220 words on the screen after the pricing. One from each column
+   keeps the spread — they are sliced by column so this is not the first three
+   of a list — and halves the section. Everything from 46rem up gets all six. */
+@media (max-width: 45.99rem) {
+  .tst__col .tst__card:nth-of-type(2) { display: none; }
 }
 
 .tst__card {

@@ -183,43 +183,7 @@ const faqSchema = {
     </div>
   </section>
 
-  <!-- 4. Gradient CTA card — the turn from problem to service -->
-  <section class="section section--tight">
-    <div class="wrap" data-reveal>
-      <div class="cta-card">
-        <span class="cta-card__glint" aria-hidden="true"><span class="cta-card__sheen"></span></span>
-        <div>
-          <h2>We fix all four.</h2>
-          <p class="lede">
-            We measure it, find the cause and fix it; then measure again against
-            a set of questions we deliberately left alone, so you can see what
-            was actually us.
-          </p>
-        </div>
-        <a class="btn cta-card__btn" href="#report">Get a free visibility report</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- 5. Five surfaces. Real prompts by sector, rotating.
-       This was four bracketed placeholder rows. A placeholder prompt shows the
-       table's shape and nothing else; a real one shows what the product is,
-       which is the point of the section. -->
-  <section class="section section--sunk">
-    <div class="wrap" data-reveal>
-      <div class="section-head">
-        <h2 class="statement statement--sub">Providing everything you need to grow through AI Search.</h2>
-        <p class="lede">
-          One question. Five different answers. Across five engines. Different
-          companies named each time, built from different sources. Pick a sector
-          and see.
-        </p>
-      </div>
-      <PromptRotator />
-    </div>
-  </section>
-
-  <!-- 6. The four stages. Numbered cards on a coloured spine, each in its own
+  <!-- 4. The four stages. Numbered cards on a coloured spine, each in its own
        brand hue, arriving in sequence as the spine draws through them. -->
   <section class="section stages">
     <div class="wrap" data-reveal>
@@ -245,7 +209,32 @@ const faqSchema = {
     </div>
   </section>
 
-  <!-- 7. Pricing — two cards, gradient headers, prices stated -->
+  <!-- 5. Gradient CTA card, directly above pricing.
+       REWRITTEN WHEN IT MOVED HERE, 2026-08-29. It used to sit between the
+       problem grid and the demo, where "We fix all four" pointed back at the
+       four problems and its lede was the first statement of the method. In
+       this position it landed under "Delivering it in four stages" and read as
+       a promise about the stages, with a lede restating the four cards
+       immediately above it. Its job here is different: hand the reader into
+       the prices, and say what the free entry point is. -->
+  <section class="section section--tight">
+    <div class="wrap" data-reveal>
+      <div class="cta-card">
+        <span class="cta-card__glint" aria-hidden="true"><span class="cta-card__sheen"></span></span>
+        <div>
+          <h2>Every engagement starts with the same free measurement.</h2>
+          <p class="lede">
+            We measure it, tell you which of the three causes is keeping you out
+            of the answer, and hand you the report. Nothing about it commits you
+            to the prices below.
+          </p>
+        </div>
+        <a class="btn cta-card__btn" href="#report">Get a free visibility report</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Pricing — two cards, gradient headers, prices stated -->
   <section class="section section--sunk" id="pricing">
     <div class="wrap" data-reveal>
       <div class="section-head">
@@ -279,6 +268,24 @@ const faqSchema = {
       <p class="center-row mt-2">
         <span class="note-sm"><span class="sample-flag">Sample pricing</span> &nbsp;Figures are placeholders for layout. Real pricing is set before launch.</span>
       </p>
+    </div>
+  </section>
+
+  <!-- 7. Five surfaces. Real prompts by sector, rotating.
+       This was four bracketed placeholder rows. A placeholder prompt shows the
+       table's shape and nothing else; a real one shows what the product is,
+       which is the point of the section. -->
+  <section class="section">
+    <div class="wrap" data-reveal>
+      <div class="section-head">
+        <h2 class="statement statement--sub">Providing everything you need to grow through AI Search.</h2>
+        <p class="lede">
+          One question. Five different answers. Across five engines. Different
+          companies named each time, built from different sources. Pick a sector
+          and see.
+        </p>
+      </div>
+      <PromptRotator />
     </div>
   </section>
 

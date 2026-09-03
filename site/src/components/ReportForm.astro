@@ -13,7 +13,10 @@ const {
      made the pitch, and the old blurb repeated that pitch almost sentence for
      sentence. The form's own intro should add what the CTA doesn’t: the
      format and the turnaround. */
-  blurb = 'You’ll get it as a document, not a dashboard login. Usually back within two working days.',
+  /* Changed 2026-09-03 with the pricing sheet, which delivers the free report
+     on a call rather than as a document. The pricing card and this form are
+     the same offer and were promising two different things. */
+  blurb = 'We’ll walk you through it on a 15-minute call. You keep the report either way.',
   inverted = false,
 } = Astro.props;
 const submitted = Astro.url.searchParams.get('submitted') === 'true';

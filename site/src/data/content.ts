@@ -359,69 +359,104 @@ export const FAQS_HOME = FAQS.slice(0, 6);
  */
 export const PACKAGES = [
   {
-    key: 'audit',
-    name: 'The visibility audit',
-    a: 'cobalt',
-    covers: ['S', 'C'],
-    coversLabel: 'Surface and Cause, run once',
-    price: 'AED 9,500',
-    unit: 'fixed fee · one-off · four places per quarter',
-    lede: 'Where you stand across all five engines, and which of the three causes is keeping you out.',
-    summary:
-      'Most people start here. You get a proper measurement of your category and a list of what would move it. Hand the whole thing to your own team and never speak to us again if you like \u2014 that\u2019s deliberate. If our research always concluded \u201chire us\u201d, it wouldn\u2019t be worth much to you.',
+    key: 'report',
+    name: 'AI Visibility Report',
+    a: 'teal',
+    covers: ['S'],
+    coversLabel: 'Surface, run once',
+    price: 'Free',
+    /* Empty on purpose. The delivery promise is the `honest` line below, and
+       carrying it in both places printed it twice on the card. */
+    unit: '',
+    lede: 'See where you stand before you spend anything.',
+    summary: '',
     gets: [
-      'The frozen prompt set, verbatim, with the market stated per prompt',
-      'Who was named on each engine, in what order',
-      'Every domain each answer was built from',
-      'The run count behind every cell, and the model version where it varies',
-      'Which of the three causes applies to you, engine by engine',
-      'The entity check — whether a model can resolve who you are at all',
-      'A prioritised list of fixes, with each change written out so your team could action it',
+      'Your visibility across six AI engines',
+      'Share of voice vs three competitors',
+      'Which sources are recommending them instead of you',
     ],
-    honest:
-      'If buyers in your category aren\u2019t using AI to pick suppliers yet, this is where we tell you and stop. You keep the report either way.',
-    /* Written for the home page, which teases rather than lists. Lifting the
-       first few `gets` lines put the same four bullets on two pages. */
+    honest: 'Delivered on a 15-minute call.',
     teaser: [
-      'All five engines, measured separately',
-      'The reason you\u2019re missing, named',
-      'A fix list you could hand to your own team',
+      'Your visibility across six AI engines',
+      'Share of voice vs three competitors',
+      'Which sources recommend them instead of you',
     ],
-    cta: 'Get started',
+    cta: 'Get your free report',
     primary: true,
   },
   {
-    key: 'retainer',
-    name: 'The ongoing retainer',
+    key: 'core',
+    name: 'Core',
+    a: 'cobalt',
+    covers: ['S', 'C', 'A', 'N'],
+    coversLabel: 'All four stages, monthly',
+    price: 'AED 6,500',
+    unit: 'per month \u00b7 plus AED 3,500 one-off setup',
+    lede: 'Own the market you\u2019re already in.',
+    summary: '',
+    gets: [
+      'Tracked across ChatGPT, Google AI Overviews, Gemini, Perplexity, Claude and Copilot',
+      '2 earned citation placements a month \u2014 around 85% of AI citations come from third-party sources, not your own site',
+      'Quarterly category authority asset',
+      'Technical and entity foundation: schema, AI crawler access, Google Business Profile',
+      'Monthly reporting on mention rate, share of voice and AI-referred traffic',
+    ],
+    honest: 'One category, English, Dubai.',
+    teaser: [
+      'Tracked across all six AI engines',
+      '2 earned citation placements a month',
+      'Monthly reporting on mention rate and share of voice',
+    ],
+    cta: 'Book a call',
+    primary: false,
+  },
+  {
+    key: 'growth',
+    name: 'Growth',
     a: 'violet',
     covers: ['S', 'C', 'A', 'N'],
     coversLabel: 'All four stages, monthly',
-    price: 'from AED 14,000',
-    unit: 'per month · minimum three months',
-    lede: 'The audit every month, the work in between, and a net figure at the end of it.',
-    summary:
-      'Everything in the audit, plus us doing the work. We fix the technical side, write content an AI can quote from, and go after mentions on the sites your category\u2019s answers are built from. Then we measure again and show you how much of the change was us.',
+    price: 'AED 12,000',
+    unit: 'per month \u00b7 plus AED 3,500 one-off setup',
+    lede: 'Take the ground you don\u2019t hold yet.',
+    summary: 'Everything in Core, plus:',
     gets: [
-      'Everything in the audit, re-run monthly against the identical prompt set',
-      'Entity and structured-data corrections, made or specified for your team',
-      'Content built to be lifted into an answer cleanly',
-      'A placement plan naming target sources in priority order',
-      'Outreach run against that plan, with what landed and what didn’t',
-      'A held-back set of prompts, so the market’s own movement is visible',
-      'Your net gain per engine, with the raw counts behind every figure',
-      'What we’d do next, and what we’d stop doing',
+      'Up to three categories or service lines \u2014 around six times the query surface',
+      'English and Arabic',
+      '4 earned citation placements a month',
+      'Monthly category authority asset',
+      'Active competitor displacement \u2014 named targets, quarterly plan',
+      'Entity correction across third-party sources',
     ],
-    honest:
-      'Getting mentioned elsewhere depends on people who don\u2019t work for us, so you\u2019ll see the pitches that landed and the ones that didn\u2019t. And if the questions we left alone improved as much as the ones we worked on, your market moved and we didn\u2019t. We\u2019ll tell you.',
+    honest: 'Up to three categories, English and Arabic, UAE-wide.',
     teaser: [
-      'Everything in the audit, every month',
-      'The technical, content and outreach work itself',
-      'A net figure, not a headline one',
+      'Up to three categories or service lines',
+      'English and Arabic, UAE-wide',
+      '4 earned citation placements a month',
     ],
     cta: 'Book a call',
     primary: false,
   },
 ] as const;
+
+/**
+ * Sold alongside both paid tiers, not as a third card. Rendered as a line
+ * under the packages on /service.
+ */
+export const SETUP = {
+  name: 'Setup',
+  price: 'AED 3,500',
+  unit: 'one-off',
+  d: 'Schema, crawler access, entity fixes, tracking baseline and measurement setup. Ten working days, completed before month one begins.',
+} as const;
+
+/**
+ * Shown under the packages on both pages. The 90-day break clause is the
+ * commercial expression of the Net stage: it only works because a baseline is
+ * taken at the start and held back prompts make the movement attributable.
+ */
+export const TERMS =
+  'Six-month initial term with a 90-day review \u2014 if citation share hasn\u2019t moved against your baseline by day 90, you can end the engagement. Rolling monthly thereafter. Prices exclude VAT.';
 
 /**
  * THE ONE SOURCED STATISTIC ON THE SITE.

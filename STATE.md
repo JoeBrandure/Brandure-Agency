@@ -697,9 +697,18 @@ repo before building on anything here.
 - **ICP definition** — blocked on the vertical sprint. Cannot be written from
   first principles; needs evidence of which categories have weak, contestable
   AI answer surfaces.
-- **Pricing** — blocked on ICP, and on real delivery hours per engagement,
-  which is unknown until at least one delivery skill has been built and run
-  end to end.
+- **Pricing** — ~~blocked~~ **SET 2026-09-03** from the pricing sheet v2.0
+  (2026-08-31). Free AI Visibility Report; Core AED 6,500/month; Growth
+  AED 12,000/month; AED 3,500 one-off setup on both paid tiers; six-month
+  initial term with a 90-day break clause on citation share; ex-VAT. Live on
+  `/service` and the home teaser, and the "sample pricing" flag is gone.
+  **The block it was under is not resolved, only overridden.** Delivery hours
+  per engagement are still unmeasured, so gross margin at AED 6,500 is unknown
+  — the price was set against the market, not against cost to serve. Two
+  commitments now carry commercial risk until that is measured: two earned
+  citation placements a month on Core, four on Growth, and a 90-day exit if
+  citation share has not moved. Benchmarks behind the numbers are in
+  `research/sources/2026-08-30-aeo-pricing-benchmarks.md`.
 - **Client reporting** — deferred pending Searchable partner access. Format,
   cadence and delivery all unspecified until Searchable's output shape and
   export options are known. Looker Studio or equivalent is the fallback. See
@@ -741,9 +750,9 @@ repo before building on anything here.
   decision before launch.
 - **Site content — blocked on three placeholders.** The build is complete; the
   content is not.
-  1. **Pricing.** `/service` carries structure and scope but every figure reads
-     "On application". Pricing is blocked on ICP and on measured delivery
-     hours, so no rate card exists to publish. No number was invented.
+  1. ~~**Pricing.**~~ **Resolved 2026-09-03.** Real figures published on
+     `/service` and the home teaser; the "sample pricing" flag is removed.
+     See the pricing entry above for what is still unmeasured behind them.
   2. **Terms.** `/terms` is a placeholder covering website use only. Not
      lawyer-reviewed, and it does not cover client engagements.
   3. **Research.** The one published piece is an explicit placeholder about

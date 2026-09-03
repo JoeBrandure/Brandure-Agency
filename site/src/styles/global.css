@@ -668,8 +668,12 @@ a.card:hover, .card--hover:hover { transform: translateY(-3px); box-shadow: var(
    brand gradient appears at card scale, so the price is the loudest thing in
    the section — which is the point of stating it at all. */
 
+/* Three tiers since 2026-09-03, not two. Two across at tablet width and
+   three only once there is room for a price and a three-item list per column
+   without the bullets wrapping to three lines each. */
 .price-grid { display: grid; gap: 1.25rem; grid-template-columns: 1fr; align-items: stretch; }
-@media (min-width: 52rem) { .price-grid { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 46rem) { .price-grid { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 68rem) { .price-grid { grid-template-columns: repeat(3, 1fr); } }
 
 .offer {
   display: flex; flex-direction: column; height: 100%;
@@ -1915,7 +1919,10 @@ input:focus-visible { border-color: var(--focus); }
    reader hold half an answer in their head. */
 
 .pkg { display: grid; gap: 1.5rem; align-items: stretch; }
-@media (min-width: 60rem) { .pkg { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 52rem) { .pkg { grid-template-columns: 1fr 1fr; } }
+/* Three across needs more room than two did: these cards carry a full
+   artefact list, not a teaser. */
+@media (min-width: 76rem) { .pkg { grid-template-columns: repeat(3, 1fr); } }
 
 .pkg__c {
   --sa: var(--cobalt);
@@ -1989,6 +1996,16 @@ input:focus-visible { border-color: var(--focus); }
    accent on its own tint sits a hair above AA with no headroom. */
 .pkg__honest strong { color: color-mix(in srgb, var(--sa) 68%, var(--ink)); }
 .pkg__cta { margin-top: auto; align-self: flex-start; }
+
+/* Setup, sold alongside either paid tier rather than as a fourth card. */
+.pkg__setup {
+  max-width: none; margin: 1.75rem 0 0;
+  padding: 1rem 1.15rem;
+  border: 1px solid var(--border); border-radius: var(--radius);
+  background: var(--surface-card);
+  font-size: var(--small); line-height: 1.6; color: var(--muted);
+}
+.pkg__setup strong { color: var(--ink); }
 
 /* Three across rather than the default two, for the cost-of-absence cards. */
 @media (min-width: 60rem) {

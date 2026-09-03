@@ -5,7 +5,7 @@ import PromptRotator from '../components/PromptRotator.astro';
 import LogoStrip from '../components/LogoStrip.astro';
 import Testimonials from '../components/Testimonials.astro';
 import { SITE } from '../consts';
-import { FAQS, FAQS_HOME, HERO_MODE, HERO_STATS, HERO_CASES, PROBLEMS, STAGES, PACKAGES, ENGINES, PRIZE } from '../data/content';
+import { FAQS, FAQS_HOME, HERO_MODE, HERO_STATS, HERO_CASES, PROBLEMS, STAGES, PACKAGES, ENGINES, PRIZE, TERMS } from '../data/content';
 import { getCollection } from 'astro:content';
 import { readdirSync } from 'node:fs';
 
@@ -241,7 +241,7 @@ const faqSchema = {
         {/* No subheading here, and none on /service either. The packages
             sections carry a price and a card list; a lede between the heading
             and the cards was hedging in front of the number. */}
-        <h2>Two ways we get you there.</h2>
+        <h2>Three ways we get you there.</h2>
       </div>
 
       {/* A teaser, not the detail. The full artefact list per package lives on
@@ -263,11 +263,13 @@ const faqSchema = {
           </div>
         ))}
       </div>
-      <p class="center-row mt-1"><a class="textlink" href="/service#buy">Everything in both, in full &rarr;</a></p>
+      <p class="center-row mt-1"><a class="textlink" href="/service#buy">Everything in all three, in full &rarr;</a></p>
 
-      <p class="center-row mt-2">
-        <span class="note-sm"><span class="sample-flag">Sample pricing</span> &nbsp;Figures are placeholders for layout. Real pricing is set before launch.</span>
-      </p>
+      {/* The sample-pricing flag was removed here on 2026-09-03: these are the
+          real figures from the pricing sheet, not placeholders. The terms line
+          replaces it because a six-month term and a 90-day break clause are
+          part of the price and belong beside it. */}
+      <p class="center-row mt-2"><span class="note-sm">{TERMS}</span></p>
     </div>
   </section>
 

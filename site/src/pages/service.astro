@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ReportForm from '../components/ReportForm.astro';
-import { PACKAGES, ENGINES, COST_OF_ABSENCE, NOT_SEO } from '../data/content';
+import { PACKAGES, ENGINES, COST_OF_ABSENCE, NOT_SEO, SETUP, TERMS } from '../data/content';
 import { SCAN } from '../data/method';
 import { SITE } from '../consts';
 
@@ -43,7 +43,7 @@ const serviceSchema = {
 ---
 <BaseLayout
   title="Service"
-  description="What we sell and what it costs. A one-off audit that shows you where you stand across five AI engines and why, and a monthly retainer that does the work and shows you how much of the change was us."
+  description="What we sell and what it costs. A free AI visibility report, then Core at AED 6,500 a month or Growth at AED 12,000, with the setup fee, the terms and what lands on your desk all stated in full."
   schemas={[serviceSchema]}
 >
   <!-- 1. Hero: the offer and the constraint in the same breath. -->
@@ -176,7 +176,7 @@ const serviceSchema = {
         {/* No subheading. Same rule as the home pricing teaser: the cards
             carry the price and the artefact list, and a lede in between was
             softening the number before the reader reached it. */}
-        <h2>Start your AI Search growth one of two ways.</h2>
+        <h2>Start your AI Search growth one of three ways.</h2>
       </div>
 
       <div class="pkg" data-stagger>
@@ -197,7 +197,7 @@ const serviceSchema = {
             </div>
 
             <div class="pkg__body">
-              <p class="pkg__s">{p.summary}</p>
+              {p.summary && <p class="pkg__s">{p.summary}</p>}
 
               <p class="pkg__k">What lands on your desk</p>
               <ul class="pkg__gets">
@@ -211,9 +211,14 @@ const serviceSchema = {
         ))}
       </div>
 
-      <p class="center-row mt-2">
-        <span class="note-sm"><span class="sample-flag">Sample pricing</span> &nbsp;Figures are placeholders for layout. Real pricing is set before launch.</span>
+      {/* Setup is not a fourth card — it is bought alongside either paid tier,
+          and both cards already state it in their price line. It sits here as
+          a line so the ten-day lead time is visible before the terms. */}
+      <p class="pkg__setup">
+        <strong>{SETUP.name} &mdash; {SETUP.price} {SETUP.unit}.</strong> {SETUP.d}
       </p>
+
+      <p class="center-row mt-1"><span class="note-sm">{TERMS}</span></p>
     </div>
   </section>
 

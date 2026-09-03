@@ -1052,8 +1052,53 @@ greyscale, not assumed.
 | `src/content/research/` | The research pieces themselves |
 | `src/components/ComparisonTable.astro` | The comparison table |
 | `src/styles/tokens.css` | Every colour and size, defined once |
-| `src/consts.ts` | Site name, email, LinkedIn, analytics key |
+| `src/consts.ts` | Site name, contact email, form recipient, LinkedIn, analytics key, booking link |
 | `src/pages/llms.txt.ts` | The plain-text summary for AI crawlers, generated automatically |
+
+---
+
+## Form notifications
+
+The site has two Netlify forms. Both are plain HTML with `data-netlify="true"`,
+a hidden `form-name` and a honeypot — no JavaScript handler, no third-party
+embed.
+
+| Form name | Component | Where it appears |
+|---|---|---|
+| `report-request` | `src/components/ReportForm.astro` | home, `/service`, `/faq` |
+| `call-request` | `src/components/BookForm.astro` | `/service#book` |
+
+**Submissions are emailed to `joe@brandure.io`.** That recipient is recorded in
+`src/consts.ts` as `SITE.formsTo` so it is visible in the repo, but the
+constant does not enforce it — **Netlify form notifications have no
+`netlify.toml` equivalent.** They are a per-site setting in the Netlify UI, and
+setting them is a Netlify write, which is Joe's to make.
+
+### Setting it, once per form
+
+1. Netlify → the site → **Site configuration → Forms → Form notifications**.
+2. **Add notification → Email notification**.
+3. Set **Email to notify** to `joe@brandure.io`.
+4. Pick the form under **Form** — do this twice, once for `report-request` and
+   once for `call-request`. A notification is scoped to one form, so one
+   notification does not cover both.
+
+Until that is done, submissions are still captured — they appear under
+**Forms** in the Netlify dashboard — but no email is sent and nothing is lost.
+
+### Two things to check before relying on it
+
+- **A form only exists in Netlify once a deploy has contained its HTML.**
+  `call-request` is new as of 2026-09-03, so it will not appear in the Forms
+  list until the deploy carrying it has finished. Set its notification after
+  that, not before.
+- **`joe@brandure.io` needs to be a real mailbox.** This is unverified from
+  the repo: `brandure.io` currently resolves to Squarespace addresses rather
+  than Netlify, and `brandureai.com` is the domain noted as carrying live
+  Google Workspace mail. If `brandure.io` has no MX records pointed at a mail
+  provider, the address in the footer bounces and the form notification never
+  arrives. Confirm mail routing for `brandure.io` before treating either as
+  working.
 
 ---
 
@@ -1071,7 +1116,11 @@ greyscale, not assumed.
   writes — forms, passwords, domains, env vars — are Joe's to make.
 - **No custom domain is pointed.** `brandure.io` still needs the DNS step, and
   `brandureai.com` carries live mail — follow the runbook above before
-  touching it.
+  touching it. As of 2026-09-03 `brandure.io` resolves to Squarespace
+  addresses, so it is still pointed at a previous host.
+- **Form notifications are not set up yet**, and `joe@brandure.io` — now the
+  published contact address and the intended form recipient — has unverified
+  mail routing. See "Form notifications" above.
 - **The site is publicly reachable with no password**, which is worth a
   deliberate decision rather than a default while it still carries placeholder
   content.

@@ -9,7 +9,7 @@ import { ENGINE_MARKS } from '../data/engines';
  * inline fallback. See `src/data/engines.ts` for what the fallbacks are.
  *
  * The file is INLINED, not referenced with `<img>`, and that matters for one
- * of the five: OpenAI's mark is monochrome and published as
+ * of the six: OpenAI's mark is monochrome and published as
  * `fill="currentColor"`. Inside an `<img>` that resolves against the image's
  * own document and comes out black, which disappears on a dark chip. Inlined,
  * it inherits the chip's colour and works in both themes. The four
@@ -48,7 +48,7 @@ const markup = raw
     {markup ? (
       <Fragment set:html={markup} />
     ) : slug === 'gemini' ? (
-      /* Four-point star. The closest of the five to the real mark. */
+      /* Four-point star. The closest of the six to the real mark. */
       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1c.6 5.6 4.4 9.4 10 10-5.6.6-9.4 4.4-10 10-.6-5.6-4.4-9.4-10-10 5.6-.6 9.4-4.4 10-10Z"/></svg>
     ) : slug === 'google' ? (
       /* Simplified G. */

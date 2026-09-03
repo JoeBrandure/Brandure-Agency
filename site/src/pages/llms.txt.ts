@@ -17,15 +17,15 @@ export async function GET(_context: APIContext) {
 > ${SITE.description}
 
 ${SITE.name} is an answer engine optimisation (AEO) agency. It measures where a
-brand appears in AI-generated answers across ChatGPT, Claude, Gemini and Google
-AI Overviews, diagnoses why, and does the entity, content and third-party
-placement work that changes it. Each engine is reported separately, because the
-five disagree with each other materially.
+brand appears in AI-generated answers across ChatGPT, Claude, Perplexity,
+Gemini, Google AI Overviews and Copilot, diagnoses why, and does the entity,
+content and third-party placement work that changes it. Each engine is reported
+separately, because the six disagree with each other materially.
 
 ## Pages
 
 - [Home](${SITE.url}/): what AEO is, why answer engines differ from search, the
-  five-surface point, and the free visibility report request.
+  six-surface point, and the free visibility report request.
 - [Service](${SITE.url}/service): how an engagement runs — baseline, diagnosis,
   execution, re-measurement against a control set — and what a client receives
   at each stage.

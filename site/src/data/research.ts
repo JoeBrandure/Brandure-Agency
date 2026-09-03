@@ -49,8 +49,8 @@ export const SCAN_STEPS = [
     n: '04',
     a: 'cobalt',
     t: 'Mark every answer the same way',
-    d: 'Named with a source, named without one, or not there at all. Three options, applied the same way on all five engines.',
-    wrong: 'An averaged score hides which engine actually moved, and these five disagree with each other far more than they agree.',
+    d: 'Named with a source, named without one, or not there at all. Three options, applied the same way on all six engines.',
+    wrong: 'An averaged score hides which engine actually moved, and these six disagree with each other far more than they agree.',
   },
   {
     n: '05',

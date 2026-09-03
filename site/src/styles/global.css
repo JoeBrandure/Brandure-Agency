@@ -668,12 +668,10 @@ a.card:hover, .card--hover:hover { transform: translateY(-3px); box-shadow: var(
    brand gradient appears at card scale, so the price is the loudest thing in
    the section — which is the point of stating it at all. */
 
-/* Three tiers since 2026-09-03, not two. Two across at tablet width and
-   three only once there is room for a price and a three-item list per column
-   without the bullets wrapping to three lines each. */
+/* Two priced tiers. The free report is not one of them — it has its own CTA
+   and does not belong in the price ladder. */
 .price-grid { display: grid; gap: 1.25rem; grid-template-columns: 1fr; align-items: stretch; }
-@media (min-width: 46rem) { .price-grid { grid-template-columns: 1fr 1fr; } }
-@media (min-width: 68rem) { .price-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 52rem) { .price-grid { grid-template-columns: 1fr 1fr; } }
 
 .offer {
   display: flex; flex-direction: column; height: 100%;
@@ -983,14 +981,18 @@ label { display: block; font-size: var(--small); margin-bottom: 0.3rem; }
 .hint { color: var(--muted); font-size: var(--label); }
 .section--inv label { color: var(--ink-inv); }
 .section--inv .hint { color: var(--muted-inv); }
-input[type='text'], input[type='email'], input[type='url'] {
+input[type='text'], input[type='email'], input[type='url'], select {
   width: 100%; font: inherit; font-size: var(--body);
   padding: 0.6rem 0.75rem; border: 1px solid var(--border);
   border-radius: var(--radius-sm); background: var(--surface); color: var(--ink);
 }
+/* A select sizes itself to its widest option unless told otherwise, and the
+   tier options carry a full price line — it rendered 440px wide inside a
+   390px viewport and pushed the page sideways. */
+select { max-width: 100%; }
 .section--inv input { background: rgba(255, 255, 255, 0.07); border-color: var(--border-inv); color: var(--ink-inv); }
 .section--inv input::placeholder { color: var(--muted-inv); }
-input:focus-visible { border-color: var(--focus); }
+input:focus-visible, select:focus-visible { border-color: var(--focus); }
 .hp { position: absolute; left: -9999px; }
 .form-grid { display: grid; gap: 0 1rem; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); }
 
@@ -1919,10 +1921,7 @@ input:focus-visible { border-color: var(--focus); }
    reader hold half an answer in their head. */
 
 .pkg { display: grid; gap: 1.5rem; align-items: stretch; }
-@media (min-width: 52rem) { .pkg { grid-template-columns: 1fr 1fr; } }
-/* Three across needs more room than two did: these cards carry a full
-   artefact list, not a teaser. */
-@media (min-width: 76rem) { .pkg { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 60rem) { .pkg { grid-template-columns: 1fr 1fr; } }
 
 .pkg__c {
   --sa: var(--cobalt);

@@ -2,11 +2,27 @@ export const SITE = {
   name: 'Brandure',
   legalName: 'Brandure',
   url: 'https://brandure.io',
-  email: 'hello@brandure.io',
+  /* Changed from hello@ to joe@ on 2026-09-03 on instruction: joe@ is the
+     mailbox that is actually read. This one constant feeds the footer link,
+     the Organization schema in BaseLayout and llms.txt, so all three follow
+     from here — none of those files was edited directly. */
+  email: 'joe@brandure.io',
+  /* Where Netlify form submissions are emailed. RECORDED HERE, NOT ENFORCED
+     HERE. Netlify form notifications have no netlify.toml equivalent; they are
+     set per-site in the Netlify UI, which is a Netlify write and therefore
+     Joe's to make. This constant exists so the intended recipient is in the
+     repo and the two forms cannot drift apart from it. Steps are in
+     README.md under "Form notifications". */
+  formsTo: 'joe@brandure.io',
   linkedin: 'https://www.linkedin.com/company/brandure',
   areaServed: ['AE', 'GB', 'US'],
+  /* Calendar link for the booking form's success screen. NULL UNTIL A REAL
+     ONE EXISTS — the form promises times by email while it is null rather
+     than rendering a dead button. Put the Calendly (or equivalent) event URL
+     here and the "Pick a time" button appears with no other change. */
+  bookingUrl: null as string | null,
   description:
-    'Brandure is an answer engine optimisation agency. We show businesses where they stand inside AI answers on ChatGPT, Claude, Perplexity, Gemini and Google, then do the work to get them named.',
+    'Brandure is an answer engine optimisation agency. We show businesses where they stand inside AI answers on ChatGPT, Claude, Perplexity, Gemini, Google and Copilot, then do the work to get them named.',
 } as const;
 
 /** PostHog: organisation "Brandure Agency", EU region. phc_ keys are public

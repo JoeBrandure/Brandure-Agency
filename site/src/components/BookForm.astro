@@ -1,0 +1,105 @@
+---
+/**
+ * Book a call. Qualifying details first, calendar second.
+ *
+ * WHY A FORM AND NOT A BARE CALENDAR LINK. A raw booking link hands over a
+ * slot and nothing else, so the first ten minutes of every call go on
+ * establishing what could have been a text field. This captures the category,
+ * the market and the tier they are asking about, emails it, and only then
+ * offers the calendar. Nobody is blocked from booking — the calendar sits on
+ * the success screen, one click after submitting.
+ *
+ * NETLIFY. Same mechanism as ReportForm: `data-netlify`, a hidden `form-name`,
+ * and a honeypot. Netlify picks the form up from the built HTML on the next
+ * deploy from `main`. THE EMAIL NOTIFICATION IS NOT SET BY THIS FILE — it is
+ * configured once in the Netlify UI under Forms → Notifications, and that is
+ * Joe's to do. Until it is, submissions land in the Netlify dashboard and no
+ * email is sent.
+ *
+ * CALENDAR. `SITE.bookingUrl` is null until a real link exists. While it is
+ * null the success screen promises times by email instead of showing a dead
+ * button. Fill the constant in and the button appears — no change needed here.
+ */
+import { SITE } from '../consts';
+import { PACKAGES } from '../data/content';
+
+interface Props { id?: string; heading?: string; }
+const { id = 'book-form', heading = 'Book a call' } = Astro.props;
+const submitted = Astro.url.searchParams.get('booked') === 'true';
+---
+<section class="card" id={id} aria-labelledby={`${id}-h`} style="padding:1.6rem">
+  <h3 id={`${id}-h`} style="margin-top:0">{heading}</h3>
+
+  {submitted ? (
+    <div class="note" role="status">
+      <p>
+        <strong>Got it, thanks.</strong>
+        {SITE.bookingUrl
+          ? ' Pick a time that suits you and I will have your category open before we speak.'
+          : ' I will come back to you with times, usually within one working day, and I will have your category open before we speak.'}
+      </p>
+      {SITE.bookingUrl && (
+        <p style="margin-bottom:0">
+          <a class="btn" href={SITE.bookingUrl} target="_blank" rel="noopener">Pick a time &rarr;</a>
+        </p>
+      )}
+    </div>
+  ) : (
+    <>
+      <p style="font-size:var(--small)">
+        Two minutes of detail now means the call starts on your category rather
+        than on the basics. You&rsquo;ll get times straight after.
+      </p>
+      <form name="call-request" method="POST" action={`${Astro.url.pathname}?booked=true#${id}`}
+            data-netlify="true" netlify-honeypot="company-website-2" data-track="book">
+        <input type="hidden" name="form-name" value="call-request" />
+        <p class="hp"><label>Leave this empty<input name="company-website-2" tabindex="-1" autocomplete="off" /></label></p>
+
+        <div class="form-grid">
+          <div class="field">
+            <label for={`${id}-name`}>Name</label>
+            <input id={`${id}-name`} type="text" name="name" autocomplete="name" required />
+          </div>
+          <div class="field">
+            <label for={`${id}-email`}>Work email</label>
+            <input id={`${id}-email`} type="email" name="email" autocomplete="email" required />
+          </div>
+          <div class="field">
+            <label for={`${id}-company`}>Company</label>
+            <input id={`${id}-company`} type="text" name="company" autocomplete="organization" required />
+          </div>
+          <div class="field">
+            <label for={`${id}-url`}>Website</label>
+            <input id={`${id}-url`} type="url" name="website" placeholder="https://" autocomplete="url" required />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for={`${id}-category`}>Category you compete in</label>
+          <input id={`${id}-category`} type="text" name="category" required />
+          <span class="hint">However your buyers would describe it &mdash; "employment law in Dubai", "AI note-taking tools".</span>
+        </div>
+
+        {/* Asked, never inferred. CLAUDE.md's standing rule is that a market is
+            elicited rather than assumed, and some categories are distorted by
+            attaching one at all — hence the third option. */}
+        <div class="field">
+          <label for={`${id}-market`}>Market</label>
+          <input id={`${id}-market`} type="text" name="market" placeholder="Dubai, UAE, UK…" />
+          <span class="hint">Leave blank if your buyers wouldn&rsquo;t put a place in the question.</span>
+        </div>
+
+        <div class="field">
+          <label for={`${id}-tier`}>What you&rsquo;re asking about</label>
+          <select id={`${id}-tier`} name="tier">
+            {PACKAGES.map((p) => <option value={p.name}>{p.name} &mdash; {p.price} {p.unit}</option>)}
+            <option value="Not sure yet">Not sure yet</option>
+          </select>
+        </div>
+
+        <p><button class="btn" type="submit">Send this and pick a time</button></p>
+        <p class="hint">We use your details to prepare for the call and get back to you. Nothing else, and we will not pass them on.</p>
+      </form>
+    </>
+  )}
+</section>

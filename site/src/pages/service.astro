@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ReportForm from '../components/ReportForm.astro';
+import BookForm from '../components/BookForm.astro';
 import { PACKAGES, ENGINES, COST_OF_ABSENCE, NOT_SEO, SETUP, TERMS } from '../data/content';
 import { SCAN } from '../data/method';
 import { SITE } from '../consts';
@@ -26,7 +27,7 @@ const serviceSchema = {
   name: 'Answer engine optimisation',
   serviceType: 'Answer engine optimisation',
   description:
-    'Answer engine visibility measured across ChatGPT, Claude, Perplexity, Gemini and Google, the cause of every absence diagnosed, the entity, content and earned-placement work that follows, and a monthly net figure separating what the work moved from what the market moved.',
+    'Answer engine visibility measured across ChatGPT, Claude, Perplexity, Gemini, Google and Copilot, the cause of every absence diagnosed, the entity, content and earned-placement work that follows, and a monthly net figure separating what the work moved from what the market moved.',
   provider: { '@id': `${SITE.url}/#organization` },
   areaServed: SITE.areaServed.map((c) => ({ '@type': 'Country', identifier: c })),
   url: `${SITE.url}/service`,
@@ -43,7 +44,7 @@ const serviceSchema = {
 ---
 <BaseLayout
   title="Service"
-  description="What we sell and what it costs. A free AI visibility report, then Core at AED 6,500 a month or Growth at AED 12,000, with the setup fee, the terms and what lands on your desk all stated in full."
+  description="What we sell and what it costs. Core at AED 6,500 a month or Growth at AED 12,000, with the one time setup fee, the terms and what lands on your desk all stated in full."
   schemas={[serviceSchema]}
 >
   <!-- 1. Hero: the offer and the constraint in the same breath. -->
@@ -56,7 +57,7 @@ const serviceSchema = {
       <div data-load>
         <h1 class="statement" data-split>Knowing where you stand in AI Search, before you spend a thing.</h1>
         <p class="lede">
-          We measure your category across all five AI engines and show you
+          We measure your category across all six AI engines and show you
           who&rsquo;s getting named instead of you, and why.
         </p>
         <div class="hero-actions">
@@ -176,7 +177,7 @@ const serviceSchema = {
         {/* No subheading. Same rule as the home pricing teaser: the cards
             carry the price and the artefact list, and a lede in between was
             softening the number before the reader reached it. */}
-        <h2>Start your AI Search growth one of three ways.</h2>
+        <h2>Start your AI Search growth one of two ways.</h2>
       </div>
 
       <div class="pkg" data-stagger>
@@ -205,7 +206,7 @@ const serviceSchema = {
               </ul>
 
               <p class="pkg__honest"><strong>And plainly:</strong> {p.honest}</p>
-              <a class:list={['btn', !p.primary && 'btn--ghost', 'pkg__cta']} href="#report">{p.cta}</a>
+              <a class:list={['btn', !p.primary && 'btn--ghost', 'pkg__cta']} href="#book">{p.cta}</a>
             </div>
           </article>
         ))}
@@ -215,10 +216,26 @@ const serviceSchema = {
           and both cards already state it in their price line. It sits here as
           a line so the ten-day lead time is visible before the terms. */}
       <p class="pkg__setup">
-        <strong>{SETUP.name} &mdash; {SETUP.price} {SETUP.unit}.</strong> {SETUP.d}
+        <strong>{SETUP.name} &mdash; {SETUP.price}.</strong> {SETUP.d}
       </p>
 
       <p class="center-row mt-1"><span class="note-sm">{TERMS}</span></p>
+    </div>
+  </section>
+
+  <!-- 6b. Booking. Both package buttons point here rather than at a bare
+       calendar link, so the qualifying detail is captured before a slot is
+       given away. See the note at the top of BookForm.astro. -->
+  <section class="section section--tight" id="book">
+    <div class="wrap-narrow" data-reveal>
+      <div class="section-head">
+        <h2 class="statement statement--sub">Book a call.</h2>
+        <p class="lede">
+          Fifteen minutes on your category, what the six engines are saying
+          about it now, and which tier fits. No deck.
+        </p>
+      </div>
+      <BookForm id="book-form" />
     </div>
   </section>
 
@@ -249,7 +266,7 @@ const serviceSchema = {
               Keep the two in step — see the note there. */}
           <h2 class="statement statement--sub" data-split>Find out what AI Search is telling your buyers right now.</h2>
           <p class="lede">
-            Your category across all five engines. Who gets named, in what
+            Your category across all six engines. Who gets named, in what
             order, and where each answer came from. It is a top-level read,
             it is free, and there is no obligation attached to it.
           </p>

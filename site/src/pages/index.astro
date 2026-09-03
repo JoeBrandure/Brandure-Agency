@@ -57,7 +57,7 @@ const faqSchema = {
 
 <BaseLayout
   title={SITE.name}
-  description="We show you where your brand stands inside AI answers on ChatGPT, Claude, Perplexity, Gemini and Google, then do the work to get you named. Start with a free visibility report."
+  description="We show you where your brand stands inside AI answers on ChatGPT, Claude, Perplexity, Gemini, Google and Copilot, then do the work to get you named. Start with a free visibility report."
   schemas={[serviceSchema, faqSchema]}
 >
   <!-- 1. Hero — statement left, real measured figures right -->
@@ -71,7 +71,7 @@ const faqSchema = {
       <div data-load>
         <h1 class="statement" data-split>Turning AI Search from a blind spot into a revenue channel.</h1>
         <p class="lede">
-          Five engines, measured separately every month; so you can see exactly
+          Six engines, measured separately every month; so you can see exactly
           what we moved and what your market moved on its own.
         </p>
         <div class="hero-actions">
@@ -241,7 +241,7 @@ const faqSchema = {
         {/* No subheading here, and none on /service either. The packages
             sections carry a price and a card list; a lede between the heading
             and the cards was hedging in front of the number. */}
-        <h2>Three ways we get you there.</h2>
+        <h2>Two ways we get you there.</h2>
       </div>
 
       {/* A teaser, not the detail. The full artefact list per package lives on
@@ -258,12 +258,14 @@ const faqSchema = {
             <div class="offer__body">
               <p>{o.lede}</p>
               <ul>{o.teaser.map((i) => <li>{i}</li>)}</ul>
-              <a class:list={['btn', !o.primary && 'btn--ghost']} href={o.primary ? '#report' : '/service#buy'}>{o.cta}</a>
+              {/* Both tiers say "Book a call", so both go to the booking form
+                  on /service rather than one landing on the report form. */}
+              <a class:list={['btn', !o.primary && 'btn--ghost']} href="/service#book">{o.cta}</a>
             </div>
           </div>
         ))}
       </div>
-      <p class="center-row mt-1"><a class="textlink" href="/service#buy">Everything in all three, in full &rarr;</a></p>
+      <p class="center-row mt-1"><a class="textlink" href="/service#buy">Everything in both, in full &rarr;</a></p>
 
       {/* The sample-pricing flag was removed here on 2026-09-03: these are the
           real figures from the pricing sheet, not placeholders. The terms line
@@ -273,7 +275,7 @@ const faqSchema = {
     </div>
   </section>
 
-  <!-- 7. Five surfaces. Real prompts by sector, rotating.
+  <!-- 7. Six surfaces. Real prompts by sector, rotating.
        This was four bracketed placeholder rows. A placeholder prompt shows the
        table's shape and nothing else; a real one shows what the product is,
        which is the point of the section. -->
@@ -282,7 +284,7 @@ const faqSchema = {
       <div class="section-head">
         <h2 class="statement statement--sub">Providing everything you need to grow through AI Search.</h2>
         <p class="lede">
-          One question. Five different answers. Across five engines. Different
+          One question. Six different answers. Across six engines. Different
           companies named each time, built from different sources. Pick a sector
           and see.
         </p>
@@ -349,7 +351,7 @@ const faqSchema = {
               different offers. Change it here and change it there. */}
           <h2 class="statement statement--sub" data-split>Find out what AI Search is telling your buyers right now.</h2>
           <p class="lede">
-            Your category across all five engines. Who gets named, in what
+            Your category across all six engines. Who gets named, in what
             order, and where each answer came from. It is a top-level read,
             it is free, and there is no obligation attached to it.
           </p>

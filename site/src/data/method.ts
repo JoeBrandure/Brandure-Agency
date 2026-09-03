@@ -44,11 +44,11 @@ export const SCAN: Stage[] = [
     when: 'Week 1',
     does: [
       'We agree the questions with you first. The ones someone types when they’re choosing a supplier, not reading around the subject.',
-      'Every question goes to all five engines, signed out, more than once. One run tells you almost nothing.',
+      'Every question goes to all six engines, signed out, more than once. One run tells you almost nothing.',
       'Every answer gets marked the same way: named with a source, named without one, or not there at all.',
     ],
     rules:
-      'The idea that checking ChatGPT tells you where you stand. The five disagree constantly. One averaged score won’t tell you which is costing you business.',
+      'The idea that checking ChatGPT tells you where you stand. The six disagree constantly. One averaged score won’t tell you which is costing you business.',
   },
   {
     k: 'C',
@@ -134,7 +134,7 @@ export const NULL_CASES = [
 
 /** What SCAN deliberately is not. Short, because the point is the contrast. */
 export const NOT_SCAN = [
-  { t: 'Not a single visibility score', d: 'One number covering five engines can’t tell you which one to go and fix. You get each engine on its own, every time.' },
+  { t: 'Not a single visibility score', d: 'One number covering six engines can’t tell you which one to go and fix. You get each engine on its own, every time.' },
   { t: 'Not a dashboard login', d: 'A live chart you can’t check is just a claim with a graph attached. Every figure we give you traces back to a run you can look at.' },
   { t: 'Not a list of what we did', d: 'Hours worked isn’t a result. The report opens with your net gain on each engine, then explains what caused it.' },
 ] as const;

@@ -60,3 +60,11 @@ used unmodified, at a minimum size, and with clear space around it, and some
 prohibit recolouring. The chip applies a tinted background derived from the
 brand colour and **no colour transform to the mark itself**, so each renders as
 published.
+
+## copilot.svg
+
+Added 2026-09-03 when Copilot became the sixth tracked engine. Same provenance
+as the other five: `@lobehub/icons-static-svg` (MIT, v1.94.0), file
+`copilot-color.svg`, copied under the slug name with its `<title>` stripped and
+otherwise untouched. It is a multi-stop gradient mark, so like `google.svg` it
+ignores the `ink` value in `src/data/engines.ts` and paints its own colours.

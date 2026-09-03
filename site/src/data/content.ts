@@ -2,8 +2,9 @@
  * Shared page content. Copy lives here so the visible page and the structured
  * data read from one source rather than duplicating each other.
  */
-/* Five surfaces. Claude was missing and is one of the five that matter. */
-export const ENGINES = ['ChatGPT', 'Claude', 'Perplexity', 'Gemini', 'Google AI Overview'] as const;
+/* Six surfaces. Copilot was added on 2026-09-03: the offer covers all six,
+   so the site counts six everywhere. */
+export const ENGINES = ['ChatGPT', 'Claude', 'Perplexity', 'Gemini', 'Google AI Overview', 'Copilot'] as const;
 
 /* ============================ HERO ============================
  * Two hero variants. Switch with one line — no markup change.
@@ -60,9 +61,9 @@ export const HERO_STATS = [
   },
   {
     chip: 'Coverage',
-    n: '5',
+    n: '6',
     suffix: '',
-    label: 'answer engines measured separately — ChatGPT, Claude, Perplexity, Gemini, Google AI Overviews. Never one blended score.',
+    label: 'answer engines measured separately — ChatGPT, Claude, Perplexity, Gemini, Google AI Overviews, Copilot. Never one blended score.',
   },
 ] as const;
 
@@ -155,8 +156,8 @@ export const PROBLEMS = [
     n: '02',
     accent: 'violet',
     t: 'Every AI tells your buyer something different.',
-    p: 'Ask ChatGPT, Claude, Perplexity, Gemini and Google the same question today and you\u2019ll get five different lists.',
-    e: 'So one “AI visibility score” is an average of five answers. It might tell you there\u2019s a problem. It won\u2019t tell you where.',
+    p: 'Ask ChatGPT, Claude, Perplexity, Gemini, Google and Copilot the same question today and you\u2019ll get six different lists.',
+    e: 'So one “AI visibility score” is an average of six answers. It might tell you there\u2019s a problem. It won\u2019t tell you where.',
   },
   {
     n: '03',
@@ -180,7 +181,7 @@ export const PROBLEMS = [
  * marketing faster than any single word does.
  */
 export const STAGES = [
-  { n: 'S', a: 'cobalt', t: 'Surface', w: 'Week 1',  d: 'We agree the questions your buyers actually type, then run them across all five engines.' },
+  { n: 'S', a: 'cobalt', t: 'Surface', w: 'Week 1',  d: 'We agree the questions your buyers actually type, then run them across all six engines.' },
   { n: 'C', a: 'violet', t: 'Cause',   w: 'Week 2',  d: 'We find out which of the three is holding you back. Each one needs a different fix.' },
   { n: 'A', a: 'teal',   t: 'Act',     w: 'Ongoing', d: 'We fix what your site controls, then go and earn the mentions that actually move the answer.' },
   { n: 'N', a: 'deep',   t: 'Net',     w: 'Monthly', d: 'Every month you see what moved because of us, with your market\u2019s own movement taken out.' },
@@ -195,7 +196,7 @@ export const FAQS = [
   {
     group: 'The basics',
     q: 'What is answer engine optimisation?',
-    a: 'Getting your brand named and recommended inside the answers AI tools give. ChatGPT, Claude, Perplexity, Gemini, Google’s AI Overviews. A search engine hands your buyer a list of options. An answer engine hands them a decision.',
+    a: 'Getting your brand named and recommended inside the answers AI tools give. ChatGPT, Claude, Perplexity, Gemini, Google’s AI Overviews, Copilot. A search engine hands your buyer a list of options. An answer engine hands them a decision.',
   },
   {
     group: 'The basics',
@@ -222,7 +223,7 @@ export const FAQS = [
   {
     group: 'What gets measured',
     q: 'Which engines do you measure?',
-    a: 'ChatGPT, Claude, Perplexity, Gemini and Google’s AI Overviews, each reported on its own. They disagree with each other far more than people expect, so averaging them into one score hides the part you actually need.',
+    a: 'ChatGPT, Claude, Perplexity, Gemini, Google’s AI Overviews and Copilot, each reported on its own. They disagree with each other far more than people expect, so averaging them into one score hides the part you actually need.',
   },
   {
     group: 'What gets measured',
@@ -301,7 +302,7 @@ export const FAQS = [
   {
     group: 'Working together',
     q: 'What does the free report actually include?',
-    a: 'Your category run across all five engines: who gets named, in what order, and which sources each answer was built from. It’s the real thing, not a sample. Take it to your own team and act on it if you’d rather.',
+    a: 'Your category run across all six engines: who gets named, in what order, and which sources each answer was built from. It’s the real thing, not a sample. Take it to your own team and act on it if you’d rather.',
   },
   {
     group: 'Working together',
@@ -359,39 +360,13 @@ export const FAQS_HOME = FAQS.slice(0, 6);
  */
 export const PACKAGES = [
   {
-    key: 'report',
-    name: 'AI Visibility Report',
-    a: 'teal',
-    covers: ['S'],
-    coversLabel: 'Surface, run once',
-    price: 'Free',
-    /* Empty on purpose. The delivery promise is the `honest` line below, and
-       carrying it in both places printed it twice on the card. */
-    unit: '',
-    lede: 'See where you stand before you spend anything.',
-    summary: '',
-    gets: [
-      'Your visibility across six AI engines',
-      'Share of voice vs three competitors',
-      'Which sources are recommending them instead of you',
-    ],
-    honest: 'Delivered on a 15-minute call.',
-    teaser: [
-      'Your visibility across six AI engines',
-      'Share of voice vs three competitors',
-      'Which sources recommend them instead of you',
-    ],
-    cta: 'Get your free report',
-    primary: true,
-  },
-  {
     key: 'core',
     name: 'Core',
     a: 'cobalt',
     covers: ['S', 'C', 'A', 'N'],
     coversLabel: 'All four stages, monthly',
     price: 'AED 6,500',
-    unit: 'per month \u00b7 plus AED 3,500 one-off setup',
+    unit: 'per month \u00b7 plus AED 3,500 one time setup fee',
     lede: 'Own the market you\u2019re already in.',
     summary: '',
     gets: [
@@ -408,7 +383,7 @@ export const PACKAGES = [
       'Monthly reporting on mention rate and share of voice',
     ],
     cta: 'Book a call',
-    primary: false,
+    primary: true,
   },
   {
     key: 'growth',
@@ -417,7 +392,7 @@ export const PACKAGES = [
     covers: ['S', 'C', 'A', 'N'],
     coversLabel: 'All four stages, monthly',
     price: 'AED 12,000',
-    unit: 'per month \u00b7 plus AED 3,500 one-off setup',
+    unit: 'per month \u00b7 plus AED 3,500 one time setup fee',
     lede: 'Take the ground you don\u2019t hold yet.',
     summary: 'Everything in Core, plus:',
     gets: [
@@ -442,11 +417,16 @@ export const PACKAGES = [
 /**
  * Sold alongside both paid tiers, not as a third card. Rendered as a line
  * under the packages on /service.
+ *
+ * THE FREE VISIBILITY REPORT IS NOT A TIER and was removed from this list on
+ * 2026-09-03. It has its own CTA in several places already; sitting it beside
+ * two priced cards made the page read as a three-tier ladder with a free
+ * entry point, which is not the offer.
  */
 export const SETUP = {
-  name: 'Setup',
+  name: 'One time setup fee',
   price: 'AED 3,500',
-  unit: 'one-off',
+  unit: '',
   d: 'Schema, crawler access, entity fixes, tracking baseline and measurement setup. Ten working days, completed before month one begins.',
 } as const;
 
@@ -479,10 +459,15 @@ export const TERMS =
  * sourcing puts non-owned URL citations at 85.7%.
  */
 export const PRIZE = {
-  n: '84',
+  /* 85, not 84, since 2026-09-03. The pricing sheet states "around 85%" in the
+     Core tier and the site was carrying 84% here, so a reader got two numbers
+     for one fact. Both sit inside the source's own 82–89% band, so this is a
+     rounding choice rather than a different claim, and the citation below is
+     unchanged. Change one and change the other. */
+  n: '85',
   suffix: '%',
   claim: 'of what AI answers cite is media you don’t own.',
-  point: 'Most businesses are busy optimising the other 16%. That gap is the opportunity, and it is where almost all of the work sits.',
+  point: 'Most businesses are busy optimising the other 15%. That gap is the opportunity, and it is where almost all of the work sits.',
   source:
     'Muck Rack, “What Is AI Reading?”, May 2026. 25 million+ links from ChatGPT, Claude and Gemini across 17 industries. Held between 82% and 89% across three editions since July 2025.',
   caveat:

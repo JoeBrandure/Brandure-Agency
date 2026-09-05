@@ -31,9 +31,14 @@ const {
          style="padding:1.6rem">
   <h3 id={`${id}-h`} style="margin-top:0">{heading}</h3>
 
-  {!inverted && <p style="font-size:var(--small)">{blurb}</p>}
+  {!inverted && <p style="font-size:var(--small)" data-form-intro>{blurb}</p>}
+      {/* data-ajax turns this into an in-place submit — see FormEnhance.astro.
+          `action` stays a real route for the no-JS and fetch-failure paths. */}
       <form name="report-request" method="POST" action="/thanks"
-            data-netlify="true" netlify-honeypot="company-website-2" data-track="report">
+            data-netlify="true" netlify-honeypot="company-website-2" data-track="report"
+            data-ajax
+            data-done-title="Got it. Your report is being run."
+            data-done-body="We’ll walk you through it on a 15-minute call, and you keep the report either way. Expect to hear from us on the address you gave, usually within two working days.">
         <input type="hidden" name="form-name" value="report-request" />
         <p class="hp"><label>Leave this empty<input name="company-website-2" tabindex="-1" autocomplete="off" /></label></p>
 

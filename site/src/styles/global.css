@@ -994,6 +994,28 @@ select { max-width: 100%; }
 .section--inv input::placeholder { color: var(--muted-inv); }
 input:focus-visible, select:focus-visible { border-color: var(--focus); }
 .hp { position: absolute; left: -9999px; }
+
+/* Inline confirmation, swapped in where the form was. Deliberately sized to
+   sit inside the same card without changing its height much, so submitting
+   does not make the page jump under the reader. */
+.form-done {
+  border-left: 3px solid var(--accent);
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+  border-radius: var(--radius-sm);
+  padding: 1.1rem 1.25rem;
+}
+.form-done:focus { outline: none; }
+.form-done:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.form-done__t {
+  margin: 0 0 0.4rem; max-width: none;
+  font-family: var(--font-display); font-weight: 700;
+  font-size: var(--h3); line-height: 1.15; letter-spacing: -0.02em;
+  color: var(--ink);
+}
+.form-done__b { margin: 0; max-width: 56ch; font-size: var(--small); line-height: 1.6; color: var(--muted); }
+.section--inv .form-done { border-left-color: var(--accent-inv); background: rgba(255, 255, 255, 0.06); }
+.section--inv .form-done__t { color: var(--ink-inv); }
+.section--inv .form-done__b { color: var(--muted-inv); }
 .form-grid { display: grid; gap: 0 1rem; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); }
 
 /* Research index */

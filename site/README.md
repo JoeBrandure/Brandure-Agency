@@ -1074,20 +1074,29 @@ constant does not enforce it — **Netlify form notifications have no
 `netlify.toml` equivalent.** They are a per-site setting in the Netlify UI, and
 setting them is a Netlify write, which is Joe's to make.
 
-### Confirmation pages
+### Confirmation
 
-Both forms POST to a real route and Netlify redirects there after capturing the
-submission: `report-request` to `/thanks`, `call-request` to `/thanks-call`.
-Both carry `noindex` and are filtered out of the sitemap in `astro.config.mjs`.
+**Submitting does not navigate.** `FormEnhance.astro` posts the form to Netlify
+with `fetch` and swaps the form itself for an inline confirmation panel. The
+section around it, the rest of the page and the scroll position are untouched,
+and a reload brings the form back because no state is stored anywhere. Each
+form carries its own confirmation copy as `data-done-title` /
+`data-done-body`, with `data-done-cta` adding a calendar button once
+`SITE.bookingUrl` is filled in.
 
-**Do not replace these with a query-string success state.** Both forms
-originally posted back to their own URL with `?submitted=true` and rendered a
-confirmation behind `Astro.url.searchParams.get(...)`. This site is
-`output: 'static'`, so that condition is evaluated once at build time — where
-the query string is always absent — and the confirmation markup never reached
-the shipped HTML. Every submission was captured correctly and every submitter
-saw the empty form again, which reads as a failure. Found on 2026-09-05 after a
-live submission. `Astro.url.searchParams` is only safe under `output: 'server'`.
+`/thanks` and `/thanks-call` still exist and **should not be deleted**. They are
+the fallback path: with JavaScript off, or if the fetch fails for any reason,
+the form posts normally to its `action` and Netlify redirects there. A
+submission is never silently dropped.
+
+**Do not go back to a query-string success state.** Both forms originally
+posted to their own URL with `?submitted=true` and rendered a confirmation
+behind `Astro.url.searchParams.get(...)`. This site is `output: 'static'`, so
+that condition is evaluated once at build time — where the query string is
+always absent — and the confirmation never reached the shipped HTML. Every
+submission was captured and every submitter saw the empty form again, which
+reads as a failure. Found 2026-09-05 after a live submission.
+`Astro.url.searchParams` is only safe under `output: 'server'`.
 
 ### Setting it, once per form
 

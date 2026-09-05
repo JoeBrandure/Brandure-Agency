@@ -34,12 +34,22 @@ const { id = 'book-form', heading = 'Book a call' } = Astro.props;
 <section class="card" id={id} aria-labelledby={`${id}-h`} style="padding:1.6rem">
   <h3 id={`${id}-h`} style="margin-top:0">{heading}</h3>
 
-  <p style="font-size:var(--small)">
+  <p style="font-size:var(--small)" data-form-intro>
     Two minutes of detail now means the call starts on your category rather
     than on the basics. You&rsquo;ll get times straight after.
   </p>
+  {/* data-ajax turns this into an in-place submit — see FormEnhance.astro.
+      `action` stays a real route so a no-JS submit, or a failed fetch, still
+      lands somewhere that confirms it. */}
   <form name="call-request" method="POST" action="/thanks-call"
-        data-netlify="true" netlify-honeypot="company-website-2" data-track="book">
+        data-netlify="true" netlify-honeypot="company-website-2" data-track="book"
+        data-ajax
+        data-done-title={SITE.bookingUrl ? 'Got it. Now pick a time.' : 'Got it. Times are on their way.'}
+        data-done-body={SITE.bookingUrl
+          ? 'Fifteen minutes, and your category will be open in front of us before we start. Nothing to prepare.'
+          : 'We’ll come back to you with times, usually within one working day, and your category will be open in front of us before we start. Nothing to prepare.'}
+        data-done-cta={SITE.bookingUrl ? 'Pick a time' : undefined}
+        data-done-cta-href={SITE.bookingUrl ?? undefined}>
     <input type="hidden" name="form-name" value="call-request" />
     <p class="hp"><label>Leave this empty<input name="company-website-2" tabindex="-1" autocomplete="off" /></label></p>
 

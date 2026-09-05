@@ -1,0 +1,111 @@
+---
+/**
+ * Inline confirmation for Netlify forms. Progressive enhancement only.
+ *
+ * WHAT THIS REPLACES AND WHY. Two earlier attempts were wrong in different
+ * ways. The first branched on `Astro.url.searchParams` — dead on a static
+ * build, so submitters saw the empty form again and assumed failure. The
+ * second redirected to /thanks, which confirmed the submission but navigated
+ * the reader off the page they were reading and replaced everything on it.
+ *
+ * This one submits in place. The form is swapped for a confirmation panel,
+ * nothing else on the page changes, the reader can scroll anywhere, and a
+ * reload brings the form back because no state is stored anywhere.
+ *
+ * WITH JAVASCRIPT OFF the form still works: the `action` on each form points
+ * at a real confirmation route, so a no-JS submit is an ordinary POST and
+ * Netlify redirects there. The same route catches a failed fetch. That is why
+ * /thanks and /thanks-call still exist and should not be deleted.
+ *
+ * NETLIFY AJAX CONTRACT: POST url-encoded to any path on the site with
+ * `form-name` in the body. The honeypot rides along in the FormData.
+ */
+---
+<script is:inline>
+  (function () {
+    var forms = document.querySelectorAll('form[data-ajax]');
+    if (!forms.length || !window.fetch) return;
+
+    forms.forEach(function (form) {
+      form.addEventListener('submit', function (e) {
+        /* Let the browser do its own validation first. If it fails, this
+           handler never runs, so required fields behave normally. */
+        if (!form.checkValidity()) return;
+        e.preventDefault();
+
+        var btn = form.querySelector('button[type="submit"]');
+        var original = btn ? btn.textContent : '';
+        if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
+
+        fetch('/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams(new FormData(form)).toString(),
+        })
+          .then(function (res) {
+            if (!res.ok) throw new Error('Netlify returned ' + res.status);
+
+            var panel = document.createElement('div');
+            panel.className = 'form-done';
+            panel.setAttribute('role', 'status');
+            panel.setAttribute('tabindex', '-1');
+
+            var h = document.createElement('p');
+            h.className = 'form-done__t';
+            h.textContent = form.getAttribute('data-done-title') || 'Got it, thanks.';
+
+            var p = document.createElement('p');
+            p.className = 'form-done__b';
+            p.textContent = form.getAttribute('data-done-body') || '';
+
+            panel.appendChild(h);
+            if (p.textContent) panel.appendChild(p);
+
+            /* A calendar link, only when one has been configured. */
+            var cal = form.getAttribute('data-done-cta');
+            var calHref = form.getAttribute('data-done-cta-href');
+            if (cal && calHref) {
+              var a = document.createElement('a');
+              a.className = 'btn';
+              a.href = calHref;
+              a.target = '_blank';
+              a.rel = 'noopener';
+              a.textContent = cal;
+              var wrap = document.createElement('p');
+              wrap.style.margin = '1rem 0 0';
+              wrap.appendChild(a);
+              panel.appendChild(wrap);
+            }
+
+            /* The line introducing the form is stale the moment it is
+               submitted, so it goes with it. */
+            var intro = form.parentNode
+              ? form.parentNode.querySelector('[data-form-intro]')
+              : null;
+            if (intro) intro.remove();
+
+            /* Swap the form for the panel. Only the form goes — the section
+               around it, the page, and every other section stay exactly as
+               they were, so nothing about scrolling changes. */
+            form.replaceWith(panel);
+
+            /* Announce it to a screen reader and put the keyboard somewhere
+               sensible, without yanking the viewport around. */
+            panel.focus({ preventScroll: true });
+            var top = panel.getBoundingClientRect().top;
+            if (top < 0 || top > window.innerHeight) {
+              panel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+          })
+          .catch(function () {
+            /* Anything at all goes wrong and we hand it back to the browser,
+               which posts normally and lands on the form's action route. The
+               submission is never silently dropped. */
+            if (btn) { btn.disabled = false; btn.textContent = original; }
+            form.removeAttribute('data-ajax');
+            form.submit();
+          });
+      });
+    });
+  })();
+</script>

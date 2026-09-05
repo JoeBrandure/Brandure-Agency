@@ -1063,16 +1063,31 @@ The site has two Netlify forms. Both are plain HTML with `data-netlify="true"`,
 a hidden `form-name` and a honeypot — no JavaScript handler, no third-party
 embed.
 
-| Form name | Component | Where it appears |
-|---|---|---|
-| `report-request` | `src/components/ReportForm.astro` | home, `/service`, `/faq` |
-| `call-request` | `src/components/BookForm.astro` | `/service#book` |
+| Form name | Component | Where it appears | Lands on |
+|---|---|---|---|
+| `report-request` | `src/components/ReportForm.astro` | home, `/service`, `/faq` | `/thanks` |
+| `call-request` | `src/components/BookForm.astro` | `/service#book` | `/thanks-call` |
 
 **Submissions are emailed to `joe@brandure.io`.** That recipient is recorded in
 `src/consts.ts` as `SITE.formsTo` so it is visible in the repo, but the
 constant does not enforce it — **Netlify form notifications have no
 `netlify.toml` equivalent.** They are a per-site setting in the Netlify UI, and
 setting them is a Netlify write, which is Joe's to make.
+
+### Confirmation pages
+
+Both forms POST to a real route and Netlify redirects there after capturing the
+submission: `report-request` to `/thanks`, `call-request` to `/thanks-call`.
+Both carry `noindex` and are filtered out of the sitemap in `astro.config.mjs`.
+
+**Do not replace these with a query-string success state.** Both forms
+originally posted back to their own URL with `?submitted=true` and rendered a
+confirmation behind `Astro.url.searchParams.get(...)`. This site is
+`output: 'static'`, so that condition is evaluated once at build time — where
+the query string is always absent — and the confirmation markup never reached
+the shipped HTML. Every submission was captured correctly and every submitter
+saw the empty form again, which reads as a failure. Found on 2026-09-05 after a
+live submission. `Astro.url.searchParams` is only safe under `output: 'server'`.
 
 ### Setting it, once per form
 

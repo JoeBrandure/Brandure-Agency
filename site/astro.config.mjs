@@ -34,6 +34,9 @@ export default defineConfig({
         if (p.startsWith('/og/') || p === '/404') return false;
         // Case studies are sample scaffolding and carry noindex until real.
         if (p === '/work' || p.startsWith('/work/')) return false;
+        // Post-submission pages. They carry noindex, so listing them in the
+        // sitemap would ask a crawler to fetch a page we then tell it to drop.
+        if (p === '/thanks' || p === '/thanks-call') return false;
         return !excluded.has(p);
       },
     }),

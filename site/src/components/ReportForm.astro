@@ -19,20 +19,20 @@ const {
   blurb = 'We’ll walk you through it on a 15-minute call. You keep the report either way.',
   inverted = false,
 } = Astro.props;
-const submitted = Astro.url.searchParams.get('submitted') === 'true';
+/* NO SUCCESS STATE HERE. This used to branch on
+   `Astro.url.searchParams.get('submitted')`, which on a static build is
+   evaluated at build time — where the query string is always absent — so the
+   success markup was never in the shipped HTML. Netlify captured every
+   submission, redirected back to this same page, and the visitor saw an empty
+   form and assumed it had failed. The confirmation is a real route now:
+   /thanks. */
 ---
 <section class:list={['card', inverted && 'card--inv']} id={id} aria-labelledby={`${id}-h`}
          style="padding:1.6rem">
   <h3 id={`${id}-h`} style="margin-top:0">{heading}</h3>
 
-  {submitted ? (
-    <div class="note" role="status">
-      <p><strong>Got it, thanks.</strong> We’ll come back to you on the address you gave, usually within two working days.</p>
-    </div>
-  ) : (
-    <>
-      {!inverted && <p style="font-size:var(--small)">{blurb}</p>}
-      <form name="report-request" method="POST" action={`${Astro.url.pathname}?submitted=true#${id}`}
+  {!inverted && <p style="font-size:var(--small)">{blurb}</p>}
+      <form name="report-request" method="POST" action="/thanks"
             data-netlify="true" netlify-honeypot="company-website-2" data-track="report">
         <input type="hidden" name="form-name" value="report-request" />
         <p class="hp"><label>Leave this empty<input name="company-website-2" tabindex="-1" autocomplete="off" /></label></p>
@@ -63,6 +63,4 @@ const submitted = Astro.url.searchParams.get('submitted') === 'true';
         <p><button class="btn" type="submit">Send me the report</button></p>
         <p class="hint">We use your details to run the report and get back to you. Nothing else, and we will not pass them on.</p>
       </form>
-    </>
-  )}
 </section>

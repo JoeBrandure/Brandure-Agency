@@ -1,0 +1,93 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../consts';
+
+/* WHY THIS PAGE EXISTS. Both forms used to post back to their own URL with a
+   query string — `?submitted=true` — and render a success block behind
+   `Astro.url.searchParams.get(...)`. On a static build that condition is
+   evaluated ONCE, at build time, where the query string is always absent. The
+   success block was therefore never in the shipped HTML, so Netlify accepted
+   the submission, redirected to the same page, and the visitor saw the empty
+   form again with no confirmation. The submission was captured every time;
+   only the feedback was missing.
+
+   Astro's `Astro.url.searchParams` is safe in `output: 'server'`. This site is
+   `output: 'static'`. Any success state on a static form has to be a real
+   route, which is what this is.
+
+   Two pages rather than one, because the two forms promise different next
+   steps: a report lands in an inbox, a call needs a time picking. See
+   thanks-call.astro. */
+
+const noindexReason = 'A post-submission page has no search value and should not collect impressions.';
+---
+<BaseLayout
+  title="Thanks"
+  description="Your visibility report request is in. We'll come back to you on the address you gave."
+  noindex={true}
+>
+  <section class="hero hero--short">
+    <div class="mesh" aria-hidden="true">
+      <div class="mesh__layer mesh__layer--1"><div class="mesh__blob mesh__blob--1"></div></div>
+      <div class="mesh__layer mesh__layer--2"><div class="mesh__blob mesh__blob--2"></div></div>
+    </div>
+    <div class="wrap res-hero" data-load>
+      <p class="eyebrow">Request received</p>
+      <h1 class="statement" data-split>Got it. Your report is being run.</h1>
+      <p class="lede">
+        We&rsquo;ll walk you through it on a 15-minute call, and you keep the
+        report either way. Expect to hear from us on the address you gave,
+        usually within two working days.
+      </p>
+      <div class="hero-actions">
+        <a class="btn" href="/method">See how we measure it</a>
+        <a class="btn btn--ghost" href="/">Back to the home page</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--sunk">
+    <div class="wrap" data-reveal>
+      <div class="section-head">
+        <h2>While you wait</h2>
+        <p class="lede">
+          Two things worth reading before we speak, so the call starts further
+          along than it otherwise would.
+        </p>
+      </div>
+
+      <div class="problem-grid" data-stagger>
+        <div class="card problem problem--cobalt">
+          <span class="problem__n" aria-hidden="true">01</span>
+          <h3>How a scan actually runs</h3>
+          <p class="problem__p">
+            The four stages, why we hold some of your questions back, and what
+            makes a figure attributable rather than merely large.
+          </p>
+          <div class="problem__effect">
+            <span class="problem__k">Read</span>
+            <p><a href="/method">The method &rarr;</a></p>
+          </div>
+        </div>
+        <div class="card problem problem--violet">
+          <span class="problem__n" aria-hidden="true">02</span>
+          <h3>What it costs</h3>
+          <p class="problem__p">
+            Both tiers, what lands on your desk in each, the one time setup fee
+            and the terms. Nothing about the report commits you to any of it.
+          </p>
+          <div class="problem__effect">
+            <span class="problem__k">Read</span>
+            <p><a href="/service#buy">Service and pricing &rarr;</a></p>
+          </div>
+        </div>
+      </div>
+
+      <p class="center-row mt-2">
+        <span class="note-sm">
+          Nothing arrived? Reply to us directly at <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.
+        </span>
+      </p>
+    </div>
+  </section>
+</BaseLayout>

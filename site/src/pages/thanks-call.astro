@@ -36,6 +36,9 @@ import { SITE } from '../consts';
         )}
         <a class:list={['btn', SITE.bookingUrl && 'btn--ghost']} href="/method">See how we measure it</a>
       </div>
+      {/* A link, not an embed. This page is the no-JavaScript path, so a
+          widget that needs a script to render would be an empty box for
+          exactly the visitor who cannot run it. */}
     </div>
   </section>
 

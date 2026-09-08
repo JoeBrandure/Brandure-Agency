@@ -6,8 +6,9 @@
  * slot and nothing else, so the first ten minutes of every call go on
  * establishing what could have been a text field. This captures the category,
  * the market and the tier they are asking about, emails it, and only then
- * offers the calendar. Nobody is blocked from booking — the calendar sits on
- * /thanks-call, one click after submitting.
+ * offers the calendar. Nobody is blocked from booking — the picker appears in
+ * place the moment the form is accepted, with everything they just typed
+ * already attached to the booking.
  *
  * NETLIFY. Same mechanism as ReportForm: `data-netlify`, a hidden `form-name`,
  * and a honeypot. Netlify picks the form up from the built HTML on the next
@@ -16,9 +17,11 @@
  * Joe's to do. Until it is, submissions land in the Netlify dashboard and no
  * email is sent.
  *
- * CALENDAR. `SITE.bookingUrl` is null until a real link exists. While it is
- * null /thanks-call promises times by email instead of showing a dead button.
- * Fill the constant in and the button appears — no change needed here.
+ * CALENDAR. `SITE.bookingUrl` drives it. When set, the confirmation embeds
+ * the Calendly picker inline and the visitor books without leaving the page;
+ * when null, the confirmation promises times by email instead. Nothing else
+ * needs changing either way. The Calendly script is fetched only after a
+ * successful submit — see FormEnhance.astro.
  *
  * SUCCESS IS A ROUTE, NOT A QUERY STRING. This posted to its own URL with
  * `?booked=true` and branched on it, which on a static build is resolved at
@@ -46,10 +49,9 @@ const { id = 'book-form', heading = 'Book a call' } = Astro.props;
         data-ajax
         data-done-title={SITE.bookingUrl ? 'Got it. Now pick a time.' : 'Got it. Times are on their way.'}
         data-done-body={SITE.bookingUrl
-          ? 'Fifteen minutes, and your category will be open in front of us before we start. Nothing to prepare.'
+          ? 'Pick whatever suits below. Your details are already attached, so there is nothing to fill in twice and nothing to prepare.'
           : 'We’ll come back to you with times, usually within one working day, and your category will be open in front of us before we start. Nothing to prepare.'}
-        data-done-cta={SITE.bookingUrl ? 'Pick a time' : undefined}
-        data-done-cta-href={SITE.bookingUrl ?? undefined}>
+        data-done-embed={SITE.bookingUrl ?? undefined}>
     <input type="hidden" name="form-name" value="call-request" />
     <p class="hp"><label>Leave this empty<input name="company-website-2" tabindex="-1" autocomplete="off" /></label></p>
 

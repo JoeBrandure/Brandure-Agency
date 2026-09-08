@@ -16,11 +16,13 @@ export const SITE = {
   formsTo: 'joe@brandure.io',
   linkedin: 'https://www.linkedin.com/company/brandure',
   areaServed: ['AE', 'GB', 'US'],
-  /* Calendar link for the booking form's success screen. NULL UNTIL A REAL
-     ONE EXISTS — the form promises times by email while it is null rather
-     than rendering a dead button. Put the Calendly (or equivalent) event URL
-     here and the "Pick a time" button appears with no other change. */
-  bookingUrl: null as string | null,
+  /* The Calendly event the booking confirmation embeds. Verified against the
+     Calendly API on 2026-09-08: account joe@brandure.io, event "15 Minute
+     Meeting", Google Meet, active. The 15 matches the copy on the page — an
+     event of a different length would contradict what the visitor just read.
+     Set to null to fall back to promising times by email; nothing else needs
+     changing either way. */
+  bookingUrl: 'https://calendly.com/joe-brandure/15min' as string | null,
   description:
     'Brandure is an answer engine optimisation agency. We show businesses where they stand inside AI answers on ChatGPT, Claude, Perplexity, Gemini, Google and Copilot, then do the work to get them named.',
 } as const;

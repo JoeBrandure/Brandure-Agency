@@ -61,20 +61,91 @@
             panel.appendChild(h);
             if (p.textContent) panel.appendChild(p);
 
-            /* A calendar link, only when one has been configured. */
-            var cal = form.getAttribute('data-done-cta');
-            var calHref = form.getAttribute('data-done-cta-href');
-            if (cal && calHref) {
-              var a = document.createElement('a');
-              a.className = 'btn';
-              a.href = calHref;
-              a.target = '_blank';
-              a.rel = 'noopener';
-              a.textContent = cal;
-              var wrap = document.createElement('p');
-              wrap.style.margin = '1rem 0 0';
-              wrap.appendChild(a);
-              panel.appendChild(wrap);
+            /* The calendar itself, not a link to it. Only when the form
+               carries an embed URL — otherwise the panel is just the message.
+
+               The Calendly script is loaded HERE, on success, and never on
+               page load. Nobody browsing the site is served a third-party
+               script or given a third-party cookie unless they have already
+               chosen to book. */
+            var embed = form.getAttribute('data-done-embed');
+            if (embed) {
+              var cal = document.createElement('div');
+              cal.className = 'form-done__cal';
+              /* Something in the box while the script is in flight, so the
+                 reader is not looking at 42rem of nothing wondering whether
+                 it broke. Replaced the moment the widget mounts. */
+              var wait = document.createElement('p');
+              wait.className = 'form-done__wait';
+              wait.textContent = 'Loading the calendar…';
+              cal.appendChild(wait);
+              panel.appendChild(cal);
+
+              /* Match the widget to whichever theme is showing. Calendly takes
+                 these as bare hex in the query string, no leading hash. */
+              var cs = getComputedStyle(document.documentElement);
+              var hex = function (name, fallback) {
+                var v = cs.getPropertyValue(name).trim().replace('#', '');
+                return /^[0-9a-fA-F]{6}$/.test(v) ? v : fallback;
+              };
+              var url = embed
+                + (embed.indexOf('?') > -1 ? '&' : '?')
+                + 'hide_gdpr_banner=1&hide_landing_page_details=1'
+                + '&background_color=' + hex('--surface', 'ffffff')
+                + '&text_color=' + hex('--ink', '14181f')
+                + '&primary_color=' + hex('--accent', '2f5bff');
+
+              /* Everything they just typed, carried into the booking so the
+                 slot arrives with its context attached. a1 is the event's one
+                 custom question. */
+              var val = function (n) {
+                var f = form.elements[n];
+                return f && f.value ? f.value : '';
+              };
+              var context = [
+                val('company') ? 'Company: ' + val('company') : '',
+                val('website') ? 'Site: ' + val('website') : '',
+                val('category') ? 'Category: ' + val('category') : '',
+                val('market') ? 'Market: ' + val('market') : 'Market: not specified',
+                val('tier') ? 'Asking about: ' + val('tier') : ''
+              ].filter(Boolean).join('\n');
+
+              var mount = function () {
+                if (!window.Calendly) return;
+                if (wait.parentNode) wait.remove();
+                window.Calendly.initInlineWidget({
+                  url: url,
+                  parentElement: cal,
+                  prefill: {
+                    name: val('name'),
+                    email: val('email'),
+                    customAnswers: { a1: context }
+                  }
+                });
+              };
+
+              if (window.Calendly) {
+                mount();
+              } else if (!document.getElementById('calendly-widget-js')) {
+                var sc = document.createElement('script');
+                sc.id = 'calendly-widget-js';
+                sc.src = 'https://assets.calendly.com/assets/external/widget.js';
+                sc.async = true;
+                sc.onload = mount;
+                /* If Calendly cannot load, the reader still gets a way through
+                   rather than an empty box. */
+                sc.onerror = function () {
+                  cal.innerHTML = '';
+                  var a = document.createElement('a');
+                  a.className = 'btn';
+                  a.href = embed;
+                  a.target = '_blank';
+                  a.rel = 'noopener';
+                  a.textContent = 'Pick a time';
+                  cal.appendChild(a);
+                };
+                document.head.appendChild(sc);
+              }
             }
 
             /* The line introducing the form is stale the moment it is

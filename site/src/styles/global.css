@@ -1004,8 +1004,12 @@ input:focus-visible, select:focus-visible { border-color: var(--focus); }
   border-radius: var(--radius-sm);
   padding: 1.1rem 1.25rem;
 }
-.form-done:focus { outline: none; }
-.form-done:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+/* No focus styling, because nothing focuses this any more. It is a
+   role="status" live region — a screen reader announces it on insertion
+   without the focus being moved, and moving focus unasked is its own
+   accessibility problem. It previously carried tabindex="-1" and was focused
+   programmatically, which Chrome answered with :focus-visible: a 2px blue
+   rectangle drawn around the entire confirmation, calendar included. */
 .form-done__t {
   margin: 0 0 0.4rem; max-width: none;
   font-family: var(--font-display); font-weight: 700;
@@ -1048,12 +1052,15 @@ input:focus-visible, select:focus-visible { border-color: var(--focus); }
   clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap;
 }
 
-/* Full width of the card. Calendly reports its own height and resizes the
-   iframe, so min-height is only a floor to stop the box collapsing while the
-   script is in flight. Deliberately BELOW the widget's real height — set
-   above it and the difference shows up as dead space under the calendar. */
+/* HEIGHT, NOT MIN-HEIGHT. Calendly's inline widget sizes its iframe to this
+   container rather than to its own content, so a floor is not enough: with
+   min-height the box was 544px, the iframe filled that, and the widget's
+   layout clipped a few rows below its "Select a Date & Time" header. Their
+   documented embed is an explicit height plus min-width: 320px, and that is
+   what this is. Anything taller than the box scrolls inside the iframe. */
 .form-done__cal {
-  min-height: 34rem;
+  height: 44rem;
+  min-width: 320px;
   margin-top: 1.1rem;
 }
 .form-done__cal iframe { border: 0; width: 100%; display: block; }
@@ -1065,7 +1072,9 @@ input:focus-visible, select:focus-visible { border-color: var(--focus); }
 /* On a phone the widget is a single column whatever we do, and it needs the
    height. Pulled to the card's edges so it is not inset twice over. */
 @media (max-width: 45.99rem) {
-  .form-done__cal { min-height: 38rem; margin-inline: -1.1rem; }
+  /* Single column on a phone — month grid above the time list — so it needs
+     roughly half as much again as the desktop layout. */
+  .form-done__cal { height: 66rem; margin-inline: -1.1rem; }
   .book-wrap > .card.is-cal { max-width: none; }
 }
 .form-grid { display: grid; gap: 0 1rem; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); }

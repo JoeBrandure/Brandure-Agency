@@ -48,7 +48,6 @@
             var panel = document.createElement('div');
             panel.className = 'form-done';
             panel.setAttribute('role', 'status');
-            panel.setAttribute('tabindex', '-1');
 
             var h = document.createElement('p');
             h.className = 'form-done__t';
@@ -171,9 +170,9 @@
                they were, so nothing about scrolling changes. */
             form.replaceWith(panel);
 
-            /* Announce it to a screen reader and put the keyboard somewhere
-               sensible, without yanking the viewport around. */
-            panel.focus({ preventScroll: true });
+            /* role="status" announces on insertion, so there is nothing to
+               focus. Focusing it drew a :focus-visible outline around the
+               whole panel and moved the keyboard unasked. */
             var top = panel.getBoundingClientRect().top;
             if (top < 0 || top > window.innerHeight) {
               panel.scrollIntoView({ behavior: 'smooth', block: 'center' });

@@ -70,6 +70,12 @@
                chosen to book. */
             var embed = form.getAttribute('data-done-embed');
             if (embed) {
+              panel.classList.add('form-done--cal');
+              /* Lift the card's narrow cap. The form wants a readable column;
+                 the calendar wants width. */
+              var card = form.closest('.card');
+              if (card) card.classList.add('is-cal');
+
               var cal = document.createElement('div');
               cal.className = 'form-done__cal';
               /* Something in the box while the script is in flight, so the
@@ -90,7 +96,12 @@
               };
               var url = embed
                 + (embed.indexOf('?') > -1 ? '&' : '?')
-                + 'hide_gdpr_banner=1&hide_landing_page_details=1'
+                /* hide_event_type_details, NOT hide_landing_page_details.
+                   The latter is silently ignored on an inline embed, which is
+                   why the widget kept printing its own "15 Minute Meeting"
+                   header directly under a heading that already said fifteen
+                   minutes. */
+                + 'hide_gdpr_banner=1&hide_event_type_details=1'
                 + '&background_color=' + hex('--surface', 'ffffff')
                 + '&text_color=' + hex('--ink', '14181f')
                 + '&primary_color=' + hex('--accent', '2f5bff');

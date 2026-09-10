@@ -1017,19 +1017,57 @@ input:focus-visible, select:focus-visible { border-color: var(--focus); }
 .section--inv .form-done__t { color: var(--ink-inv); }
 .section--inv .form-done__b { color: var(--muted-inv); }
 
-/* The Calendly inline widget. It sizes its own iframe, but needs a height to
-   start from or it collapses to nothing while loading. Pulled to the panel's
-   edges so the calendar is not squeezed inside two sets of padding. */
-.form-done__cal {
-  min-height: 42rem;
-  margin: 1.1rem -0.75rem 0;
+/* ---------- The booking card, form state and calendar state ----------
+   The form wants a readable column; a booking widget wants width for a month
+   grid and a column of times side by side. Below about 900px Calendly stacks
+   them and the embed runs enormously tall, which is what made the first
+   version look broken. So the card is capped narrow while it holds the form,
+   and the cap lifts when the calendar mounts. */
+.book-wrap > .card { max-width: var(--wrap-narrow); margin-inline: auto; transition: max-width 240ms var(--ease); }
+.book-wrap > .card.is-cal { max-width: 66rem; }
+.book-wrap > .section-head { max-width: var(--wrap-narrow); }
+
+/* Calendar state. The confirmation drops its tint, border and padding here:
+   three nested boxes around a widget that is already a card in its own right
+   read as clutter, and the inset pushed the calendar into a column narrower
+   than it needs. The message stays, the chrome goes. */
+.form-done--cal {
+  border-left: 0;
+  background: none;
+  padding: 0;
 }
-.form-done__cal iframe { border: 0; width: 100%; }
+.form-done--cal .form-done__b { margin-bottom: 0.25rem; }
+
+/* The card's own "Book a call" heading is redundant once the confirmation
+   above the calendar says the same thing, so it goes to the screen-reader
+   layer rather than being deleted — it is still the card's accessible name
+   via aria-labelledby. */
+.card.is-cal > h3 {
+  position: absolute; width: 1px; height: 1px;
+  margin: -1px; padding: 0; overflow: hidden;
+  clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap;
+}
+
+/* Full width of the card. Calendly reports its own height and resizes the
+   iframe, so min-height is only a floor to stop the box collapsing while the
+   script is in flight. Deliberately BELOW the widget's real height — set
+   above it and the difference shows up as dead space under the calendar. */
+.form-done__cal {
+  min-height: 34rem;
+  margin-top: 1.1rem;
+}
+.form-done__cal iframe { border: 0; width: 100%; display: block; }
 .form-done__wait {
-  margin: 0; padding: 1.25rem 0.75rem 0; max-width: none;
+  margin: 0; padding: 1.25rem 0; max-width: none;
   font-size: var(--small); color: var(--muted);
 }
-@media (max-width: 45.99rem) { .form-done__cal { min-height: 46rem; margin-inline: -0.6rem; } }
+
+/* On a phone the widget is a single column whatever we do, and it needs the
+   height. Pulled to the card's edges so it is not inset twice over. */
+@media (max-width: 45.99rem) {
+  .form-done__cal { min-height: 38rem; margin-inline: -1.1rem; }
+  .book-wrap > .card.is-cal { max-width: none; }
+}
 .form-grid { display: grid; gap: 0 1rem; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); }
 
 /* Research index */

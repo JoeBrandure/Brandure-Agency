@@ -227,7 +227,12 @@ const serviceSchema = {
        calendar link, so the qualifying detail is captured before a slot is
        given away. See the note at the top of BookForm.astro. -->
   <section class="section section--tight" id="book">
-    <div class="wrap-narrow" data-reveal>
+    {/* `wrap`, not `wrap-narrow`. The card inside is capped at the narrow
+        width while it holds a form, and the cap lifts when the calendar
+        mounts — a booking widget needs room for a month grid and a column of
+        times side by side, and at 768px it stacks them and runs enormously
+        tall. See `.book-wrap` in global.css. */}
+    <div class="wrap book-wrap" data-reveal>
       <div class="section-head">
         <h2 class="statement statement--sub">Book a call.</h2>
         <p class="lede">

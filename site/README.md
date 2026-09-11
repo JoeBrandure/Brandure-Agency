@@ -1081,8 +1081,18 @@ with `fetch` and swaps the form itself for an inline confirmation panel. The
 section around it, the rest of the page and the scroll position are untouched,
 and a reload brings the form back because no state is stored anywhere. Each
 form carries its own confirmation copy as `data-done-title` /
-`data-done-body`, with `data-done-cta` adding a calendar button once
-`SITE.bookingUrl` is filled in.
+`data-done-body`. When `SITE.bookingUrl` holds a Calendly event, the booking
+form's confirmation embeds the picker inline instead of linking out — prefilled
+with the name and email just typed, and with company, site, category, market
+and tier written into the event's custom question so a slot arrives with its
+context attached. Calendly's script is fetched on successful submit and never
+on page load, so no visitor gets a third-party script or cookie unless they
+have chosen to book.
+
+The embed needs an explicit `height` on its container, not `min-height` —
+Calendly sizes its iframe to the container rather than to its own content, and
+a floor leaves the widget clipped a few rows below its header. Confirmed
+working on the live site 2026-09-11.
 
 `/thanks` and `/thanks-call` still exist and **should not be deleted**. They are
 the fallback path: with JavaScript off, or if the fetch fails for any reason,
@@ -1142,9 +1152,13 @@ Until that is done, submissions are still captured — they appear under
   `brandureai.com` carries live mail — follow the runbook above before
   touching it. As of 2026-09-03 `brandure.io` resolves to Squarespace
   addresses, so it is still pointed at a previous host.
-- **Form notifications are not set up yet**, and `joe@brandure.io` — now the
-  published contact address and the intended form recipient — has unverified
-  mail routing. See "Form notifications" above.
+- ~~**Form notifications are not set up yet.**~~ The booking flow is closed
+  out as of 2026-09-11: Calendly connected on `joe@brandure.io`, account
+  timezone corrected to Dubai, and the embedded picker confirmed rendering and
+  taking bookings on the live site. **Still unconfirmed:** whether the two
+  Netlify form notifications are switched on, and whether `joe@brandure.io`
+  receives mail — `brandure.io` still resolved to Squarespace when last
+  checked. See "Form notifications" above.
 - **The site is publicly reachable with no password**, which is worth a
   deliberate decision rather than a default while it still carries placeholder
   content.

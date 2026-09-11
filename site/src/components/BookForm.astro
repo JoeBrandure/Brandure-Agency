@@ -11,16 +11,16 @@
  * already attached to the booking.
  *
  * NETLIFY. Same mechanism as ReportForm: `data-netlify`, a hidden `form-name`,
- * and a honeypot. Netlify picks the form up from the built HTML on the next
- * deploy from `main`. THE EMAIL NOTIFICATION IS NOT SET BY THIS FILE — it is
- * configured once in the Netlify UI under Forms → Notifications, and that is
- * Joe's to do. Until it is, submissions land in the Netlify dashboard and no
- * email is sent.
+ * and a honeypot. THE EMAIL NOTIFICATION IS NOT SET BY THIS FILE — it has no
+ * netlify.toml equivalent and is configured per-form in the Netlify UI under
+ * Forms → Notifications. Submissions are captured either way; without it, they
+ * sit in the dashboard and no email goes out. See README.md.
  *
- * CALENDAR. `SITE.bookingUrl` drives it. When set, the confirmation embeds
- * the Calendly picker inline and the visitor books without leaving the page;
- * when null, the confirmation promises times by email instead. Nothing else
- * needs changing either way. The Calendly script is fetched only after a
+ * CALENDAR. `SITE.bookingUrl` drives it, and is live as of 2026-09-11 —
+ * confirmed rendering and taking bookings on the deployed site. When set, the
+ * confirmation embeds the Calendly picker inline and the visitor books without
+ * leaving the page; when null, it promises times by email instead. Nothing
+ * else needs changing either way. The Calendly script is fetched only after a
  * successful submit — see FormEnhance.astro.
  *
  * SUCCESS IS A ROUTE, NOT A QUERY STRING. This posted to its own URL with

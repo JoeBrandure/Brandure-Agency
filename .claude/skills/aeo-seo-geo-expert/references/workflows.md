@@ -11,7 +11,8 @@ what's missing rather than inventing new process.
 **Inputs:** brand, category, market, competitor set.
 
 **Method:** one prompt per category across ChatGPT, Perplexity, Gemini and Google
-Search. Logged out, clean profile, geo verified, n=3 per prompt. Log the
+Search. Unbranded prompts only (B6). Logged out, clean profile, geo verified,
+n=3 per prompt. Log the
 Places/Maps module separately from the generated text answer — they frequently
 disagree and a brand can win one and lose the other.
 
@@ -30,8 +31,9 @@ challenge.
 ## W2 — Prompt universe construction
 
 Build candidate prompts spanning all three funnel stages. Sources: Search Console
-high-impression terms, sales-call language, competitor comparison queries,
-"is X good for Y" validation queries.
+high-impression terms, Bing AI Performance grounding queries (the phrases
+Copilot generates to retrieve the client's content), sales-call language,
+competitor comparison queries, "is X good for Y" validation queries.
 
 Score each on volume band, commercial intent, and winnability from the SERP read
 (heuristic B4 — format and competitor test).
@@ -126,8 +128,13 @@ See heuristics F1 and F2. Skip entirely for clients with no local intent.
 Baseline via W1, then re-run the same cells on a fixed cadence. Report per
 surface, never as a single blended score.
 
-Metrics: mention frequency, citation frequency, share of voice, position within
-answer, source composition.
+Metrics: visibility (mention frequency), citation frequency, share of voice,
+position within answer, source composition and sentiment. Log source, mention
+and citation as separate states (G7). Confirm how share of voice is defined
+before quoting it (G6).
+
+First-party layer: pull GSC Generative AI and Bing AI Performance monthly (W11)
+and report them beside the sampled data, labelled as own-site, single-ecosystem.
 
 Layer Searchable dashboards on top once a live client account exists.
 
@@ -144,10 +151,43 @@ sources — that's the early warning on heuristic A3's closing window.
 Activates on live client access.
 
 **Use for:** share-of-voice trend, per-engine citation tracking, sources view
-(which domains and specific URLs ground competitor wins), agent queries against
-citation data.
+(which domains and specific URLs ground competitor wins), sentiment, the
+Opportunities tab (content gaps, sources to earn, technical fixes), agent
+queries against citation data. Playbook and metric definitions:
+`references/searchable-playbook.md`.
+
+**Sales hook:** Searchable's free visibility report on a prospect's domain is
+the opener — one snapshot showing the gap. It's Searchable's output, not
+Brandure's data. Conversion path: free report → W1 live demo → tracked
+Brandure-branded workspace.
+
+**Retained loop:** track → Opportunities tab (content gaps, sources to earn,
+technical fixes) → ship (W6/W7/W5) → re-read the four numbers → monthly report
+(W9) → repeat. The value of the retainer is the evidenced movement in that loop
+(G9).
 
 **Don't use for:** category discovery — it requires a domain input.
 
 **Always:** cross-check its prevalence figures against `verified-data.md` before
 any number reaches a client deck.
+
+---
+
+## W11 — First-party reporting setup
+
+**Inputs:** client domain, verified access to Google Search Console and Bing
+Webmaster Tools.
+
+**Method:** verify both properties, submit sitemaps to both, confirm the GSC
+Generative AI tab and Bing AI Performance are visible, record the date each
+started collecting. Check GSC's impression threshold before promising data.
+Export monthly.
+
+**Output:** dated first-party baseline and a monthly own-site pull for W9. Feed
+Bing grounding queries into W2.
+
+**Judgement calls:** do it before any retainer starts — history only accrues
+from connection. Data retention windows for the new reports haven't been
+verified, so export as a habit until confirmed.
+
+**Limit:** own site, Google and Bing ecosystems only. Say so in the report.

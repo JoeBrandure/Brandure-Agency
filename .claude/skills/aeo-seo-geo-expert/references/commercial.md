@@ -17,6 +17,10 @@ surfaces in the meeting. For a law firm, show a competitor's own blog quoted bac
 as neutral truth — and in Gemini's case, cited as the source for the entry about
 *them*. Two minutes, and it sells the retainer without slides.
 
+**Delivery platform:** Searchable's agency plan, white-labelled so the workspace
+presents as Brandure's own system. The free visibility report is the hook; the
+tracked workspace is the product.
+
 **Retainer artefacts:**
 - Monthly drift report (W9) — the recurring product
 - Earned placement pipeline (W7) — the main value driver
@@ -44,6 +48,10 @@ schema.
 - **"Placement is the product, on-site is hygiene."** The majority of non-paid AI
   citations come from earned media, not brand-owned domains. Sets the scope
   expectation correctly and pre-empts "can't we just fix the website."
+- **"A snapshot isn't a programme."** The free visibility report shows the gap
+  once. The retainer is the tracked loop — act on the Opportunities tab, ship,
+  re-measure — and the proof is consistent movement in visibility, share of
+  voice, citations and sentiment, per engine, over time.
 - **"GBP work is AEO work."** For local services. Unglamorous, cheap, and most
   competitors are selling content only.
 
@@ -74,7 +82,8 @@ not just internally.
    non-Google engines can actually read (heuristic D1).
 2. **Technical floor** — Organisation schema, named-author Article schema,
    sitemap to Google **and** Bing, bot access verified for
-   GPTBot/ClaudeBot/PerplexityBot.
+   GPTBot/ClaudeBot/PerplexityBot. Confirm GSC Generative AI and Bing AI
+   Performance are visible (W11) so its own first-party history starts now.
 3. **The vertical research index** — the citable original-research asset.
    Simultaneously the lead magnet, the digital-PR hook and the topical-authority
    anchor. Highest-leverage single artefact in the plan.

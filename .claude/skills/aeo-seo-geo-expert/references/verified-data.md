@@ -2,7 +2,8 @@
 
 Every figure carries a named source and a date. **Review trigger:** any
 prevalence, share or platform-behaviour figure older than ~90 days gets
-re-checked live before client use. Compiled 18 Aug 2026.
+re-checked live before client use. Compiled 18 Aug 2026; §8–9 and three
+reconciliation rows added 20 Sep 2026.
 
 ---
 
@@ -146,8 +147,42 @@ things a prospect can check on their phone.
 | Searchable as the measurement answer (CD) | Fine as a client-facing dashboard. Needs a domain to instantiate a workspace, so not a category-discovery tool. Manual sampling remains the discovery instrument. | High |
 | Google handles 13–14bn searches/day (CD, citing SparkToro) | Broadly consistent with public estimates. Fine to use with attribution. | Medium |
 | "60% of searches end without a click" (CD) | Close to, and slightly conservative against, the ~65–68% verified figure. Safe to use; the verified number is stronger. | High |
+| "There is no Search Console for LLMs" (CD) | Partly superseded. GSC Generative AI report and Bing AI Performance now exist, for Google/Bing surfaces and own site only. Still nothing first-party for ChatGPT, Perplexity or Claude. See §8. | High |
+| Bing report: "Copilot is the ceiling" (LS) | Slightly narrow. Covers Copilot, Bing AI summaries and select partner integrations, and expanded in Jun 2026. Still excludes ChatGPT, Perplexity, Google AIO. | High |
+| Share of voice = "% of responses that mention your brand vs competitors" (LS) | Ambiguous. Demo numbers (36% visibility, 11.2% SoV) imply share of total brand mentions. Confirm in-tool before quoting. | Medium |
+| "You can't tally tone" — sentiment can't be done by hand (LS) | Overstated. Tone can be coded on a rubric at small n; the tool's edge is scale and consistency. Its 0–100 score has no disclosed method. | Medium |
 
 **Pattern worth noting:** CD's *frameworks* survive scrutiny almost entirely
 intact. His *prevalence figures* are where the errors cluster, and they skew in
 the direction that makes the problem look more urgent and his tool more
 necessary. Use the frameworks freely; verify every number.
+
+---
+
+## 8. First-party platform reporting — verified 20 Sep 2026
+
+| Fact | Detail | Source |
+|---|---|---|
+| GSC Generative AI report launched | 3 Jun 2026, UK subset first; worldwide as of 31 Aug 2026 | Google Search Central blog / Search Console Help; SEJ |
+| GSC data available | Impressions in AI Overviews, AI Mode and Discover gen-AI features, by page, country, device, date. Data from 18 May 2026, no backfill. **No clicks, CTR or queries.** | Neil Patel, Smart Team, SEJ (Sep 2026) |
+| GSC opt-out control | Site-level toggle to block content from AI features without affecting organic rankings; shipped alongside the report | Neil Patel, SEJ |
+| GSC access condition | Property must have enough generative-AI impressions | Search Console Help |
+| Regulatory context | UK CMA driving disclosure; page-level controls due by Mar 2027; click data expected but not announced | SEJ, Sep 2026 |
+| Bing AI Performance launched | 9–11 Feb 2026 (public preview): total citations, average cited pages, grounding queries, page-level citation activity across Copilot, Bing AI summaries and select partners | Bing Webmaster Blog; Search Engine Land; SEJ |
+| Bing expansion | 16 Jun 2026: Intents, Topics, Citation Share, Compare added (preview, global) | Bing Search Blog |
+| Bing scope limit | Does **not** cover ChatGPT, Perplexity or Google AI Overviews | Digital Applied; Bing docs |
+
+**Read:** Google now discloses impressions only; Bing discloses citations and the
+retrieval queries behind them. Both are own-site only.
+
+---
+
+## 9. Vendor claims from the Searchable video — unverified, do not quote
+
+| Claim | Status |
+|---|---|
+| "Over a billion people use ChatGPT weekly" | Not checked. Verify against OpenAI before use. |
+| "100M+ AI answers analysed, 1,000+ brands" | Searchable marketing. |
+| A single AI answer is built from ~9 websites on average | Searchable internal data; sample and method undisclosed. Directional only. |
+| Half of tracked brands are named on <33.9% of their buying questions; half hold <4.1% share of mentions | Searchable's own dataset; not independently sourced. Consistent in direction with the low-overlap findings in §4, but don't quote the figures. |
+| Bloom & Wild: 36% visibility (2nd), Interflora 52%; SoV 11.2%; sentiment 86 vs 59 | Single vendor demo. Not a market benchmark. Sentiment scale method not disclosed. |

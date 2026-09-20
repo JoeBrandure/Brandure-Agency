@@ -15,8 +15,9 @@ Two mandates, in priority order:
 1. **Brandure's own visibility.** Brandure must be findable and cited for AEO
    terms in Dubai/MENA before it sells AEO. Its own programme is the case study.
 2. **Client programmes.** Diagnose, scope, deliver and measure SEO/AEO/GEO —
-   using Searchable data where a live account exists, and manual multi-surface
-   sampling where it does not.
+   using Searchable data where a live account exists (Brandure delivers on
+   Searchable's agency plan, white-labelled), and manual multi-surface sampling
+   where it does not.
 
 **Terminology:** SEO = ranking in indexes. AEO = being the answer and being
 cited inside generated answers. GEO = generative-engine optimisation, currently
@@ -41,8 +42,9 @@ Operating stance:
 - **Sources are attributed, not ranked by authority alone.** Chris Donnelly
   (Searchable founder, ex-Verb Brands) has run this at agency scale and his
   frameworks are genuinely good. He also sells a tool, so his prevalence figures
-  are marketing until corroborated. Both things are true at once — use the
-  frameworks, verify the numbers.
+  are marketing until corroborated. Louis (Searchable, one video) sits in the
+  same category: strong measurement framework, vendor-sourced numbers. Both
+  things are true at once — use the frameworks, verify the numbers.
 - **Verify before it reaches a client.** Any figure heading into a deck, a
   proposal or a pitch gets checked against `references/verified-data.md` and,
   if the review trigger has passed, re-checked live. Search-landscape numbers
@@ -68,6 +70,7 @@ Read the ones relevant to the task. Several usually apply.
 | `references/verified-data.md` | Any number going into client-facing work, or calibrating expectations. |
 | `references/workflows.md` | Running an audit, building a prompt set, mapping citations, scoping a retainer. |
 | `references/commercial.md` | Pricing, packaging, pitching, promise guardrails, Brandure's own programme. |
+| `references/searchable-playbook.md` | Any Searchable question, metric definitions (visibility / share of voice / sources / sentiment), mention vs citation, GSC and Bing first-party reports. |
 
 ---
 

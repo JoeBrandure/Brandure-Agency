@@ -10,6 +10,41 @@ Version format: `MAJOR.MINOR`
 
 ---
 
+## 1.1 — 2026-09-20
+
+Ingested Searchable video "How to track AI search visibility" (Louis). New
+source tag `LS`.
+
+**New:** `references/searchable-playbook.md` — four-number model (visibility,
+share of voice, sources, sentiment), source/mention/citation split, free
+first-party stack, how the Searchable platform works, and Brandure use (free
+report as hook, retainer as consistent movement).
+
+**practitioner-heuristics.md** — added B6 (unbranded baseline), G6 (four numbers
+read together), G7 (source ≠ mention ≠ citation), G8 (first-party reports as
+ground truth), G9 (retainer value is demonstrated movement). Updated G1 ("no
+Search Console for LLMs" now partly out of date), G3, G5 (Searchable is Brandure's
+white-labelled delivery platform).
+
+**verified-data.md** — §8 GSC Generative AI and Bing AI Performance facts,
+re-verified live 20 Sep 2026. §9 quarantined vendor claims. Four new
+reconciliation rows.
+
+**workflows.md** — W1 (unbranded), W2 (grounding queries), W9 (sentiment,
+source/mention/citation, first-party layer), W10 (free report as hook, retained loop), new W11
+(first-party reporting setup).
+
+**commercial.md** — free report as hook, retainer as consistent movement;
+Searchable agency plan (white-label) as delivery platform; Brandure's own
+programme checks GSC/Bing report visibility.
+
+**SKILL.md** — reference table row, LS in the sources stance.
+
+**Watch:** file count is now five, past the "~4" trigger in the open items
+below for a client-facing vs internal split.
+
+---
+
 ## 1.0 — 2026-08-19
 
 Initial build.
@@ -55,4 +90,8 @@ Brandure's own dogfood sequence.
 - Watch source composition on tracked prompt sets for the heuristic A3 closing
   window — if self-published sources start being down-weighted, E5 and the
   commercial positioning both need revision.
-- Add a client-facing vs internal split if reference files grow past ~4.
+- Add a client-facing vs internal split if reference files grow past ~4 (now 5).
+- Verify: ChatGPT weekly-user claim; retention window for GSC Generative AI data;
+  Searchable engine coverage, refresh cadence, sentiment method and white-label
+  scope. Pricing deliberately out of scope for now.
+- Re-check GSC click-data status and CMA timeline (page-level controls Mar 2027).

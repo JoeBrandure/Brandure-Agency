@@ -16,6 +16,11 @@ Sources currently in the library:
   Searchable being the measurement layer.
 - **BD** — Brandure's own Dubai four-surface scan, 7 categories × 4 surfaces,
   13 Aug 2026. First-party, local, small-n.
+- **LS** — Louis, Searchable ("How to track AI search visibility", YouTube,
+  ingested 20 Sep 2026). Clear four-metric measurement framework and a useful
+  free-tools walkthrough. Same commercial interest as CD: sells the tracker,
+  needs measurement to feel hard. Frameworks kept, numbers quarantined
+  (`verified-data.md` §9).
 - **FP** — general field practice / mechanical reasoning.
 
 ---
@@ -110,6 +115,17 @@ Dubai" queries in the UAE. Useful local calibration and a good pitch talking
 point — positions you as the one with data rather than vendor hype.
 *Breaks:* market-dependent. UAE coverage is thinner than US. Don't quote UAE
 rates to a US-facing client or vice versa.
+
+### B6. Baseline on unbranded prompts — **High** (LS, FP)
+Put no brand name in the prompt. A branded prompt makes the engine answer what
+you asked instead of revealing who it recommends unprompted. Branded prompts
+belong in the bottom-of-funnel validation set (B3), tracked separately, never
+mixed into the baseline.
+
+*Applies:* every baseline and every tracked prompt set.
+*Breaks:* reputation or crisis work where the branded answer is the thing being
+measured — then track it deliberately, as its own line.
+*Check:* scan the prompt list for brand names or product names before any run.
 
 ---
 
@@ -304,9 +320,14 @@ directory authority dominate.
 ## G. Measurement
 
 ### G1. Mentions and citations, not clicks — **High** (CD)
-There is no Search Console for LLMs. Track brand mention frequency and citation
-frequency per engine, per prompt, over time. Clicks are a lagging and
-increasingly irrelevant proxy.
+Track brand mention frequency and citation frequency per engine, per prompt,
+over time. Clicks are a lagging and increasingly irrelevant proxy.
+
+*Update 20 Sep 2026:* CD's line "there is no Search Console for LLMs" is now
+partly out of date. Google (Generative AI report, impressions only) and Bing (AI
+Performance, citations) each report on their own AI surfaces for your own site
+(see G8). There is still no first-party equivalent for ChatGPT, Perplexity or
+Claude, so the multi-surface tracking point stands.
 
 ### G2. Never report a single blended visibility score — **High** (BD, verified)
 Report per surface. A client who "ranks in ChatGPT" knows almost nothing about
@@ -317,7 +338,9 @@ Sell the audit as four separate visibility positions.
 Logged out, clean profile, geo verified, n=3 minimum per prompt. Log the
 Places/Maps module separately from the generated text answer — they frequently
 disagree, and a brand can win one and lose the other. Never present signed-in or
-n=1 data externally.
+n=1 data externally. Even the Searchable demo (n=2, one prompt) only proved that
+ChatGPT and Perplexity reshuffle while Google AIO held word-for-word — an
+illustration of variance, not evidence about a brand.
 
 ### G4. Standing rescan cadence — **High** (BD)
 Point-in-time data decays fast. A fixed monthly or quarterly re-run of the same
@@ -325,10 +348,62 @@ cells tracks drift and becomes the retained reporting product rather than a
 one-off audit.
 
 ### G5. Searchable — what it's for and what it isn't — **Medium** (BD)
-Good as a client-facing dashboard: share of voice, per-engine citation tracking,
+Brandure's delivery platform (agency plan, white-labelled). Good as a
+client-facing dashboard: share of voice, per-engine citation tracking,
 sources view showing which URLs ground competitor wins, agent queries against
-citation data. **Not** a category-discovery tool — it needs a domain input to
+citation data, an Opportunities tab (content gaps, sources to earn, technical
+fixes) and sentiment scoring. **Not** a category-discovery tool — it needs a domain input to
 instantiate a workspace. Manual multi-surface sampling remains the discovery
 instrument.
 *Check:* cross-check any Searchable prevalence figure against
 `verified-data.md` before it reaches a client deck.
+
+### G6. Report four numbers, and read them together — **High** (LS)
+Visibility (are you named), share of voice (share of all brand mentions), sources
+(what the engine consulted) and sentiment (how you're described). The leader on
+one can trail on another — in Searchable's demo, Bloom & Wild trailed Interflora
+on visibility and led on sentiment. Which number is weak tells you which fight
+it is: visibility gap → distribution (E3/E4); sentiment gap → positioning and
+review content.
+
+*Applies:* any tracked programme with a competitor set.
+*Breaks:* very small prompt sets, where share of voice swings on one answer.
+*Check:* confirm how the tool defines share of voice before quoting it. The
+video's wording is ambiguous; its own numbers imply share of total mentions.
+
+### G7. Source ≠ mention ≠ citation — **High** (LS)
+Consulted (source), named (mention) and linked (citation) are three states worth
+different amounts. Log them separately per engine. Perplexity naming a brand
+without a link is a mention, not a citation. Value rises along the chain, and
+even a citation converts to a click roughly 1% of the time (`verified-data.md`
+§1), so the goal is presence in the answer, not the visit.
+
+*Applies:* all reporting.
+*Check:* label which definition a number uses — Bing's "citations" and Google's
+"impressions" don't map one-to-one onto this split.
+
+### G8. Free first-party reports are ground truth for the client's own site — **High** (LS, verified 20 Sep 2026)
+GSC's Generative AI report (impressions in AI Overviews, AI Mode and Discover,
+by page, country, device, date; no clicks or queries) and Bing's AI Performance
+report (citations in Copilot, Bing AI summaries and partners, with grounding
+queries) show what actually happened on the client's own domain. Neither shows
+competitors or any other engine, so they complement multi-surface sampling and
+never replace it. Bing's grounding queries are the best first-party input to
+prompt-universe work (W2).
+
+*Applies:* every client with a verifiable domain; set up before work starts.
+*Breaks:* a client whose buyers start in ChatGPT or Perplexity — the reports
+say nothing about those journeys.
+*Check:* impression threshold (GSC), data start dates, and whether the client's
+property has the tab yet.
+
+### G9. Retainer value is demonstrated movement — **Medium** (FP, Joe)
+Sell the loop, not the dashboard: track → act on the Opportunities tab → ship →
+re-measure visibility, share of voice, citations and sentiment → report the
+change. Consistent, evidenced movement is what earns and keeps the retainer.
+
+*Applies:* every retained client on a tracked workspace.
+*Breaks:* the first 1–2 months, before the work can have moved anything (A2). Use
+that window to show baseline, fast levers and the plan.
+*Check:* report trends over a window per engine, not day-to-day scores. Engines
+reshuffle between runs. Never promise a position (`commercial.md`).

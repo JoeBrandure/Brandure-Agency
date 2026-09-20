@@ -1,0 +1,9 @@
+# Built skill upload bundles.
+#
+# `.claude/skills/<name>/` is the source of truth; the zip is a build artifact
+# regenerated on every version bump and uploaded to Claude settings by hand.
+# See the header of each skill's CHANGELOG.md, which states the same split.
+#
+# Rebuild with, from `.claude/skills/`:
+#   zip -rq ../../<name>-v<version>.zip <name>
+aeo-seo-geo-expert-v*.zip

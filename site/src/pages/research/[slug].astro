@@ -1,18 +1,27 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import ResearchLayout from '../../layouts/ResearchLayout.astro';
 import { SITE } from '../../consts';
 import { getCollection, render } from 'astro:content';
 
+/* DRAFTS ARE NOT BUILT. No route means no page, no sitemap entry and no feed
+   item — the exclusion happens once, here, rather than being repeated in each
+   consumer. A draft is still type-checked by the schema, so it cannot rot. */
 export async function getStaticPaths() {
-  const pieces = await getCollection('research');
+  const pieces = (await getCollection('research')).filter((p) => !p.data.draft);
   return pieces.map((piece) => ({ params: { slug: piece.id }, props: { piece } }));
 }
 
 const { piece } = Astro.props;
-const { Content, headings } = await render(piece);
+const { Content } = await render(piece);
 const d = piece.data;
-const pub = d.published.toISOString();
-const upd = (d.updated ?? d.published).toISOString();
+
+/* `piece` is the discriminator between the September 2026 research series and
+   the older scaffolding. See src/content.config.ts. */
+const isSeries = d.piece !== undefined;
+
+const pub = (d.published ?? new Date()).toISOString();
+const upd = (d.updated ?? d.published ?? new Date()).toISOString();
 const url = `${SITE.url}/research/${piece.id}`;
 
 const articleSchema = {
@@ -41,6 +50,9 @@ const breadcrumbSchema = {
   ],
 };
 ---
+{isSeries ? (
+  <ResearchLayout piece={piece}><Content /></ResearchLayout>
+) : (
 <BaseLayout
   title={d.title}
   description={d.description}
@@ -92,3 +104,4 @@ const breadcrumbSchema = {
   </p>
   <p><a href="/research">All research</a></p>
 </BaseLayout>
+)}

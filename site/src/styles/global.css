@@ -1583,6 +1583,69 @@ input:focus-visible, select:focus-visible { border-color: var(--focus); }
   font-size: 0.8125rem; font-weight: 600; color: var(--accent);
 }
 
+/* ---------- Research article (September 2026 series) ----------
+   A reading column, not a landing page: one measure, generous leading, and the
+   furniture (byline, hero, FAQ, bio) pinned to the same column as the prose. */
+.rs-crumb { margin: 0 auto 1.25rem; }
+.rs { padding-bottom: clamp(2rem, 4vw, 3.5rem); }
+.rs__head { margin-bottom: clamp(1.5rem, 3vw, 2.25rem); }
+.rs__t {
+  max-width: 24ch; margin: 0 0 0.9rem;
+  font-size: clamp(2rem, 1.2rem + 2.6vw, 3.25rem);
+  line-height: 1.08; letter-spacing: -0.03em;
+}
+.rs__by {
+  max-width: none; margin: 0 0 1.5rem;
+  font-size: var(--small); line-height: 1.6; color: var(--muted);
+}
+.rs__sep { margin: 0 0.45rem; opacity: 0.6; }
+
+.rs__hero { margin: 0 0 1.75rem; }
+.rs__hero img {
+  display: block; width: 100%; height: auto;
+  border: 1px solid var(--border); border-radius: var(--radius);
+  background: var(--surface-sunk);
+}
+
+/* Images inside the body get the same treatment as the hero, and their
+   following italic line is the caption. */
+.rs__body img {
+  display: block; width: 100%; height: auto; margin: 1.75rem 0 0.6rem;
+  border: 1px solid var(--border); border-radius: var(--radius);
+  background: var(--surface-sunk);
+}
+.rs__body p > em:only-child {
+  display: block; margin-bottom: 1.75rem;
+  font-style: normal; font-size: var(--small); color: var(--muted);
+}
+
+/* Tables carry most of the evidence in this series, so they scroll rather than
+   shrink — a squeezed seven-column table is unreadable on a phone. */
+.rs__body table { width: 100%; border-collapse: collapse; font-size: var(--small); }
+.rs__body > table,
+.rs__body .table-scroll { display: block; overflow-x: auto; }
+.rs__body th, .rs__body td {
+  padding: 0.55rem 0.7rem; border-bottom: 1px solid var(--border);
+  text-align: left; vertical-align: top;
+}
+.rs__body thead th { background: var(--surface-sunk); font-weight: 600; white-space: nowrap; }
+
+.rs__faq { margin-top: clamp(2.25rem, 4vw, 3.25rem); }
+.rs__faq > h2 { margin-bottom: 1.25rem; }
+.rs__q { margin-bottom: 1.4rem; }
+.rs__q h3 { margin: 0 0 0.4rem; font-size: var(--h3); }
+.rs__q p { margin: 0; }
+
+.rs__bio {
+  margin-top: clamp(2.25rem, 4vw, 3.25rem);
+  padding: 1.25rem 1.4rem;
+  border-left: 3px solid var(--accent);
+  background: color-mix(in srgb, var(--accent) 7%, transparent);
+  border-radius: var(--radius-sm);
+}
+.rs__bio p { margin: 0; font-size: var(--small); line-height: 1.65; }
+.rs__all { margin-top: 2rem; font-weight: 600; }
+
 /* ---------- /research: the piece index ----------
    One card per row rather than a two-up grid. The index is the page now, so
    each entry gets the width to carry a full title and a real summary instead

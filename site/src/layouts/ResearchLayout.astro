@@ -1,0 +1,139 @@
+---
+/**
+ * Layout for the September 2026 research series.
+ *
+ * WHY A SEPARATE LAYOUT. The legacy `research` entries are short scaffolding
+ * with a `vertical` tag and a sources list. The series carries a hero, a
+ * research date distinct from the publication date, and FAQs in front matter.
+ * Rather than branch the old template into knots, `[slug].astro` picks this one
+ * when a file declares `piece`.
+ *
+ * ONE SOURCE FOR THE FAQ. The visible FAQ section and the FAQPage JSON-LD are
+ * both generated from the `faq` front-matter array, so the page and the schema
+ * cannot drift apart. That was the point of moving them out of the body.
+ *
+ * NO CLIENT-SIDE JS.
+ */
+import BaseLayout from './BaseLayout.astro';
+import { SITE } from '../consts';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props { piece: CollectionEntry<'research'>; }
+const { piece } = Astro.props;
+const d = piece.data;
+
+const url = `${SITE.url}/research/${piece.id}`;
+
+/** Front matter allows the SET_ON_PUBLISH literal; a built page never has it. */
+const asDate = (v: unknown): Date => (v instanceof Date ? v : new Date(NaN));
+const published = asDate(d.datePublished);
+const modified = asDate(d.dateModified);
+const researched = asDate(d.researchDate);
+
+const iso = (x: Date) => x.toISOString().slice(0, 10);
+const human = (x: Date) =>
+  x.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+
+/** Only worth showing when the text has actually changed since launch. */
+const showUpdated = iso(modified) !== iso(published);
+
+const heroUrl = d.heroImage ? `${SITE.url}${d.heroImage}` : undefined;
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: d.title,
+  description: d.description,
+  url,
+  mainEntityOfPage: url,
+  datePublished: iso(published),
+  dateModified: iso(modified),
+  ...(heroUrl ? { image: [heroUrl] } : {}),
+  inLanguage: 'en',
+  author: {
+    '@type': 'Person',
+    name: 'Joe Hickman',
+    jobTitle: 'Founder',
+    url: `${SITE.url}/about`,
+    worksFor: { '@type': 'Organization', name: 'Brandure', url: SITE.url },
+  },
+  publisher: { '@type': 'Organization', name: 'Brandure', url: SITE.url },
+};
+
+const faqSchema =
+  d.faq.length > 0
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: d.faq.map((f) => ({
+          '@type': 'Question',
+          name: f.q,
+          acceptedAnswer: { '@type': 'Answer', text: f.a },
+        })),
+      }
+    : null;
+---
+<BaseLayout
+  title={d.title}
+  description={d.description}
+  schemas={faqSchema ? [articleSchema, faqSchema] : [articleSchema]}
+>
+  <nav aria-label="Breadcrumb" class="wrap-narrow meta rs-crumb">
+    <a href="/">Home</a> <span aria-hidden="true">/</span> <a href="/research">Research</a>
+  </nav>
+
+  <article class="wrap-narrow rs">
+    <header class="rs__head">
+      <h1 class="rs__t">{d.title}</h1>
+
+      <p class="rs__by">
+        By <a href="/about">Joe Hickman</a>, Founder, Brandure
+        <span class="rs__sep" aria-hidden="true">·</span>
+        Research conducted <time datetime={iso(researched)}>{human(researched)}</time>
+        <span class="rs__sep" aria-hidden="true">·</span>
+        Published <time datetime={iso(published)}>{human(published)}</time>
+        {showUpdated && (
+          <>
+            <span class="rs__sep" aria-hidden="true">·</span>
+            Updated <time datetime={iso(modified)}>{human(modified)}</time>
+          </>
+        )}
+      </p>
+
+      {d.heroImage && (
+        <figure class="rs__hero">
+          <img src={d.heroImage} alt={d.heroAlt} width="1600" height="900" decoding="async" />
+        </figure>
+      )}
+    </header>
+
+    <div class="prose rs__body"><slot /></div>
+
+    {d.faq.length > 0 && (
+      <section class="rs__faq" aria-labelledby="faq-h">
+        <h2 id="faq-h">Frequently asked questions</h2>
+        {d.faq.map((f) => (
+          <div class="rs__q">
+            <h3>{f.q}</h3>
+            <p>{f.a}</p>
+          </div>
+        ))}
+      </section>
+    )}
+
+    <section class="rs__bio" aria-labelledby="bio-h">
+      <h2 id="bio-h" class="sr-only">About the author</h2>
+      <p>
+        <strong>Joe Hickman</strong> is the founder of Brandure, a Dubai agency focused on
+        answer engine optimisation: how businesses get named in ChatGPT, Gemini,
+        Perplexity and Google&rsquo;s AI Overviews. He is also a Client Partner at
+        Snapchat MENA and has a background in paid social across Meta, Google, TikTok
+        and LinkedIn. <a href="/about">More about Joe</a>. Brandure&rsquo;s
+        <a href="/#report">free AI visibility report</a> shows where a business currently
+        appears across the engines.
+      </p>
+    </section>
+
+    <p class="rs__all"><a href="/research">All research &rarr;</a></p>
+  </article>
+</BaseLayout>

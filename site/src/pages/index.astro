@@ -7,6 +7,7 @@ import Testimonials from '../components/Testimonials.astro';
 import { SITE } from '../consts';
 import { FAQS, FAQS_HOME, HERO_MODE, HERO_STATS, HERO_CASES, PROBLEMS, STAGES, PACKAGES, ENGINES, PRIZE, TERMS } from '../data/content';
 import { getCollection } from 'astro:content';
+import { listable, sortDate, tagFor } from '../lib/research';
 import { readdirSync } from 'node:fs';
 
 /* Same lookup the strip uses: match a file in public/logos/ by slug. */
@@ -26,9 +27,7 @@ const caseCards = HERO_CASES.map((c) => ({
   dark: byName(`${c.slug}-dark`) ?? byName(c.slug),
 }));
 
-const pieces = (await getCollection('research'))
-  .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf())
-  .slice(0, 3);
+const pieces = listable(await getCollection('research')).slice(0, 3);
 
 const serviceSchema = {
   '@context': 'https://schema.org',
@@ -304,8 +303,8 @@ const faqSchema = {
         {pieces.map((p) => (
           <a class="card card--link card--tilt" href={`/research/${p.id}`}>
             <p class="meta">
-              <time datetime={p.data.published.toISOString().slice(0, 10)}>{p.data.published.toISOString().slice(0, 10)}</time>
-              <span class="tag">{p.data.vertical}</span>
+              <time datetime={sortDate(p).toISOString().slice(0, 10)}>{sortDate(p).toISOString().slice(0, 10)}</time>
+              <span class="tag">{tagFor(p)}</span>
               {p.data.placeholder && <span class="tag tag--draft">Placeholder</span>}
             </p>
             <h3>{p.data.title}</h3>

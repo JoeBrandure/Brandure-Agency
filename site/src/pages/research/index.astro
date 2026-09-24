@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
+import { listable, sortDate, tagFor } from '../../lib/research';
 import { SITE } from '../../consts';
 
 /* RESEARCH IS AN INDEX, NOT AN ARGUMENT. Rewritten 2026-08-29 on instruction.
@@ -21,9 +22,7 @@ import { SITE } from '../../consts';
    than as a section here — it is the only thing on the site that costs us
    something to say. */
 
-const all = (await getCollection('research')).sort(
-  (a, b) => b.data.published.valueOf() - a.data.published.valueOf(),
-);
+const all = listable(await getCollection('research'));
 const anyReal = all.some((p) => !p.data.placeholder);
 
 const fmt = (d: Date) =>
@@ -93,8 +92,13 @@ const schema = {
 
                 <div class="rcard__body">
                   <p class="rcard__meta">
-                    <span class="tag">{p.data.vertical}</span>
-                    <time datetime={p.data.published.toISOString().slice(0, 10)}>{fmt(p.data.published)}</time>
+                    <span class="tag">{tagFor(p)}</span>
+                    <time datetime={sortDate(p).toISOString().slice(0, 10)}>{fmt(sortDate(p))}</time>
+                    {p.data.dateModified instanceof Date &&
+                      p.data.datePublished instanceof Date &&
+                      p.data.dateModified.valueOf() !== p.data.datePublished.valueOf() && (
+                        <span class="rcard__upd">Updated {fmt(p.data.dateModified)}</span>
+                      )}
                     {p.data.updated && (
                       <span class="rcard__upd">Updated {fmt(p.data.updated)}</span>
                     )}

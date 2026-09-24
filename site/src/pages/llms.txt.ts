@@ -1,4 +1,5 @@
 import { getCollection } from 'astro:content';
+import { listable, sortDate, tagFor } from '../lib/research';
 import { SITE } from '../consts';
 import type { APIContext } from 'astro';
 
@@ -8,9 +9,9 @@ import type { APIContext } from 'astro';
  * piece updates it on the next build with no separate step.
  */
 export async function GET(_context: APIContext) {
-  const pieces = (await getCollection('research'))
-    .filter((p) => !p.data.placeholder)
-    .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf());
+  // Placeholders and drafts are both excluded, exactly as they are from the
+  // sitemap and the feed.
+  const pieces = listable(await getCollection('research')).filter((p) => !p.data.placeholder);
 
   const body = `# ${SITE.name}
 
@@ -36,7 +37,7 @@ separately, because the six disagree with each other materially.
 ${pieces.length === 0
   ? 'No research published yet. Placeholder entries on the site are scaffolding and carry no findings; they are excluded from the sitemap and this file.'
   : pieces
-      .map((p) => `- [${p.data.title}](${SITE.url}/research/${p.id}) — ${p.data.description} Published ${p.data.published.toISOString().slice(0, 10)}. Category: ${p.data.vertical}.`)
+      .map((p) => `- [${p.data.title}](${SITE.url}/research/${p.id}) — ${p.data.description} Published ${sortDate(p).toISOString().slice(0, 10)}. Category: ${tagFor(p)}.`)
       .join('\n')}
 
 ## How to cite

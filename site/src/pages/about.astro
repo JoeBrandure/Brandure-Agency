@@ -1,0 +1,71 @@
+---
+/**
+ * STUB — created 2026-09-24 because the research series links here from every
+ * byline, every author bio and the Person JSON-LD in the Article schema, and a
+ * link that 404s in structured data is worse than a thin page.
+ *
+ * What is here is Joe's bio as it already appears at the foot of the research
+ * drafts, and nothing invented. It needs a proper write-up: what Brandure is,
+ * why it exists, the Snapchat role in context, and a photograph.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../consts';
+
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  '@id': `${SITE.url}/about#person`,
+  name: 'Joe Hickman',
+  jobTitle: 'Founder',
+  url: `${SITE.url}/about`,
+  worksFor: { '@type': 'Organization', name: 'Brandure', url: SITE.url },
+  knowsAbout: [
+    'Answer engine optimisation',
+    'Generative engine optimisation',
+    'Search engine optimisation',
+    'Paid social',
+  ],
+};
+---
+<BaseLayout
+  title="About"
+  description="Joe Hickman is the founder of Brandure, a Dubai agency focused on answer engine optimisation — how businesses get named in ChatGPT, Gemini, Perplexity and Google's AI Overviews."
+  schemas={[personSchema]}
+>
+  <section class="hero hero--short">
+    <div class="mesh" aria-hidden="true">
+      <div class="mesh__layer mesh__layer--1"><div class="mesh__blob mesh__blob--1"></div></div>
+      <div class="mesh__layer mesh__layer--2"><div class="mesh__blob mesh__blob--2"></div></div>
+    </div>
+    <div class="wrap res-hero" data-load>
+      <p class="eyebrow">About</p>
+      <h1 class="statement" data-split>Joe Hickman</h1>
+      <p class="lede">Founder, Brandure.</p>
+    </div>
+  </section>
+
+  <section class="section section--sunk">
+    <div class="wrap-narrow" data-reveal>
+      <div class="prose">
+        <p>
+          Joe Hickman is the founder of Brandure, a Dubai agency focused on answer
+          engine optimisation: how businesses get named in ChatGPT, Gemini,
+          Perplexity and Google&rsquo;s AI Overviews.
+        </p>
+        <p>
+          He is also a Client Partner at Snapchat MENA and has a background in paid
+          social across Meta, Google, TikTok and LinkedIn.
+        </p>
+        <p>
+          Brandure publishes its own measurement rather than citing other people&rsquo;s.
+          <a href="/research">The research index</a> carries the questions asked, the
+          market, the engines and the run count behind every figure.
+        </p>
+      </div>
+
+      <p class="center-row mt-2">
+        <a class="btn" href="/#report">Get a free visibility report</a>
+      </p>
+    </div>
+  </section>
+</BaseLayout>

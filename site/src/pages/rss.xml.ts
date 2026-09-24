@@ -1,12 +1,12 @@
 import rss from '@astrojs/rss';
 import { getCollection } from 'astro:content';
+import { listable, sortDate, tagFor } from '../lib/research';
 import { SITE } from '../consts';
 import type { APIContext } from 'astro';
 
 export async function GET(context: APIContext) {
-  const pieces = (await getCollection('research'))
-    .filter((p) => !p.data.placeholder) // placeholders never reach the feed
-    .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf());
+  // Placeholders never reach the feed, and nor do drafts.
+  const pieces = listable(await getCollection('research')).filter((p) => !p.data.placeholder);
 
   return rss({
     title: `${SITE.name} research`,
@@ -15,9 +15,9 @@ export async function GET(context: APIContext) {
     items: pieces.map((p) => ({
       title: p.data.title,
       description: p.data.description,
-      pubDate: p.data.published,
+      pubDate: sortDate(p),
       link: `/research/${p.id}`,
-      categories: [p.data.vertical],
+      categories: [tagFor(p)],
     })),
     customData: '<language>en-gb</language>',
   });

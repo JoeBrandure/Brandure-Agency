@@ -112,22 +112,51 @@ three properties cannot. Any claim of "same order", "identical rates" or
 
 ---
 
-## 7. AI Overview coverage count — OPEN, not resolved
+## 7. AI Overview coverage count — resolved at 4 of 7
 
-**Raw file / published position:** 3 of 7 categories, named as law firms,
-industrial manufacturers and universities.
+**Raw file says:** 3 of 7 categories — law firms, industrial manufacturers,
+universities.
 
-**The conflict:** the B2B SaaS capture shows an AI Overview firing, grounded on
-F6S, DXB Start and Wellfound. The logged run recorded none on that query. So
-either SaaS is a fourth category and the count is 4 of 7, or the named three
-need revising.
+**Correct: 4 of 7.** B2B SaaS is the fourth. Capture
+`03-google-saas-bayzat-organic-no1.jpg` shows the AI Overview firing on "Best
+B2B SaaS companies in Dubai", signed out, headed "Top B2B SaaS Platforms &
+Startups in Dubai", leading with Nazm.ae, Dukkantek and Verofax, grounded on
+F6S (+2), DXB Start and Wellfound. All three cited domains are also page-one
+organic results for the same search.
 
-**Not resolvable from this repository.** The 44-cell file has never been
-committed here, so the reconciliation has to be done against it directly.
+*Used in Pieces 2 and 3.*
 
-**Published position pending that check:** 3 of 7, which is what the logged run
-recorded, with the SaaS capture disclosed in the body of Piece 3 and in Piece
-1's caption. This is consistent with the stated methodology — every number
-comes from the run log, and screenshots were recaptured afterwards. If the
-44-cell data shows SaaS fired during the logged run, the number becomes 4 of 7
-and the category list gains B2B SaaS.
+---
+
+## 8. The August baseline was the contaminated scan — "tripled" withdrawn
+
+**Published position was:** AI Overview coverage tripled, 1 of 7 in August to
+3 of 7 in September.
+
+**Withdrawn.** The 1 of 7 figure comes from
+`research/vertical-sprint/scans/2026-08-13-dubai/scan.md`, whose own front
+matter marks the Google Search cells `contaminated_cells: 14 (Gemini, Google
+Search — signed-in profile)`. Those cells were re-run signed out four days
+later as `scans/2026-08-17-dubai-rerun/`, which is marked `status: clean —
+supersedes the 13 Aug contaminated cells` and `session_state: incognito, signed
+out`. That is the run whose conditions match September's.
+
+The clean August baseline is **4 of 7** — law firms, B2B SaaS, industrial
+manufacturers, universities. The repo's own `2026-08-17-dubai-rerun/diff.md`
+already records this under the heading "AI Overview coverage: 1 of 7 → 4 of 7".
+
+**So September's 4 of 7 is the same count on the same four categories.**
+Coverage held; it did not triple. The tripling was an artefact of comparing
+across a sign-in change. Boutique hotels, the only category the signed-in scan
+found an AI Overview on, had already lost it by 17 August.
+
+Both runs are n=1, so personalisation, a genuine platform change and
+run-to-run variance cannot be separated. The piece says so.
+
+**Second casualty, same cause.** Piece 1's law firm displacement claim — a
+firm's own listicle on page one in August, gone by September — also rests on a
+13 August Google Search cell (advocatealsuwaidi.com at organic #8). The clean
+17 August re-run does not have it on page one at all. The claim is now stated
+with that caveat rather than as a clean month-on-month change.
+
+*Used in Pieces 1, 2 and 3.*

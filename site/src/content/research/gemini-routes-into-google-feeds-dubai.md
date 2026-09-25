@@ -1,6 +1,6 @@
 ---
 title: "Gemini isn't answering your question. It's routing you into Google."
-description: "A 44-answer test of ChatGPT, Perplexity, Gemini and Google Search in Dubai found Gemini routes answers into Google's own feeds, which feed depends on the category, and Google's AI Overview tripled its coverage."
+description: "A 44-answer test of ChatGPT, Perplexity, Gemini and Google Search in Dubai found Gemini routes answers into Google's own feeds, which feed depends on the category, and Google's AI Overview already covers four of seven categories."
 piece: 3
 researchDate: 2026-09-10
 datePublished: 2026-09-25
@@ -12,7 +12,7 @@ faq:
   - q: Does Gemini use Google's own data to recommend businesses?
     a: "In our test, yes, in four of seven categories. Signed out, Gemini used Google Hotels for hotels, Google Maps place cards for clinics, Google Shopping product cards for manufacturers in two of three runs, and a YouTube card for universities."
   - q: Is Google's AI Overview common in Dubai searches?
-    a: "It appeared on 3 of 7 'best in Dubai' queries in September, up from 1 of 7 in our August scan. It showed on law firms, manufacturers and universities, and not on SaaS, clinics, dealerships or hotels."
+    a: "More common than it's given credit for. It appeared on 4 of 7 'best in Dubai' queries in September — law firms, B2B SaaS, industrial manufacturers and universities — and not on clinics, dealerships or hotels. Our clean August baseline showed the same four, so coverage held rather than grew."
   - q: Can a business choose which source Google's AI Overview cites?
     a: "No. Across three identical runs, the AI Overview named the same three manufacturers each time but cited a different set of sources on every run. Getting into the pool of citable pages is achievable; controlling which one is cited isn't."
   - q: What does ChatGPT use to rank local businesses in Dubai?
@@ -84,30 +84,33 @@ Gemini surfaced a YouTube video card, "Top 10 Universities in Dubai for Internat
 
 ## How much has Google's AI Overview grown in Dubai?
 
-It tripled. In our August scan, an AI Overview appeared on 1 of the 7 queries. In September it appeared on 3 of 7, and it moved: it left hotels and landed on law firms, manufacturers and universities.
+It hasn't grown. It's already there, and that's the more useful finding. An AI Overview fired on 4 of our 7 queries in September, and on the same 4 of 7 in our clean August baseline five weeks earlier. Same four categories both times.
 
-| Category | August | September |
+| Category | August, signed out | September |
 |---|---|---|
-| Law firms | No | Yes |
-| Industrial manufacturers | No | Yes |
-| Universities | No | Yes |
-| Boutique hotels | Yes | No |
-| B2B SaaS | No | No |
+| Law firms | Yes | Yes |
+| B2B SaaS | Yes | Yes |
+| Industrial manufacturers | Yes | Yes |
+| Universities | Yes | Yes |
+| Boutique hotels | No | No |
 | Aesthetic clinics | No | No |
 | Car dealerships | No | No |
 
-The categories that gained one are the ones where people research before they buy. The ones without it are local or transactional, and there the local pack, the ads or the Hotels module fill the top of the page instead.
+The four with an AI Overview are the categories people research before they buy. The three without are local or transactional, and there the local pack, the ads or the Hotels module fill the top of the page instead.
+
+One number we are not publishing, and why. Our first August scan recorded an AI Overview on 1 of 7 queries, boutique hotels alone. That scan ran on a signed-in profile. We re-ran those cells signed out on 17 August and got 4 of 7 — and hotels, the only category the signed-in scan found, had lost its AI Overview. We use the signed-out run as the baseline because it is the one that matches September's conditions. Comparing September against the signed-in figure would show coverage tripling in a month, which reads well and is an artefact of a sign-in change. Both runs are single samples, so we cannot separate personalisation from a platform change or from ordinary run-to-run variance.
 
 | Category | Named in the AI Overview | Sources it cited |
 |---|---|---|
 | Law firms | Al Tamimi & Company, Clyde & Co, Hadef & Partners | Legal 500 (×2) |
+| B2B SaaS | Nazm.ae, Dukkantek, Verofax | F6S, DXB Start, Wellfound |
 | Industrial manufacturers | Ducab, EGA, NAFFCO | Rotated between runs (see next section) |
 | Universities | University of Birmingham Dubai, Canadian University Dubai | AECC Global, TopUniversities (QS), University of Birmingham's own site |
 
 ![Google AI Overview for "Best law firms in Dubai" naming Al Tamimi & Company, Clyde & Co and Hadef & Partners, with Legal 500 as the cited source](/images/research/02-google-lawfirms-ai-overview-legal500.webp)
 *Google Search, signed out, UAE. The AI Overview on law firms is grounded on Legal 500.*
 
-Coverage is still moving. When we recaptured the B2B SaaS results for Piece 1, an AI Overview had appeared on that query too. We've kept the count at three because that is what the logged run recorded.
+For a Dubai business in one of those four categories, the practical reading is that the AI Overview is not a thing arriving later this year. It was sitting above your organic result in August and it was still there in September.
 
 ## Can you get cited in an AI Overview on purpose?
 
@@ -123,6 +126,8 @@ You can get into the pool. You can't pick the citation. We ran the manufacturer 
 *Google Search, signed out, UAE. AI Overview (top) citing mazeed, local pack below.*
 
 The organic page is stable. The AI Overview draws its citation from a small group of eligible pages and rotates between them. mazeed is also Perplexity's main source for the same query, so one aggregator page was feeding two surfaces.
+
+Within a single day the names held and only the sources moved. Over five weeks the names moved too. B2B SaaS had an AI Overview in both August and September, and between them the list it led with turned over almost completely: GrubTech, Dukkantek, Keepface and Saphyte in August; Nazm.ae, Dukkantek and Verofax in September. One company out of four survived the month. In manufacturers over the same period, EGA and Ducab held both times. Whether your category's AI Overview names a stable set or reshuffles it is worth knowing before anyone sells you a position in it.
 
 For a buyer, this is the useful part. Being one of the pages Google considers citable is winnable, and it's mostly ordinary search work. Being the cited source on a given day isn't something anyone controls. An agency promising you a specific AI Overview citation is promising something the data says doesn't hold still.
 
@@ -169,7 +174,7 @@ Gemini reads Google's own properties, and ChatGPT and Perplexity keep citing pag
 - **Conditions:** data collected 10 September 2026. Four surfaces, logged out, clean profile, geo verified to the United Arab Emirates, free or default model tier. Every cell was run in a fresh session. The logged-out Gemini tier served Flash-Lite.
 - **Volume:** 44 answers. Aesthetic clinics and industrial manufacturers were run three times on every surface (n=3). The other five categories were run once per surface (n=1), so their answers could differ on a repeat run.
 - **Market:** Dubai only. We don't know whether these patterns hold in Abu Dhabi, Riyadh or anywhere else.
-- **August comparison:** the AI Overview coverage table compares against our earlier August scan, which ran under different sign-in conditions, so treat the direction of change as more reliable than the exact baseline. The local pack figures are September only — the interval against the August baseline could not be established, so no change is claimed.
+- **August baseline:** the AI Overview coverage table compares September against our 17 August re-run, which was signed out on the same conditions. An earlier 13 August scan of the same queries ran on a signed-in profile and is not used as the baseline; the difference between the two, and why it matters, is set out in the AI Overview section. Both runs are single samples, so personalisation, a platform change and run-to-run variance cannot be separated. The local pack figures are September only — the interval against any August baseline could not be established, so no change is claimed.
 - **What this doesn't cover:** signed-in or paid tiers, which can behave differently (signed-out Gemini returned no citations on non-local categories), other prompt phrasings, Arabic queries, and Claude and Copilot.
 - **Screenshots:** recaptured after the logged run under the same conditions. AI answers can shift between runs, so every number in this article comes from the run log, and the screenshots illustrate the pattern.
 

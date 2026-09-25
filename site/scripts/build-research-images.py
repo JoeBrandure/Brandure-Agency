@@ -76,6 +76,22 @@ def by_prefix(prefix: str) -> Path:
     return hits[0]
 
 
+def wrap(draw, text, font, width):
+    """Greedy wrap. The caption carries the evidence, so it must never be clipped."""
+    words, lines, line = text.split(), [], ""
+    for w in words:
+        trial = f"{line} {w}".strip()
+        if draw.textlength(trial, font=font) <= width:
+            line = trial
+        else:
+            if line:
+                lines.append(line)
+            line = w
+    if line:
+        lines.append(line)
+    return lines
+
+
 def composite(spec):
     left, l_label = Image.open(by_prefix(spec["left"][0])), spec["left"][1]
     right, r_label = Image.open(by_prefix(spec["right"][0])), spec["right"][1]
@@ -85,8 +101,12 @@ def composite(spec):
     left, right = scale(left), scale(right)
 
     label_f, cap_f = inter(26), inter_r(24)
-    label_h, cap_h, pad = 44, 70, 24
+    label_h, pad, line_h = 44, 24, 34
     body_h = max(left.height, right.height)
+
+    probe = ImageDraw.Draw(Image.new("RGB", (1, 1)))
+    cap_lines = wrap(probe, spec["caption"], cap_f, COMP_W)
+    cap_h = 22 + line_h * len(cap_lines)
     H = pad + label_h + body_h + cap_h + pad
 
     canvas = Image.new("RGB", (COMP_W, H), SURFACE)
@@ -102,7 +122,10 @@ def composite(spec):
     for x0, im in ((0, left), (half + GUTTER, right)):
         d.rectangle([x0, y, x0 + im.width - 1, y + im.height - 1], outline=BORDER, width=1)
 
-    d.text((0, y + body_h + 22), spec["caption"], font=cap_f, fill=MUTED)
+    cy = y + body_h + 22
+    for ln in cap_lines:
+        d.text((0, cy), ln, font=cap_f, fill=MUTED)
+        cy += line_h
 
     dest = OUT / spec["out"]
     canvas.save(dest, "WEBP", quality=88, method=6)

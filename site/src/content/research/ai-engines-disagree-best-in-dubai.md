@@ -29,7 +29,7 @@ This is the second of three pieces from our September test. [Piece 1](/research/
 
 ## What did we test?
 
-We asked ChatGPT, Perplexity, Gemini and Google Search "Best [category] in Dubai" across seven categories: law firms, B2B SaaS, aesthetic clinics, boutique hotels, industrial manufacturers, universities and car dealerships. All logged out, free tier, UAE location, 44 answers in total. Clinics and manufacturers were run three times on every surface. The overlap figures below compare the three chat engines; Google's AI Overview only appeared on three categories, so it's covered separately.
+We asked ChatGPT, Perplexity, Gemini and Google Search "Best [category] in Dubai" across seven categories: law firms, B2B SaaS, aesthetic clinics, boutique hotels, industrial manufacturers, universities and car dealerships. All logged out, free tier, UAE location, 44 answers in total. Clinics and manufacturers were run three times on every surface. The overlap figures below compare the three chat engines; Google's AI Overview appeared on four of the seven categories, so it's covered separately.
 
 ## How often do the AI engines name the same businesses?
 
@@ -122,7 +122,7 @@ Where all three read the same kind of authority. Universities had the most overl
 
 Car dealerships showed a different pattern. ChatGPT and Perplexity shared one dealer, Gargash. Gemini shared six with ChatGPT (including ALBA CARS, The Elite Cars and the franchise groups) and two with Perplexity (Al Tayer Motors, F1rst Motors). Gemini sat between the two engines that otherwise barely overlapped.
 
-Google's AI Overview, in the three categories where it appeared, picked from the same consensus names:
+Google's AI Overview mostly picked from the same consensus names:
 
 | Category | Named in the AI Overview | Also named by |
 |---|---|---|
@@ -132,8 +132,9 @@ Google's AI Overview, in the three categories where it appeared, picked from the
 | Universities | University of Birmingham Dubai | Perplexity, Gemini |
 | Law firms | Al Tamimi & Company, Hadef & Partners | ChatGPT, Gemini |
 | Law firms | Clyde & Co | Perplexity, Gemini |
+| B2B SaaS | Dukkantek (DTEK) | All three engines |
 
-Every business the AI Overview named was on at least one of the three engines, and most were on two or more.
+In manufacturers, universities and law firms, every business the AI Overview named was on at least one of the three engines, and most were on two or more. B2B SaaS is the partial exception: of the three companies its AI Overview led with, only Dukkantek made all three engines. Nazm.ae and Verofax did not.
 
 ## What does a single-engine, single-run score miss?
 
@@ -157,7 +158,7 @@ Even the most anchored category reorders. ChatGPT's law firm answer was grounded
 - **Volume:** 44 answers. Clinics and manufacturers ran three times on every surface (n=3); the other five categories ran once (n=1). Single-run categories may overlap more or less on a repeat, and the n=3 categories have larger pooled lists, which lowers their overlap share.
 - **Overlap counting:** every business recommended, including "also consider" lists and separate tiers; passing mentions in caveats excluded; Perplexity counted from its written answer, not its Places module. One Perplexity hotel entry was truncated in our log, so hotel overlap may be slightly understated.
 - **Market:** Dubai only.
-- **Date:** re-run logged 10 September 2026. The law firm comparison uses our earlier August scan, which ran under different sign-in conditions.
+- **Date:** re-run logged 10 September 2026. The law firm comparison uses the ChatGPT cells from our August scan, which were logged out on the same conditions as September.
 - **What this doesn't cover:** signed-in or paid tiers, other phrasings, Arabic queries, Claude and Copilot.
 - **Screenshots:** recaptured after the logged run. Answers shift between runs, so every number here comes from the run log.
 

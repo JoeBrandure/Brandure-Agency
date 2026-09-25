@@ -46,7 +46,7 @@ Perplexity's B2B SaaS answer named 14 companies. Bayzat's article was the cited 
 On Google, Bayzat's article ranks first organically, carrying a September 2026 title. Two more self-published lists rank on the same page: Tenet's "10 SaaS Development Companies in Dubai You Can Trust" and Penieltech's list. Three companies running the same play, all on page one.
 
 ![Google results for "Best B2B SaaS companies in Dubai" with Bayzat's "10 Best SaaS Companies in Dubai (September, 2026)" as the first organic result](/images/research/03-google-saas-bayzat-organic-no1.webp)
-*Google Search, signed out, UAE. Bayzat's list is the first organic result. (An AI Overview had appeared on this query by the time of this capture; the logged run recorded none.)*
+*Google Search, signed out, UAE. Bayzat's list is the first organic result, under an AI Overview grounded on F6S, DXB Start and Wellfound — all three of which are page-one organic results for the same search.*
 
 It isn't limited to software. In Perplexity's car dealership answer, Al Tayer Motors was the recommendation for luxury new cars, and the cited source was Al Tayer Motors' own website.
 
@@ -76,9 +76,11 @@ Publishing the list gets you into the reading pile. Whether the engine names you
 
 ## What happened to the law firm that ran the play first?
 
-A competitor replaced it. In our August scan, one Dubai law firm had its own "best law firms in Dubai" article on Google's first page for this search. In September that article was gone from page one. The firm still ranked, but with its homepage. In the list slot was a different firm's own "top law firms in Dubai" page.
+It lost the slot, and we can't tell you exactly when. In our first August scan, one Dubai law firm had its own "10 best law firms in Dubai" article at number eight on Google's first page, and that article was the source grounding Gemini's entire law firm answer. By September it was gone from page one. The firm still ranked, with its homepage. A different firm's own "top law firms in Dubai" page held the list slot.
 
-The engines didn't filter out the self-interested source. Another firm published the same kind of page and displaced it. That's faster than waiting for a model update, and it means the position has to be defended, not just taken once.
+The honest caveat: that first scan ran on a signed-in profile. When we re-ran the same search signed out four days later, the article was already off page one. So the displacement may have happened inside August, or it may never have been there for a signed-out searcher in the first place. What we can say is that the slot exists, it was held by a firm's own list, and by September a different firm held it.
+
+The engines didn't filter out the self-interested source. Another firm published the same kind of page and took the position. That's faster than waiting for a model update, and it means the slot has to be defended, not just taken once.
 
 Google has started labelling the tactic, though not penalising it. In the law firm local pack, Google annotated one firm's listing with a note that its website mentions best law firms. That firm's own list was also one of the four in Perplexity's source set.
 
@@ -110,7 +112,7 @@ The list is where the position starts. Third-party coverage keeps it on ChatGPT,
 - **Self-citation:** counted when the cited source for a named business was that business's own domain.
 - **Market:** Dubai only.
 - **Date:** re-run logged 10 September 2026.
-- **August comparisons:** the Bayzat grounding change and the law firm listing change compare against our earlier August scan, which ran under different sign-in conditions.
+- **August comparisons:** we ran two August scans. The ChatGPT and Perplexity cells were logged out and are directly comparable, so the Bayzat grounding change stands on like-for-like conditions. The Google Search cells in the first scan ran on a signed-in profile; we re-ran them signed out on 17 August. The law firm listing change is reported against both, and the caveat is stated where the claim is made.
 - **What this doesn't cover:** signed-in or paid tiers, other phrasings, Arabic queries, Claude and Copilot.
 - **Screenshots:** recaptured after the logged run. Answers shift between runs, so every number here comes from the run log.
 

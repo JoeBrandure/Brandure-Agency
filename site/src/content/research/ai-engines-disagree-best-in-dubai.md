@@ -7,7 +7,7 @@ datePublished: 2026-09-25
 dateModified: 2026-09-25
 heroImage: /images/research/p2-hero-chatgpt-clinics-three-runs.webp
 heroAlt: "Table of ChatGPT's three runs of 'Best aesthetic clinics in Dubai', showing Biolite Clinic first every time and ten different clinics filling the places below it"
-draft: true
+draft: false
 faq:
   - q: Do ChatGPT, Perplexity and Gemini recommend the same businesses in Dubai?
     a: "Rarely. Across seven categories they named 147 businesses between them and 10 appeared on all three. In law firms, aesthetic clinics and car dealerships, no business appeared on all three."

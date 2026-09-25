@@ -7,7 +7,7 @@ datePublished: 2026-09-25
 dateModified: 2026-09-25
 heroImage: /images/research/p3-hero-google-vs-gemini-hotels.webp
 heroAlt: "Side by side: Google Search's Hotels module and Gemini's answer for 'best boutique hotels in Dubai', showing the same three properties with matching review counts but a different order and different nightly rates"
-draft: true
+draft: false
 faq:
   - q: Does Gemini use Google's own data to recommend businesses?
     a: "In our test, yes, in four of seven categories. Signed out, Gemini used Google Hotels for hotels, Google Maps place cards for clinics, Google Shopping product cards for manufacturers in two of three runs, and a YouTube card for universities."

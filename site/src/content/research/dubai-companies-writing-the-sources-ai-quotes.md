@@ -7,7 +7,7 @@ datePublished: 2026-09-25
 dateModified: 2026-09-25
 heroImage: /images/research/p1-hero-bayzat-google-vs-perplexity.webp
 heroAlt: "Side by side: Google Search showing Bayzat's own 'best SaaS companies in Dubai' article as the first organic result, and Perplexity citing that same article as its source"
-draft: true
+draft: false
 faq:
   - q: Do AI engines cite companies' own "best of" articles?
     a: "Perplexity does. In our Dubai test, Bayzat's own list was the source for 7 of 14 entries in Perplexity's B2B SaaS answer, with Bayzat ranked first. ChatGPT cited no company's own site across 11 answers."

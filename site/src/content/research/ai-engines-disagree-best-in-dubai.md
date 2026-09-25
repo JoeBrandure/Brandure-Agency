@@ -3,8 +3,8 @@ title: "Ask three AI engines who's best in Dubai: the overlap is low, not zero"
 description: "Across seven Dubai categories, ChatGPT, Perplexity and Gemini named 147 businesses and 10 appeared on all three. The same engine asked twice also returned different lists below first place."
 piece: 2
 researchDate: 2026-09-10
-datePublished: SET_ON_PUBLISH
-dateModified: SET_ON_PUBLISH
+datePublished: 2026-09-25
+dateModified: 2026-09-25
 heroImage: /images/research/p2-hero-chatgpt-clinics-three-runs.webp
 heroAlt: "Table of ChatGPT's three runs of 'Best aesthetic clinics in Dubai', showing Biolite Clinic first every time and ten different clinics filling the places below it"
 draft: true
@@ -153,7 +153,7 @@ Even the most anchored category reorders. ChatGPT's law firm answer was grounded
 - **Prompt:** "Best [category] in Dubai", one prompt shape, English only.
 - **Categories:** law firms, B2B SaaS, aesthetic clinics, boutique hotels, industrial manufacturers, universities, car dealerships.
 - **Surfaces:** ChatGPT, Perplexity, Gemini, Google Search.
-- **Conditions:** all logged out, free or default tier, Google not signed in, location resolved to the United Arab Emirates, fresh session per cell. Signed-out Gemini served Flash-Lite.
+- **Conditions:** data collected 10 September 2026. Four surfaces, logged out, clean profile, geo verified to the United Arab Emirates, free or default model tier. Fresh session per cell. Signed-out Gemini served Flash-Lite.
 - **Volume:** 44 answers. Clinics and manufacturers ran three times on every surface (n=3); the other five categories ran once (n=1). Single-run categories may overlap more or less on a repeat, and the n=3 categories have larger pooled lists, which lowers their overlap share.
 - **Overlap counting:** every business recommended, including "also consider" lists and separate tiers; passing mentions in caveats excluded; Perplexity counted from its written answer, not its Places module. One Perplexity hotel entry was truncated in our log, so hotel overlap may be slightly understated.
 - **Market:** Dubai only.

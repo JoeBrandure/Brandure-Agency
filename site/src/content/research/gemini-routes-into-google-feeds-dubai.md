@@ -3,10 +3,10 @@ title: "Gemini isn't answering your question. It's routing you into Google."
 description: "A 44-answer test of ChatGPT, Perplexity, Gemini and Google Search in Dubai found Gemini routes answers into Google's own feeds, which feed depends on the category, and Google's AI Overview tripled its coverage."
 piece: 3
 researchDate: 2026-09-10
-datePublished: SET_ON_PUBLISH
-dateModified: SET_ON_PUBLISH
+datePublished: 2026-09-25
+dateModified: 2026-09-25
 heroImage: /images/research/p3-hero-google-vs-gemini-hotels.webp
-heroAlt: "Side by side: Google Search's Hotels module and Gemini's answer for 'best boutique hotels in Dubai', showing the same three properties in the same order"
+heroAlt: "Side by side: Google Search's Hotels module and Gemini's answer for 'best boutique hotels in Dubai', showing the same three properties with matching review counts but a different order and different nightly rates"
 draft: true
 faq:
   - q: Does Gemini use Google's own data to recommend businesses?
@@ -19,7 +19,7 @@ faq:
     a: "It depends on the category. Law firms were grounded entirely on Legal 500, B2B SaaS on trade coverage such as eChai Ventures and DXBStart, and aesthetic clinics on ratings and review volume with no per-clinic citations."
 ---
 
-Ask Gemini for the best boutique hotels in Dubai and you get Google Hotels back. We asked it signed out, from the UAE, and it returned the three properties Google Search puts at the top of its Hotels module: Meliá Desert Palm, Andaz Dubai The Palm and The Canvas Dubai MGallery. Same three hotels, same order in the module, same review counts. The nightly rates differed, because rates are live. The records underneath were the same.
+Ask Gemini for the best boutique hotels in Dubai and you get Google's own hotel inventory back. We asked it signed out, from the UAE, and it returned the three properties Google Search puts at the top of its Hotels module: Meliá Desert Palm, Andaz Dubai The Palm and The Canvas Dubai MGallery. Same ratings, same 5-star classification, and review counts matching to the unit. The order and the nightly rates differ, which tells you it is a separate query against the same inventory rather than a copy of the results page.
 
 That pattern ran through the whole test. Gemini switched between four different Google properties depending on the category, and in the three categories where it didn't, it cited nothing at all. The practical result for a Dubai business: before you publish anything for AI search, find out which Google feed owns your category, because on Gemini that feed is the answer.
 
@@ -45,19 +45,23 @@ Four categories, four different Google properties. The other three got plain tex
 
 ### Hotels: the answer is the Hotels module
 
-| Hotel | Google Search Hotels module | Gemini Hotels module |
-|---|---|---|
-| Meliá Desert Palm | 4.6 (2.6K reviews), AED 589 | 4.6 (2,587 reviews), AED 737 |
-| Andaz Dubai The Palm | 4.6 (3K reviews), AED 320 | 4.6 (3,026 reviews), AED 492 |
-| The Canvas Dubai MGallery | 4.4 (7.5K reviews), AED 212 | 4.4 (7,532 reviews), AED 359 |
+| Property | Google review count | Gemini review count | Rating |
+|---|---|---|---|
+| The Canvas Dubai MGallery | 7.5K | 7,540 | 4.4 |
+| Meliá Desert Palm | 2.6K | 2,588 | 4.6 |
+| Andaz Dubai The Palm | 3K | 3,033 | 4.6 |
 
-Google rounds its review counts and Gemini doesn't, but they are the same records. Every hotel Gemini named had a matching Google Hotels listing with a live rate. Beach Walk Boutique Hotel, fifth in Gemini's list, also sat in Google's second hotel module, at the same AED 271 rate on both.
+Google rounds its review counts and Gemini gives the exact figure. Same three properties, same ratings, same 5-star classification, review counts matching to the unit.
+
+**The order and the nightly rates differ.** Google returned Meliá, then Andaz, then Canvas, at AED 589, 320 and 212, with dates and a "Top-rated" filter applied. Gemini returned Canvas, then Meliá, then Andaz, at AED 188, 749 and 455, with no date context. So this is a separate query against the same inventory, not a mirror of the results-page module.
+
+That distinction strengthens the finding rather than weakening it. Matching rates on a given date could be coincidence. Review counts matching to the unit across three properties cannot.
 
 ![Google Search Hotels module for "Best boutique hotels in Dubai", showing Meliá Desert Palm, Andaz Dubai The Palm and The Canvas Dubai MGallery with nightly rates](/images/research/04-google-hotels-module-rates.webp)
 *Google Search, signed out, UAE. The Hotels module sits at the top of the page.*
 
 ![Gemini's answer to "Best boutique hotels in Dubai", rendering the same three hotels as Google Hotels cards with review counts and rates](/images/research/08-gemini-hotels-google-hotels-cards.webp)
-*Gemini, signed out, UAE. Recaptured for publication: the card order and rates shifted from the logged run, the three properties and their review counts did not.*
+*Gemini, signed out, UAE. The order and the rates differ from Google's module; the properties, ratings and review counts do not.*
 
 What moves a hotel up that answer is its Google Hotels listing and its rate, not an article about it.
 
@@ -146,7 +150,7 @@ Perplexity also shows two answers at once on local queries, a Places module and 
 
 Start with the feed, then the content. For most local businesses, the Google Business Profile is doing more AI work than the website.
 
-Look at Dubai's industrial local pack. The top three listings in September were Shuaiba Industrial Company (35 reviews), NAZ Industries (16) and Johar Manufacturing Services (6). In August the same three showed 35, 15 and 7. The combined total was 57 on both dates. One listing gained a review and another lost one. Johar, with six reviews, also appeared in ChatGPT's manufacturer shortlist in two of three runs. That is how little it currently takes to be visible in this category.
+Look at Dubai's industrial local pack. The top three listings in September were Shuaiba Industrial Company, rated 4.5 on 35 reviews; NAZ Industries, 5.0 on 16; and Johar Manufacturing Services, 4.8 on 6. Johar, with six reviews, also appeared in ChatGPT's manufacturer shortlist in two of three runs. Six reviews is the whole of third place in an entire category's local pack. That is how little it currently takes to be visible here.
 
 | If your category looks like... | The engine answer is built from... | Where to start |
 |---|---|---|
@@ -162,10 +166,10 @@ Gemini reads Google's own properties, and ChatGPT and Perplexity keep citing pag
 - **Prompt:** "Best [category] in Dubai", one prompt shape, English only.
 - **Categories:** law firms, B2B SaaS, aesthetic clinics, boutique hotels, industrial manufacturers, universities, car dealerships.
 - **Surfaces:** ChatGPT, Perplexity, Gemini, Google Search.
-- **Conditions:** all four surfaces logged out, free or default tier, Google not signed in, location resolved to the United Arab Emirates. Every cell was run in a fresh session. The logged-out Gemini tier served Flash-Lite.
+- **Conditions:** data collected 10 September 2026. Four surfaces, logged out, clean profile, geo verified to the United Arab Emirates, free or default model tier. Every cell was run in a fresh session. The logged-out Gemini tier served Flash-Lite.
 - **Volume:** 44 answers. Aesthetic clinics and industrial manufacturers were run three times on every surface (n=3). The other five categories were run once per surface (n=1), so their answers could differ on a repeat run.
 - **Market:** Dubai only. We don't know whether these patterns hold in Abu Dhabi, Riyadh or anywhere else.
-- **August comparisons:** the AI Overview coverage table and the local pack review counts compare against our earlier August scan. That scan ran under different sign-in conditions, so treat the direction of change as more reliable than the exact baseline.
+- **August comparison:** the AI Overview coverage table compares against our earlier August scan, which ran under different sign-in conditions, so treat the direction of change as more reliable than the exact baseline. The local pack figures are September only — the interval against the August baseline could not be established, so no change is claimed.
 - **What this doesn't cover:** signed-in or paid tiers, which can behave differently (signed-out Gemini returned no citations on non-local categories), other prompt phrasings, Arabic queries, and Claude and Copilot.
 - **Screenshots:** recaptured after the logged run under the same conditions. AI answers can shift between runs, so every number in this article comes from the run log, and the screenshots illustrate the pattern.
 

@@ -26,13 +26,19 @@ Bayzat citation on rows 1, 6, 7, 8, 9, 10 and 11, and on the opening summary.
 
 ---
 
-## 2. Industrial local pack, August to September
+## 2. Industrial local pack — comparison withdrawn
 
-**Raw file says:** "three reviews net".
+**Raw file says:** "three reviews net" since a 35 / 15 / 7 baseline.
 
-**Correct:** **net zero.** 35 / 15 / 7 in August became 35 / 16 / 6 in
-September. The combined total is 57 on both dates: one listing gained a review,
-another lost one.
+**Superseded 2026-09-25.** The arithmetic correction (net zero, not three) was
+right, but the comparison itself is now withdrawn: the baseline interval cannot
+be established. The claims in circulation — "13 months", "a year" — do not
+reconcile with a baseline scan dated 13 August 2026.
+
+**Published position:** September figures only, no change claimed. Shuaiba
+Industrial 4.5 (35 reviews), NAZ Industries 5.0 (16), Johar Manufacturing 4.8
+(6). The figures stand on their own; six reviews is the whole of third place in
+the category's local pack.
 
 *Used in Piece 3.*
 
@@ -82,16 +88,46 @@ runs 1 and 2 only; run 3 adds six further uncited entries.
 
 ## 6. Hotels: Google and Gemini rates differ
 
-**Correct:** the nightly rates are **not** the same across the two surfaces.
+**Correct, and revised again on 2026-09-25 against the screenshots.** Neither
+the order nor the rates match. An earlier version of this errata said the module
+order was the same; the captures show it is not.
 
-| Hotel | Google Search | Gemini |
+| | Google Search | Gemini |
 |---|---|---|
-| Meliá Desert Palm | AED 589 | AED 737 |
-| Andaz Dubai The Palm | AED 320 | AED 492 |
-| The Canvas Dubai MGallery | AED 212 | AED 359 |
+| Order | Meliá, Andaz, Canvas | Canvas, Meliá, Andaz |
+| Rates | AED 589 / 320 / 212 | AED 188 / 749 / 455 |
+| Context | dates set, "Top-rated" filter applied | no date context |
 
-What **is** the same: the properties, the module order and the review counts.
-Rates are live, which is the explanation. Any claim of "identical rates" is
-wrong and should not be restored.
+What **is** the same: the three properties, their ratings, their 5-star
+classification, and their review counts to the unit — Canvas 7.5K against
+7,540, Meliá 2.6K against 2,588, Andaz 3K against 3,033.
+
+This is a separate query against the same inventory, not a mirror of the
+results-page module, and that **strengthens** the finding. Matching rates on a
+given date could be coincidence; review counts matching to the unit across
+three properties cannot. Any claim of "same order", "identical rates" or
+"verbatim" is wrong and must not be restored.
 
 *Used in Piece 3.*
+
+---
+
+## 7. AI Overview coverage count — OPEN, not resolved
+
+**Raw file / published position:** 3 of 7 categories, named as law firms,
+industrial manufacturers and universities.
+
+**The conflict:** the B2B SaaS capture shows an AI Overview firing, grounded on
+F6S, DXB Start and Wellfound. The logged run recorded none on that query. So
+either SaaS is a fourth category and the count is 4 of 7, or the named three
+need revising.
+
+**Not resolvable from this repository.** The 44-cell file has never been
+committed here, so the reconciliation has to be done against it directly.
+
+**Published position pending that check:** 3 of 7, which is what the logged run
+recorded, with the SaaS capture disclosed in the body of Piece 3 and in Piece
+1's caption. This is consistent with the stated methodology — every number
+comes from the run log, and screenshots were recaptured afterwards. If the
+44-cell data shows SaaS fired during the logged run, the number becomes 4 of 7
+and the category list gains B2B SaaS.

@@ -3,8 +3,8 @@ title: "The Dubai companies writing the articles AI quotes about them"
 description: "A 44-answer test in Dubai found companies' own 'best of' articles still ground Perplexity's answers but not ChatGPT's, and that self-published list positions are lost to competitors running the same play."
 piece: 1
 researchDate: 2026-09-10
-datePublished: SET_ON_PUBLISH
-dateModified: SET_ON_PUBLISH
+datePublished: 2026-09-25
+dateModified: 2026-09-25
 heroImage: /images/research/p1-hero-bayzat-google-vs-perplexity.webp
 heroAlt: "Side by side: Google Search showing Bayzat's own 'best SaaS companies in Dubai' article as the first organic result, and Perplexity citing that same article as its source"
 draft: true
@@ -105,7 +105,7 @@ The list is where the position starts. Third-party coverage keeps it on ChatGPT,
 - **Prompt:** "Best [category] in Dubai", one prompt shape, English only.
 - **Categories:** law firms, B2B SaaS, aesthetic clinics, boutique hotels, industrial manufacturers, universities, car dealerships.
 - **Surfaces:** ChatGPT, Perplexity, Gemini, Google Search.
-- **Conditions:** all four surfaces logged out, free or default tier, Google not signed in, location resolved to the United Arab Emirates. Fresh session per cell. Signed-out Gemini served Flash-Lite and returned no citations outside local categories, so it tells us little about self-citation on Gemini.
+- **Conditions:** data collected 10 September 2026. Four surfaces, logged out, clean profile, geo verified to the United Arab Emirates, free or default model tier. Fresh session per cell. Signed-out Gemini served Flash-Lite and returned no citations outside local categories, so it tells us little about self-citation on Gemini.
 - **Volume:** 44 answers. Aesthetic clinics and industrial manufacturers were run three times per surface (n=3). The other five categories, including B2B SaaS and law firms, were run once per surface (n=1). The Bayzat, Al Tayer and law firm findings are single runs.
 - **Self-citation:** counted when the cited source for a named business was that business's own domain.
 - **Market:** Dubai only.

@@ -14,7 +14,10 @@ export const SITE = {
      repo and the two forms cannot drift apart from it. Steps are in
      README.md under "Form notifications". */
   formsTo: 'joe@brandure.io',
-  linkedin: 'https://www.linkedin.com/company/brandure',
+  /* Corrected 2026-09-27: the vanity name is brandureagency, not brandure.
+     Three consumers read this — the footer link, the Organization sameAs in
+     BaseLayout, and llms.txt — so none of those files is edited directly. */
+  linkedin: 'https://www.linkedin.com/company/brandureagency',
   areaServed: ['AE', 'GB', 'US'],
   /* The Calendly event the booking confirmation embeds. Verified against the
      Calendly API on 2026-09-08: account joe@brandure.io, event "15 Minute

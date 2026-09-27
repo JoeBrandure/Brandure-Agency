@@ -172,6 +172,41 @@ else {
   }
 }
 
+/* ---------- 6. canonical / og:url / sitemap agreement ----------
+   Every sitemap entry must match, byte for byte, the canonical and og:url of
+   the page it points at. This group exists because the site shipped with
+   canonicals built from the output file path — /index.html, /foo.html — under
+   build.format: 'file', while the sitemap, llms.txt and every internal link
+   used the extensionless route. Both forms returned 200, so each page was
+   reachable at two URLs and the canonical named the one nothing referenced.
+   Nothing caught it, which is the actual defect this guards against. */
+
+head('6. Canonicals match the sitemap');
+if (!sitemapFile) fail('no sitemap to check canonicals against');
+else {
+  const SITE = 'https://brandure.io';
+  const locs = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
+  if (locs.length === 0) fail('sitemap contains no <loc> entries');
+  for (const loc of locs) {
+    const path = loc.slice(SITE.length) || '/';
+    const file = join(DIST, path === '/' ? 'index.html' : `${path}.html`);
+    if (!existsSync(file)) { fail(`${loc} — no built page at ${path}`); continue; }
+    const html = readFileSync(file, 'utf8');
+    const canonical = (html.match(/<link rel="canonical" href="([^"]*)"/) || [])[1];
+    const og = (html.match(/property="og:url" content="([^"]*)"/) || [])[1];
+    if (canonical !== loc) fail(`${loc} — canonical is ${canonical ?? 'missing'}`);
+    else if (og !== loc) fail(`${loc} — og:url is ${og ?? 'missing'}`);
+    else pass(`${loc}`);
+  }
+  /* A .html URL anywhere in the built output means the route/file-path
+     confusion has come back somewhere this check does not reach. */
+  const strays = distFiles
+    .filter((f) => /\.(html|xml|txt)$/.test(f))
+    .flatMap((f) => readFileSync(f, 'utf8').match(/https:\/\/brandure\.io[\w/-]*\.html/g) ?? []);
+  if (strays.length) fail(`absolute .html URLs in the output: ${[...new Set(strays)].join(', ')}`);
+  else pass('no absolute .html URLs anywhere in the output');
+}
+
 /* ---------- done ---------- */
 
 console.log(`\n${failures === 0 ? 'PASS — all checks clean' : `FAIL — ${failures} problem(s)`}`);

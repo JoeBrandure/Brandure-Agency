@@ -24,7 +24,22 @@ interface Props {
 
 const { title, description, noindex = false, schemas = [], ogImage } = Astro.props;
 
-const canonical = new URL(Astro.url.pathname.replace(/\/$/, '') || '/', Astro.site ?? SITE.url);
+/* With `build.format: 'file'`, Astro.url.pathname is the OUTPUT FILE PATH —
+   /index.html, /research/foo.html — not the route Netlify serves. This was
+   built straight from it, so every page declared a canonical and an og:url
+   ending in .html while the sitemap, llms.txt and every internal link used the
+   extensionless form. Both forms return 200, so each page was reachable at two
+   URLs and the canonical pointed at the one nothing else referenced.
+   Map the file path back to the served route. The order matters: strip .html
+   first, then collapse a directory index to its folder, then drop a trailing
+   slash from everything except the root. That also keeps this correct if
+   build.format ever moves to 'directory', where pathname arrives as /foo/. */
+const route =
+  Astro.url.pathname
+    .replace(/\.html$/, '')
+    .replace(/\/index$/, '/')
+    .replace(/(.)\/$/, '$1') || '/';
+const canonical = new URL(route, Astro.site ?? SITE.url);
 const pageTitle = title === SITE.name ? `${SITE.name} — answer engine optimisation` : `${title} — ${SITE.name}`;
 const image = new URL(ogImage ?? '/og/default.png', SITE.url);
 

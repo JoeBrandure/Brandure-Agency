@@ -64,6 +64,7 @@ const organizationSchema = {
   description: SITE.description,
   areaServed: SITE.areaServed.map((c) => ({ '@type': 'Country', identifier: c })),
   sameAs: [SITE.linkedin],
+  founder: { '@id': `${SITE.url}/about#person` },
   contactPoint: [{
     '@type': 'ContactPoint',
     contactType: 'sales',
@@ -71,7 +72,28 @@ const organizationSchema = {
     availableLanguage: ['en'],
   }],
 };
-const allSchemas = [websiteSchema, organizationSchema, ...schemas];
+/* The canonical Person node, emitted sitewide for the same reason
+   #organization is: the research Articles reference it by @id, and a reference
+   to a node that is only defined on /about asks a consumer to have already
+   crawled /about for the author of a page it is reading now. Defined here and
+   nowhere else — /about must not emit its own copy, or the @id resolves to two
+   full nodes instead of one. */
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  '@id': `${SITE.url}/about#person`,
+  name: 'Joe Hickman',
+  jobTitle: 'Founder',
+  url: `${SITE.url}/about`,
+  worksFor: { '@id': `${SITE.url}/#organization` },
+  knowsAbout: [
+    'Answer engine optimisation',
+    'Generative engine optimisation',
+    'Search engine optimisation',
+    'Paid social',
+  ],
+};
+const allSchemas = [websiteSchema, organizationSchema, personSchema, ...schemas];
 ---
 
 <!doctype html>

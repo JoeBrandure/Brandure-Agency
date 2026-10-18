@@ -50,14 +50,13 @@ const articleSchema = {
   dateModified: iso(modified),
   ...(heroUrl ? { image: [heroUrl] } : {}),
   inLanguage: 'en',
-  author: {
-    '@type': 'Person',
-    name: 'Joe Hickman',
-    jobTitle: 'Founder',
-    url: `${SITE.url}/about`,
-    worksFor: { '@type': 'Organization', name: 'Brandure', url: SITE.url },
-  },
-  publisher: { '@type': 'Organization', name: 'Brandure', url: SITE.url },
+  /* References, not copies. These used to be inline Person and Organization
+     nodes with no @id, so each research page minted a fresh anonymous author
+     and publisher that no consumer could tie to the ones on /about or to
+     #organization. All three nodes are defined once in BaseLayout. */
+  author: { '@id': `${SITE.url}/about#person` },
+  publisher: { '@id': `${SITE.url}/#organization` },
+  isPartOf: { '@id': `${SITE.url}/#website` },
 };
 
 const faqSchema =

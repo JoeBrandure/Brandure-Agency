@@ -142,10 +142,37 @@ if (live.length === 0) {
       // only when nothing else on the site had failed, which is not what it
       // is measuring.
       let bad = 0;
-      for (const f of ['headline', 'description', 'url', 'mainEntityOfPage', 'datePublished', 'dateModified', 'inLanguage', 'author', 'publisher', 'image']) {
+      for (const f of ['headline', 'description', 'url', 'mainEntityOfPage', 'datePublished', 'dateModified', 'inLanguage', 'author', 'publisher', 'image', 'isPartOf']) {
         if (article[f] === undefined) { fail(`${p.slug} — Article missing ${f}`); bad++; }
       }
-      if (article.author?.['@type'] !== 'Person') { fail(`${p.slug} — Article author is not a Person`); bad++; }
+      /* author, publisher and isPartOf are @id references into the shared
+         entity graph, not inline nodes. This used to assert author['@type'] ===
+         'Person', which only held while every page minted its own anonymous
+         author. Assert the reference instead, and that it resolves to a node
+         actually defined on this page — a reference to an @id nothing defines
+         is worse than the duplication it replaced. */
+      const SITE_ORIGIN = 'https://brandure.io';
+      const defined = new Set(
+        flat.flatMap(function ids(x) {
+          if (Array.isArray(x)) return x.flatMap(ids);
+          if (x && typeof x === 'object') {
+            const own = Object.keys(x).filter((k) => k !== '@context');
+            const self = x['@id'] && !(own.length === 1 && own[0] === '@id') ? [x['@id']] : [];
+            return [...self, ...Object.values(x).flatMap(ids)];
+          }
+          return [];
+        }),
+      );
+      for (const [field, want] of [
+        ['author', `${SITE_ORIGIN}/about#person`],
+        ['publisher', `${SITE_ORIGIN}/#organization`],
+        ['isPartOf', `${SITE_ORIGIN}/#website`],
+      ]) {
+        const v = article[field];
+        const isRef = v && typeof v === 'object' && Object.keys(v).length === 1 && v['@id'] === want;
+        if (!isRef) { fail(`${p.slug} — Article ${field} is not a bare {"@id":"${want}"}`); bad++; }
+        else if (!defined.has(want)) { fail(`${p.slug} — Article ${field} references ${want}, which no node on this page defines`); bad++; }
+      }
       if (!/^\d{4}-\d{2}-\d{2}/.test(String(article.datePublished))) { fail(`${p.slug} — datePublished is not a date`); bad++; }
       if (bad === 0) pass(`${p.slug} — Article complete`);
     }

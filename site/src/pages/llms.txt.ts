@@ -30,6 +30,13 @@ separately, because the six disagree with each other materially.
 - [Service](${SITE.url}/service): how an engagement runs — baseline, diagnosis,
   execution, re-measurement against a control set — and what a client receives
   at each stage.
+- [Method](${SITE.url}/method): SCAN — surface, cause, act, net. The four stages
+  behind every engagement, and why we hold some of your questions back so you
+  can see how much of any improvement was actually us.
+- [FAQ](${SITE.url}/faq): Answer engine optimisation, answered plainly: what it
+  is, how it differs from SEO, what gets measured across ChatGPT, Claude,
+  Perplexity, Gemini, Google and Copilot, what actually moves a position, and
+  what we won’t promise.
 - [Research](${SITE.url}/research): index of published measurement.
 
 ## Research

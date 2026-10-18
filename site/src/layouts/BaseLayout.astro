@@ -121,6 +121,11 @@ const allSchemas = [websiteSchema, organizationSchema, personSchema, ...schemas]
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={image} />
 
+    {/* .ico first, SVG second: browsers that understand the SVG take it on the
+        type attribute, and the ones that don't stop at the first icon they can
+        parse. /favicon.ico was 404ing — some crawlers and feed readers request
+        it at the root regardless of what is declared here. */}
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="alternate" type="application/rss+xml" title={`${SITE.name} research`} href="/rss.xml" />
     <link rel="sitemap" href="/sitemap-index.xml" />

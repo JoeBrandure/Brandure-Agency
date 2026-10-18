@@ -132,6 +132,23 @@ const allSchemas = [websiteSchema, organizationSchema, personSchema, ...schemas]
 
     {allSchemas.map((s) => <script type="application/ld+json" set:html={JSON.stringify(s)} />)}
     <Analytics />
+
+    {/* Searchable — referrals from AI answer surfaces. Separate from the
+        Netlify edge function, which counts AI crawlers rather than people:
+        this half only sees a visitor who clicked through from ChatGPT,
+        Perplexity and the like. The site token is public by design.
+
+        is:inline on both, matching the PostHog snippet. Without it Astro
+        bundles the stub and rewrites the src on the loader, and the queue the
+        first tag defines is the thing the second one drains. */}
+    <script is:inline>window.sa=window.sa||function(){(sa.q=sa.q||[]).push(arguments)}</script>
+    <script
+      is:inline
+      defer
+      src="https://tracker.searchableanalytics.com/s.js"
+      data-domain="brandure.io"
+      data-site-token="pst_af562e72612f1d69ee10023f"
+    ></script>
   </head>
   <body>
     <div class="scroll-progress" aria-hidden="true"></div>

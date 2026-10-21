@@ -377,7 +377,12 @@ export const PACKAGES = [
       'Technical and entity foundation: schema, AI crawler access, Google Business Profile',
       'Monthly reporting on mention rate, share of voice and AI-referred traffic',
     ],
-    honest: 'One category, English, Dubai.',
+    /* "One category, English, Dubai." until 2026-10-21. With Arabic and
+       UAE-wide gone from Growth, the language and geography clauses here were
+       drawing a contrast against a tier that no longer makes the claim, and
+       left English as the only language promise on the site. Category count
+       is the real difference between the two tiers, so that is all it says. */
+    honest: 'One category.',
     teaser: [
       'Tracked across all six AI engines',
       '2 earned citation placements a month',
@@ -410,9 +415,14 @@ export const PACKAGES = [
       'Entity correction across third-party sources',
     ],
     honest: 'Up to three categories.',
+    /* Three bullets, matching Core. Removing the Arabic line left this tier
+       showing two against Core's three on the home page, which read as Growth
+       offering less. "Monthly category authority asset" is lifted from gets
+       above rather than written for the teaser, and keeps that list's order. */
     teaser: [
       'Up to three categories or service lines',
       '4 earned citation placements a month',
+      'Monthly category authority asset',
     ],
     cta: 'Book a call',
     primary: false,

@@ -37,13 +37,18 @@ export const POSTHOG = {
   host: 'https://eu.i.posthog.com',
 } as const;
 
-/* Four items, not the six the reference layout carries. The two that would
-   pad it out — /work and a separate pricing page — are invented case studies
-   and unsettled numbers, and putting either in the primary nav would be
-   asserting something the agency cannot yet back. */
+/* Four items, not the six the reference layout carries. /work still stays out
+   — those are invented case studies, and putting them in the primary nav would
+   assert something the agency cannot back.
+
+   Pricing moved from the home page anchor to its own page on 2026-10-21. The
+   note here used to call the numbers unsettled; they are not, and have been
+   published on the home page and /service for months. What was missing was an
+   addressable URL — asked what Brandure costs, ChatGPT said the pricing was
+   inaccessible, because a #fragment cannot be crawled or cited on its own. */
 export const NAV = [
   { href: '/service', label: 'Service' },
   { href: '/method', label: 'Method' },
   { href: '/research', label: 'Research' },
-  { href: '/#pricing', label: 'Pricing' },
+  { href: '/pricing', label: 'Pricing' },
 ] as const;

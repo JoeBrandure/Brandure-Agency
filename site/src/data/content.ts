@@ -367,6 +367,7 @@ export const PACKAGES = [
     coversLabel: 'All four stages, monthly',
     price: 'AED 6,500',
     unit: 'per month \u00b7 plus AED 3,500 one time setup fee',
+    gbp: 'approx. \u00a31,400/month',
     lede: 'Own the market you\u2019re already in.',
     summary: '',
     gets: [
@@ -393,20 +394,24 @@ export const PACKAGES = [
     coversLabel: 'All four stages, monthly',
     price: 'AED 12,000',
     unit: 'per month \u00b7 plus AED 3,500 one time setup fee',
+    gbp: 'approx. \u00a32,600/month',
     lede: 'Take the ground you don\u2019t hold yet.',
     summary: 'Everything in Core, plus:',
+    /* Arabic and UAE-wide were removed from this tier on 2026-10-21. They are
+       not part of the offer and were being advertised in three places. The
+       bullet, the honest line and the teaser all carried it; all three are
+       gone rather than reworded, because a softened version of a thing we do
+       not sell is still a thing we do not sell. */
     gets: [
       'Up to three categories or service lines \u2014 around six times the query surface',
-      'English and Arabic',
       '4 earned citation placements a month',
       'Monthly category authority asset',
       'Active competitor displacement \u2014 named targets, quarterly plan',
       'Entity correction across third-party sources',
     ],
-    honest: 'Up to three categories, English and Arabic, UAE-wide.',
+    honest: 'Up to three categories.',
     teaser: [
       'Up to three categories or service lines',
-      'English and Arabic, UAE-wide',
       '4 earned citation placements a month',
     ],
     cta: 'Book a call',
@@ -427,8 +432,34 @@ export const SETUP = {
   name: 'One time setup fee',
   price: 'AED 3,500',
   unit: '',
+  gbp: 'approx. £750 setup',
   d: 'Schema, crawler access, entity fixes, tracking baseline and measurement setup. Ten working days, completed before month one begins.',
 } as const;
+
+/**
+ * The free report, described as an offer rather than as a form.
+ *
+ * It is deliberately NOT in PACKAGES — see the note above SETUP. It appears on
+ * /pricing only, where a buyer comparing numbers needs to see that there is a
+ * way in that costs nothing, and where leaving it out is what makes pricing
+ * read as "call us". It is not a tier and carries no price, so it is not in
+ * the OfferCatalog either.
+ */
+export const FREE_OFFER = {
+  name: 'Free',
+  title: 'AI Visibility Report',
+  price: 'Free',
+  lede: 'See where you stand before you spend anything.',
+  gets: [
+    'Your visibility across six AI engines',
+    'Share of voice against three competitors',
+    'Which sources are recommending them instead of you',
+  ],
+  honest: 'Delivered on a 15-minute call.',
+  cta: 'Get your free report',
+  href: '/#report',
+} as const;
+
 
 /**
  * Shown under the packages on both pages. The 90-day break clause is the
@@ -437,6 +468,24 @@ export const SETUP = {
  */
 export const TERMS =
   'Six-month initial term with a 90-day review \u2014 if citation share hasn\u2019t moved against your baseline by day 90, you can end the engagement. Rolling monthly thereafter. Prices exclude VAT.';
+
+/**
+ * /pricing only. The four things a buyer asks before they ask for a call, and
+ * the four an engine quoting our pricing most needs to get right.
+ *
+ * Answers are composed from SETUP.d and TERMS rather than retyped, so a change
+ * to the commercial terms cannot leave a stale duplicate behind in an answer \u2014
+ * which is exactly the failure that puts a wrong price into an AI answer.
+ */
+export const PRICING_FAQS = [
+  { q: 'What\u2019s included in setup?', a: SETUP.d },
+  { q: 'How long is the contract?', a: TERMS },
+  { q: 'Do prices include VAT?', a: 'No, prices exclude VAT.' },
+  {
+    q: 'Can I see where I stand first?',
+    a: 'Yes, the free AI Visibility Report, delivered on a 15-minute call.',
+  },
+] as const;
 
 /**
  * THE ONE SOURCED STATISTIC ON THE SITE.

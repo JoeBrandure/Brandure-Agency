@@ -1,0 +1,204 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { PACKAGES, SETUP, TERMS, FREE_OFFER, PRICING_FAQS } from '../data/content';
+import { SITE } from '../consts';
+
+/* PRICING EXISTS BECAUSE THE NUMBERS WERE NOT ADDRESSABLE.
+ *
+ * The figures were already published — a section on the home page at #pricing
+ * and the full cards on /service — but neither is a URL a model can cite. Asked
+ * what Brandure costs, ChatGPT answered that the pricing information was
+ * inaccessible. A fragment is not a page: it cannot be crawled on its own,
+ * returned as a result, or quoted with a source. This page is the citable
+ * surface for a number that already existed.
+ *
+ * No new copy. Every figure, bullet and term renders from src/data/content.ts,
+ * the same module the home page and /service read. Prices cannot drift between
+ * the three pages because there is only one of each. The markup is this page's
+ * own — the home page deliberately shows a teaser and /service the full cards,
+ * and this page carries a third shape again (the free report alongside both
+ * paid tiers) — but the words are shared by construction.
+ */
+
+const offerId = (k: string) => `${SITE.url}/pricing#offer-${k}`;
+
+/* AED, digits only: schema.org/price takes a number, not a formatted string.
+   Derived from the displayed price rather than typed again, so the structured
+   data cannot say one thing while the card says another. */
+const numeric = (p: string) => Number(p.replace(/[^0-9.]/g, ''));
+
+const webPageSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  '@id': `${SITE.url}/pricing#webpage`,
+  url: `${SITE.url}/pricing`,
+  name: 'Pricing',
+  description:
+    'Brandure AEO pricing: Core AED 6,500/month, Growth AED 12,000/month, plus a one-time AED 3,500 setup. Six-month term with a 90-day review. Prices exclude VAT.',
+  inLanguage: 'en-GB',
+  isPartOf: { '@id': `${SITE.url}/#website` },
+  about: { '@id': `${SITE.url}/#organization` },
+};
+
+/* Every node carries its own @id and every cross-reference is a bare {"@id"}.
+   An anonymous seller repeated across three offers is three sellers as far as
+   a consumer is concerned, which is the duplication the entity graph work
+   removed everywhere else on the site. */
+const catalogSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'OfferCatalog',
+  '@id': `${SITE.url}/pricing#catalog`,
+  name: 'Brandure engagements',
+  url: `${SITE.url}/pricing`,
+  isPartOf: { '@id': `${SITE.url}/#website` },
+  provider: { '@id': `${SITE.url}/#organization` },
+  itemListElement: [
+    ...PACKAGES.map((p) => ({
+      '@type': 'Offer',
+      '@id': offerId(p.key),
+      name: p.name,
+      description: p.lede,
+      url: `${SITE.url}/pricing`,
+      priceCurrency: 'AED',
+      price: numeric(p.price),
+      seller: { '@id': `${SITE.url}/#organization` },
+      priceSpecification: {
+        '@type': 'UnitPriceSpecification',
+        price: numeric(p.price),
+        priceCurrency: 'AED',
+        unitText: 'MONTH',
+      },
+    })),
+    {
+      '@type': 'Offer',
+      '@id': offerId('setup'),
+      name: 'Setup',
+      description: SETUP.d,
+      url: `${SITE.url}/pricing`,
+      priceCurrency: 'AED',
+      price: numeric(SETUP.price),
+      seller: { '@id': `${SITE.url}/#organization` },
+    },
+  ],
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  '@id': `${SITE.url}/pricing#faq`,
+  isPartOf: { '@id': `${SITE.url}/#website` },
+  mainEntity: PRICING_FAQS.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+---
+<BaseLayout
+  title="Pricing | Brandure: AEO agency for UK & UAE businesses"
+  fullTitle
+  description="Brandure AEO pricing: Core AED 6,500/month, Growth AED 12,000/month, plus a one-time AED 3,500 setup. Six-month term with a 90-day review. Prices exclude VAT."
+  schemas={[webPageSchema, catalogSchema, faqSchema]}
+>
+  <section class="hero hero--short">
+    <div class="mesh" aria-hidden="true">
+      <div class="mesh__layer mesh__layer--1"><div class="mesh__blob mesh__blob--1"></div></div>
+      <div class="mesh__layer mesh__layer--2"><div class="mesh__blob mesh__blob--2"></div></div>
+    </div>
+    <div class="wrap-narrow" data-load>
+      <h1 class="statement statement--sub" data-split>Pricing</h1>
+      <p class="lede">
+        What an engagement costs, what the setup fee buys, and the terms &mdash;
+        stated in full, before you talk to anyone.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap-narrow" data-reveal>
+      {/* The free report sits above the paid tiers rather than beside them.
+          Priced next to two numbers it reads as a third tier, which it is not
+          — see the note above SETUP in the data module.
+
+          The card heading is an h3 because .offer__head styles h3 specifically;
+          an h2 here inherits the white but renders at --h2, which is the wrong
+          size inside a card. The section heading above it carries the h2, so
+          the outline still runs h1 → h2 → h3. */}
+      <div class="section-head">
+        <h2>{FREE_OFFER.lede}</h2>
+      </div>
+      <article class="card offer">
+        <div class="offer__head">
+          <h3>{FREE_OFFER.name} &mdash; {FREE_OFFER.title}</h3>
+          <span class="offer__price">{FREE_OFFER.price}</span>
+        </div>
+        <div class="offer__body">
+          <ul>{FREE_OFFER.gets.map((g) => <li>{g}</li>)}</ul>
+          <p class="note-sm">{FREE_OFFER.honest}</p>
+          <a class="btn" href={FREE_OFFER.href}>{FREE_OFFER.cta}</a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="section section--sunk">
+    <div class="wrap" data-reveal>
+      <div class="section-head">
+        <h2>Two ways we get you there.</h2>
+      </div>
+
+      <div class="pkg" data-stagger>
+        {PACKAGES.map((p) => (
+          <article class:list={['pkg__c', `stages--${p.a}`]}>
+            <div class="pkg__head">
+              <h3 class="pkg__n">{p.name}</h3>
+              <p class="pkg__lede">{p.lede}</p>
+              <p class="pkg__price">
+                <span class="pkg__pn">{p.price}</span> <span class="pkg__pu">{p.unit}</span>
+              </p>
+              <p class="note-sm">{p.gbp}</p>
+            </div>
+
+            <div class="pkg__body">
+              {p.summary && <p class="pkg__s">{p.summary}</p>}
+
+              <p class="pkg__k">What lands on your desk</p>
+              <ul class="pkg__gets">
+                {p.gets.map((g) => <li>{g}</li>)}
+              </ul>
+
+              <p class="pkg__honest"><strong>And plainly:</strong> {p.honest}</p>
+              <a class:list={['btn', !p.primary && 'btn--ghost', 'pkg__cta']} href="/service#book">{p.cta}</a>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <p class="pkg__setup">
+        <strong>{SETUP.name} &mdash; {SETUP.price}.</strong> {SETUP.d}
+        <span class="note-sm"> {SETUP.gbp}</span>
+      </p>
+
+      <p class="center-row mt-1"><span class="note-sm">{TERMS}</span></p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap-narrow" data-reveal>
+      <div class="section-head">
+        <h2>Pricing questions</h2>
+      </div>
+      <div class="qa">
+        {PRICING_FAQS.map((f) => (
+          <details>
+            <summary>{f.q}</summary>
+            <p>{f.a}</p>
+          </details>
+        ))}
+      </div>
+      <p class="center-row mt-2">
+        <a class="textlink" href="/service#buy">Everything in both, in full &rarr;</a>
+      </p>
+    </div>
+  </section>
+</BaseLayout>

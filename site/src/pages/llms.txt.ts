@@ -30,6 +30,9 @@ separately, because the six disagree with each other materially.
 - [Service](${SITE.url}/service): how an engagement runs — baseline, diagnosis,
   execution, re-measurement against a control set — and what a client receives
   at each stage.
+- [Pricing](${SITE.url}/pricing): what an engagement costs — Core at AED
+  6,500 a month, Growth at AED 12,000, the one time AED 3,500 setup fee, the
+  six-month term with a 90-day review, and the free AI Visibility Report.
 - [Method](${SITE.url}/method): SCAN — surface, cause, act, net. The four stages
   behind every engagement, and why we hold some of your questions back so you
   can see how much of any improvement was actually us.

@@ -1,6 +1,7 @@
 import { getCollection } from 'astro:content';
 import { listable, sortDate, tagFor } from '../lib/research';
 import { SITE } from '../consts';
+import { GUIDE_ORDER, GUIDE_BLURBS } from '../data/guides';
 import type { APIContext } from 'astro';
 
 /**
@@ -12,6 +13,13 @@ export async function GET(_context: APIContext) {
   // Placeholders and drafts are both excluded, exactly as they are from the
   // sitemap and the feed.
   const pieces = listable(await getCollection('research')).filter((p) => !p.data.placeholder);
+
+  /* Titles come from the guide files, so this file cannot state a title the
+     page does not have. Order and blurbs come from src/data/guides.ts, the
+     same list /guides renders from. */
+  const guides = await getCollection('guides');
+  const guideTitle = (slug: string) =>
+    guides.find((g) => g.data.slug === slug)?.data.title ?? slug;
 
   const body = `# ${SITE.name}
 
@@ -41,11 +49,17 @@ separately, because the six disagree with each other materially.
   Perplexity, Gemini, Google and Copilot, what actually moves a position, and
   what we won’t promise.
 - [Research](${SITE.url}/research): index of published measurement.
+- [Guides](${SITE.url}/guides): practical guides to answer engine optimisation
+  for UK and UAE businesses.
+
+## Guides
+
+${GUIDE_ORDER.map((s) => `- [${guideTitle(s)}](${SITE.url}/guides/${s}): ${GUIDE_BLURBS[s]}`).join('\n')}
 
 ## Research
 
 ${pieces.length === 0
-  ? 'No research published yet. Placeholder entries on the site are scaffolding and carry no findings; they are excluded from the sitemap and this file.'
+  ? 'No research published yet.'
   : pieces
       .map((p) => `- [${p.data.title}](${SITE.url}/research/${p.id}) — ${p.data.description} Published ${sortDate(p).toISOString().slice(0, 10)}. Category: ${tagFor(p)}.`)
       .join('\n')}

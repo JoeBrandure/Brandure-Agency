@@ -1,0 +1,25 @@
+---
+import { getCollection, render } from 'astro:content';
+import GuideLayout from '../../layouts/GuideLayout.astro';
+
+/* The route param comes from front matter, not from the filename, because the
+   URL is part of the content. The assertion catches the one way that can go
+   wrong silently: a file renamed without its slug being updated, which would
+   publish a guide at an address nothing links to. */
+export async function getStaticPaths() {
+  const guides = await getCollection('guides');
+  for (const g of guides) {
+    if (g.id !== g.data.slug) {
+      throw new Error(
+        `Guide "${g.id}.md" declares slug "${g.data.slug}". ` +
+          `Filename and slug must match, or internal links to /guides/${g.id} break.`,
+      );
+    }
+  }
+  return guides.map((guide) => ({ params: { slug: guide.data.slug }, props: { guide } }));
+}
+
+const { guide } = Astro.props;
+const { Content } = await render(guide);
+---
+<GuideLayout guide={guide}><Content /></GuideLayout>

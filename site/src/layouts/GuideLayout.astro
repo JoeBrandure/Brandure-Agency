@@ -1,0 +1,111 @@
+---
+/**
+ * Layout for /guides/<slug>.
+ *
+ * Reuses the research article's styles wholesale — the same `rs` block, the
+ * same `prose` body, the same byline and footer rhythm — because a guide and a
+ * research piece are the same reading experience and the design system already
+ * answers it. Nothing here adds CSS.
+ *
+ * What differs is the metadata, and that is why it is a separate layout rather
+ * than another branch inside ResearchLayout. A guide has no research date, no
+ * hero, no front-matter FAQs and no draft flag; it carries a byline string and
+ * an optional `updated`. Threading those absences through the research layout
+ * would be four conditionals to describe a thing that is simply not a piece.
+ *
+ * NO FAQPage MARKUP. These guides have an FAQ section in their body copy, but
+ * it is prose, not structured data. Marking it up would claim FAQ rich results
+ * on an article that is not an FAQ page.
+ *
+ * NO CLIENT-SIDE JS.
+ */
+import BaseLayout from './BaseLayout.astro';
+import { SITE } from '../consts';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props { guide: CollectionEntry<'guides'>; }
+const { guide } = Astro.props;
+const d = guide.data;
+
+const url = `${SITE.url}/guides/${d.slug}`;
+
+/* `updated` is optional and falls back to `date`, so the page always states a
+   last-updated line and dateModified is never missing from the schema. */
+const published = d.date;
+const modified = d.updated ?? d.date;
+
+const iso = (x: Date) => x.toISOString().slice(0, 10);
+const human = (x: Date) =>
+  x.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+
+/* The byline links to /about when that page exists. It does, so this resolves
+   there; the fallback is the home page rather than a dead link. */
+const bylineHref = '/about';
+
+/* Author and publisher are bare {"@id"} references into the graph defined in
+   BaseLayout. The byline reads "By Brandure", so both point at the
+   organisation — attributing a guide to the Person node would contradict the
+   visible byline. */
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  '@id': `${url}#article`,
+  headline: d.title,
+  description: d.meta_description,
+  url,
+  mainEntityOfPage: url,
+  datePublished: iso(published),
+  dateModified: iso(modified),
+  inLanguage: 'en-GB',
+  isPartOf: { '@id': `${SITE.url}/#website` },
+  author: { '@id': `${SITE.url}/#organization` },
+  publisher: { '@id': `${SITE.url}/#organization` },
+};
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  '@id': `${url}#breadcrumb`,
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: SITE.url },
+    { '@type': 'ListItem', position: 2, name: 'Guides', item: `${SITE.url}/guides` },
+    { '@type': 'ListItem', position: 3, name: d.title, item: url },
+  ],
+};
+
+/* The layout appends " — Brandure" to a title. On the long AEO guide that
+   pushes the tag well past the point a result page will show it, so those
+   titles opt out and stand on their own. The threshold is applied here rather
+   than hardcoded per page, so a future guide gets the same treatment without
+   anyone remembering this rule. */
+const SUFFIX = ` — ${SITE.name}`;
+const useFullTitle = (d.title + SUFFIX).length > 70;
+---
+<BaseLayout
+  title={d.title}
+  fullTitle={useFullTitle}
+  description={d.meta_description}
+  schemas={[articleSchema, breadcrumbSchema]}
+>
+  <nav aria-label="Breadcrumb" class="wrap-narrow meta rs-crumb">
+    <a href="/">Home</a> <span aria-hidden="true">/</span> <a href="/guides">Guides</a>
+  </nav>
+
+  <article class="wrap-narrow rs">
+    <header class="rs__head">
+      <h1 class="rs__t">{d.title}</h1>
+
+      <p class="rs__by">
+        By <a href={bylineHref}>{d.byline}</a>
+        <span class="rs__sep" aria-hidden="true">·</span>
+        Published <time datetime={iso(published)}>{human(published)}</time>
+        <span class="rs__sep" aria-hidden="true">·</span>
+        Last updated <time datetime={iso(modified)}>{human(modified)}</time>
+      </p>
+    </header>
+
+    <div class="prose rs__body"><slot /></div>
+
+    <p class="rs__all"><a href="/guides">All guides &rarr;</a></p>
+  </article>
+</BaseLayout>

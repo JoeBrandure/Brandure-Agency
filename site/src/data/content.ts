@@ -382,7 +382,7 @@ export const PACKAGES = [
        drawing a contrast against a tier that no longer makes the claim, and
        left English as the only language promise on the site. Category count
        is the real difference between the two tiers, so that is all it says. */
-    honest: 'One category.',
+    honest: 'One category, English, UK or UAE.',
     teaser: [
       'Tracked across all six AI engines',
       '2 earned citation placements a month',

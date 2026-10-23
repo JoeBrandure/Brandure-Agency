@@ -23,7 +23,6 @@ import { SITE } from '../../consts';
    something to say. */
 
 const all = listable(await getCollection('research'));
-const anyReal = all.some((p) => !p.data.placeholder);
 
 const fmt = (d: Date) =>
   d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
@@ -73,14 +72,6 @@ const schema = {
         </p>
       </div>
 
-      {!anyReal && (
-        <p class="tst__warn">
-          <strong>Nothing is published yet.</strong> The entries below show the
-          format and contain no findings. They&rsquo;re hidden from search
-          engines and will be deleted rather than tidied up.
-        </p>
-      )}
-
       {all.length === 0 ? (
         <p class="center-row">Nothing published yet.</p>
       ) : (
@@ -102,7 +93,6 @@ const schema = {
                     {p.data.updated && (
                       <span class="rcard__upd">Updated {fmt(p.data.updated)}</span>
                     )}
-                    {p.data.placeholder && <span class="tag tag--draft">Placeholder</span>}
                   </p>
 
                   <h3 class="rcard__t">{p.data.title}</h3>
@@ -123,7 +113,24 @@ const schema = {
     </div>
   </section>
 
-  <!-- 3. CTA. -->
+  <!-- 3. Guides. Research is the measurement; the guides are what to do with
+       it. Linked from here because a reader who has just read a findings page
+       is the one most likely to want the method. -->
+  <section class="section section--tight">
+    <div class="wrap-narrow" data-reveal>
+      <div class="section-head">
+        <h2>Guides</h2>
+        <p class="lede">
+          Practical guides to answer engine optimisation for UK and UAE
+          businesses &mdash; what it is, what to ask an agency, and how to check
+          where you stand yourself.
+        </p>
+      </div>
+      <p class="center-row"><a class="textlink" href="/guides">Read the guides &rarr;</a></p>
+    </div>
+  </section>
+
+  <!-- 4. CTA. -->
   <section class="section section--tight">
     <div class="wrap" data-reveal>
       <div class="cta-card">

@@ -98,4 +98,31 @@ const research = defineCollection({
     }),
 });
 
-export const collections = { research };
+/**
+ * GUIDES — evergreen explainers, not dated measurement.
+ *
+ * Deliberately its own collection rather than a third shape inside `research`.
+ * Research entries carry a research date distinct from publication, a hero, a
+ * draft flag and front-matter FAQs, and the whole point of a piece is the run
+ * behind it. A guide has none of that: it is reference copy that gets revised
+ * in place. Folding them together would mean another discriminator and another
+ * branch in every consumer, to describe two things that are not the same.
+ *
+ * `slug` is carried in front matter and is what the route uses, so the URL is
+ * stated in the file rather than inferred from its name. The check below
+ * refuses the build if the two ever disagree.
+ */
+const guides = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/guides' }),
+  schema: z.object({
+    title: z.string(),
+    meta_description: z.string(),
+    slug: z.string(),
+    byline: z.string(),
+    date: z.coerce.date(),
+    /** Set when the text changes. The layout falls back to `date`. */
+    updated: z.coerce.date().optional(),
+  }),
+});
+
+export const collections = { research, guides };

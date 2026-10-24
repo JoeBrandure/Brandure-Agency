@@ -52,6 +52,15 @@
   status = 301
   force = true
 
+# --- Sitemap alias ------------------------------------------------------
+# Astro emits sitemap-index.xml. Plenty of tools, and some crawlers, try
+# /sitemap.xml first and give up on a 404, so point it at the real one.
+[[redirects]]
+  from = "/sitemap.xml"
+  to = "/sitemap-index.xml"
+  status = 301
+  force = true
+
 # --- Legacy domains ------------------------------------------------------
 # These rules only take effect once each domain is added as a domain alias
 # on this Netlify site. Adding an alias changes that domain's WEB records

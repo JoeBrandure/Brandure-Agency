@@ -18,6 +18,30 @@ export const SITE = {
      Three consumers read this — the footer link, the Organization sameAs in
      BaseLayout, and llms.txt — so none of those files is edited directly. */
   linkedin: 'https://www.linkedin.com/company/brandureagency',
+
+  /* Organization sameAs. Exactly these five, in this order.
+     https://clutch.co/profile/brandure — WITHOUT the "-0" — is a DIFFERENT
+     COMPANY and must never appear here or anywhere else on the site. The
+     correct profile is brandure-0. Equally, the only valid LinkedIn vanity is
+     /company/brandureagency; /company/brandure is not ours. */
+  sameAs: [
+    'https://www.linkedin.com/company/brandureagency',
+    'https://www.instagram.com/brandure.agency/',
+    'https://clutch.co/profile/brandure-0',
+    'https://www.sortlist.com/agency/brandure-3',
+    'https://www.goodfirms.co/company/brandure',
+  ],
+
+  /* GA4. Loaded only after the visitor grants analytics consent — see
+     src/components/Analytics.astro. */
+  ga4: 'G-4S5251FSXH',
+
+  /* Set this to '/privacy' once that page exists and the consent banner will
+     link to it. Null until then: a banner linking to a page that does not
+     exist is worse than one that does not link, and inventing a privacy policy
+     is not something to do on anyone's behalf. */
+  privacyHref: null as string | null,
+
   areaServed: ['AE', 'GB', 'US'],
   /* The Calendly event the booking confirmation embeds. Verified against the
      Calendly API on 2026-09-08: account joe@brandure.io, event "15 Minute
@@ -27,7 +51,14 @@ export const SITE = {
      changing either way. */
   bookingUrl: 'https://calendly.com/joe-brandure/15min' as string | null,
   description:
-    'Brandure is an answer engine optimisation agency. We show businesses where they stand inside AI answers on ChatGPT, Claude, Perplexity, Gemini, Google and Copilot, then do the work to get them named.',
+    'Brandure is an AI search optimisation (AEO) agency for businesses in the UK and the UAE.',
+
+  /* Reads as a correction, because it is one: the name gets mistaken for a
+     branding studio, and this is the field that tells an engine otherwise. */
+  disambiguatingDescription:
+    'An AI search optimisation (AEO) agency. Not a branding, logo or design studio.',
+
+  alternateName: ['Brandure AEO', 'Brandure AI search agency'],
 } as const;
 
 /** PostHog: organisation "Brandure Agency", EU region. phc_ keys are public

@@ -33,6 +33,7 @@ const year = new Date().getFullYear();
         <ul>
           <li><a href="/rss.xml">RSS</a></li>
           <li><a href="/llms.txt">llms.txt</a></li>
+          <li><button type="button" class="footer-btn" data-cookie-settings>Cookie settings</button></li>
         </ul>
       </div>
     </div>
@@ -41,3 +42,14 @@ const year = new Date().getFullYear();
     </div>
   </div>
 </footer>
+
+<style>
+  /* A button, not a link, because it performs an action rather than going
+     somewhere. Styled to sit in the list unnoticed, from the same values the
+     footer's own anchors use — no new tokens. */
+  .footer-btn {
+    appearance: none; background: none; border: 0; padding: 0;
+    font: inherit; color: var(--ink); cursor: pointer; text-align: left;
+  }
+  .footer-btn:hover { text-decoration: underline; }
+</style>

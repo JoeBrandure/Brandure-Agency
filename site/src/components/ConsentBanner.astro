@@ -1,0 +1,79 @@
+---
+import { SITE } from '../consts';
+
+/**
+ * Cookie consent banner. UK GDPR / PECR.
+ *
+ * PECR requires consent BEFORE a non-essential cookie is set or read, so
+ * nothing analytics-related runs until the visitor accepts — see the note in
+ * Analytics.astro about why gtag.js is not loaded up front.
+ *
+ * NO DARK PATTERNS. Accept and Reject are the same component, the same size
+ * and the same visual weight: both are .btn--ghost. A filled Accept next to an
+ * outlined Reject is the standard nudge and the ICO calls it out; equal weight
+ * is the whole point of the requirement, so the pair must stay identical.
+ *
+ * NO LAYOUT SHIFT. The banner is position: fixed and starts with the `hidden`
+ * attribute, so it is out of flow and invisible until the inline script in
+ * Analytics.astro decides a choice is needed. It never reflows the page.
+ *
+ * NO NEW DESIGN TOKENS. Every value below is an existing custom property or an
+ * existing component class. The styles are scoped to this component rather
+ * than added to global.css, so the design system file is untouched.
+ */
+const { privacyHref } = SITE;
+---
+<div
+  id="consent"
+  class="consent"
+  role="dialog"
+  aria-modal="false"
+  aria-labelledby="consent-t"
+  hidden
+>
+  <div class="consent__inner">
+    <p class="consent__t" id="consent-t">
+      We use analytics cookies to understand how the site is used. No
+      advertising cookies.{privacyHref && (<> <a href={privacyHref}>Privacy policy</a>.</>)}
+    </p>
+    <div class="consent__actions">
+      <button type="button" class="btn btn--ghost" data-consent="granted">Accept analytics</button>
+      <button type="button" class="btn btn--ghost" data-consent="denied">Reject</button>
+    </div>
+  </div>
+</div>
+
+<style>
+  .consent {
+    position: fixed;
+    left: 0; right: 0; bottom: 0;
+    z-index: 60;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding: 1rem 0 calc(1rem + env(safe-area-inset-bottom));
+    color: var(--ink);
+  }
+  .consent[hidden] { display: none; }
+  .consent__inner {
+    max-width: var(--measure-wide, 72rem);
+    margin: 0 auto;
+    padding: 0 1rem;
+    display: flex; flex-wrap: wrap; align-items: center; gap: 1rem;
+    justify-content: space-between;
+  }
+  .consent__t {
+    margin: 0;
+    font-size: var(--small);
+    color: var(--ink);
+    max-width: 52ch;
+  }
+  .consent__t a { color: var(--link); }
+  .consent__actions { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+  /* Both buttons are .btn--ghost already; this only stops the shared .btn
+     hover lift making one feel more clickable than the other mid-interaction. */
+  .consent__actions .btn { transform: none; }
+  @media (max-width: 34rem) {
+    .consent__inner { flex-direction: column; align-items: stretch; }
+    .consent__actions .btn { flex: 1; justify-content: center; }
+  }
+</style>

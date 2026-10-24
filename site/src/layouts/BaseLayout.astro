@@ -1,6 +1,7 @@
 ---
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import ConsentBanner from '../components/ConsentBanner.astro';
 import Analytics from '../components/Analytics.astro';
 import ThemeScript from '../components/ThemeScript.astro';
 import Motion from '../components/Motion.astro';
@@ -69,8 +70,18 @@ const organizationSchema = {
   url: SITE.url,
   email: SITE.email,
   description: SITE.description,
+  disambiguatingDescription: SITE.disambiguatingDescription,
+  alternateName: [...SITE.alternateName],
   areaServed: SITE.areaServed.map((c) => ({ '@type': 'Country', identifier: c })),
-  sameAs: [SITE.linkedin],
+  /* Deduplicated at build time rather than trusted to stay unique by hand. */
+  sameAs: [...new Set(SITE.sameAs)],
+  knowsAbout: [
+    'AI search optimisation',
+    'Answer engine optimisation',
+    'Generative engine optimisation',
+    'AI visibility',
+    'ChatGPT visibility',
+  ],
   founder: { '@id': `${SITE.url}/about#person` },
   contactPoint: [{
     '@type': 'ContactPoint',
@@ -163,6 +174,7 @@ const allSchemas = [websiteSchema, organizationSchema, personSchema, ...schemas]
     <Header />
     <main id="main"><slot /></main>
     <Footer />
+    <ConsentBanner />
     <Motion />
     <FormEnhance />
   </body>

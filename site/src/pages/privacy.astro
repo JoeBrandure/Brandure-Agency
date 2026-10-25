@@ -1,0 +1,139 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../consts';
+
+/* PRIVACY POLICY.
+ *
+ * Copy supplied by Joe and set here as written, pending his own review. The
+ * only thing this file decides is structure: headings, lists and a definition
+ * of what the consent banner links to.
+ *
+ * The last-updated date is a constant rather than a build-time date, because
+ * "last updated" has to mean the last time the words changed, not the last
+ * time the site was deployed. Change it when the copy changes.
+ *
+ * Deliberately not in llms.txt: it is a legal notice, not something to put in
+ * front of an answer engine summarising what the agency does.
+ */
+const UPDATED = new Date('2026-10-25');
+const iso = UPDATED.toISOString().slice(0, 10);
+const human = UPDATED.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  '@id': `${SITE.url}/privacy#webpage`,
+  url: `${SITE.url}/privacy`,
+  name: 'Privacy policy',
+  inLanguage: 'en-GB',
+  dateModified: iso,
+  isPartOf: { '@id': `${SITE.url}/#website` },
+  about: { '@id': `${SITE.url}/#organization` },
+};
+---
+<BaseLayout
+  title="Privacy policy"
+  description="What personal data Brandure collects through brandure.io, why, who processes it, how long it is kept and how to ask for it to be corrected or deleted."
+  schemas={[schema]}
+>
+  <section class="hero hero--short">
+    <div class="mesh" aria-hidden="true">
+      <div class="mesh__layer mesh__layer--1"><div class="mesh__blob mesh__blob--1"></div></div>
+      <div class="mesh__layer mesh__layer--2"><div class="mesh__blob mesh__blob--2"></div></div>
+    </div>
+    <div class="wrap res-hero" data-load>
+      <p class="eyebrow">Legal</p>
+      <h1 class="statement statement--sub" data-split>Privacy policy</h1>
+      <p class="lede">
+        Last updated <time datetime={iso}>{human}</time>
+      </p>
+    </div>
+  </section>
+
+  <section class="section section--sunk">
+    <div class="wrap-narrow" data-reveal>
+      <div class="prose">
+        <p>
+          Brandure (&ldquo;we&rdquo;) runs brandure.io. This page explains what
+          personal data we collect, why, and what you can do about it.
+        </p>
+
+        <h2>Who we are</h2>
+        <p>
+          Brandure, 2121 Binghatti Corner, Dubai, United Arab Emirates. UK
+          office: Richmond Road, Staines-upon-Thames, TW18. Contact:
+          <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.
+        </p>
+
+        <h2>What we collect and why</h2>
+        <ul>
+          <li>
+            <strong>Forms (free report and call requests):</strong> your name,
+            email, company, website and anything you write. We use this to reply
+            to you and prepare what you asked for. The legal basis is our
+            legitimate interest in responding to your request.
+          </li>
+          <li>
+            <strong>Booking a call:</strong> if you book through Calendly,
+            Calendly processes your name, email and chosen time on our behalf.
+          </li>
+          <li>
+            <strong>Analytics without cookies:</strong> PostHog records page
+            views without cookies or stored identifiers, so we can see which
+            pages are used.
+          </li>
+          <li>
+            <strong>Analytics with cookies (only if you accept):</strong> Google
+            Analytics 4 sets cookies to measure visits and traffic sources. It
+            only runs after you click &ldquo;Accept analytics&rdquo;. We
+            don&rsquo;t use advertising cookies.
+          </li>
+        </ul>
+
+        <h2>Who processes it for us</h2>
+        <p>
+          Netlify (hosting and forms), Google (Workspace email, Analytics),
+          PostHog (analytics), Calendly (scheduling). Some of these providers
+          store data outside the UK and the UAE under their standard data
+          protection terms.
+        </p>
+
+        <h2>How long we keep it</h2>
+        <p>
+          Enquiries for up to 24 months after our last contact, unless you
+          become a client. Analytics data follows each provider&rsquo;s
+          retention settings; GA4 is set to 14 months.
+        </p>
+
+        <h2>Your rights</h2>
+        <p>
+          You can ask to see, correct or delete your data, object to how we use
+          it, or withdraw consent. Email
+          <a href={`mailto:${SITE.email}`}>{SITE.email}</a>. You can change your
+          cookie choice at any time with
+          <button type="button" class="prose-btn" data-cookie-settings>Cookie settings</button>
+          in the footer. If you&rsquo;re in the UK, you can also complain to the
+          Information Commissioner&rsquo;s Office
+          (<a href="https://ico.org.uk" rel="noopener">ico.org.uk</a>).
+        </p>
+
+        <h2>Changes</h2>
+        <p>
+          If this policy changes, we&rsquo;ll update the date at the top of this
+          page.
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* The copy says "Cookie settings", and on this page that phrase should do
+     what it describes rather than send the reader hunting the footer. Styled
+     from the existing link token so it reads as body text, not a control. */
+  .prose-btn {
+    appearance: none; background: none; border: 0; padding: 0;
+    font: inherit; color: var(--link); font-weight: 600;
+    cursor: pointer; text-decoration: underline;
+  }
+</style>

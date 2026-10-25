@@ -27,6 +27,11 @@ const schema = {
   description: 'Practical guides to answer engine optimisation for UK and UAE businesses.',
   url: `${SITE.url}/guides`,
   isPartOf: { '@id': `${SITE.url}/#website` },
+  publisher: { '@id': `${SITE.url}/#organization` },
+  /* Bare references to each guide's own Article node, which that guide's page
+     defines. Derived from the same ordered list the cards render from, so the
+     schema cannot list a guide the page does not show. */
+  hasPart: guides.map((g) => ({ '@id': `${SITE.url}/guides/${g.data.slug}#article` })),
 };
 ---
 <BaseLayout
@@ -45,6 +50,34 @@ const schema = {
       <p class="lede">
         Practical guides to answer engine optimisation for UK and UAE businesses.
       </p>
+    </div>
+  </section>
+
+  {/* The page was almost entirely cards: three links and one line of text,
+      which is thin for a page meant to be the entry point to the subject.
+      Existing prose styles, no new CSS. */}
+  <section class="section">
+    <div class="wrap-narrow" data-reveal>
+      <div class="prose">
+        <p>
+          These guides explain how AI assistants like ChatGPT, Gemini,
+          Perplexity, Claude, Copilot and Google&rsquo;s AI Overviews decide
+          which businesses to recommend, and what a business can do about it.
+        </p>
+        <p>
+          Each guide answers one practical question and draws on our own testing
+          in Dubai, where we ran the same buying questions across several AI
+          engines and recorded who they named and which sources they cited. The
+          underlying data is on our <a href="/research">research pages</a>.
+        </p>
+        <p>
+          Start with <a href="/guides/answer-engine-optimisation-uk-uae-guide">the
+          overview</a> if you&rsquo;re new to AI search optimisation (AEO). If
+          you want to know where you stand today,
+          <a href="/guides/check-whether-chatgpt-recommends-your-business">the
+          ChatGPT check</a> takes about an hour and needs no paid tools.
+        </p>
+      </div>
     </div>
   </section>
 

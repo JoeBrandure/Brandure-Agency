@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { PACKAGES, SETUP, TERMS, FREE_OFFER, PRICING_FAQS } from '../data/content';
 import { SITE } from '../consts';
+import { serviceSchema } from '../lib/schema';
 
 /* PRICING EXISTS BECAUSE THE NUMBERS WERE NOT ADDRESSABLE.
  *
@@ -38,6 +39,8 @@ const webPageSchema = {
   inLanguage: 'en-GB',
   isPartOf: { '@id': `${SITE.url}/#website` },
   about: { '@id': `${SITE.url}/#organization` },
+  /* The prices on this page are the prices of that service. */
+  mainEntity: { '@id': `${SITE.url}/#service` },
 };
 
 /* Every node carries its own @id and every cross-reference is a bare {"@id"}.
@@ -98,7 +101,7 @@ const faqSchema = {
   title="Pricing | Brandure: AEO agency for UK & UAE businesses"
   fullTitle
   description="Brandure AEO pricing: Core AED 6,500/month, Growth AED 12,000/month, plus a one-time AED 3,500 setup. Six-month term with a 90-day review. Prices exclude VAT."
-  schemas={[webPageSchema, catalogSchema, faqSchema]}
+  schemas={[webPageSchema, serviceSchema, catalogSchema, faqSchema]}
 >
   <section class="hero hero--short">
     <div class="mesh" aria-hidden="true">

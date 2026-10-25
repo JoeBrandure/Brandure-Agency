@@ -5,6 +5,7 @@ import PromptRotator from '../components/PromptRotator.astro';
 import LogoStrip from '../components/LogoStrip.astro';
 import Testimonials from '../components/Testimonials.astro';
 import { SITE } from '../consts';
+import { serviceSchema } from '../lib/schema';
 import { FAQS, FAQS_HOME, HERO_MODE, HERO_STATS, HERO_CASES, PROBLEMS, STAGES, PACKAGES, ENGINES, PRIZE, TERMS } from '../data/content';
 import { getCollection } from 'astro:content';
 import { listable, sortDate, tagFor } from '../lib/research';
@@ -29,20 +30,15 @@ const caseCards = HERO_CASES.map((c) => ({
 
 const pieces = listable(await getCollection('research')).slice(0, 3);
 
-const serviceSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'Service',
-  '@id': `${SITE.url}/#service`,
-  name: 'Answer engine optimisation',
-  serviceType: 'Answer engine optimisation',
-  description: SITE.description,
-  provider: { '@id': `${SITE.url}/#organization` },
-  areaServed: SITE.areaServed.map((c) => ({ '@type': 'Country', identifier: c })),
-  url: `${SITE.url}/service`,
-};
+/* Defined once in src/lib/schema.ts and emitted here, on /service and on
+   /pricing, so the three pages cannot describe the service differently. */
 const faqSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
+  /* The only anonymous entity node left on the site, given an @id here so the
+     home page's FAQ is a thing that can be referred to, like /faq#faq is.
+     Out of this task's scope but one line, and it was the last one. */
+  '@id': `${SITE.url}/#faq`,
   /* Only the questions actually present on this page. The full set is
      marked up on /faq. */
   mainEntity: FAQS_HOME.map((f) => ({

@@ -36,11 +36,9 @@ export const SITE = {
      src/components/Analytics.astro. */
   ga4: 'G-4S5251FSXH',
 
-  /* Set this to '/privacy' once that page exists and the consent banner will
-     link to it. Null until then: a banner linking to a page that does not
-     exist is worse than one that does not link, and inventing a privacy policy
-     is not something to do on anyone's behalf. */
-  privacyHref: null as string | null,
+  /* The consent banner renders its privacy link only when this is set. Set
+     2026-10-25, when src/pages/privacy.astro was added. */
+  privacyHref: '/privacy' as string | null,
 
   areaServed: ['AE', 'GB', 'US'],
   /* The Calendly event the booking confirmation embeds. Verified against the

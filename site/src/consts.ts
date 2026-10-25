@@ -40,7 +40,10 @@ export const SITE = {
      2026-10-25, when src/pages/privacy.astro was added. */
   privacyHref: '/privacy' as string | null,
 
-  areaServed: ['AE', 'GB', 'US'],
+  /* AE and GB only. US was removed on 2026-10-25: the Service node names the
+     two markets the work is actually sold in, and Organization claiming a
+     third contradicted it on the same page. */
+  areaServed: ['AE', 'GB'],
   /* The Calendly event the booking confirmation embeds. Verified against the
      Calendly API on 2026-09-08: account joe@brandure.io, event "15 Minute
      Meeting", Google Meet, active. The 15 matches the copy on the page — an

@@ -42,6 +42,7 @@ const heroUrl = d.heroImage ? `${SITE.url}${d.heroImage}` : undefined;
 const articleSchema = {
   '@context': 'https://schema.org',
   '@type': 'Article',
+  '@id': `${url}#article`,
   headline: d.title,
   description: d.description,
   url,
@@ -64,6 +65,7 @@ const faqSchema =
     ? {
         '@context': 'https://schema.org',
         '@type': 'FAQPage',
+        '@id': `${url}#faq`,
         mainEntity: d.faq.map((f) => ({
           '@type': 'Question',
           name: f.q,
@@ -86,7 +88,12 @@ const faqSchema =
       <h1 class="rs__t">{d.title}</h1>
 
       <p class="rs__by">
-        By <a href="/about">Joe Hickman</a>, Founder, Brandure
+        {/* Agency first, person second: the research is published by
+            Brandure and written by its founder, and the old "By Joe Hickman,
+            Founder, Brandure" read as a personal blog post. The name keeps its
+            link to /about, which is what ties the visible byline to the Person
+            node the Article schema names as author. */}
+        Brandure <span aria-hidden="true">|</span> <a href="/about">Joe Hickman</a>, Founder
         <span class="rs__sep" aria-hidden="true">·</span>
         Research conducted <time datetime={iso(researched)}>{human(researched)}</time>
         <span class="rs__sep" aria-hidden="true">·</span>

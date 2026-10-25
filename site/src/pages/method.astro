@@ -24,8 +24,12 @@ const schema = {
   description:
     'Surface, Cause, Act, Net. How Brandure structures an answer engine optimisation engagement so that a change in AI answers can be attributed rather than asserted.',
   url: `${SITE.url}/method`,
+  /* Each step is addressable. Question and Answer inside an FAQPage stay
+     inline — they have no identity apart from the question they answer — but a
+     named stage of a named method is a thing worth being able to point at. */
   step: SCAN.map((s, i) => ({
     '@type': 'HowToStep',
+    '@id': `${SITE.url}/method#step-${i + 1}`,
     position: i + 1,
     name: s.name,
     text: s.d,

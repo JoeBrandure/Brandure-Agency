@@ -30,11 +30,11 @@
 
 [data-reveal] > * {
   opacity: 0;
-  transform: translate3d(0, var(--rise), 0);
+  transform: translate3d(0, var(--reveal-rise), 0);
   transition:
-    opacity var(--dur-2) var(--ease-out),
-    transform var(--dur-2) var(--ease-out);
-  transition-delay: calc(var(--stagger) * var(--i, 0));
+    opacity var(--reveal-dur) var(--reveal-ease),
+    transform var(--reveal-dur) var(--reveal-ease);
+  transition-delay: calc(var(--reveal-stagger) * var(--i, 0));
 }
 [data-reveal].is-in > * { opacity: 1; transform: none; }
 
@@ -52,11 +52,15 @@
    is a surface, and surfaces settling read calmer than surfaces arriving. */
 [data-stagger] > * {
   opacity: 0;
-  transform: translate3d(0, var(--rise), 0) scale(0.985);
+  transform: translate3d(0, var(--reveal-rise), 0) scale(0.97);
   transition:
-    opacity var(--dur-2) var(--ease-out),
-    transform var(--dur-2) var(--ease-out);
-  transition-delay: calc(var(--stagger) * var(--i, 0));
+    opacity var(--reveal-dur) var(--reveal-ease),
+    transform var(--reveal-dur) var(--reveal-ease),
+    box-shadow 320ms var(--reveal-ease),
+    border-color 320ms var(--reveal-ease);
+  /* Cards in a grid follow the block that contains them, so the first card
+     starts after the section heading has begun to land. */
+  transition-delay: calc(90ms * (var(--i, 0) + 1));
 }
 .is-in [data-stagger] > *, [data-stagger].is-in > * { opacity: 1; transform: none; }
 [data-stagger] > *:nth-child(1)  { --i: 0; }
@@ -181,13 +185,17 @@
 
 /* ---------- Hero entrance on load ---------- */
 
+/* Deliberately quicker and shorter than the scroll reveals. Hero copy is
+   usually the page's Largest Contentful Paint element, and LCP is not
+   recorded until it is visibly painted, so a long fade here costs a Core Web
+   Vital Google ranks on. 18px over 620ms, starting at once. */
 .hero [data-load] > * {
   opacity: 0;
-  transform: translate3d(0, calc(var(--rise) * 1.4), 0);
+  transform: translate3d(0, 18px, 0);
   transition:
-    opacity var(--dur-3) var(--ease-out),
-    transform var(--dur-3) var(--ease-out);
-  transition-delay: calc(var(--stagger) * var(--i, 0));
+    opacity var(--dur-3) var(--reveal-ease),
+    transform var(--dur-3) var(--reveal-ease);
+  transition-delay: calc(80ms * var(--i, 0));
 }
 .hero [data-load].is-in > * { opacity: 1; transform: none; }
 
@@ -223,7 +231,7 @@
   box-shadow: 0 24px 60px -34px var(--btn-shadow);
 }
 [data-reveal] > .cta-card {
-  transform: translate3d(0, calc(var(--rise) * 2.2), 0) scale(0.96);
+  transform: translate3d(0, calc(var(--reveal-rise) * 1.6), 0) scale(0.95);
   box-shadow: 0 0 0 -34px var(--btn-shadow);
 }
 [data-reveal].is-in > .cta-card {
@@ -260,7 +268,11 @@
    fought every alignment decision around it. A lift and an accent border do
    the same job — the card is interactive — without touching the text. */
 
-.card--tilt, .metric, .case {
+/* Scoped away from grid children. As a bare `.case` rule, sitting later in
+   this file than the [data-stagger] entrance, it replaced that transition
+   outright: the hero case cards and research cards lost their opacity
+   transition and stagger delay, so they popped in rather than revealing. */
+:is(.card--tilt, .metric, .case):not([data-stagger] > *) {
   transition:
     transform var(--dur-1) var(--ease),
     box-shadow var(--dur-1) var(--ease),
@@ -528,7 +540,9 @@
    The whole border lights up in the card's own hue, on every side, with a
    soft ring outside it. Painted on an inset box-shadow so the border-box
    never changes and nothing around it moves. */
-.problem, .problem::after {
+/* Same scoping, same reason: the problem cards are grid children, and this
+   rule used to cancel their staggered fade-in. */
+.problem:not([data-stagger] > *), .problem::after {
   transition:
     transform var(--dur-2) var(--ease-out),
     box-shadow var(--dur-2) var(--ease-out),
@@ -859,3 +873,131 @@
   .mth-stage, .mth-stage__no, .mth-l__k, .mth-track__i { transition: none !important; }
   .mth-l:hover .mth-l__k, .mth-track__i.is-on { transform: none !important; }
 }
+
+/* ================= Hover emphasis (2026-10-26) =================
+   Matched to the reference site: cards lift 6px and scale 2%, and gain a
+   soft glow in their own hue; buttons grow 3% and press in on click. Before
+   this, cards lifted 3px with no scale, which at a glance read as no
+   response at all.
+
+   Pointer devices only — on touch there is no hover to leave, and a tap
+   would leave a card stuck in its lifted state. Large surfaces (stage
+   bands, package cards) scale less, because 2% of a 600px card is a 12px
+   jump that reads as a glitch rather than a lift.
+
+   Hover never changes content, layout or the accessibility tree, so it has
+   no bearing on crawling, indexing or Core Web Vitals: transform and
+   box-shadow only, no reflow, nothing a crawler renders differently. */
+
+/* Once a grid's entrance has finished, its children respond to the cursor
+   at hover speed with no inherited stagger delay. */
+[data-reveal].is-settled > *,
+[data-stagger].is-settled > * {
+  transition-delay: 0s;
+  transition-duration: 320ms;
+}
+
+/* Hover timing for cards that are not part of a staggered grid. Grid
+   children get theirs from the `is-settled` rule above instead: setting the
+   `transition` shorthand on them would reset transition-delay and wipe the
+   entrance stagger. */
+:is(.case, .metric, .card--tilt, .card--link, .problem, .tst__card, .mth-not,
+.nul__c, .svc-facts li, .offer, .pkg__c, .rcard, .stages__card, .mth-stage):not([data-stagger] > *) {
+  transition:
+    transform 320ms var(--reveal-ease),
+    box-shadow 320ms var(--reveal-ease),
+    border-color 320ms var(--reveal-ease),
+    background 320ms var(--reveal-ease);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .case:hover, .metric:hover, .card--tilt:hover, .card--link:hover, .rcard:hover,
+  .mth-not:hover, .svc-facts li:hover {
+    transform: translate3d(0, -6px, 0) scale(1.02);
+    border-color: color-mix(in srgb, var(--accent) 40%, var(--border));
+    box-shadow: var(--shadow-lift), 0 26px 50px -22px color-mix(in srgb, var(--accent) 45%, transparent);
+  }
+  .problem:hover {
+    transform: translate3d(0, -6px, 0) scale(1.02);
+    box-shadow: 0 26px 50px -22px color-mix(in srgb, var(--pa, var(--accent)) 45%, transparent);
+  }
+  .tst__card:hover {
+    transform: translate3d(0, -6px, 0) scale(1.02);
+    box-shadow: var(--shadow-lift), 0 26px 50px -22px color-mix(in srgb, var(--ta, var(--accent)) 45%, transparent);
+  }
+  .nul__c:hover, .stages__item:hover .stages__card {
+    transform: translate3d(0, -6px, 0) scale(1.02);
+    border-color: color-mix(in srgb, var(--sa, var(--accent)) 50%, var(--border));
+    box-shadow: var(--shadow-lift), 0 26px 50px -22px color-mix(in srgb, var(--sa, var(--accent)) 45%, transparent);
+  }
+  .offer:hover, .pkg__c:hover {
+    transform: translate3d(0, -6px, 0) scale(1.01);
+    box-shadow: var(--shadow-lift), 0 30px 60px -26px color-mix(in srgb, var(--sa, var(--accent)) 50%, transparent);
+  }
+  .mth-stage:hover { transform: translate3d(0, -4px, 0); }
+
+  /* Buttons: grow, then press. */
+  .btn:hover {
+    transform: translate3d(var(--mx, 0px), calc(var(--my, 0px) - 2px), 0) scale(1.03);
+  }
+  .btn:active {
+    transform: translate3d(var(--mx, 0px), var(--my, 0px), 0) scale(0.98);
+    transition-duration: 90ms;
+  }
+}
+
+/* ================= Menu tab =================
+   Appears at the top centre while the header is hidden; one click brings
+   the header back. Slides down a beat after the header leaves, so the two
+   read as a hand-off rather than as two things moving at once. */
+.nav-peek {
+  position: fixed; top: 0.7rem; left: 50%; z-index: 55;
+  display: inline-flex; align-items: center; gap: 0.45rem;
+  padding: 0.5rem 0.95rem 0.5rem 0.8rem;
+  border: 1px solid var(--border); border-radius: 999px;
+  background: color-mix(in srgb, var(--surface) 84%, transparent);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4); backdrop-filter: blur(14px) saturate(1.4);
+  color: var(--ink);
+  font-family: inherit; font-size: var(--small); font-weight: 600; line-height: 1;
+  box-shadow: 0 12px 30px -14px rgba(0, 0, 0, 0.35);
+  cursor: pointer;
+  opacity: 0; visibility: hidden;
+  transform: translate3d(-50%, -170%, 0);
+  transition:
+    transform 340ms var(--ease-out),
+    opacity 200ms var(--ease),
+    visibility 0s linear 340ms,
+    box-shadow 200ms var(--ease),
+    border-color 200ms var(--ease);
+}
+.nav-peek svg { color: var(--accent); }
+:root[data-nav='hidden'] .nav-peek {
+  opacity: 1; visibility: visible;
+  transform: translate3d(-50%, 0, 0);
+  transition:
+    transform 460ms var(--reveal-ease) 140ms,
+    opacity 260ms var(--ease) 140ms,
+    visibility 0s,
+    box-shadow 200ms var(--ease),
+    border-color 200ms var(--ease);
+}
+@media (hover: hover) and (pointer: fine) {
+  :root[data-nav='hidden'] .nav-peek:hover {
+    transform: translate3d(-50%, 2px, 0) scale(1.05);
+    transition-delay: 0s;
+    border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
+    box-shadow: 0 16px 34px -14px color-mix(in srgb, var(--accent) 55%, transparent);
+  }
+}
+.nav-peek:focus-visible { outline-offset: 3px; }
+
+/* ================= Degradation for this pass ================= */
+@media (prefers-reduced-motion: reduce) {
+  [data-stagger] > *, [data-reveal] > * { transition: none !important; }
+  .case:hover, .metric:hover, .card--tilt:hover, .card--link:hover, .rcard:hover, .mth-not:hover,
+  .svc-facts li:hover, .problem:hover, .tst__card:hover, .nul__c:hover, .stages__item:hover .stages__card,
+  .offer:hover, .pkg__c:hover, .mth-stage:hover, .btn:hover, .btn:active { transform: none !important; }
+  .nav-peek { display: none !important; }
+}
+.no-js .nav-peek { display: none !important; }
+@media print { .nav-peek { display: none !important; } }

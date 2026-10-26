@@ -134,7 +134,16 @@
   --dur-2:    420ms; /* entrance */
   --dur-3:    620ms; /* headline reveal */
   --stagger:  55ms;  /* one step between siblings */
-  --rise:     10px;  /* how far anything travels on entry */
+  --rise:     10px;  /* small entrances: table rows, letters, hero */
+  /* Scroll reveals, 2026-10-26. Matched to the reference site's own values
+     (Framer Motion: y 20-30px, 0.6s, ease [.22,1,.36,1], staggerChildren
+     0.1-0.2s). At 10px / 420ms the old entrances settled inside their first
+     third and read as no animation at all. Reveals only — hovers and state
+     changes keep --dur-1. */
+  --reveal-rise:    28px;
+  --reveal-dur:     700ms;
+  --reveal-stagger: 120ms;
+  --reveal-ease:    cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 /* Dark — same hue family, lifted so accents stay legible. All re-measured. */

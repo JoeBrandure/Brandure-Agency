@@ -145,3 +145,8 @@
 
 /* /method: the S C A N chips on the tracker centre with the page. */
 .mth-track__l { justify-content: center; }
+
+/* Six nav items since Home was added. On the narrowest phones (≤ 25.99rem,
+   ~415px and below) the default 1.1rem gap pushed "Pricing" to the screen
+   edge at 360px; a tighter gap keeps the row inside the page gutter. */
+@media (max-width: 25.99rem) { .site-nav { gap: 0.4rem 0.8rem; flex-wrap: wrap; } }

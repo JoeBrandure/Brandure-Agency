@@ -55,7 +55,7 @@
        its scrolled state — that is a border and a blur, not motion. */
     function settle() {
       document.querySelectorAll('[data-reveal],[data-stagger],[data-load],[data-timeline],.table-figure,.split')
-        .forEach(function (el) { el.classList.add('is-in'); });
+        .forEach(function (el) { el.classList.add('is-in', 'is-settled'); });
       document.querySelectorAll('[data-count]').forEach(function (el) {
         el.textContent = el.getAttribute('data-count');
       });
@@ -162,6 +162,15 @@
         e.target.classList.add('is-in');
         e.target.querySelectorAll('[data-count]').forEach(countUp);
         io.unobserve(e.target);
+        /* Once the staggered entrance is over, drop its per-child delay so
+           hover responds immediately. Without this the fourth card in a grid
+           waited ~360ms to react to the cursor — the entrance delay was
+           still on its transition. 1.6s covers the longest sequence. */
+        var t = e.target;
+        setTimeout(function () {
+          t.classList.add('is-settled');
+          t.querySelectorAll('[data-stagger]').forEach(function (g) { g.classList.add('is-settled'); });
+        }, 1600);
       });
     }, { rootMargin: '0px 0px -8% 0px', threshold: 0 });
 
@@ -176,6 +185,7 @@
         .forEach(function (el) {
           el.classList.add('is-in');
           el.querySelectorAll('[data-count]').forEach(countUp);
+          setTimeout(function () { el.classList.add('is-settled'); }, 1400);
         });
     });
 
@@ -255,7 +265,9 @@
       if (!header) return;
       var dy = y - lastY;
       var hide = navHidden;
+      if (pinY >= 0 && (y - pinY > 280 || y < pinY - 40)) pinY = -1;
       if (y < 160 || header.contains(document.activeElement)) hide = false;
+      else if (pinY >= 0) hide = false;
       else if (dy > 6) hide = true;
       else if (dy < -6) hide = false;
       else return;                       /* jitter: keep state, keep lastY */
@@ -265,9 +277,26 @@
       if (hide) { header.setAttribute('data-hidden', ''); root.setAttribute('data-nav', 'hidden'); }
       else { header.removeAttribute('data-hidden'); root.removeAttribute('data-nav'); }
     }
-    if (header) header.addEventListener('focusin', function () {
+    function showNav() {
       navHidden = false; lastY = window.scrollY;
       header.removeAttribute('data-hidden'); root.removeAttribute('data-nav');
+    }
+    if (header) header.addEventListener('focusin', showNav);
+
+    /* The Menu tab. Brings the header back and pins it for the next ~280px
+       of downward scroll, so it does not slide away again the instant the
+       reader moves. Keyboard activation (detail 0) also moves focus to the
+       first link; a mouse click does not, or focus-within would hold the
+       header open until the reader clicked somewhere else. */
+    var peek = document.querySelector('[data-nav-peek]');
+    var pinY = -1;
+    if (peek && header) peek.addEventListener('click', function (ev) {
+      showNav();
+      pinY = window.scrollY;
+      if (ev.detail === 0) {
+        var first = header.querySelector('.site-nav a');
+        if (first) first.focus({ preventScroll: true });
+      }
     });
 
     /* The single scroll pass. Everything scroll-driven happens here. */

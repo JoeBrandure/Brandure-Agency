@@ -11,7 +11,7 @@ const path = Astro.url.pathname.replace(/\/$/, '') || '/';
     <a class="wordmark" href="/" aria-label={`${SITE.name} — home`}>BRANDURE</a>
     <nav class="site-nav" aria-label="Primary">
       {NAV.map((i) => (
-        <a href={i.href} aria-current={path === i.href || path.startsWith(`${i.href}/`) ? 'page' : undefined}>{i.label}</a>
+        <a href={i.href} aria-current={path === i.href || (i.href !== '/' && path.startsWith(`${i.href}/`)) ? 'page' : undefined}>{i.label}</a>
       ))}
     </nav>
     <div class="header-right">
@@ -20,3 +20,14 @@ const path = Astro.url.pathname.replace(/\/$/, '') || '/';
     </div>
   </div>
 </header>
+{/* The way back to the menu once the header has slid away on scroll. It is
+    only ever visible while the header is hidden, which only happens for a
+    person with JavaScript running — no-JS, reduced motion and automated
+    browsers never see it, and with visibility:hidden it is out of the tab
+    order and the accessibility tree until then. */}
+<button class="nav-peek" type="button" data-nav-peek aria-controls="site-header" aria-label="Show the menu">
+  <svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+    <path d="M4 6h12M4 10h12M4 14h12"/>
+  </svg>
+  <span>Menu</span>
+</button>

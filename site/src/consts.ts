@@ -79,6 +79,10 @@ export const POSTHOG = {
    addressable URL — asked what Brandure costs, ChatGPT said the pricing was
    inaccessible, because a #fragment cannot be crawled or cited on its own. */
 export const NAV = [
+  /* Home added 2026-10-26 at Joe's request. The wordmark already links home,
+     but plenty of visitors do not know that convention, and a visible Home
+     item gives a reader deep in /research one obvious way back. */
+  { href: '/', label: 'Home' },
   { href: '/service', label: 'Service' },
   { href: '/method', label: 'Method' },
   { href: '/research', label: 'Research' },

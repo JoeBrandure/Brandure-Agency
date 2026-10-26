@@ -33,12 +33,14 @@ const items = BRANDS.map((b) => {
   return { ...b, file: file ? `/logos/${file}` : null };
 });
 
-/* Four copies, not two. Five logos duplicated once did not fill a wide
-   viewport, so the row sat left-aligned with dead space beside it. Four
-   always overflow, which is what makes a marquee read as centred. The CSS
-   shifts 25% per cycle, so one copy = one seamless loop.
-   Only the first set is exposed to assistive tech. */
-const track = [...items, ...items, ...items, ...items];
+/* ONE copy in the HTML. The loop still runs four sets wide — five logos
+   duplicated once did not fill a wide viewport, and the CSS shifts 25% per
+   cycle so one set = one seamless loop — but the other three are cloned by
+   Motion.astro at runtime (data-loop="4"). Shipping all four in the markup
+   put every logo's alt text in front of crawlers four times. Without the
+   runtime (no JS, reduced motion, automated agents) the single set renders
+   as a static, centred row. */
+const track = items;
 ---
 
 <!--
@@ -53,9 +55,9 @@ const track = [...items, ...items, ...items, ...items];
   <p class="logos__label" id="logos-h">Trusted by</p>
 
   <div class="marquee" data-marquee>
-    <ul class="marquee__track" role="list">
-      {track.map((b, i) => (
-        <li class="marquee__item" data-tone={b.tone} aria-hidden={i >= items.length ? 'true' : undefined}>
+    <ul class="marquee__track" role="list" data-loop="4">
+      {track.map((b) => (
+        <li class="marquee__item" data-tone={b.tone}>
           {b.file ? (
             <img src={b.file} alt={b.name} loading="lazy" decoding="async"
                  width={b.w} height={b.h} style={`--optical:${b.optical}`} />

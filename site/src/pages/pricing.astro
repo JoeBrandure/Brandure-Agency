@@ -152,7 +152,8 @@ const faqSchema = {
 
       <div class="pkg" data-stagger>
         {PACKAGES.map((p) => (
-          <article class:list={['pkg__c', `stages--${p.a}`]}>
+          <article class:list={['pkg__c', `stages--${p.a}`, p.primary && 'is-featured']}>
+            {p.primary && <span class="feat-ring" aria-hidden="true"></span>}
             <div class="pkg__head">
               <h3 class="pkg__n">{p.name}</h3>
               <p class="pkg__lede">{p.lede}</p>

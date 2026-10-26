@@ -279,14 +279,23 @@ const path = (vals: readonly number[]) =>
 
 <script is:inline>
   /* The letter tracker follows the reader through the four stage bands. It is
-     progressive enhancement only: with JavaScript off the tracker still renders
-     with every letter in its resting state, and the stages read fine without
-     it. No scroll listener — one IntersectionObserver, and the rootMargin puts
-     the trigger line a third of the way down the viewport so a letter lights
-     when its band is being read rather than when it first appears. */
+     progressive enhancement only: with JavaScript off, reduced motion on, or
+     an automated browser, the tracker renders with every letter at rest and
+     the bar full, and the stages read fine without it.
+
+     Two signals, both cheap:
+       - which stage is being read: one IntersectionObserver, trigger line a
+         third of the way down the viewport. Lights the letter and marks the
+         band `is-current` so the eye has one place to sit.
+       - how far through the four the reader is: a continuous value for the
+         gradient bar, written in the same rAF-throttled scroll pass pattern
+         Motion.astro uses. It used to jump in quarters as each stage became
+         active, which read as a meter ticking rather than as progress. */
   (function () {
+    var root = document.documentElement;
     var track = document.querySelector('.mth-track');
     if (!track || !('IntersectionObserver' in window)) return;
+    if (root.hasAttribute('data-automated')) return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     var items = [].slice.call(track.querySelectorAll('[data-track]'));
@@ -297,15 +306,12 @@ const path = (vals: readonly number[]) =>
     track.setAttribute('data-live', 'true');
 
     function setActive(k) {
-      var hit = -1;
-      items.forEach(function (el, i) {
-        var on = el.getAttribute('data-track') === k;
-        el.classList.toggle('is-on', on);
-        if (on) hit = i;
+      items.forEach(function (el) {
+        el.classList.toggle('is-on', el.getAttribute('data-track') === k);
       });
-      if (fill && hit >= 0) {
-        fill.style.transform = 'scaleX(' + (hit + 1) / items.length + ')';
-      }
+      stages.forEach(function (st) {
+        st.classList.toggle('is-current', st.getAttribute('data-stage') === k);
+      });
     }
 
     var seen = {};
@@ -318,9 +324,34 @@ const path = (vals: readonly number[]) =>
           var k = stages[i].getAttribute('data-stage');
           if (seen[k]) { setActive(k); return; }
         }
+        setActive(null);
       },
       { rootMargin: '-33% 0px -55% 0px', threshold: 0 },
     );
     stages.forEach(function (s) { io.observe(s); });
+
+    /* Continuous fill. Geometry is cached and refreshed on resize/load, never
+       read inside the scroll handler. */
+    var top = 0, span = 1;
+    function measure() {
+      var a = stages[0].getBoundingClientRect();
+      var b = stages[stages.length - 1].getBoundingClientRect();
+      top = a.top + window.scrollY;
+      span = Math.max(1, b.bottom + window.scrollY - top);
+    }
+    var ticking = false;
+    function paint() {
+      ticking = false;
+      if (!fill) return;
+      var line = window.scrollY + window.innerHeight * 0.4;
+      var p = Math.max(0, Math.min(1, (line - top) / span));
+      fill.style.transform = 'scaleX(' + p.toFixed(4) + ')';
+    }
+    addEventListener('scroll', function () {
+      if (!ticking) { ticking = true; requestAnimationFrame(paint); }
+    }, { passive: true });
+    addEventListener('resize', function () { measure(); paint(); }, { passive: true });
+    addEventListener('load', function () { measure(); paint(); });
+    measure(); paint();
   })();
 </script>

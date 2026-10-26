@@ -1,0 +1,147 @@
+/* Centred layout pass, 2026-10-26.
+
+   Joe's call, taken from the reference site: page-level framing reads cleaner
+   centred. This file moves the framing to the centre axis and nothing else.
+
+   WHAT MOVES: every page hero (heading, lede, eyebrow, actions, and the proof
+   that sits beside it on Home and Service, which now sits under it), the 85%
+   prize figure, the gradient CTA cards, the home SCAN cards on desktop, and
+   the link rows and notes that were already meant to be centred.
+
+   WHAT DOES NOT: body copy, card interiors with paragraphs (problem cards,
+   package cards, testimonials, research cards, FAQ answers), tables, forms,
+   and every research and guide article. Centred paragraphs are slower to
+   read because each line starts somewhere new, and those blocks are where
+   the reading happens. The section heads above them were already centred.
+
+   No markup or copy changed for this. Order, headings and text are as they
+   were; only alignment and the hero's column arrangement differ. Delete this
+   file's import in BaseLayout and the previous layout returns intact. */
+
+/* ---------- Heroes ---------- */
+
+.hero .statement,
+.hero h1 {
+  text-align: center;
+  margin-inline: auto;
+  text-wrap: balance;
+}
+.hero .lede {
+  text-align: center;
+  margin-inline: auto;
+  max-width: 54ch;
+  text-wrap: pretty;
+}
+.hero .eyebrow { justify-content: center; }
+/* The eyebrow's rule was a lead-in from the left edge. Centred, it needs a
+   partner on the right or the label sits visibly off-axis. */
+.hero .eyebrow::after {
+  content: ''; width: 1.6rem; height: 1px; background: currentColor; opacity: 0.5;
+}
+.hero-actions { justify-content: center; }
+
+/* The narrow heroes (Pricing, FAQ, Work) were left-aligned in a narrow
+   column, so they sat off-centre on a wide screen. */
+.hero .wrap-narrow { display: flex; flex-direction: column; align-items: center; }
+
+/* Home and Service: the text block above, the proof below it, both centred.
+   The two-column arrangement put the headline on the left third of the page
+   and is what made the whole site read as left-indented. */
+.hero .hero-grid,
+.svc-hero {
+  grid-template-columns: 1fr !important;
+  justify-items: center;
+  gap: clamp(2.25rem, 4.5vw, 3.75rem);
+}
+.hero .hero-grid > [data-load],
+.svc-hero > [data-load] {
+  display: flex; flex-direction: column; align-items: center;
+  text-align: center;
+  max-width: 60rem;
+}
+.hero .hero-grid > :last-child { width: 100%; display: flex; justify-content: center; }
+
+/* Four case cards in one row on desktop, two by two below that. Centred
+   inside each card so the row reads as one band of proof. */
+.hero .case-grid { width: min(100%, 72rem); }
+@media (min-width: 62rem) {
+  .hero .case-grid { grid-template-columns: repeat(4, 1fr); }
+}
+.hero .case { align-items: center; text-align: center; }
+.hero .case__mark { align-self: center; justify-content: center; }
+.hero .case figcaption { display: flex; flex-direction: column; align-items: center; }
+.hero .case__n { justify-content: center; }
+.hero .case__l { text-align: center; }
+
+/* The sourced-stats variant, if HERO_MODE is switched back. */
+.hero .metric-grid { width: min(100%, 64rem); }
+@media (min-width: 62rem) { .hero .metric-grid { grid-template-columns: repeat(4, 1fr); } }
+.hero .figure__src { text-align: center; margin-inline: auto; max-width: 70ch; }
+
+/* Service: the three facts in a row under the headline. */
+.svc-facts { width: min(100%, 64rem); }
+@media (min-width: 48rem) {
+  .svc-facts { grid-template-columns: repeat(3, 1fr); }
+  .svc-facts li {
+    grid-template-columns: 1fr; justify-items: center; text-align: center;
+    gap: 0.45rem; padding: 1.2rem 1.2rem 1.25rem;
+  }
+  .svc-facts__l { text-align: center; }
+}
+
+/* /method: the four letters on the centre axis. */
+.mth-hero { justify-items: center; text-align: center; }
+.mth-word { justify-content: center; }
+
+/* ---------- The 85% prize ---------- */
+
+.prize { justify-items: center; text-align: center; }
+.prize__stat {
+  grid-template-columns: 1fr !important;
+  justify-items: center;
+  width: min(100%, 60rem);
+}
+.prize__claim { text-align: center; max-width: 22ch; text-wrap: balance; }
+.prize__point { text-align: center; margin-inline: auto; text-wrap: pretty; }
+
+/* ---------- Gradient CTA cards ----------
+   Stacked and centred: heading, lede, button. The sheen was clipped to the
+   right third because that half carried no text. Centred copy reaches
+   further: measured at 75–80% of the card width from 1024px to 1920px, and
+   up to 90% on a phone. So the sheen starts at 82% (its mask fades it in, so
+   it is near-invisible for the first few per cent anyway) and is dropped
+   below 64rem where the copy runs nearly edge to edge. Same guarantee as
+   before: it never passes behind a line of white text (3.85:1 when it did;
+   see global.css). */
+.cta-card {
+  grid-template-columns: 1fr !important;
+  justify-items: center;
+  text-align: center;
+}
+.cta-card > div { display: flex; flex-direction: column; align-items: center; }
+.cta-card h2 { text-align: center; margin-inline: auto; text-wrap: balance; }
+.cta-card p, .cta-card .lede { text-align: center; margin-inline: auto; }
+.cta-card__glint { inset: 0 0 0 82%; }
+@media (max-width: 63.99rem) { .cta-card__glint { display: none; } }
+
+/* ---------- Home: the four SCAN stages, desktop ----------
+   Each card centred under its node on the spine. On a phone the spine runs
+   down the left edge and the cards hang off it, so they stay left there. */
+@media (min-width: 56rem) {
+  .stages__node { left: 50%; margin-left: -0.575rem; }
+  .stages__card { text-align: center; }
+  .stages__t, .stages__d, .stages__when { text-align: center; margin-inline: auto; }
+}
+
+/* ---------- Rows meant to be centred ---------- */
+
+/* Two links in one centred row used to touch ("Full pricing →Everything in
+   both"), and the terms note under the prices wrapped flush-left. */
+.center-row { flex-wrap: wrap; gap: 0.6rem 1.75rem; text-align: center; }
+.center-row .note-sm { text-align: center; max-width: 76ch; }
+
+/* The prompt-table footnote and similar figure captions directly under a
+   centred section stay left: they annotate a left-aligned table. */
+
+/* /method: the S C A N chips on the tracker centre with the page. */
+.mth-track__l { justify-content: center; }

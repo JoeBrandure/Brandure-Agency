@@ -13,6 +13,31 @@
  * the scrub values and the mesh parallax. There were three before — two here
  * and one in Header.astro — all doing the same rAF dance against the same
  * event.
+ *
+ * ---- CRAWLER AND AGENT SAFETY (2026-10-26) ----
+ * The page is sold on being readable by machines, so the motion layer must
+ * never be the reason a machine misreads it. Four rules, each tested by the
+ * audit in the commit that introduced them:
+ *
+ *  1. The HTML is always complete. Every heading, figure and quote is in the
+ *     server-rendered markup at its final value. Non-rendering crawlers
+ *     (GPTBot, ClaudeBot, PerplexityBot, OAI-SearchBot, CCBot) read that and
+ *     never meet this script. Loops that need duplicates (logo strip,
+ *     testimonial columns) ship ONE copy and are cloned here, so crawlers do
+ *     not ingest every quote twice and every logo alt four times.
+ *  2. Automated browsers get the settled page. Rendering crawlers and
+ *     screenshotting AI agents (Googlebot's renderer, ChatGPT agent,
+ *     Perplexity Comet, Claude in Chrome) usually load without scrolling, so
+ *     anything below the fold would sit at opacity 0 and count-ups would be
+ *     captured mid-tick — a vision model reading "37%" off a card that says
+ *     92%. When navigator.webdriver is set or the user agent is a known bot,
+ *     this exits through settle(), exactly like reduced motion. Same content,
+ *     same DOM; only the entrance animation is skipped, so it is not cloaking.
+ *  3. A failure never hides content. ThemeScript arms a timer in <head>; if
+ *     this script has not signalled ready within 2.5s (blocked, errored,
+ *     never parsed) the root goes back to `.no-js` and every hidden state is
+ *     released.
+ *  4. Printing settles everything.
  */
 ---
 <script is:inline>
@@ -21,9 +46,13 @@
     var reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
     var header = document.getElementById('site-header');
 
-    /* Reduced motion: settle everything to its final state and stop. The
-       header still needs its scrolled state — that is a border and a blur,
-       not motion. */
+    /* Rule 2. Detected in ThemeScript (<head>) so CSS can release hidden
+       states before first paint. The bot list is kept to crawler and agent
+       families; a false positive costs a human nothing but an entrance. */
+    var automated = root.hasAttribute('data-automated');
+
+    /* Settle everything to its final state and stop. The header still needs
+       its scrolled state — that is a border and a blur, not motion. */
     function settle() {
       document.querySelectorAll('[data-reveal],[data-stagger],[data-load],[data-timeline],.table-figure,.split')
         .forEach(function (el) { el.classList.add('is-in'); });
@@ -33,29 +62,59 @@
       document.querySelectorAll('[data-scrub-zone]').forEach(function (el) {
         el.style.setProperty('--p', '1');
       });
+      if (header) header.removeAttribute('data-hidden');
+      root.removeAttribute('data-nav');
     }
+
+    /* Rule 4. */
+    addEventListener('beforeprint', settle);
 
     function headerState() {
       if (header) header.dataset.scrolled = root.scrollTop > 12 ? 'true' : 'false';
     }
 
-    if (reduced.matches) {
+    if (reduced.matches || automated) {
+      root.__motionReady = true;
       settle();
       headerState();
       addEventListener('scroll', headerState, { passive: true });
       return;
     }
 
+    /* ---- Seamless loops: clone at runtime, never in the HTML ----
+       Rule 1. Each [data-loop] container holds one set of children in the
+       markup. Here they are cloned (copies aria-hidden, image alts emptied,
+       links taken out of the tab order) and the container is flagged so the
+       CSS animation may run. Without this flag the CSS renders the single
+       set statically, which is also what no-JS and reduced motion get. */
+    document.querySelectorAll('[data-loop]').forEach(function (track) {
+      var copies = parseInt(track.getAttribute('data-loop'), 10) || 2;
+      var originals = [].slice.call(track.children);
+      for (var c = 1; c < copies; c++) {
+        originals.forEach(function (node) {
+          var clone = node.cloneNode(true);
+          clone.setAttribute('aria-hidden', 'true');
+          clone.querySelectorAll('img').forEach(function (img) { img.alt = ''; });
+          clone.querySelectorAll('a,button').forEach(function (a) { a.tabIndex = -1; });
+          track.appendChild(clone);
+        });
+      }
+      track.setAttribute('data-looping', '');
+    });
+
     /* ---- Headline mask reveal, split per word ----
        Spaces are preserved as real text nodes so screen readers still read a
-       natural sentence rather than a list of fragments. */
+       natural sentence rather than a list of fragments. The inner element is
+       a span, not an <i>: in the rendered DOM a crawler sees the headline as
+       plain text, not eleven italic-semantics fragments. */
     document.querySelectorAll('[data-split]').forEach(function (el) {
       var words = el.textContent.trim().split(/\s+/);
       var frag = document.createDocumentFragment();
       words.forEach(function (word, i) {
         var mask = document.createElement('span');
         mask.className = 'w';
-        var inner = document.createElement('i');
+        var inner = document.createElement('span');
+        inner.className = 'w__i';
         inner.textContent = word;
         inner.style.setProperty('--w', String(i));
         mask.appendChild(inner);
@@ -91,8 +150,12 @@
     var targets = document.querySelectorAll(
       '[data-reveal],[data-stagger],[data-split],[data-timeline],.table-figure'
     );
-    if (!('IntersectionObserver' in window)) { settle(); headerState(); return; }
+    if (!('IntersectionObserver' in window)) { root.__motionReady = true; settle(); headerState(); return; }
 
+    /* threshold 0, not 0.08. A ratio threshold is a share of the element's own
+       height, so a container taller than ~12 viewports could never reach 8%
+       visible and would stay hidden for good. The bottom rootMargin alone
+       decides when an entrance fires. */
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
         if (!e.isIntersecting) return;
@@ -100,9 +163,12 @@
         e.target.querySelectorAll('[data-count]').forEach(countUp);
         io.unobserve(e.target);
       });
-    }, { rootMargin: '0px 0px -10% 0px', threshold: 0.08 });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0 });
 
     targets.forEach(function (el) { io.observe(el); });
+
+    /* Rule 3: the runtime is up, so the head-side failsafe stands down. */
+    root.__motionReady = true;
 
     /* Hero enters on load rather than on scroll — it is already in view. */
     requestAnimationFrame(function () {
@@ -176,12 +242,41 @@
       });
     }
 
+    /* ---- Smart header ----
+       Slides away while the reader is scrolling down through content and
+       comes back the moment they scroll up, which is the point they are
+       looking for it. Never hides near the top, never while focus is inside
+       it (a keyboard user tabbing the nav must be able to see it), and needs
+       a few pixels of travel in one direction so a trackpad's jitter does not
+       flicker it. The hidden state is mirrored on the root so the sticky bars
+       below the header (the SCAN tracker) can close the gap it leaves. */
+    var lastY = window.scrollY, navHidden = false;
+    function navState(y) {
+      if (!header) return;
+      var dy = y - lastY;
+      var hide = navHidden;
+      if (y < 160 || header.contains(document.activeElement)) hide = false;
+      else if (dy > 6) hide = true;
+      else if (dy < -6) hide = false;
+      else return;                       /* jitter: keep state, keep lastY */
+      lastY = y;
+      if (hide === navHidden) return;
+      navHidden = hide;
+      if (hide) { header.setAttribute('data-hidden', ''); root.setAttribute('data-nav', 'hidden'); }
+      else { header.removeAttribute('data-hidden'); root.removeAttribute('data-nav'); }
+    }
+    if (header) header.addEventListener('focusin', function () {
+      navHidden = false; lastY = window.scrollY;
+      header.removeAttribute('data-hidden'); root.removeAttribute('data-nav');
+    });
+
     /* The single scroll pass. Everything scroll-driven happens here. */
     function frame() {
       var y = window.scrollY;
       var max = root.scrollHeight - root.clientHeight;
       if (bar) bar.style.transform = 'scaleX(' + (max > 0 ? y / max : 0) + ')';
       if (header) header.dataset.scrolled = y > 12 ? 'true' : 'false';
+      navState(y);
 
       var vh = window.innerHeight;
       for (var i = 0; i < cache.length; i++) {

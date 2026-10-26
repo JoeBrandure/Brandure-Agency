@@ -18,8 +18,10 @@ import { TESTIMONIALS } from '../data/testimonials';
  *   - no stock photographs. The original pulls headshots of strangers from
  *     Unsplash and presents them as the people quoted. A brand monogram is
  *     honest and needs no external host.
- *   - each column is duplicated once and the copy is aria-hidden, so a screen
- *     reader hears each quote a single time.
+ *   - each column ships ONCE in the HTML (data-loop="2"). The duplicate the
+ *     seamless roll needs is cloned at runtime by Motion.astro, aria-hidden,
+ *     so crawlers and screen readers both meet each quote a single time.
+ *     Without the runtime the columns render as a static grid.
  *
  * Reduced motion stops all three columns and turns the region into a normal
  * scrollable list rather than freezing it mid-loop.
@@ -59,9 +61,9 @@ const anyPlaceholder = TESTIMONIALS.some((t) => t.placeholder);
 
     <div class="tst__cols" role="region" aria-label="Client quotes">
       {cols.map((col, ci) => (
-        <ul class:list={['tst__col', `tst__col--${ci + 1}`]} role="list">
-          {[...col, ...col].map((t, i) => (
-            <li class:list={['tst__card', `tst--${t.accent}`]} aria-hidden={i >= col.length ? 'true' : undefined}>
+        <ul class:list={['tst__col', `tst__col--${ci + 1}`]} role="list" data-loop="2">
+          {col.map((t) => (
+            <li class:list={['tst__card', `tst--${t.accent}`]}>
               <blockquote>
                 {t.placeholder && <span class="tst__flag">Placeholder</span>}
                 <p>{t.quote}</p>

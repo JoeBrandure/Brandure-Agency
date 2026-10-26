@@ -15,6 +15,30 @@
     } catch (e) {
       document.documentElement.setAttribute('data-theme', 'light');
     }
-    document.documentElement.classList.remove('no-js');
+    var root = document.documentElement;
+    /* Automated browsers (rendering crawlers, screenshotting AI agents) keep
+       `.no-js`: every entrance state is then released by the static styles
+       from the first paint, before any motion code runs, so there is never a
+       frame in which their content sits at opacity 0 or a count-up reads a
+       partial figure. Same HTML, same DOM, same text — only the entrance
+       animation is skipped, so this is not cloaking. Motion.astro and the
+       /method tracker read the `data-automated` flag. A false positive costs
+       a person nothing but an entrance animation. */
+    var ua = navigator.userAgent || '';
+    if (navigator.webdriver === true ||
+        /bot\b|bot\/|crawler|spider|slurp|headless|gptbot|chatgpt|oai-searchbot|claude|anthropic|perplexity|googleother|google-inspectiontool|bingpreview|bytespider|ccbot|applebot|amazonbot|meta-externalagent|facebookexternalhit|duckassist|youbot|mistral|cohere|diffbot|petalbot|yandex/i.test(ua)) {
+      root.setAttribute('data-automated', '');
+      return;
+    }
+    root.classList.remove('no-js');
+    /* Failsafe for the motion layer. Removing `.no-js` here arms every hidden
+       entrance state before Motion.astro has run. If that script never
+       signals ready — blocked, errored, cut off mid-download — the page would
+       otherwise stay blank below the fold for people and for rendering
+       crawlers alike. After 2.5s without the signal, put `.no-js` back and
+       let the static styles release everything. */
+    setTimeout(function () {
+      if (!root.__motionReady) root.classList.add('no-js');
+    }, 2500);
   })();
 </script>

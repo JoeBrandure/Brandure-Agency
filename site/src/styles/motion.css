@@ -88,14 +88,13 @@
   padding-bottom: 0.15em;
   margin-bottom: -0.15em;
 }
-.split .w > i {
+.split .w__i {
   display: inline-block;
-  font-style: inherit;
   transform: translate3d(0, 105%, 0);
   transition: transform var(--dur-3) var(--ease-out);
   transition-delay: calc(26ms * var(--w, 0));
 }
-.split.is-in .w > i { transform: none; }
+.split.is-in .w__i { transform: none; }
 
 /* ---------- Table builds row by row ----------
    Scoped to .table-figure, which is the only thing the runtime observes. As a
@@ -296,13 +295,27 @@
 
 /* ---------- Header compress and blur ---------- */
 
+/* No padding change on scroll any more. The header is sticky and in flow, so
+   shrinking its padding at 12px of scroll pulled the whole document up by
+   ~13px under the reader's eye — a jump on the very first scroll of every
+   page. It keeps one height now (--header-h) and only its surface changes. */
 .site-header {
   transition:
-    padding var(--dur-2) var(--ease),
+    transform 380ms var(--ease-out),
     background var(--dur-2) var(--ease),
     border-color var(--dur-2) var(--ease),
     box-shadow var(--dur-2) var(--ease);
 }
+/* Smart header. Transform only, so hiding it never reflows the page. The
+   in-flow box stays where it is; only its painting slides up out of view. */
+.site-header[data-hidden] { transform: translate3d(0, -100%, 0); box-shadow: none; }
+.site-header:focus-within { transform: none; }
+
+/* Sticky bars that sit under the header close the gap when it slides away,
+   on the same curve, so the two move as one. */
+.mth-track, .sticky-head { transition: transform 380ms var(--ease-out); }
+:root[data-nav='hidden'] .mth-track,
+:root[data-nav='hidden'] .sticky-head { transform: translate3d(0, calc(var(--header-h) * -1), 0); }
 .site-header[data-scrolled='true'] {
   -webkit-backdrop-filter: blur(16px) saturate(1.4);
   backdrop-filter: blur(16px) saturate(1.4);
@@ -416,7 +429,7 @@
    section is a static grid of all six quotes, and a roll there would scroll
    content out of a container that no longer clips or masks. */
 @media (min-width: 68rem) {
-  .tst__col { animation: tst-roll linear infinite; will-change: transform; }
+  .tst__col[data-looping] { animation: tst-roll linear infinite; will-change: transform; }
   .tst__col--1 { animation-duration: 46s; }
   .tst__col--2 { animation-duration: 58s; }
   .tst__col--3 { animation-duration: 52s; }
@@ -438,14 +451,12 @@
 /* The track carries four copies of the set, so shifting 25% moves exactly one
    set and loops seamlessly. 38s per set, down from 52s — noticeably moving
    without becoming something the eye has to chase. */
-.marquee__track { animation: marquee 38s linear infinite; }
+.marquee__track[data-looping] { animation: marquee 38s linear infinite; }
 .marquee:hover .marquee__track { animation-play-state: paused; }
 @keyframes marquee {
   from { transform: translate3d(0, 0, 0); }
   to   { transform: translate3d(-25%, 0, 0); }
 }
-.no-js .marquee__track { animation-play-state: running; }
-.no-js .tst__col { animation-play-state: running; }
 
 /* ================= Scroll-linked motion =================
    Driven by a scroll progress value written to a custom property, so the
@@ -587,7 +598,7 @@
   }
 
   .split .w { overflow: visible; padding-bottom: 0; margin-bottom: 0; }
-  .split .w > i { transform: none !important; transition: none !important; }
+  .split .w__i { transform: none !important; transition: none !important; }
 
   .mesh__blob {
     animation: none !important;
@@ -605,7 +616,8 @@
   .cta-card__glint { display: none !important; }
   .cta-card__btn::after { animation: none !important; box-shadow: none !important; }
   .site-nav a::after { transition: none !important; }
-  .site-header { transition: none !important; }
+  .site-header { transition: none !important; transform: none !important; }
+  .mth-track, .sticky-head { transform: none !important; }
 
   .marquee__track { animation: none !important; transform: none !important; }
 
@@ -674,3 +686,176 @@
 .no-js .stages__fill { transform: scaleX(1) scaleY(1); }
 .no-js .draw path, .no-js .draw line { stroke-dashoffset: 0; }
 .no-js .sticky-head { position: static; }
+
+/* ================= Print =================
+   Every entrance state defaults to hidden until `.is-in` lands, and a page
+   printed before the reader scrolled used to come out with most sections
+   blank. Print gets the settled page regardless of what the runtime did.
+   (Motion.astro also settles on `beforeprint`; this is the belt to that.) */
+@media print {
+  [data-reveal] > *, [data-stagger] > *, .hero [data-load] > *, .table-figure tbody tr,
+  .hero [data-load] .mth-l, .stages__item, .cov__dot {
+    opacity: 1 !important; transform: none !important; transition: none !important;
+  }
+  .split .w__i, .mth-stage::before, .scan__line, .stages__node { transform: none !important; }
+  .stages__fill { transform: scaleX(1) scaleY(1) !important; }
+  .nul__g { clip-path: none !important; }
+  .wd__panel--old .wd__claim s { background-size: 100% 2px !important; }
+  .draw path, .draw line { stroke-dashoffset: 0 !important; }
+  .marquee__track, .tst__col { animation: none !important; transform: none !important; }
+  .tst__cols { max-height: none !important; -webkit-mask-image: none !important; mask-image: none !important; }
+  .tst__card[aria-hidden='true'], .marquee__item[aria-hidden='true'] { display: none !important; }
+}
+
+/* ================= Featured tier: light sweep =================
+   One soft band of light travels round the border of the recommended
+   package, every 7s. Compositor-only: the ring is a static masked frame and
+   the only thing that moves inside it is a rotating square of conic
+   gradient, so nothing here repaints per frame — unlike the usual technique
+   of animating a registered angle property, which repaints the whole card on
+   every tick. The square is sized to the card's diagonal (container units +
+   hypot) so its corners never show; 260% is the fallback where hypot() or
+   container units are unavailable.
+
+   Decorative, aria-hidden, no text. Only ever on the card the content marks
+   primary — one per grid, so it reads as a recommendation rather than as
+   decoration. */
+.is-featured { position: relative; isolation: isolate; }
+.is-featured { box-shadow: var(--shadow-card), 0 22px 50px -30px color-mix(in srgb, var(--accent) 55%, transparent); }
+.feat-ring {
+  position: absolute; inset: 0; z-index: 3;
+  border-radius: inherit;
+  padding: 2px;
+  pointer-events: none;
+  overflow: hidden;
+  container-type: size;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+}
+.feat-ring::before {
+  content: '';
+  position: absolute; left: 50%; top: 50%;
+  width: 260%;
+  width: calc(hypot(100cqw, 100cqh) + 4px);
+  aspect-ratio: 1;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    transparent 200deg,
+    color-mix(in srgb, var(--accent) 30%, transparent) 255deg,
+    var(--accent) 305deg,
+    #fff 332deg,
+    var(--violet) 348deg,
+    transparent 360deg
+  );
+  transform: translate3d(-50%, -50%, 0) rotate(0deg);
+  animation: feat-spin 7s linear infinite;
+  will-change: transform;
+}
+@keyframes feat-spin {
+  to { transform: translate3d(-50%, -50%, 0) rotate(360deg); }
+}
+.is-featured:hover .feat-ring::before { animation-duration: 3.5s; }
+
+@media (prefers-reduced-motion: reduce) {
+  /* A still accent border instead of a moving one. */
+  .feat-ring::before { animation: none !important; background: linear-gradient(135deg, var(--accent), var(--violet)); width: 100%; height: 100%; aspect-ratio: auto; transform: translate3d(-50%, -50%, 0); }
+}
+:root[data-automated] .feat-ring::before,
+.no-js .feat-ring::before { animation: none; background: linear-gradient(135deg, var(--accent), var(--violet)); width: 100%; height: 100%; aspect-ratio: auto; transform: translate3d(-50%, -50%, 0); }
+@media print { .feat-ring { display: none !important; } }
+
+/* ================= /method: SCAN, smoother (2026-10-26) =================
+
+   1. The ghost letter. It is meant to sit vertically centred behind each
+      band (top: 50% + translateY(-50%)), but as the first child of a
+      [data-reveal] it also matched `[data-reveal].is-in > * { transform:
+      none }`, which is more specific — so once a band revealed, the centring
+      translate was wiped and the letter dropped to the bottom edge and got
+      clipped. Centring now comes from the box itself — pinned top and
+      bottom, the glyph flex-centred inside — so no transform rule can undo
+      it. (The independent `translate` property was tried first; the CSS
+      minifier folds it back into `transform`, which reintroduced the bug.)
+      The letter also gets its own entrance: it slides in from the right a
+      beat after the copy, so the band reads as switching on rather than as a
+      card sliding up. */
+.mth-stage__ghost {
+  top: 0; bottom: 0;
+  display: flex; align-items: center;
+  transform: none;
+}
+[data-reveal] > .mth-stage__ghost {
+  opacity: 0;
+  transform: translate3d(8%, 0, 0);
+  transition:
+    opacity var(--dur-3) var(--ease-out),
+    transform 900ms var(--ease-out),
+    color var(--dur-3) var(--ease);
+  transition-delay: calc(var(--stagger) * 2);
+}
+[data-reveal].is-in > .mth-stage__ghost { opacity: 1; transform: none; }
+.no-js [data-reveal] > .mth-stage__ghost { opacity: 1; transform: none; }
+
+/* 2. The band being read. One stage at a time takes its accent on the
+      border, a lifted shadow and a stronger ghost, set by the tracker's
+      observer — so the eye has one place to sit while scrolling four tall
+      cards. Long enough transitions that the hand-off between bands reads
+      as a cross-fade, not a switch. */
+.mth-stage {
+  transition:
+    border-color var(--dur-3) var(--ease),
+    box-shadow var(--dur-3) var(--ease);
+}
+.mth-stage.is-current {
+  border-color: color-mix(in srgb, var(--sa) 38%, var(--border));
+  box-shadow: var(--shadow-lift), 0 0 0 4px color-mix(in srgb, var(--sa) 7%, transparent);
+}
+.mth-stage.is-current .mth-stage__ghost { color: color-mix(in srgb, var(--sa) 14%, transparent); }
+.mth-stage__no { transition: box-shadow var(--dur-3) var(--ease), transform var(--dur-2) var(--ease-out); }
+.mth-stage.is-current .mth-stage__no {
+  box-shadow: 0 0 0 6px color-mix(in srgb, var(--sa) 16%, transparent);
+}
+
+/* 3. The three "what we do" points step in one after another instead of
+      arriving as one block. The hidden state is scoped so it can only exist
+      for a person with JavaScript running and motion allowed — no-JS,
+      automated browsers, reduced motion and print never see it, by
+      construction rather than by a list of overrides. */
+@media (prefers-reduced-motion: no-preference) {
+  :root:not(.no-js) .mth-stage[data-reveal] .mth-stage__does li {
+    transition:
+      opacity var(--dur-2) var(--ease-out),
+      transform var(--dur-2) var(--ease-out);
+    transition-delay: calc(var(--stagger) * (2 + var(--li, 0)));
+  }
+  :root:not(.no-js) .mth-stage[data-reveal]:not(.is-in) .mth-stage__does li {
+    opacity: 0; transform: translate3d(0, 10px, 0);
+  }
+}
+@media print {
+  .mth-stage__does li, [data-reveal] > .mth-stage__ghost { opacity: 1 !important; transform: none !important; }
+}
+.mth-stage__does li:nth-child(2) { --li: 1; }
+.mth-stage__does li:nth-child(3) { --li: 2; }
+
+/* 4. The tracker bar follows scroll continuously now; a short transition
+      smooths the per-frame steps without making it lag behind the reader. */
+.mth-track[data-live] .mth-track__fill { transition: transform 240ms linear; }
+.mth-track__i { transition: background var(--dur-2) var(--ease), border-color var(--dur-2) var(--ease), color var(--dur-2) var(--ease), transform var(--dur-2) var(--ease-out); }
+.mth-track__i.is-on { transform: translate3d(0, -1px, 0); }
+
+/* 5. The four hero tiles lift a touch under the cursor. Pointer only. */
+.mth-l__k { transition: transform var(--dur-2) var(--ease-out), box-shadow var(--dur-2) var(--ease-out); }
+@media (hover: hover) and (pointer: fine) {
+  .mth-l:hover .mth-l__k {
+    transform: translate3d(0, -4px, 0);
+    box-shadow: 0 22px 40px -20px var(--sa);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] > .mth-stage__ghost { opacity: 1 !important; transform: none !important; transition: none !important; }
+  .mth-stage, .mth-stage__no, .mth-l__k, .mth-track__i { transition: none !important; }
+  .mth-l:hover .mth-l__k, .mth-track__i.is-on { transform: none !important; }
+}

@@ -1,7 +1,7 @@
 # STATE.md — current position
 
-Last updated: 2026-08-25 (prompt rotator built; service page rebuilt;
-Viveonix logo fixed; A3 still urgent)
+Last updated: 2026-10-26 (site: centred layout, crawler-safe motion, menu tab,
+Home in nav)
 
 Current position at a glance. Update this file whenever something moves between
 sections. It is the first thing to read at the start of a working session.
@@ -667,6 +667,19 @@ repo before building on anything here.
   dashboards. The published index is the lead generation mechanism and requires
   data Brandure can publish. See
   `decisions/2026-08-11-measurement-ownership-split.md`.
+
+- **Site layout centred and motion made crawler-safe** (2026-10-26). Commits
+  `22563a0` and `62293cf`. Heroes, prize figure, CTA cards and home SCAN
+  cards centred via `site/src/styles/centre.css`; body copy and articles stay
+  left. Scroll reveals raised to the reference site's values, card and button
+  hover strengthened, header hides on scroll with a Menu tab to reopen it,
+  Home added to the nav, SCAN page smoothed (continuous tracker, current-stage
+  focus, ghost-letter clipping bug fixed). Automated browsers get the settled
+  page; failsafe and print release all hidden states; logo and testimonial
+  loops ship one copy in the HTML. Audited on all 21 pages in six modes with
+  zero hidden content; JSON-LD, meta, `llms.txt`, sitemap and robots
+  unchanged. **Rules for any further site motion are in
+  `decisions/2026-10-26-site-layout-and-motion.md`.**
 
 ## In progress
 

@@ -8,8 +8,15 @@
    --stagger. The previous pass had four easing curves and eight durations
    running at once, which is what made a page of individually reasonable
    effects read as busy: each element arrived on a rhythm of its own and the
-   eye had nothing to lock onto. Nothing below is slower than 620ms, and no
-   sequence of staggered siblings takes longer than about 0.5s to complete. */
+   eye had nothing to lock onto.
+
+   REVISED 2026-10-26: scroll reveals now use the --reveal-* tokens (28px,
+   700ms, matched to the reference site), because at 10px / 420ms they were
+   invisible. Hovers and state changes still use --dur-1. The crawler-safety
+   rules in Motion.astro are what make this safe for AI Search; any new
+   hidden-by-default state must be released under `.no-js`, reduced motion
+   and print, and checked with the audit described in
+   decisions/2026-10-26-site-layout-and-motion.md. */
 
 /* ---------- Scroll progress ---------- */
 
@@ -434,8 +441,9 @@
 .cov__grid > .cov__cell:nth-child(n + 22)  .cov__dot { transition-delay: calc(var(--stagger) * 3.5); }
 
 /* ---------- Testimonial columns ----------
-   Each column is its own list, duplicated once in the markup, translated a
-   full half of its own height so the loop is seamless. Three different
+   Each column is its own list, cloned once at runtime (never in the
+   markup), translated a full half of its own height so the loop is
+   seamless. Three different
    durations so the columns never line up. */
 /* Only at the breakpoint that actually shows three columns. Below it the
    section is a static grid of all six quotes, and a roll there would scroll
@@ -460,8 +468,9 @@
 
 /* ---------- Logo marquee ---------- */
 
-/* The track carries four copies of the set, so shifting 25% moves exactly one
-   set and loops seamlessly. 38s per set, down from 52s — noticeably moving
+/* The track carries four copies of the set at runtime (one in the HTML,
+   three cloned by Motion.astro), so shifting 25% moves exactly one set and
+   loops seamlessly. 38s per set, down from 52s — noticeably moving
    without becoming something the eye has to chase. */
 .marquee__track[data-looping] { animation: marquee 38s linear infinite; }
 .marquee:hover .marquee__track { animation-play-state: paused; }

@@ -115,9 +115,10 @@ code, kbd, .mono { font-family: var(--font-mono); font-size: 0.9em; }
 }
 .hero > * { position: relative; }
 
-/* Asymmetric hero: statement left, metric grid right. Not centred.
-   Columns are close to even because the right column now carries four cards
-   rather than four bare labels, and starves at 1fr against 1.35fr. */
+/* SUPERSEDED 2026-10-26: heroes are now CENTRED — text above, proof below.
+   centre.css overrides the two-column grid below; this rule is kept only as
+   the base the override sits on. Do not "restore" the asymmetric layout. See
+   decisions/2026-10-26-site-layout-and-motion.md. */
 .hero-grid {
   display: grid;
   gap: clamp(2rem, 4vw, 3.5rem);
@@ -157,9 +158,10 @@ code, kbd, .mono { font-family: var(--font-mono); font-size: 0.9em; }
 .section--inv .pill__dot { background: var(--accent-inv); }
 
 /* ---------- Centred section intro ----------
-   Pill, heading and lede centre as a unit. Body copy, cards, tables and the
-   hero stay left-aligned — the earlier typography rule was "no centred body
-   text", and this keeps to it: nothing here is body text. */
+   Pill, heading and lede centre as a unit. Body copy, card interiors and
+   tables stay left-aligned — "no centred body text" still holds. Heroes,
+   the prize figure and CTA cards are centred too, since 2026-10-26: see
+   centre.css and decisions/2026-10-26-site-layout-and-motion.md. */
 
 .section-head {
   display: flex; flex-direction: column; align-items: center;
@@ -1116,7 +1118,8 @@ input:focus-visible, select:focus-visible { border-color: var(--focus); }
 
 /* ---------- Service page ---------- */
 
-/* Hero: statement left, three standing facts right. */
+/* Hero: centred since 2026-10-26 — facts sit in a row under the statement
+   (centre.css). The grid below is the base that file overrides. */
 /* Wider text column than the 1.25fr it had. The heading is the longest on the
    site and at 644px it broke onto four lines; the facts column beside it only
    holds a number and a short label, so the width is better spent here. */
@@ -2243,8 +2246,9 @@ input:focus-visible, select:focus-visible { border-color: var(--focus); }
 /* ---------- Testimonials ----------
    Three columns scrolling vertically at different speeds, masked at both
    ends. Rebuilt from a React + framer-motion + Tailwind component: the visual
-   idea is the same, the implementation is three CSS animations and no
-   JavaScript. */
+   idea is the same, the implementation is three CSS animations. Each column
+   ships once in the HTML; the duplicate the loop needs is cloned at runtime
+   by Motion.astro, so crawlers read every quote once. */
 
 .tst__warn {
   max-width: 62rem; margin: 0 auto 2rem;

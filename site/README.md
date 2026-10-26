@@ -582,15 +582,17 @@ plus framer-motion, Tailwind and lucide. Using it as written would have added a
 client framework to a site built on static output with no client-side JS, about
 50KB of runtime for one section, a class system that does not exist here, and
 four requests to an external image host on a page that currently makes none.
-The visual idea is unchanged; the implementation is three CSS animations and no
-JavaScript.
+The visual idea is unchanged; the implementation is three CSS animations, plus
+a few lines in `Motion.astro` that clone each column at runtime.
 
 How it behaves:
 
 - three columns rolling at 46s, 58s and 52s so they never line up, masked top
   and bottom, pausing on hover;
-- each column is duplicated once with the copy `aria-hidden`, so a screen
-  reader hears each quote once;
+- each column ships **once** in the HTML and is cloned at runtime with the
+  copy `aria-hidden`, so crawlers and screen readers both meet each quote once
+  (it used to be duplicated in the markup, which put every quote in front of
+  AI crawlers twice);
 - **below 68rem the roll stops and all six quotes render as a static grid.**
   The first version hid columns two and three at narrow widths, which silently
   dropped four of the six quotes on a phone — the point of the section is that

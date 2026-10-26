@@ -12,7 +12,8 @@ import { TESTIMONIALS } from '../data/testimonials';
  * roughly 50KB of runtime for one section, a class system that does not exist
  * here, and four requests to an external image host on a page that currently
  * makes none. The visual idea is the same; the implementation is three CSS
- * animations and no JavaScript at all.
+ * animations, plus a few lines in Motion.astro that clone each column once
+ * so the loop is seamless.
  *
  * Two deliberate departures from the reference:
  *   - no stock photographs. The original pulls headshots of strangers from

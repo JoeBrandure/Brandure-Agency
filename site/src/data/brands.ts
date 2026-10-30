@@ -37,9 +37,8 @@ export const BRANDS = [
   { slug: 'growthmind', w: 96, h: 96, name: 'Growthmind', optical: 0.95, tone: 'asis', source: 'https://growthmind.ai/icon.svg' },
   /* 250×100 colour wordmark with a strapline, on transparent. */
   { slug: 'fresh', w: 250, h: 100, name: 'Fresh', optical: 1.15, tone: 'silhouette', source: 'https://www.trainfresh.com/lovable-uploads/fresh-gym-main-logo.png' },
-  /* 3840×2160 canvas with the lockup centred inside it — roughly half the
-     frame is padding, hence the high multiplier. */
-  { slug: 'viveonix', w: 3840, h: 2160, name: 'Viveonix', optical: 1.5, tone: 'silhouette', source: 'https://www.viveonix.com/' },
+  /* 460×190 optimised strip variant (viveonix-light.webp, resized from 3840×2160 source). */
+  { slug: 'viveonix', w: 460, h: 190, name: 'Viveonix', optical: 1.5, tone: 'silhouette', source: 'https://www.viveonix.com/' },
   /* 600×296 stacked lockup: icon, name, strapline. Height-normalising a
      three-line lockup makes its type small, so it runs above 1. */
   { slug: 'littlelockets', w: 600, h: 296, name: 'Little Lockets London', optical: 1.25, tone: 'silhouette', source: 'https://www.littlelocketslondon.com/' },

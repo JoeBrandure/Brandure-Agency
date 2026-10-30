@@ -230,12 +230,16 @@
     var draws = [].slice.call(document.querySelectorAll('.draw'));
     var bar = document.querySelector('.scroll-progress');
 
-    /* Line-draw needs each path's own length. */
+    /* Line-draw needs each path's own length. Batch reads before writes to
+       avoid interleaved forced reflows from getTotalLength. */
+    var drawItems = [];
     draws.forEach(function (d) {
       [].slice.call(d.querySelectorAll('path,line')).forEach(function (el) {
-        var len = el.getTotalLength ? el.getTotalLength() : 400;
-        el.style.setProperty('--len', String(Math.ceil(len) || 400));
+        drawItems.push({ el: el, len: el.getTotalLength ? el.getTotalLength() : 400 });
       });
+    });
+    drawItems.forEach(function (item) {
+      item.el.style.setProperty('--len', String(Math.ceil(item.len) || 400));
     });
 
     var cache = [];
@@ -339,8 +343,7 @@
       pendingMeasure = true;
       requestAnimationFrame(function () { pendingMeasure = false; measure(); frame(); });
     }
-    measure();
-    frame();
+    requestAnimationFrame(function () { measure(); frame(); });
     addEventListener('resize', remeasure, { passive: true });
     addEventListener('load', remeasure);
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(remeasure);

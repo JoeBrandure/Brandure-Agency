@@ -1,8 +1,9 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import CurrencySwitch from '../components/CurrencySwitch.astro';
+import Price from '../components/Price.astro';
 import { SITE } from '../consts';
-import { PLANS, SETUP_FEE, ADDONS, WEB_FAQS, money } from '../data/pricing';
+import { PLANS, SETUP_FEE, ADDONS, WEB_FAQS } from '../data/pricing';
 import { webServiceSchema } from '../lib/schema';
 
 /* AI-READY WEBSITES. Copy as approved; this file decides structure only.
@@ -137,13 +138,13 @@ const faqSchema = {
       <CurrencySwitch />
       <div class="prose">
         <p>
-          New or rebuilt pages are {money(page.price).both} each. Full rebuilds
-          are {money(r10.price).both} up to 10 pages, or {money(r20.price).both}
+          New or rebuilt pages are <Price m={page.price} /> each. Full rebuilds
+          are <Price m={r10.price} /> up to 10 pages, or <Price m={r20.price} />
           {' '}up to 20. All website work is added to a Core
-          ({money(PLANS[0].monthly).both} a month) or Growth
-          ({money(PLANS[1].monthly).both} a month) plan, with AI search &amp;
-          SEO setup at {money(SETUP_FEE.price).both}. Copywriting is
-          {' '}{money(copy.price).both} per page if you need it. Prices exclude
+          (<Price m={PLANS[0].monthly} /> a month) or Growth
+          (<Price m={PLANS[1].monthly} /> a month) plan, with AI search &amp;
+          SEO setup at <Price m={SETUP_FEE.price} />. Copywriting is
+          {' '}<Price m={copy.price} /> per page if you need it. Prices exclude
           VAT. <a href="/pricing#builder">Build your plan</a>
         </p>
       </div>

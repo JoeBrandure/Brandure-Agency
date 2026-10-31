@@ -89,7 +89,7 @@ const schema = {
     <div class="wrap" data-reveal>
       {groups.map((grp) => (
         <>
-          <div class="section-head">
+          <div class="section-head gd-market">
             <h2>{grp.heading}</h2>
             <p class="lede">{grp.blurb}</p>
           </div>
@@ -124,3 +124,14 @@ const schema = {
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  /* "UAE" and "UK" each start a new market, but they sat against the bottom
+     of the card above with only the section-head's own margin between them —
+     close enough that the previous card's top border read as belonging to the
+     heading. A market break is a section break, so it gets the section
+     rhythm: the same clamp .section uses for its padding. The first heading
+     keeps the spacing the section already gives it. */
+  .gd-market + .rlist { margin-bottom: 0; }
+  .rlist + .gd-market { margin-top: clamp(3.25rem, 6vw, 6rem); }
+</style>

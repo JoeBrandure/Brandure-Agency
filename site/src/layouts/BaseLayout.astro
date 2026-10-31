@@ -128,10 +128,21 @@ const allSchemas = [websiteSchema, organizationSchema, personSchema, ...schemas]
 {/* data-cur is the build-time default. netlify/edge-functions/currency.ts
     rewrites it per request from the visitor's country (or their stored
     choice), so the right currency is in the markup before paint — no flash.
-    If the edge function is ever off, this default is what ships. */}
-<html lang="en-GB" class="no-js" data-cur="gbp">
+    If the edge function is ever off, this default is what ships. USD since
+    2026-11: GCC gets AED and the UK gets pounds, and dollars are the more
+    useful figure for everyone else. */}
+<html lang="en-GB" class="no-js" data-cur="usd">
   <head>
     <meta charset="utf-8" />
+    {/* THE FULL PRICE LIST NEEDS TO KNOW JS EXISTS BEFORE FIRST PAINT. It
+        prints all three currencies by default, because without a working
+        switch a reader cannot ask for the other two; with JS it follows the
+        chosen one like every other price. Deciding that here rather than when
+        the switch's own script runs is what keeps it from reflowing from
+        three figures to one. Its own attribute, not .no-js: that class is the
+        motion layer's and is re-added when the motion layer fails, which has
+        nothing to do with whether the currency switch works. */}
+    <script is:inline>document.documentElement.setAttribute('data-cur-js', '1');</script>
     <ThemeScript />
     <link rel="preload" as="font" type="font/woff2" crossorigin href={interLatinUrl} />
     <link rel="preload" as="font" type="font/woff2" crossorigin href={manropeLatinUrl} />

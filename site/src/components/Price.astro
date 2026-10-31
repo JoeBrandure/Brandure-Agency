@@ -1,0 +1,38 @@
+---
+import { money, type Money } from '../data/pricing';
+
+/**
+ * One price, in all three currencies, rendered two ways.
+ *
+ * Both ways put AED, pounds and dollars in the HTML — nothing is ever dropped
+ * from the markup, so a crawler reads every figure whatever a visitor has
+ * selected. The difference is what a person sees.
+ *
+ *   default   one figure, the one the switch has chosen. What a plan card, a
+ *             total or a sentence of prose wants.
+ *   all       every figure, "AED 6,500 / £1,400 / $1,800". The full price
+ *             list only, because that is the page meant to be quoted from and
+ *             the one place a reader with no switch still needs all three.
+ *
+ * The separators are their own spans rather than literal text, because in the
+ * selected-currency state a stray " / " either side of the figure would be
+ * worse than useless. Which state applies is decided by data-cur-js on
+ * <html>, set in the head, so this never reflows from three figures to one.
+ */
+interface Props {
+  m: Money;
+  all?: boolean;
+}
+const { m, all = false } = Astro.props;
+const f = money(m);
+---
+
+{
+  all ? (
+    <span class="price-all"
+      ><span class="cur-aed">{f.aed}</span><span class="cur-sep"> / </span><span class="cur-gbp">{f.gbp}</span><span class="cur-sep"> / </span><span class="cur-usd">{f.usd}</span></span
+    >
+  ) : (
+    <><span class="cur-aed">{f.aed}</span><span class="cur-gbp">{f.gbp}</span><span class="cur-usd">{f.usd}</span></>
+  )
+}

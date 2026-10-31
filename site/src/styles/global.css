@@ -2137,16 +2137,10 @@ input:focus-visible, select:focus-visible { border-color: var(--focus); }
   background: color-mix(in srgb, var(--sa) 18%, transparent);
   box-shadow: inset 0 0 0 2px var(--sa);
 }
-.pkg__honest {
-  margin: 0 0 1.4rem; max-width: none;
-  padding: 0.85rem 1rem; border-radius: var(--radius-sm);
-  background: color-mix(in srgb, var(--sa) 8%, transparent);
-  border-left: 3px solid var(--sa);
-  font-size: 0.8125rem; line-height: 1.55;
-}
-/* Mixed towards ink for the same reason the research panels are: the bare
-   accent on its own tint sits a hair above AA with no headroom. */
-.pkg__honest strong { color: color-mix(in srgb, var(--sa) 68%, var(--ink)); }
+/* .pkg__honest — the "And plainly:" callout — was removed from the Core and
+   Growth cards on /pricing and /service on 2026-11 and its styles with it.
+   The sentences themselves are still in PACKAGES.honest, unused, if the
+   callout is ever wanted back. */
 .pkg__cta { margin-top: auto; align-self: flex-start; }
 
 /* Setup, sold alongside either paid tier rather than as a fourth card. */
@@ -2534,12 +2528,35 @@ input:focus-visible, select:focus-visible { border-color: var(--focus); }
 .marquee__item:hover .wordmark-ph__text { color: var(--accent); }
 
 /* ---------- Currency display ----------
-   Both currencies are always in the HTML; this chooses which one is shown
-   where a single figure is wanted (plan cards, builder totals). The static
-   price tables use .cur-both and print both, so nothing is ever hidden from a
-   crawler or from a reader with JS off. */
-.cur-aed, .cur-gbp { display: none; }
+   All three currencies are always in the HTML; this chooses which one is
+   shown where a single figure is wanted (plan cards, builder totals, the
+   website-work cards). Nothing is ever removed from the page, so a crawler
+   reads every figure whatever a visitor has selected. */
+.cur-aed, .cur-gbp, .cur-usd, .cur-sep { display: none; }
 html[data-cur='aed'] .cur-aed { display: inline; }
 html[data-cur='gbp'] .cur-gbp { display: inline; }
+html[data-cur='usd'] .cur-usd { display: inline; }
 /* No JS and no edge function still shows one price rather than none. */
-html:not([data-cur]) .cur-gbp { display: inline; }
+html:not([data-cur]) .cur-usd { display: inline; }
+
+/* ---------- Price.astro, all-currencies variant ----------
+   The full price list, and the one place that shows every currency. A reader with no
+   JS gets "AED 6,500 / £1,400 / $1,800", because without the switch there is
+   no way for them to ask for the others. Once JS confirms the switch can run
+   — data-cur-js, set in the head so this is decided before first paint and
+   never reflows — the list follows the chosen currency like everything else
+   and the separators go.
+
+   Specificity note: these need to beat the single-currency rules above, which
+   is why each one carries the html[] qualifier rather than relying on order. */
+html .price-all .cur-aed,
+html .price-all .cur-gbp,
+html .price-all .cur-usd,
+html .price-all .cur-sep { display: inline; }
+html[data-cur-js] .price-all .cur-sep { display: none; }
+html[data-cur-js] .price-all .cur-aed,
+html[data-cur-js] .price-all .cur-gbp,
+html[data-cur-js] .price-all .cur-usd { display: none; }
+html[data-cur-js][data-cur='aed'] .price-all .cur-aed,
+html[data-cur-js][data-cur='gbp'] .price-all .cur-gbp,
+html[data-cur-js][data-cur='usd'] .price-all .cur-usd { display: inline; }

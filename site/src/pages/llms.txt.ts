@@ -45,10 +45,11 @@ separately, because the six disagree with each other materially.
   and AI assistants can read, trust and recommend a business, on WordPress,
   Shopify, Webflow or our own stack, with AI search and SEO included.
 - [Pricing](${SITE.url}/pricing): the full price list and a price builder —
-  Core at AED 6,500 / £1,400 a month, Growth at AED 12,000 / £2,600, AI search
-  & SEO setup at AED 3,500 / £750, website pages from AED 2,500 / £550 and
-  rebuilds from AED 12,000 / £2,600, the six-month term with a 90-day review,
-  and the free AI Visibility Report.
+  Core at AED 6,500 / £1,400 / $1,800 a month, Growth at AED 12,000 / £2,600 /
+  $3,300, AI search & SEO setup at AED 3,500 / £750 / $950, website pages from
+  AED 2,500 / £550 / $700 and rebuilds from AED 12,000 / £2,600 / $3,300, the
+  six-month term with a 90-day review, and the free AI Visibility Report. The
+  three currencies are fixed, rounded prices, not conversions of each other.
 - [Method](${SITE.url}/method): SCAN — surface, cause, act, net. The four stages
   behind every engagement, and why we hold some of your questions back so you
   can see how much of any improvement was actually us.

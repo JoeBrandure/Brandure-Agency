@@ -11,13 +11,18 @@
  * total computed by the builder and a figure printed in a table are produced
  * the same way.
  */
-export type Money = { aed: number; gbp: number };
+export type Money = { aed: number; gbp: number; usd: number };
+
+/** The three currencies, in the order they are always written and offered. */
+export const CURRENCIES = ['aed', 'gbp', 'usd'] as const;
+export type Currency = (typeof CURRENCIES)[number];
 
 export const money = (m: Money) => ({
   aed: `AED ${m.aed.toLocaleString('en-GB')}`,
   gbp: `£${m.gbp.toLocaleString('en-GB')}`,
+  usd: `$${m.usd.toLocaleString('en-GB')}`,
   /** The form every crawler and AI assistant should be able to quote. */
-  both: `AED ${m.aed.toLocaleString('en-GB')} / £${m.gbp.toLocaleString('en-GB')}`,
+  both: `AED ${m.aed.toLocaleString('en-GB')} / £${m.gbp.toLocaleString('en-GB')} / $${m.usd.toLocaleString('en-GB')}`,
 });
 
 /**
@@ -32,7 +37,7 @@ export const PLANS = [
   {
     key: 'core',
     name: 'Core',
-    monthly: { aed: 6500, gbp: 1400 },
+    monthly: { aed: 6500, gbp: 1400, usd: 1800 },
     who: 'For one category, where you need to be found and named.',
     bullets: [
       'All six AI engines tracked separately',
@@ -45,7 +50,7 @@ export const PLANS = [
   {
     key: 'growth',
     name: 'Growth',
-    monthly: { aed: 12000, gbp: 2600 },
+    monthly: { aed: 12000, gbp: 2600, usd: 3300 },
     who: 'For several services or locations, and for taking ground from competitors.',
     bullets: [
       'Up to three categories or service lines',
@@ -59,7 +64,7 @@ export const PLANS = [
 
 export const SETUP_FEE = {
   name: 'AI search & SEO setup',
-  price: { aed: 3500, gbp: 750 },
+  price: { aed: 3500, gbp: 750, usd: 950 },
   note: 'included with every plan',
   d: 'Technical SEO audit and fixes, schema, AI crawler access, entity fixes, Google Business Profile, Search Console and GA4 tracking, and your AI visibility baseline. Ten working days.',
 } as const;
@@ -69,21 +74,21 @@ export const ADDONS = [
   {
     key: 'page',
     label: 'New or rebuilt pages',
-    price: { aed: 2500, gbp: 550 },
+    price: { aed: 2500, gbp: 550, usd: 700 },
     perPage: true,
     notes: 'Built on your current platform, for AI search and SEO. Best for 1–4 pages.',
   },
   {
     key: 'rebuild10',
     label: 'Full site rebuild, up to 10 pages',
-    price: { aed: 12000, gbp: 2600 },
+    price: { aed: 12000, gbp: 2600, usd: 3300 },
     perPage: false,
     notes: 'On your platform, or ours if a fresh start makes more sense',
   },
   {
     key: 'rebuild20',
     label: 'Full site rebuild, up to 20 pages',
-    price: { aed: 19000, gbp: 4100 },
+    price: { aed: 19000, gbp: 4100, usd: 5200 },
     perPage: false,
     notes: 'As above',
   },
@@ -97,7 +102,7 @@ export const ADDONS = [
   {
     key: 'copy',
     label: 'Copywriting',
-    price: { aed: 600, gbp: 130 },
+    price: { aed: 600, gbp: 130, usd: 165 },
     perPage: true,
     notes: "Only if you don't have copy. We build with your existing copy by default.",
   },
@@ -108,8 +113,8 @@ export const ADDONS = [
 export const EXAMPLES = [
   {
     label: 'Core + setup',
-    setup: { aed: 3500, gbp: 750 },
-    monthly: { aed: 6500, gbp: 1400 },
+    setup: { aed: 3500, gbp: 750, usd: 950 },
+    monthly: { aed: 6500, gbp: 1400, usd: 1800 },
     plan: 'core',
     pages: 0,
     rebuild: 'none',
@@ -117,8 +122,8 @@ export const EXAMPLES = [
   },
   {
     label: 'Core + setup + 3 new pages',
-    setup: { aed: 11000, gbp: 2400 },
-    monthly: { aed: 6500, gbp: 1400 },
+    setup: { aed: 11000, gbp: 2400, usd: 3050 },
+    monthly: { aed: 6500, gbp: 1400, usd: 1800 },
     plan: 'core',
     pages: 3,
     rebuild: 'none',
@@ -126,8 +131,8 @@ export const EXAMPLES = [
   },
   {
     label: 'Growth + setup + rebuild up to 10 pages',
-    setup: { aed: 15500, gbp: 3350 },
-    monthly: { aed: 12000, gbp: 2600 },
+    setup: { aed: 15500, gbp: 3350, usd: 4250 },
+    monthly: { aed: 12000, gbp: 2600, usd: 3300 },
     plan: 'growth',
     pages: 0,
     rebuild: 'rebuild10',
@@ -188,6 +193,13 @@ export const WEB_FAQS = [
   },
 ] as const;
 
-/** GCC sees AED; everywhere else sees GBP. Read by the edge function and
- *  repeated nowhere else. */
+/**
+ * The geographic defaults. GCC sees AED, the UK sees pounds, everyone else
+ * sees dollars — dollars rather than pounds, because a reader in Germany or
+ * Singapore has no more use for a GBP figure than a USD one, and USD is the
+ * currency they are most likely to be able to price against. Read by the edge
+ * function and repeated nowhere else.
+ */
 export const AED_COUNTRIES = ['AE', 'SA', 'QA', 'KW', 'BH', 'OM'] as const;
+export const GBP_COUNTRIES = ['GB'] as const;
+export const DEFAULT_CURRENCY = 'usd' as const;

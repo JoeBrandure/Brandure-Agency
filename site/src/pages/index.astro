@@ -136,23 +136,35 @@ const faqSchema = {
       <div class="section-head">
         <h2 id="ways-h">Three ways we get you found.</h2>
       </div>
+      {/* A CARD IS NOT A LINK ANY MORE. It was <a class="card way">, and the
+          Dubai link added inside the first one was a link inside a link —
+          which HTML forbids, so the parser closed the card at the inner <a>.
+          The card became four grid items: a truncated card, the Dubai link, a
+          loose "." and the orphaned price line, which is why the row showed
+          "Based in Dubai —" with nothing after it and pushed the other two
+          cards onto a second row.
+
+          Each card is a plain element now, with its heading as the link and a
+          pseudo-element stretching that link over the whole card. The card is
+          still one click target, and a second link inside it is simply a
+          second link. */}
       <div class="ways" data-stagger>
-        <a class="card way way--lead" href="/service">
-          <span class="way__k">AI search (AEO)</span>
+        <div class="card way way--lead">
+          <span class="way__k"><a class="way__main" href="/service">AI search (AEO)</a></span>
           <span class="way__d">Get named when buyers ask ChatGPT, Gemini, Perplexity and Google&rsquo;s AI Overviews.</span>
-          <span class="way__d">Based in Dubai &mdash; <a href="/aeo-agency-dubai">AEO agency in Dubai</a>.</span>
-          <span class="way__p">Plans from <strong><span class="cur-aed">{money(PLANS[0].monthly).aed}</span><span class="cur-gbp">{money(PLANS[0].monthly).gbp}</span></strong> a month</span>
-        </a>
-        <a class="card way" href="/service#seo">
-          <span class="way__k">SEO</span>
+          <span class="way__d">Based in Dubai. See our <a class="way__in" href="/aeo-agency-dubai">AEO agency in Dubai</a> page.</span>
+          <span class="way__p">Plans from <strong><span class="cur-aed">{money(PLANS[0].monthly).aed}</span><span class="cur-gbp">{money(PLANS[0].monthly).gbp}</span><span class="cur-usd">{money(PLANS[0].monthly).usd}</span></strong> a month</span>
+        </div>
+        <div class="card way">
+          <span class="way__k"><a class="way__main" href="/service#seo">SEO</a></span>
           <span class="way__d">Rank on Google for the searches that bring buyers. Included in every plan.</span>
           <span class="way__p">Included</span>
-        </a>
-        <a class="card way" href="/ai-ready-websites">
-          <span class="way__k">Websites built for both</span>
+        </div>
+        <div class="card way">
+          <span class="way__k"><a class="way__main" href="/ai-ready-websites">Websites built for both</a></span>
           <span class="way__d">New pages or a full rebuild on your platform, so Google and AI can read you.</span>
-          <span class="way__p">Pages from <strong><span class="cur-aed">{money(WEB_PAGE.price).aed}</span><span class="cur-gbp">{money(WEB_PAGE.price).gbp}</span></strong></span>
-        </a>
+          <span class="way__p">Pages from <strong><span class="cur-aed">{money(WEB_PAGE.price).aed}</span><span class="cur-gbp">{money(WEB_PAGE.price).gbp}</span><span class="cur-usd">{money(WEB_PAGE.price).usd}</span></strong></span>
+        </div>
       </div>
     </div>
   </section>
@@ -378,7 +390,7 @@ const faqSchema = {
       <div class="pteas">
         <p class="pteas__t">
           Plans from
-          <strong><span class="cur-aed">{money(PLANS[0].monthly).aed}</span><span class="cur-gbp">{money(PLANS[0].monthly).gbp}</span></strong>
+          <strong><span class="cur-aed">{money(PLANS[0].monthly).aed}</span><span class="cur-gbp">{money(PLANS[0].monthly).gbp}</span><span class="cur-usd">{money(PLANS[0].monthly).usd}</span></strong>
           a month. Build yours in under a minute.
         </p>
         <a class="btn" href="/pricing">Build your plan</a>
@@ -415,14 +427,23 @@ const faqSchema = {
   .ways { display: grid; gap: 1rem; grid-template-columns: 1fr; }
   @media (min-width: 46rem) { .ways { grid-template-columns: repeat(3, 1fr); } }
   .way {
+    position: relative;
     display: grid; gap: 0.45rem; align-content: start;
-    padding: 1.25rem 1.3rem; text-decoration: none; color: inherit;
+    padding: 1.25rem 1.3rem; color: inherit;
     border: 1px solid var(--border);
     transition: border-color 140ms ease, transform 140ms ease;
   }
   .way:hover { border-color: var(--muted); transform: translateY(-2px); }
   .way--lead { border-color: var(--accent); border-width: 2px; }
   .way__k { font-family: var(--font-display); font-weight: 700; font-size: var(--h3); letter-spacing: -0.015em; }
+  /* The heading's link covers the card, so the whole card is still one target
+     and the link still has a real name for a screen reader. */
+  .way__main { color: inherit; text-decoration: none; }
+  .way__main::after { content: ''; position: absolute; inset: 0; border-radius: inherit; }
+  .way:has(.way__main:focus-visible) { outline: 2px solid var(--focus); outline-offset: 2px; }
+  .way__main:focus-visible { outline: none; }
+  /* Sits above that overlay so it is clickable in its own right. */
+  .way__in { position: relative; z-index: 1; }
   .way__d { font-size: var(--small); color: var(--muted); }
   .way__p { font-size: var(--small); margin-top: 0.25rem; }
 

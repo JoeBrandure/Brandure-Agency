@@ -21,6 +21,7 @@
   <div class="cur__set">
     <button type="button" class="cur__b" data-cur-set="aed" aria-pressed="false">AED</button>
     <button type="button" class="cur__b" data-cur-set="gbp" aria-pressed="false">&pound;</button>
+    <button type="button" class="cur__b" data-cur-set="usd" aria-pressed="false">$</button>
   </div>
 </div>
 
@@ -66,9 +67,10 @@
     /* A stored choice is authoritative over the edge function's guess. Reading
        localStorage throws in a private window or with site data blocked, so a
        failure just leaves the geographic default in place. */
+    var OK = { aed: 1, gbp: 1, usd: 1 };
     var stored = null;
     try { stored = localStorage.getItem(KEY); } catch (e) { /* geo default stands */ }
-    mark(stored === 'aed' || stored === 'gbp' ? stored : root.getAttribute('data-cur') || 'gbp');
+    mark(OK[stored] ? stored : root.getAttribute('data-cur') || 'usd');
 
     document.addEventListener('click', function (e) {
       var b = e.target.closest('[data-cur-set]');

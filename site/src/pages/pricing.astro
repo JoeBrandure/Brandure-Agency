@@ -4,6 +4,7 @@ import { PACKAGES, FREE_OFFER } from '../data/content';
 import { PLANS, SETUP_FEE, ADDONS, VAT_TERMS, PRICING_FAQS, money } from '../data/pricing';
 import PriceBuilder from '../components/PriceBuilder.astro';
 import CurrencySwitch from '../components/CurrencySwitch.astro';
+import Price from '../components/Price.astro';
 import { SITE } from '../consts';
 import { allServiceSchemas } from '../lib/schema';
 
@@ -60,15 +61,19 @@ const catalogSchema = {
       name: p.name,
       description: p.includes,
       url: `${SITE.url}/pricing`,
-      /* Both currencies. The top-level price stays AED for consumers that read
-         only that; the two UnitPriceSpecifications carry the real pair, which
-         are fixed prices rather than a converted one. */
+      /* All three currencies. The top-level price stays AED for consumers
+         that read only that; the UnitPriceSpecifications carry the real set.
+         Each is a fixed, rounded price, not a conversion of the others — a
+         consumer that treats them as an exchange rate will be wrong, which is
+         why they are published as separate specifications rather than one
+         price plus a rate. */
       priceCurrency: 'AED',
       price: p.monthly.aed,
       seller: { '@id': `${SITE.url}/#organization` },
       priceSpecification: [
         { '@type': 'UnitPriceSpecification', price: p.monthly.aed, priceCurrency: 'AED', unitText: 'MONTH' },
         { '@type': 'UnitPriceSpecification', price: p.monthly.gbp, priceCurrency: 'GBP', unitText: 'MONTH' },
+        { '@type': 'UnitPriceSpecification', price: p.monthly.usd, priceCurrency: 'USD', unitText: 'MONTH' },
       ],
     })),
     {
@@ -83,6 +88,7 @@ const catalogSchema = {
       priceSpecification: [
         { '@type': 'UnitPriceSpecification', price: SETUP_FEE.price.aed, priceCurrency: 'AED' },
         { '@type': 'UnitPriceSpecification', price: SETUP_FEE.price.gbp, priceCurrency: 'GBP' },
+        { '@type': 'UnitPriceSpecification', price: SETUP_FEE.price.usd, priceCurrency: 'USD' },
       ],
     },
     ...ADDONS.filter((a) => a.price).map((a) => ({
@@ -97,6 +103,7 @@ const catalogSchema = {
       priceSpecification: [
         { '@type': 'UnitPriceSpecification', price: a.price.aed, priceCurrency: 'AED', ...(a.perPage ? { unitText: 'PAGE' } : {}) },
         { '@type': 'UnitPriceSpecification', price: a.price.gbp, priceCurrency: 'GBP', ...(a.perPage ? { unitText: 'PAGE' } : {}) },
+        { '@type': 'UnitPriceSpecification', price: a.price.usd, priceCurrency: 'USD', ...(a.perPage ? { unitText: 'PAGE' } : {}) },
       ],
     })),
   ],
@@ -169,7 +176,7 @@ const faqSchema = {
               <p class="pkg__lede">{p.lede}</p>
               <p class="pkg__price">
                 <span class="pkg__pn">
-                  <span class="cur-aed">{money(PLANS[i].monthly).aed}</span><span class="cur-gbp">{money(PLANS[i].monthly).gbp}</span>
+                  <span class="cur-aed">{money(PLANS[i].monthly).aed}</span><span class="cur-gbp">{money(PLANS[i].monthly).gbp}</span><span class="cur-usd">{money(PLANS[i].monthly).usd}</span>
                 </span>
                 <span class="pkg__pu">{p.unit}</span>
               </p>
@@ -178,7 +185,6 @@ const faqSchema = {
               {p.summary && <p class="pkg__s">{p.summary}</p>}
               <p class="pkg__k">What lands on your desk</p>
               <ul class="pkg__gets">{p.gets.map((g) => <li>{g}</li>)}</ul>
-              <p class="pkg__honest"><strong>And plainly:</strong> {p.honest}</p>
               <a class:list={['btn', !p.primary && 'btn--ghost', 'pkg__cta']} href="#builder">Build this plan</a>
             </div>
           </article>
@@ -192,8 +198,11 @@ const faqSchema = {
     <div class="wrap" data-reveal>
       <div class="section-head">
         <h2 id="web-h">Website work in detail</h2>
+        {/* The space before the link is written, not left to the newline:
+            Astro collapses the whitespace between text and an element on the
+            next line, which is how this read "More onhow we build". */}
         <p class="lede">
-          Added to a plan, never sold on its own. More on
+          Added to a plan, never sold on its own. More on{' '}
           <a href="/ai-ready-websites">how we build</a>.
         </p>
       </div>
@@ -203,7 +212,7 @@ const faqSchema = {
             <h3>{a.label}</h3>
             <p class="pr-wcard__p">
               {a.price
-                ? <><span class="cur-aed">{money(a.price).aed}</span><span class="cur-gbp">{money(a.price).gbp}</span>{a.perPage ? ' per page' : ''}</>
+                ? <><span class="cur-aed">{money(a.price).aed}</span><span class="cur-gbp">{money(a.price).gbp}</span><span class="cur-usd">{money(a.price).usd}</span>{a.perPage ? ' per page' : ''}</>
                 : 'Quoted'}
             </p>
             <p class="pr-wcard__d">{a.notes}</p>
@@ -220,37 +229,44 @@ const faqSchema = {
     </div>
   </section>
 
-  {/* 6 · THE FULL PRICE LIST. Kept in the HTML in both currencies so crawlers
-      and no-JS readers get every figure, but restyled as a compact two-column
-      list so it reads as reference rather than as the main content. The grey
-      table header is gone; light dividers carry the structure instead. */}
+  {/* 6 · THE FULL PRICE LIST. Every row carries all three currencies in the
+      HTML, so a crawler and a reader with no JS get every figure; the CSS
+      shows the selected one and hides the separators once JS confirms the
+      switch can run. Nothing is removed from the page in any state — the
+      whole point of this section is that the numbers are addressable. */}
   <section class="section section--sunk" aria-labelledby="list-h">
     <div class="wrap-narrow" data-reveal>
       <div class="section-head">
         <h2 id="list-h">Full price list</h2>
-        <p class="lede">Every figure in AED and pounds, excluding VAT.</p>
+        <p class="lede">Every figure excludes VAT.</p>
       </div>
+
+      <CurrencySwitch />
 
       <dl class="plist">
         {PLANS.map((p) => (
           <>
             <dt>{p.name} plan</dt>
-            <dd>{money(p.monthly).both} a month</dd>
+            <dd><Price m={p.monthly} all /> a month</dd>
           </>
         ))}
         <dt>{SETUP_FEE.name}</dt>
-        <dd>{money(SETUP_FEE.price).both} one-off</dd>
+        <dd><Price m={SETUP_FEE.price} all /> one-off</dd>
         {ADDONS.map((a) => (
           <>
             <dt>{a.label}</dt>
-            <dd>{a.price ? `${money(a.price).both}${a.perPage ? ' per page' : ''}` : 'Quoted'}</dd>
+            <dd>{a.price ? <><Price m={a.price} all />{a.perPage ? ' per page' : ''}</> : 'Quoted'}</dd>
           </>
         ))}
       </dl>
 
       <p class="note-sm plist__terms">{VAT_TERMS}</p>
+      {/* ONE FLEX ITEM, NOT THREE. .center-row is display:flex with a 1.75rem
+          column gap, so a bare sentence around a link became three anonymous
+          items and the gap opened up in front of the full stop — "AEO agency
+          in Dubai ." The span keeps the sentence whole. */}
       <p class="center-row mt-1 note-sm">
-        Buying from the UAE? <a class="textlink" href="/aeo-agency-dubai">AEO agency in Dubai</a>.
+        <span>Buying from the UAE? <a class="textlink" href="/aeo-agency-dubai">AEO agency in Dubai</a>.</span>
       </p>
       <p class="center-row mt-1">
         How our prices compare:{' '}
@@ -299,9 +315,16 @@ const faqSchema = {
   }
   .pr-band__t { margin: 0; font-size: var(--small); }
 
-  .pr-grid { display: grid; gap: 1rem; grid-template-columns: 1fr; }
-  @media (min-width: 40rem) { .pr-grid { grid-template-columns: 1fr 1fr; } }
-  @media (min-width: 64rem) { .pr-grid { grid-template-columns: repeat(3, 1fr); } }
+  /* FIVE CARDS IN THREE COLUMNS LEAVES TWO ON THEIR OWN. As a grid they sat
+     against the left edge of the second row with a column of empty space
+     beside them. Flex wrapping with a fixed basis puts the remainder in the
+     middle instead — same card width, same gutter, same breakpoints, which is
+     why the basis is written as the share of the row a grid column would have
+     had rather than as a round number. */
+  .pr-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; }
+  .pr-grid > * { flex: 0 1 100%; }
+  @media (min-width: 40rem) { .pr-grid > * { flex-basis: calc((100% - 1rem) / 2); } }
+  @media (min-width: 64rem) { .pr-grid > * { flex-basis: calc((100% - 2rem) / 3); } }
   .pr-wcard { padding: 1.15rem 1.2rem; }
   .pr-wcard h3 { font-size: var(--h3); margin: 0 0 0.35rem; }
   .pr-wcard__p { font-family: var(--font-display); font-weight: 700; font-size: 1.35rem; letter-spacing: -0.02em; margin: 0 0 0.45rem; }

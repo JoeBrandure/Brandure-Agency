@@ -73,7 +73,7 @@ const monthly0 = money(PLANS[0].monthly);
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
             </span>
             <span>
-              <strong>{SETUP_FEE.name}: <span class="cur-aed">{setup0.aed}</span><span class="cur-gbp">{setup0.gbp}</span></strong>, one-off, 10 working days
+              <strong>{SETUP_FEE.name}: <span class="cur-aed">{setup0.aed}</span><span class="cur-gbp">{setup0.gbp}</span><span class="cur-usd">{setup0.usd}</span></strong>, one-off, 10 working days
               <span class="scard__d">Technical SEO, schema, AI crawler access, entity fixes, tracking and your visibility baseline.</span>
             </span>
           </div>
@@ -90,7 +90,7 @@ const monthly0 = money(PLANS[0].monthly);
                   <span class="tile__l">{t.label}</span>
                   <span class="tile__p">
                     {t.price
-                      ? <><span class="cur-aed">{money2(t.price).aed}</span><span class="cur-gbp">{money2(t.price).gbp}</span> {t.hint}</>
+                      ? <><span class="cur-aed">{money2(t.price).aed}</span><span class="cur-gbp">{money2(t.price).gbp}</span><span class="cur-usd">{money2(t.price).usd}</span> {t.hint}</>
                       : t.hint}
                   </span>
                 </span>
@@ -126,7 +126,7 @@ const monthly0 = money(PLANS[0].monthly);
 
           <div class="pbx__sub" id="pbx-copy-row" hidden>
             <label class="pbx__lb" for="pb-copy">
-              Need copy written? <span class="note-sm">(+<span class="cur-aed">{money2(copyAddon.price).aed}</span><span class="cur-gbp">{money2(copyAddon.price).gbp}</span> per page)</span>
+              Need copy written? <span class="note-sm">(+<span class="cur-aed">{money2(copyAddon.price).aed}</span><span class="cur-gbp">{money2(copyAddon.price).gbp}</span><span class="cur-usd">{money2(copyAddon.price).usd}</span> per page)</span>
             </label>
             <div class="pbx__spin">
               <button type="button" class="pbx__sbtn" data-spin="pb-copy" data-by="-1" aria-label="Fewer copywriting pages">&minus;</button>
@@ -148,8 +148,8 @@ const monthly0 = money(PLANS[0].monthly);
         <div class="pbx__bar">
           <button type="button" class="pbx__peek" id="pbx-peek" aria-expanded="false" aria-controls="pbx-sumbody">
             <span class="pbx__peekrow">
-              <span><span class="pbx__peekl">Setup</span> <strong id="pb-setup-m"><span class="cur-aed">{setup0.aed}</span><span class="cur-gbp">{setup0.gbp}</span></strong></span>
-              <span><span class="pbx__peekl">Monthly</span> <strong id="pb-monthly-m"><span class="cur-aed">{monthly0.aed}</span><span class="cur-gbp">{monthly0.gbp}</span></strong></span>
+              <span><span class="pbx__peekl">Setup</span> <strong id="pb-setup-m"><span class="cur-aed">{setup0.aed}</span><span class="cur-gbp">{setup0.gbp}</span><span class="cur-usd">{setup0.usd}</span></strong></span>
+              <span><span class="pbx__peekl">Monthly</span> <strong id="pb-monthly-m"><span class="cur-aed">{monthly0.aed}</span><span class="cur-gbp">{monthly0.gbp}</span><span class="cur-usd">{monthly0.usd}</span></strong></span>
             </span>
             <span class="pbx__chev" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
@@ -161,22 +161,22 @@ const monthly0 = money(PLANS[0].monthly);
         <div class="pbx__sumbody" id="pbx-sumbody">
           <p class="pbx__big">
             <span class="pbx__biglb">Setup today</span>
-            <strong id="pb-setup"><span class="cur-aed">{setup0.aed}</span><span class="cur-gbp">{setup0.gbp}</span></strong>
+            <strong id="pb-setup"><span class="cur-aed">{setup0.aed}</span><span class="cur-gbp">{setup0.gbp}</span><span class="cur-usd">{setup0.usd}</span></strong>
           </p>
           <p class="pbx__big">
             <span class="pbx__biglb">Then</span>
-            <strong id="pb-monthly"><span class="cur-aed">{monthly0.aed}</span><span class="cur-gbp">{monthly0.gbp}</span></strong>
+            <strong id="pb-monthly"><span class="cur-aed">{monthly0.aed}</span><span class="cur-gbp">{monthly0.gbp}</span><span class="cur-usd">{monthly0.usd}</span></strong>
             <span class="pbx__per">/month</span>
           </p>
 
           <ul class="pbx__lines" id="pb-lines">
-            <li><span>{SETUP_FEE.name}</span><span><span class="cur-aed">{setup0.aed}</span><span class="cur-gbp">{setup0.gbp}</span></span></li>
-            <li><span>{PLANS[0].name} plan</span><span><span class="cur-aed">{monthly0.aed}</span><span class="cur-gbp">{monthly0.gbp}</span>/mo</span></li>
+            <li><span>{SETUP_FEE.name}</span><span><span class="cur-aed">{setup0.aed}</span><span class="cur-gbp">{setup0.gbp}</span><span class="cur-usd">{setup0.usd}</span></span></li>
+            <li><span>{PLANS[0].name} plan</span><span><span class="cur-aed">{monthly0.aed}</span><span class="cur-gbp">{monthly0.gbp}</span><span class="cur-usd">{monthly0.usd}</span>/mo</span></li>
           </ul>
 
           <p class="note-sm pbx__terms">{VAT_TERMS}</p>
           <p class="pbx__cta"><a class="btn" id="pb-cta" href="/service#book">Book a call with this plan</a></p>
-          <p class="note-sm pbx__nojs">See the full price list below for every figure in AED and pounds.</p>
+          <p class="note-sm pbx__nojs">See the full price list below for every figure in AED, pounds and dollars.</p>
         </div>
       </aside>
     </form>
@@ -192,13 +192,31 @@ const monthly0 = money(PLANS[0].monthly);
        that class and a failure there must not disable the builder. */
     form.setAttribute('data-ready', '1');
 
+    /* EVERY FIGURE IS A MONEY OBJECT, not a pair of named numbers. The
+       arithmetic below used to carry .aed and .gbp by hand on every line,
+       which meant adding dollars would have meant touching all of it and
+       getting one line wrong would have been a quiet mispricing. Currencies
+       are a list now: adding a fourth means adding it to CUR and fmt. */
+    var CUR = ['aed', 'gbp', 'usd'];
     var fmt = {
       aed: function (n) { return 'AED ' + n.toLocaleString('en-GB'); },
       gbp: function (n) { return '£' + n.toLocaleString('en-GB'); },
+      usd: function (n) { return '$' + n.toLocaleString('en-GB'); },
     };
-    function pair(a, g) {
-      return '<span class="cur-aed">' + fmt.aed(a) + '</span><span class="cur-gbp">' + fmt.gbp(g) + '</span>';
+    /* All three go into the markup; the CSS shows the chosen one. */
+    function price(m) {
+      var out = '';
+      CUR.forEach(function (c) {
+        out += '<span class="cur-' + c + '">' + fmt[c](m[c]) + '</span>';
+      });
+      return out;
     }
+    function zero() { return { aed: 0, gbp: 0, usd: 0 }; }
+    function add(into, m, mult) {
+      CUR.forEach(function (c) { into[c] += m[c] * (mult === undefined ? 1 : mult); });
+      return into;
+    }
+    function times(m, k) { return add(zero(), m, k); }
     var $ = function (id) { return document.getElementById(id); };
     var pagesRow = $('pbx-pages-row'), pages = $('pb-pages');
     var copyRow = $('pbx-copy-row'), copy = $('pb-copy');
@@ -231,28 +249,24 @@ const monthly0 = money(PLANS[0].monthly);
     }
 
     function compute(s) {
-      var out = { aed: rates.setup.aed, gbp: rates.setup.gbp, quote: false, items: [] };
-      out.items.push(['AI search & SEO setup', rates.setup.aed, rates.setup.gbp, '']);
+      var out = { total: add(zero(), rates.setup), quote: false, items: [] };
+      out.items.push(['AI search & SEO setup', rates.setup, '']);
       if (s.web === 'page') {
-        out.aed += rates.addons.page.aed * s.pages;
-        out.gbp += rates.addons.page.gbp * s.pages;
-        out.items.push([s.pages + (s.pages === 1 ? ' new page' : ' new pages'), rates.addons.page.aed * s.pages, rates.addons.page.gbp * s.pages, '']);
+        add(out.total, rates.addons.page, s.pages);
+        out.items.push([s.pages + (s.pages === 1 ? ' new page' : ' new pages'), times(rates.addons.page, s.pages), '']);
       } else if (s.web === 'rebuild10' || s.web === 'rebuild20') {
-        out.aed += rates.addons[s.web].aed;
-        out.gbp += rates.addons[s.web].gbp;
-        out.items.push([s.web === 'rebuild10' ? 'Rebuild, up to 10 pages' : 'Rebuild, up to 20 pages', rates.addons[s.web].aed, rates.addons[s.web].gbp, '']);
+        add(out.total, rates.addons[s.web]);
+        out.items.push([s.web === 'rebuild10' ? 'Rebuild, up to 10 pages' : 'Rebuild, up to 20 pages', rates.addons[s.web], '']);
       } else if (s.web === 'ecommerce') {
         /* Floor only: setup plus the up-to-10 rebuild. The rest is quoted, so
            this is never presented as a total. */
-        out.aed += rates.addons.rebuild10.aed;
-        out.gbp += rates.addons.rebuild10.gbp;
+        add(out.total, rates.addons.rebuild10);
         out.quote = true;
-        out.items.push(['Ecommerce build', rates.addons.rebuild10.aed, rates.addons.rebuild10.gbp, 'from']);
+        out.items.push(['Ecommerce build', rates.addons.rebuild10, 'from']);
       }
       if (s.copy > 0) {
-        out.aed += rates.addons.copy.aed * s.copy;
-        out.gbp += rates.addons.copy.gbp * s.copy;
-        out.items.push(['Copywriting, ' + s.copy + (s.copy === 1 ? ' page' : ' pages'), rates.addons.copy.aed * s.copy, rates.addons.copy.gbp * s.copy, '']);
+        add(out.total, rates.addons.copy, s.copy);
+        out.items.push(['Copywriting, ' + s.copy + (s.copy === 1 ? ' page' : ' pages'), times(rates.addons.copy, s.copy), '']);
       }
       return out;
     }
@@ -284,7 +298,7 @@ const monthly0 = money(PLANS[0].monthly);
       nudge.hidden = !show;
       if (show) {
         nudgeT.innerHTML = 'A full rebuild up to 10 pages is better value at ' +
-          pair(rates.addons.rebuild10.aed, rates.addons.rebuild10.gbp) + '. ';
+          price(rates.addons.rebuild10) + '. ';
       }
 
       var t = compute(s), m = rates.plans[s.plan];
@@ -292,16 +306,16 @@ const monthly0 = money(PLANS[0].monthly);
          says the rest is quoted, in the headline figure itself rather than
          only in the line items. */
       var setupHtml = t.quote
-        ? 'from ' + pair(t.aed, t.gbp) + ' <span class="pbx__q">+ quote</span>'
-        : pair(t.aed, t.gbp);
+        ? 'from ' + price(t.total) + ' <span class="pbx__q">+ quote</span>'
+        : price(t.total);
       ['pb-setup', 'pb-setup-m'].forEach(function (id) { $(id).innerHTML = setupHtml; flash($(id)); });
-      ['pb-monthly', 'pb-monthly-m'].forEach(function (id) { $(id).innerHTML = pair(m.aed, m.gbp); });
+      ['pb-monthly', 'pb-monthly-m'].forEach(function (id) { $(id).innerHTML = price(m); });
 
       var html = '';
       t.items.forEach(function (it) {
-        html += '<li><span>' + it[0] + '</span><span>' + (it[3] ? it[3] + ' ' : '') + pair(it[1], it[2]) + '</span></li>';
+        html += '<li><span>' + it[0] + '</span><span>' + (it[2] ? it[2] + ' ' : '') + price(it[1]) + '</span></li>';
       });
-      html += '<li><span>' + (s.plan === 'growth' ? 'Growth' : 'Core') + ' plan</span><span>' + pair(m.aed, m.gbp) + '/mo</span></li>';
+      html += '<li><span>' + (s.plan === 'growth' ? 'Growth' : 'Core') + ' plan</span><span>' + price(m) + '/mo</span></li>';
       if (t.quote) html += '<li><span>Ecommerce scope</span><span>Quoted</span></li>';
       lines.innerHTML = html;
 
@@ -310,13 +324,16 @@ const monthly0 = money(PLANS[0].monthly);
          selection — set from the same href below. */
       ctaM.textContent = t.quote ? 'Get a quote' : 'Book a call';
 
-      var cur = document.documentElement.getAttribute('data-cur') === 'aed' ? 'aed' : 'gbp';
+      /* The form and the Calendly attribution get the currency the visitor is
+         actually reading, not the build default. */
+      var cur = document.documentElement.getAttribute('data-cur');
+      if (CUR.indexOf(cur) < 0) cur = 'usd';
       var q = {
         plan: s.plan === 'growth' ? 'Growth' : 'Core',
         pages: String(s.pages),
         rebuild: s.web,
         copywriting: String(s.copy),
-        setup_total: (t.quote ? 'from ' : '') + fmt[cur](t[cur]) + (t.quote ? ' + quote' : ''),
+        setup_total: (t.quote ? 'from ' : '') + fmt[cur](t.total[cur]) + (t.quote ? ' + quote' : ''),
         monthly_total: fmt[cur](m[cur]),
         currency: cur.toUpperCase(),
       };
@@ -376,7 +393,15 @@ const monthly0 = money(PLANS[0].monthly);
     /* The cookie banner is also pinned to the bottom. Rather than move this
        bar out of its way — which animated a fixed element and scored 0.035 of
        layout shift — the bar publishes its height and the banner sits above
-       it. The bar never moves, so it never shifts. */
+       it. The bar never moves, so it never shifts.
+
+       THE HEIGHT STAYS PUBLISHED EVEN WHILE THE BAR IS SLID AWAY. Clearing it
+       when the bar leaves would drop the banner by a bar's height, and moving
+       a fixed element between frames is a layout shift whether it is animated
+       or jumped — that is exactly the 0.035 this arrangement was built to
+       avoid. The cost is a banner sitting one bar-height up while the bar is
+       hidden, which only happens with the banner still undismissed below the
+       builder; CLS stays 0, which is the trade worth making. */
     var sum = document.getElementById('pbx-sum');
     function publishHeight() {
       var fixed = getComputedStyle(sum).position === 'fixed';
@@ -391,6 +416,34 @@ const monthly0 = money(PLANS[0].monthly);
       var open = document.getElementById('pbx-sum').classList.toggle('is-open');
       peek.setAttribute('aria-expanded', String(open));
     });
+
+    /* ---- The bar belongs to the builder, not to the page ----
+       It appears when the builder section comes into view and leaves once the
+       section has gone, so it never covers the FAQs or the footer. The
+       observer watches the section rather than the viewport scroll position:
+       no scroll handler, and the browser does the geometry.
+
+       data-off rather than a class, so the CSS reads as a state and not as
+       another thing the script and the stylesheet have to agree about. */
+    var sec = document.getElementById('builder');
+    if (sec && 'IntersectionObserver' in window) {
+      sum.setAttribute('data-off', '');
+      new IntersectionObserver(
+        function (entries) {
+          if (entries[0].isIntersecting) sum.removeAttribute('data-off');
+          else {
+            sum.setAttribute('data-off', '');
+            /* A bar sliding away while its own panel is open would take the
+               breakdown with it and come back open. */
+            sum.classList.remove('is-open');
+            peek.setAttribute('aria-expanded', 'false');
+          }
+        },
+        /* A little slack at the bottom, so the bar is already there as the
+           first step scrolls up rather than arriving a beat late. */
+        { rootMargin: '0px 0px -10% 0px' },
+      ).observe(sec);
+    }
 
     render();
   })();
@@ -408,13 +461,19 @@ const monthly0 = money(PLANS[0].monthly);
      here rather than reserved anywhere. Static CSS, so CLS stays 0. */
   .pbx-sec { padding-bottom: 1.75rem; }
   .pbx__step:last-of-type { margin-bottom: 0; }
-  .pbx { display: grid; gap: 1.5rem; align-items: start; }
-  @media (min-width: 60rem) {
-    .pbx { grid-template-columns: minmax(0, 1fr) 21rem; gap: 2rem; }
-  }
+
+  /* ONE CENTRED COLUMN. It was choices on the left and a sticky summary
+     column on the right, which left the three steps hugging the left edge of
+     a wide page and the totals in a panel most of a screen away from the
+     thing being priced. The summary is the bottom bar on every device now, so
+     the steps get the whole column and sit in the middle of it. */
+  .pbx { display: block; max-width: var(--wrap-narrow); margin-inline: auto; }
+  .pbx__main { display: block; }
 
   .pbx__step { border: 0; padding: 0; margin: 0 0 1.75rem; }
-  .pbx__lg { display: flex; align-items: center; gap: 0.55rem; padding: 0; margin-bottom: 0.85rem; font-family: var(--font-display); font-weight: 700; font-size: var(--h3); letter-spacing: -0.015em; }
+  /* The numbered legend centres with its step. `display: flex` on a <legend>
+     needs the centring on the flex box itself, not text-align. */
+  .pbx__lg { display: flex; align-items: center; justify-content: center; gap: 0.55rem; padding: 0; margin-bottom: 0.85rem; font-family: var(--font-display); font-weight: 700; font-size: var(--h3); letter-spacing: -0.015em; text-align: center; }
   .pbx__n { display: inline-grid; place-items: center; width: 1.6rem; height: 1.6rem; border-radius: 50%; background: var(--surface-sunk); border: 1px solid var(--border); font-family: var(--font-mono); font-size: var(--label); font-weight: 400; }
   .pbx__inc { font-family: var(--font-mono); font-size: var(--label); font-weight: 400; letter-spacing: 0.05em; color: var(--muted); }
 
@@ -422,17 +481,19 @@ const monthly0 = money(PLANS[0].monthly);
      itself now lives in global.css, because /aeo-agency-dubai shows the same
      two cards as links — a scoped style could not reach it. Only the layout
      of the pair is this component's business. */
-  .pbx__plans { display: grid; gap: 0.9rem; }
+  .pbx__plans { display: grid; gap: 0.9rem; max-width: 42rem; margin-inline: auto; }
   @media (min-width: 40rem) { .pbx__plans { grid-template-columns: 1fr 1fr; } }
 
   /* Setup: fixed, always ticked. */
-  .scard { display: flex; gap: 0.7rem; align-items: flex-start; padding: 0.95rem 1.1rem; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface-sunk); font-size: var(--small); }
+  .scard { display: flex; gap: 0.7rem; align-items: flex-start; padding: 0.95rem 1.1rem; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface-sunk); font-size: var(--small); max-width: 42rem; margin-inline: auto; }
   .scard__tick { flex: 0 0 auto; width: 1.1rem; height: 1.1rem; color: var(--accent); margin-top: 0.15rem; }
   .scard__tick svg { width: 100%; height: 100%; }
   .scard__d { display: block; color: var(--muted); margin-top: 0.2rem; }
 
   /* Website tiles. */
-  .pbx__tiles { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+  /* Centred, and still wrapping: on a phone the five tiles stack into two or
+     three centred rows rather than a ragged left edge. */
+  .pbx__tiles { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.6rem; }
   .tile { cursor: pointer; }
   .tile input { position: absolute; opacity: 0; width: 1px; height: 1px; }
   .tile__in { display: grid; gap: 0.15rem; padding: 0.6rem 0.85rem; border: 2px solid var(--border); border-radius: var(--radius); background: var(--surface); transition: border-color 140ms ease; }
@@ -446,7 +507,7 @@ const monthly0 = money(PLANS[0].monthly);
      display:none when hidden keeps it out of the flow entirely. */
   .pbx__sub {
     display: grid; grid-template-rows: 1fr; gap: 0.3rem;
-    margin-top: 0.9rem; max-width: 18rem;
+    margin: 0.9rem auto 0; max-width: 18rem; justify-items: center;
     transition: grid-template-rows 180ms var(--ease, ease);
   }
   .pbx__sub[hidden] { display: none; }
@@ -513,9 +574,9 @@ const monthly0 = money(PLANS[0].monthly);
     .pbx[data-ready] .pbx__nbtn { display: flex; width: max-content; margin: 0.6rem 0 0; }
   }
 
-  /* Summary: sticky column on desktop. */
-  .pbx__sum { border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface-sunk); padding: 1.25rem; }
-  @media (min-width: 60rem) { .pbx__sum { position: sticky; top: calc(var(--header-h) + 1rem); } }
+  /* Summary. With JS off it is an ordinary block under the steps, pointing at
+     the full price list; with JS it becomes the bottom bar below. */
+  .pbx__sum { border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface-sunk); padding: 1.25rem; max-width: 42rem; margin-inline: auto; }
   .pbx__big { display: flex; align-items: baseline; gap: 0.4rem; flex-wrap: wrap; margin: 0 0 0.35rem; }
   .pbx__biglb { font-size: var(--small); color: var(--muted); min-width: 5.5rem; }
   .pbx__big strong { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.5rem, 1.1rem + 1.4vw, 1.9rem); letter-spacing: -0.03em; line-height: 1.05; transition: opacity 180ms ease; }
@@ -539,42 +600,71 @@ const monthly0 = money(PLANS[0].monthly);
   .pbx__nojs { margin: 0.8rem 0 0; }
   .pbx[data-ready] .pbx__nojs { display: none; }
 
-  /* The peek bar is the mobile face of the summary. Both it and its CTA are
-     off on desktop, where the summary is the sticky column it has always
-     been. */
+  /* ---- The bottom bar, on every device ----
+     This used to be the phone treatment only, with a sticky side panel on
+     desktop. The panel is gone: the totals belong under the thing being
+     priced at every width, and one summary means one set of behaviour to get
+     right rather than two.
+
+     The bar only exists once the script has marked the form ready, so with JS
+     off .pbx__sum stays the ordinary block above and nothing here applies. */
   .pbx__peek, .pbx__bar { display: none; }
 
-  @media (max-width: 59.99rem) {
-    .pbx[data-ready] .pbx__bar { display: flex; align-items: center; gap: 0.75rem; }
-    /* The totals take the room that is left; the button keeps its own. */
-    .pbx[data-ready] .pbx__peek { flex: 1 1 auto; min-width: 0; }
-    .pbx__barcta {
-      flex: 0 0 auto; min-height: 2.75rem;
-      padding: 0.55rem 1rem; font-size: var(--small);
-      white-space: nowrap;
-    }
-
-    .pbx[data-ready] .pbx__sum {
-      position: fixed; left: 0; right: 0; bottom: 0; z-index: 50;
-      border-radius: var(--radius) var(--radius) 0 0;
-      border-bottom: 0; padding: 0.75rem 1rem calc(0.75rem + env(safe-area-inset-bottom));
-      box-shadow: 0 -10px 30px -18px rgba(0, 0, 0, 0.45);
-      background: var(--surface);
-    }
-    .pbx[data-ready] .pbx__peek {
-      display: flex; align-items: center; justify-content: space-between; gap: 1rem;
-      width: 100%; appearance: none; background: none; border: 0; padding: 0;
-      font: inherit; color: inherit; cursor: pointer; text-align: left;
-    }
-    .pbx__peekrow { display: flex; gap: 1.25rem; flex-wrap: wrap; }
-    .pbx__peekl { font-size: var(--label); color: var(--muted); display: block; }
-    .pbx__peekrow strong { font-family: var(--font-display); font-size: 1.05rem; letter-spacing: -0.02em; }
-    .pbx__chev { width: 1.1rem; height: 1.1rem; color: var(--muted); transition: transform 160ms ease; flex: 0 0 auto; }
-    .pbx__chev svg { width: 100%; height: 100%; }
-    .pbx[data-ready] .pbx__sum .pbx__sumbody { display: none; padding-top: 0.9rem; }
-    .pbx[data-ready] .pbx__sum.is-open .pbx__sumbody { display: block; }
-    .pbx[data-ready] .pbx__sum.is-open .pbx__chev { transform: rotate(180deg); }
-    /* Room for the bar so it never covers the last section. */
-    .pbx[data-ready] { padding-bottom: 4.5rem; }
+  .pbx[data-ready] .pbx__bar { display: flex; align-items: center; gap: 0.75rem; }
+  /* The totals take the room that is left; the button keeps its own. */
+  .pbx[data-ready] .pbx__peek { flex: 1 1 auto; min-width: 0; }
+  .pbx__barcta {
+    flex: 0 0 auto; min-height: 2.75rem;
+    padding: 0.55rem 1rem; font-size: var(--small);
+    white-space: nowrap;
   }
+
+  .pbx[data-ready] .pbx__sum {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 50;
+    max-width: none; margin-inline: 0;
+    border-radius: var(--radius) var(--radius) 0 0;
+    border-bottom: 0; padding: 0.75rem 1rem calc(0.75rem + env(safe-area-inset-bottom));
+    box-shadow: 0 -10px 30px -18px rgba(0, 0, 0, 0.45);
+    background: var(--surface);
+  }
+  /* From the content width up, the bar is the content width and centred
+     rather than edge to edge — a bar spanning a 1440px window would put the
+     totals and the button a long way apart with nothing between them. */
+  @media (min-width: 60rem) {
+    .pbx[data-ready] .pbx__sum {
+      left: 50%; right: auto; transform: translateX(-50%);
+      width: min(100% - 2.5rem, var(--wrap-narrow));
+      border: 1px solid var(--border); border-bottom: 0;
+    }
+  }
+  /* OUT OF THE WAY ONCE THE BUILDER IS BEHIND YOU. A bar pinned for the whole
+     page would sit over the FAQs and the footer. The script watches the
+     builder section and toggles this; it is a transform, so showing and
+     hiding it costs no layout and no shift. */
+  .pbx[data-ready] .pbx__sum[data-off] {
+    transform: translateY(110%); pointer-events: none;
+  }
+  @media (min-width: 60rem) {
+    .pbx[data-ready] .pbx__sum[data-off] { transform: translateX(-50%) translateY(110%); }
+  }
+  .pbx[data-ready] .pbx__sum { transition: transform 200ms var(--ease, ease); }
+  @media (prefers-reduced-motion: reduce) {
+    .pbx[data-ready] .pbx__sum { transition: none; }
+  }
+
+  .pbx[data-ready] .pbx__peek {
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+    width: 100%; appearance: none; background: none; border: 0; padding: 0;
+    font: inherit; color: inherit; cursor: pointer; text-align: left;
+  }
+  .pbx__peekrow { display: flex; gap: 1.25rem; flex-wrap: wrap; }
+  .pbx__peekl { font-size: var(--label); color: var(--muted); display: block; }
+  .pbx__peekrow strong { font-family: var(--font-display); font-size: 1.05rem; letter-spacing: -0.02em; }
+  .pbx__chev { width: 1.1rem; height: 1.1rem; color: var(--muted); transition: transform 160ms ease; flex: 0 0 auto; }
+  .pbx__chev svg { width: 100%; height: 100%; }
+  .pbx[data-ready] .pbx__sum .pbx__sumbody { display: none; padding-top: 0.9rem; }
+  .pbx[data-ready] .pbx__sum.is-open .pbx__sumbody { display: block; }
+  .pbx[data-ready] .pbx__sum.is-open .pbx__chev { transform: rotate(180deg); }
+  /* Room for the bar so it never covers the last step. */
+  .pbx[data-ready] { padding-bottom: 4.5rem; }
 </style>

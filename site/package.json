@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "astro build && npm run check",
+    "build:only": "astro build",
+    "check": "node scripts/check-research.mjs && node scripts/check-whitespace.mjs",
     "preview": "astro preview"
   },
   "dependencies": {

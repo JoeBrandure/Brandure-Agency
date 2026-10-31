@@ -91,6 +91,10 @@ const { ga4, privacyHref } = SITE;
       } catch (e) { /* choice is honoured for this page either way */ }
     }
 
+    /* The banner and the price builder's mobile summary bar both pin to the
+       bottom. The BANNER moves, not the bar: it reads --pbx-bar-h in CSS and
+       sits above it. Moving the bar instead animated a fixed element and cost
+       0.035 of layout shift. */
     function hide() {
       var el = document.getElementById('consent');
       if (el) el.hidden = true;

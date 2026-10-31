@@ -159,6 +159,10 @@
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
         if (!e.isIntersecting) return;
+        /* First callback: this element was already on screen while the page
+           was still unarmed, so settle it outright rather than animating
+           something the reader is already looking at. */
+        if (!armed && !e.target.closest('.hero')) e.target.classList.add('is-settled');
         e.target.classList.add('is-in');
         e.target.querySelectorAll('[data-count]').forEach(countUp);
         io.unobserve(e.target);
@@ -172,11 +176,47 @@
           t.querySelectorAll('[data-stagger]').forEach(function (g) { g.classList.add('is-settled'); });
         }, 1600);
       });
+      /* Everything on screen is now final, so arm the hidden states for the
+         rest. Runs once; later batches are ordinary scroll entrances. */
+      arm();
     }, { rootMargin: '0px 0px -8% 0px', threshold: 0 });
 
-    targets.forEach(function (el) { io.observe(el); });
+    /* ARM THE HIDDEN STATES ONLY NOW, AND ONLY AFTER SETTLING WHAT IS ALREADY
+       ON SCREEN. Anything in the viewport is marked final BEFORE `.no-js`
+       comes off, so it is never hidden for even one frame; everything below
+       the fold is hidden as the class drops and animates in on scroll. The
+       hero is excluded because the rAF pass below gives it its entrance.
 
-    /* Rule 3: the runtime is up, so the head-side failsafe stands down. */
+       This ordering is what makes the entrance an enhancement rather than a
+       precondition: if this script never runs, `.no-js` stays and every
+       element simply renders. */
+    /* ARM THE HIDDEN STATES FROM THE OBSERVER'S OWN FIRST CALLBACK.
+       Everything starts visible (`.no-js` is still on the root). The observer
+       reports what is on screen, those elements are marked final, and only
+       then does `.no-js` come off — so nothing is ever hidden that the reader
+       can see, and everything below the fold animates in on scroll.
+
+       The measuring is the observer's, not ours. An earlier version walked
+       every target calling getBoundingClientRect, which forced a layout per
+       element: 843ms of Style & Layout and ~290ms of blocking time. This costs
+       nothing on the main thread.
+
+       If this script never runs, `.no-js` simply stays and every element
+       renders — the entrance is an enhancement, never a precondition. */
+    var armed = false;
+    function arm() {
+      if (armed) return;
+      armed = true;
+      root.classList.remove('no-js');
+    }
+
+    targets.forEach(function (el) { io.observe(el); });
+    /* Belt and braces: if the observer somehow never reports, arm on the next
+       frame so below-the-fold entrances still happen. Anything on screen has
+       been settled by then. */
+    requestAnimationFrame(function () { requestAnimationFrame(arm); });
+
+    /* Rule 3: the runtime is up. */
     root.__motionReady = true;
 
     /* Hero enters on load rather than on scroll — it is already in view. */

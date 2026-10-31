@@ -6,6 +6,9 @@ import LogoStrip from '../components/LogoStrip.astro';
 import Testimonials from '../components/Testimonials.astro';
 import { SITE } from '../consts';
 import { allServiceSchemas } from '../lib/schema';
+import { PLANS, ADDONS, money } from '../data/pricing';
+
+const WEB_PAGE = ADDONS.find((a) => a.key === 'page')!;
 import { FAQS, FAQS_HOME, HERO_MODE, HERO_STATS, HERO_CASES, PROBLEMS, STAGES, PACKAGES, ENGINES, PRIZE, TERMS } from '../data/content';
 import { getCollection } from 'astro:content';
 import { listable, sortDate, tagFor } from '../lib/research';
@@ -67,12 +70,12 @@ const faqSchema = {
       <div data-load class="is-in">
         <h1 class="statement" data-split>Turning AI Search from a blind spot into a revenue channel.</h1>
         <p class="lede">
-          Six engines, measured separately every month; so you can see exactly
-          what we moved and what your market moved on its own.
+          AI search optimisation, SEO and websites built for both, for
+          businesses in the UK and UAE.
         </p>
         <div class="hero-actions">
           <a class="btn" href="#report">Show me where I stand</a>
-          <a class="btn btn--violet" href="/service">See what we do</a>
+          <a class="btn btn--violet" href="/pricing">Build your plan</a>
         </div>
       </div>
 
@@ -121,6 +124,34 @@ const faqSchema = {
             ))}
           </div>
         )}
+      </div>
+    </div>
+  </section>
+
+  {/* 1b. Three ways in. AI search leads and is emphasised; SEO and websites
+       are what most people arrive looking for. Prices are "from" figures in
+       the visitor's currency, using the same spans as everywhere else. */}
+  <section class="section section--tight" aria-labelledby="ways-h">
+    <div class="wrap" data-reveal>
+      <div class="section-head">
+        <h2 id="ways-h">Three ways we get you found.</h2>
+      </div>
+      <div class="ways" data-stagger>
+        <a class="card way way--lead" href="/service">
+          <span class="way__k">AI search (AEO)</span>
+          <span class="way__d">Get named when buyers ask ChatGPT, Gemini, Perplexity and Google&rsquo;s AI Overviews.</span>
+          <span class="way__p">Plans from <strong><span class="cur-aed">{money(PLANS[0].monthly).aed}</span><span class="cur-gbp">{money(PLANS[0].monthly).gbp}</span></strong> a month</span>
+        </a>
+        <a class="card way" href="/service#seo">
+          <span class="way__k">SEO</span>
+          <span class="way__d">Rank on Google for the searches that bring buyers. Included in every plan.</span>
+          <span class="way__p">Included</span>
+        </a>
+        <a class="card way" href="/ai-ready-websites">
+          <span class="way__k">Websites built for both</span>
+          <span class="way__d">New pages or a full rebuild on your platform, so Google and AI can read you.</span>
+          <span class="way__p">Pages from <strong><span class="cur-aed">{money(WEB_PAGE.price).aed}</span><span class="cur-gbp">{money(WEB_PAGE.price).gbp}</span></strong></span>
+        </a>
       </div>
     </div>
   </section>
@@ -340,6 +371,20 @@ const faqSchema = {
     </div>
   </section>
 
+  {/* 9b. Pricing teaser, immediately before the closing CTA. */}
+  <section class="section section--tight">
+    <div class="wrap" data-reveal>
+      <div class="pteas">
+        <p class="pteas__t">
+          Plans from
+          <strong><span class="cur-aed">{money(PLANS[0].monthly).aed}</span><span class="cur-gbp">{money(PLANS[0].monthly).gbp}</span></strong>
+          a month. Build yours in under a minute.
+        </p>
+        <a class="btn" href="/pricing">Build your plan</a>
+      </div>
+    </div>
+  </section>
+
   <!-- 10. CTA — INVERTED band, full section -->
   <section class="section" id="report">
     <div class="wrap">
@@ -361,3 +406,30 @@ const faqSchema = {
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  /* Three ways in. Existing .card surface, existing type scale; the lead card
+     is marked with the accent border already used for a selected plan rather
+     than a new treatment. */
+  .ways { display: grid; gap: 1rem; grid-template-columns: 1fr; }
+  @media (min-width: 46rem) { .ways { grid-template-columns: repeat(3, 1fr); } }
+  .way {
+    display: grid; gap: 0.45rem; align-content: start;
+    padding: 1.25rem 1.3rem; text-decoration: none; color: inherit;
+    border: 1px solid var(--border);
+    transition: border-color 140ms ease, transform 140ms ease;
+  }
+  .way:hover { border-color: var(--muted); transform: translateY(-2px); }
+  .way--lead { border-color: var(--accent); border-width: 2px; }
+  .way__k { font-family: var(--font-display); font-weight: 700; font-size: var(--h3); letter-spacing: -0.015em; }
+  .way__d { font-size: var(--small); color: var(--muted); }
+  .way__p { font-size: var(--small); margin-top: 0.25rem; }
+
+  .pteas {
+    display: flex; flex-wrap: wrap; gap: 1rem; align-items: center;
+    justify-content: space-between;
+    border: 1px solid var(--border); border-radius: var(--radius);
+    background: var(--surface-sunk); padding: 1.1rem 1.35rem;
+  }
+  .pteas__t { margin: 0; }
+</style>

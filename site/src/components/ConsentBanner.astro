@@ -46,7 +46,10 @@ const { privacyHref } = SITE;
 <style>
   .consent {
     position: fixed;
-    left: 0; right: 0; bottom: 0;
+    left: 0; right: 0;
+    /* Sits above the price builder's mobile summary bar when that is present,
+       so neither covers the other. 0 everywhere else. */
+    bottom: var(--pbx-bar-h, 0px);
     z-index: 60;
     background: var(--surface);
     border-top: 1px solid var(--border);

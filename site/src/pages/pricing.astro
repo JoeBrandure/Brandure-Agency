@@ -120,55 +120,46 @@ const faqSchema = {
   description="Brandure AEO pricing: Core AED 6,500/month, Growth AED 12,000/month, plus a one-time AED 3,500 setup. Six-month term with a 90-day review. Prices exclude VAT."
   schemas={[webPageSchema, ...allServiceSchemas, catalogSchema, faqSchema]}
 >
-  <section class="hero hero--short">
+  {/* 1 · SHORT HERO. The old hero ran a lede explaining the page; a buyer who
+      clicked "Pricing" does not need the page explained. One line, and the
+      currency switch where it is needed rather than buried beside the cards. */}
+  <section class="hero hero--short pr-hero">
     <div class="mesh" aria-hidden="true">
       <div class="mesh__layer mesh__layer--1"><div class="mesh__blob mesh__blob--1"></div></div>
       <div class="mesh__layer mesh__layer--2"><div class="mesh__blob mesh__blob--2"></div></div>
     </div>
-    <div class="wrap-narrow" data-load>
-      <h1 class="statement statement--sub" data-split>Pricing</h1>
-      <p class="lede">
-        What an engagement costs, what the setup fee buys, and the terms &mdash;
-        stated in full, before you talk to anyone.
-      </p>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="wrap-narrow" data-reveal>
-      {/* The free report sits above the paid tiers rather than beside them.
-          Priced next to two numbers it reads as a third tier, which it is not
-          — see the note above FREE_OFFER in the data module.
-
-          The card heading is an h3 because .offer__head styles h3 specifically;
-          an h2 here inherits the white but renders at --h2, which is the wrong
-          size inside a card. The section heading above it carries the h2, so
-          the outline still runs h1 → h2 → h3. */}
-      <div class="section-head">
-        <h2>{FREE_OFFER.lede}</h2>
+    <div class="wrap pr-hero__in" data-load>
+      <div>
+        <h1 class="statement statement--sub" data-split>Pricing</h1>
+        <p class="lede">
+          Pick a plan, add what you need, and see your total before we talk.
+          Prices exclude VAT.
+        </p>
       </div>
-      <article class="card offer">
-        <div class="offer__head">
-          <h3>{FREE_OFFER.name} &mdash; {FREE_OFFER.title}</h3>
-          <span class="offer__price">{FREE_OFFER.price}</span>
-        </div>
-        <div class="offer__body">
-          <ul>{FREE_OFFER.gets.map((g) => <li>{g}</li>)}</ul>
-          <p class="note-sm">{FREE_OFFER.honest}</p>
-          <a class="btn" href={FREE_OFFER.href}>{FREE_OFFER.cta}</a>
-        </div>
-      </article>
+      <CurrencySwitch />
     </div>
   </section>
 
-  <section class="section section--sunk">
+  {/* 2 · THE BUILDER, immediately. This is what the page is for. */}
+  <PriceBuilder />
+
+  {/* 3 · Not ready to buy. A slim band, replacing the large report card that
+      used to sit above the plans and pushed the prices below the fold. */}
+  <section class="section section--tight">
+    <div class="wrap" data-reveal>
+      <div class="pr-band">
+        <p class="pr-band__t"><strong>Not ready to buy?</strong> Start with a free AI visibility report.</p>
+        <a class="btn btn--ghost" href={FREE_OFFER.href}>{FREE_OFFER.cta}</a>
+      </div>
+    </div>
+  </section>
+
+  {/* 4 · What is in each plan. The detail the cards above deliberately omit. */}
+  <section class="section section--sunk" aria-labelledby="incl-h">
     <div class="wrap" data-reveal>
       <div class="section-head">
-        <h2>Two ways we get you there.</h2>
+        <h2 id="incl-h">What&rsquo;s in each plan</h2>
       </div>
-
-      <CurrencySwitch />
-
       <div class="pkg" data-stagger>
         {PACKAGES.map((p, i) => (
           <article class:list={['pkg__c', `stages--${p.a}`, p.primary && 'is-featured']}>
@@ -176,9 +167,6 @@ const faqSchema = {
             <div class="pkg__head">
               <h3 class="pkg__n">{p.name}</h3>
               <p class="pkg__lede">{p.lede}</p>
-              {/* Both currencies are rendered; CSS shows the one the switch
-                  (or the edge function) selected. Nothing is hidden from a
-                  crawler — the full list below prints both in every row. */}
               <p class="pkg__price">
                 <span class="pkg__pn">
                   <span class="cur-aed">{money(PLANS[i].monthly).aed}</span><span class="cur-gbp">{money(PLANS[i].monthly).gbp}</span>
@@ -186,82 +174,91 @@ const faqSchema = {
                 <span class="pkg__pu">{p.unit}</span>
               </p>
             </div>
-
             <div class="pkg__body">
               {p.summary && <p class="pkg__s">{p.summary}</p>}
-
               <p class="pkg__k">What lands on your desk</p>
-              <ul class="pkg__gets">
-                {p.gets.map((g) => <li>{g}</li>)}
-              </ul>
-
+              <ul class="pkg__gets">{p.gets.map((g) => <li>{g}</li>)}</ul>
               <p class="pkg__honest"><strong>And plainly:</strong> {p.honest}</p>
-              <a class:list={['btn', !p.primary && 'btn--ghost', 'pkg__cta']} href="/service#book">{p.cta}</a>
+              <a class:list={['btn', !p.primary && 'btn--ghost', 'pkg__cta']} href="#builder">Build this plan</a>
             </div>
           </article>
         ))}
       </div>
-
-      <p class="center-row mt-1"><span class="note-sm">{VAT_TERMS}</span></p>
     </div>
   </section>
 
-  {/* THE CANONICAL PRICE LIST. Plain tables, both currencies in every cell,
-      no JS required. The builder below only adds these numbers up — if it
-      never loads, nothing here is lost, and a crawler or AI assistant reads
-      the whole list whatever country it is in. */}
-  <section class="section" aria-labelledby="price-list-h">
+  {/* 5 · Website work in detail. */}
+  <section class="section" aria-labelledby="web-h">
+    <div class="wrap" data-reveal>
+      <div class="section-head">
+        <h2 id="web-h">Website work in detail</h2>
+        <p class="lede">
+          Added to a plan, never sold on its own. More on
+          <a href="/ai-ready-websites">how we build</a>.
+        </p>
+      </div>
+      <div class="pr-grid" data-stagger>
+        {ADDONS.map((a) => (
+          <article class="card pr-wcard">
+            <h3>{a.label}</h3>
+            <p class="pr-wcard__p">
+              {a.price
+                ? <><span class="cur-aed">{money(a.price).aed}</span><span class="cur-gbp">{money(a.price).gbp}</span>{a.perPage ? ' per page' : ''}</>
+                : 'Quoted'}
+            </p>
+            <p class="pr-wcard__d">{a.notes}</p>
+            <p class="note-sm">
+              {a.key === 'page' && 'Two to three weeks.'}
+              {a.key === 'rebuild10' && 'Four to six weeks.'}
+              {a.key === 'rebuild20' && 'Four to six weeks.'}
+              {a.key === 'ecommerce' && 'Scoped with you before anything starts.'}
+              {a.key === 'copy' && 'Written alongside the build.'}
+            </p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* 6 · THE FULL PRICE LIST. Kept in the HTML in both currencies so crawlers
+      and no-JS readers get every figure, but restyled as a compact two-column
+      list so it reads as reference rather than as the main content. The grey
+      table header is gone; light dividers carry the structure instead. */}
+  <section class="section section--sunk" aria-labelledby="list-h">
     <div class="wrap-narrow" data-reveal>
       <div class="section-head">
-        <h2 id="price-list-h">The full price list</h2>
-        <p class="lede">
-          Every price in AED and pounds. Prices exclude VAT &mdash; 5% in the
-          UAE, 20% in the UK.
-        </p>
+        <h2 id="list-h">Full price list</h2>
+        <p class="lede">Every figure in AED and pounds, excluding VAT.</p>
       </div>
 
-      <div class="prose rs__body">
-        <h3>Step 1: Monthly plan (choose one)</h3>
-        <table>
-          <thead><tr><th scope="col">Plan</th><th scope="col">Monthly</th><th scope="col">What&rsquo;s included</th></tr></thead>
-          <tbody>
-            {PLANS.map((p) => (
-              <tr>
-                <th scope="row">{p.name}</th>
-                <td>{money(p.monthly).both}</td>
-                <td>{p.includes}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <dl class="plist">
+        {PLANS.map((p) => (
+          <>
+            <dt>{p.name} plan</dt>
+            <dd>{money(p.monthly).both} a month</dd>
+          </>
+        ))}
+        <dt>{SETUP_FEE.name}</dt>
+        <dd>{money(SETUP_FEE.price).both} one-off</dd>
+        {ADDONS.map((a) => (
+          <>
+            <dt>{a.label}</dt>
+            <dd>{a.price ? `${money(a.price).both}${a.perPage ? ' per page' : ''}` : 'Quoted'}</dd>
+          </>
+        ))}
+      </dl>
 
-        <h3>Step 2: Setup (one-off)</h3>
-        <p>
-          <strong>{SETUP_FEE.name}: {money(SETUP_FEE.price).both}</strong> ({SETUP_FEE.note})<br />
-          {SETUP_FEE.d}
-        </p>
-
-        <p>Then add website work if you need it (optional):</p>
-        <table>
-          <thead><tr><th scope="col">Add-on</th><th scope="col">Price</th><th scope="col">Notes</th></tr></thead>
-          <tbody>
-            {ADDONS.map((a) => (
-              <tr>
-                <th scope="row">{a.label}</th>
-                <td>{a.price ? `${money(a.price).both}${a.perPage ? ' per page' : ''}` : 'Quoted'}</td>
-                <td>{a.notes}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-
-        <p class="note-sm">{VAT_TERMS}</p>
-      </div>
+      <p class="note-sm plist__terms">{VAT_TERMS}</p>
+      <p class="center-row mt-1">
+        How our prices compare:{' '}
+        <a class="textlink" href="/guides/aeo-cost-uae">UAE</a>{' '}
+        <span aria-hidden="true">|</span>{' '}
+        <a class="textlink" href="/guides/aeo-cost-uk">UK</a>
+      </p>
     </div>
   </section>
 
-  <PriceBuilder />
-
+  {/* 7 · FAQs. */}
   <section class="section">
     <div class="wrap-narrow" data-reveal>
       <div class="section-head">
@@ -275,18 +272,45 @@ const faqSchema = {
           </details>
         ))}
       </div>
-      {/* A buyer looking at a price wants to know whether it is a normal
-          price. These are the two guides that answer that, and they cite other
-          agencies' published figures rather than ours. */}
       <p class="center-row mt-2">
-        How our prices compare:{' '}
-        <a class="textlink" href="/guides/aeo-cost-uae">UAE</a>{' '}
-        <span aria-hidden="true">|</span>{' '}
-        <a class="textlink" href="/guides/aeo-cost-uk">UK</a>
-      </p>
-      <p class="center-row mt-1">
         <a class="textlink" href="/service#buy">Everything in both, in full &rarr;</a>
       </p>
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  .pr-hero__in { display: grid; gap: 1rem; align-items: end; }
+  @media (min-width: 48rem) {
+    .pr-hero__in { grid-template-columns: 1fr auto; }
+    /* The switch sits top right beside the heading on desktop, under the line
+       on mobile — the grid handles both without a second component. */
+    .pr-hero__in :global(.cur) { justify-content: flex-end; margin-bottom: 0.35rem; }
+  }
+
+  .pr-band {
+    display: flex; flex-wrap: wrap; gap: 1rem; align-items: center;
+    justify-content: space-between;
+    border: 1px solid var(--border); border-radius: var(--radius);
+    background: var(--surface-sunk); padding: 1rem 1.25rem;
+  }
+  .pr-band__t { margin: 0; font-size: var(--small); }
+
+  .pr-grid { display: grid; gap: 1rem; grid-template-columns: 1fr; }
+  @media (min-width: 40rem) { .pr-grid { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 64rem) { .pr-grid { grid-template-columns: repeat(3, 1fr); } }
+  .pr-wcard { padding: 1.15rem 1.2rem; }
+  .pr-wcard h3 { font-size: var(--h3); margin: 0 0 0.35rem; }
+  .pr-wcard__p { font-family: var(--font-display); font-weight: 700; font-size: 1.35rem; letter-spacing: -0.02em; margin: 0 0 0.45rem; }
+  .pr-wcard__d { font-size: var(--small); margin: 0 0 0.5rem; }
+
+  /* Reference list, not a table: item left, price right, hairline between. */
+  .plist { display: grid; grid-template-columns: 1fr auto; gap: 0; margin: 0; }
+  .plist dt, .plist dd {
+    margin: 0; padding: 0.7rem 0; border-top: 1px solid var(--border);
+    font-size: var(--small);
+  }
+  .plist dt { font-weight: 600; padding-right: 1rem; }
+  .plist dd { text-align: right; color: var(--muted); white-space: nowrap; }
+  .plist__terms { margin-top: 1rem; }
+</style>

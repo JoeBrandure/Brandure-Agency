@@ -30,15 +30,16 @@
       root.setAttribute('data-automated', '');
       return;
     }
-    root.classList.remove('no-js');
-    /* Failsafe for the motion layer. Removing `.no-js` here arms every hidden
-       entrance state before Motion.astro has run. If that script never
-       signals ready — blocked, errored, cut off mid-download — the page would
-       otherwise stay blank below the fold for people and for rendering
-       crawlers alike. After 2.5s without the signal, put `.no-js` back and
-       let the static styles release everything. */
-    setTimeout(function () {
-      if (!root.__motionReady) root.classList.add('no-js');
-    }, 2500);
+    /* `.no-js` IS NO LONGER REMOVED HERE, and that is the point.
+       It used to come off before first paint, which armed every hidden
+       entrance state immediately — so anything the observer then failed to
+       reach stayed at opacity 0. A section heading rendered as an empty band
+       until the 2.5s failsafe put the class back. Content was hidden by
+       default and only revealed if JavaScript co-operated.
+       Now Motion.astro removes it, at the moment it has an observer ready and
+       has already settled whatever is on screen. Nothing is ever blank: if the
+       motion runtime never loads, `.no-js` simply stays and every element
+       keeps its final state. The failsafe is gone because there is no longer a
+       window for it to cover. */
   })();
 </script>

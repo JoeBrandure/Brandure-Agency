@@ -1,30 +1,30 @@
 ---
-import { PLANS, SETUP_FEE, ADDONS, EXAMPLES, VAT_TERMS, NUDGE_FROM_PAGES, money } from '../data/pricing';
+import { PLANS, SETUP_FEE, ADDONS, VAT_TERMS, NUDGE_FROM_PAGES, money } from '../data/pricing';
 
 /**
- * The price builder.
+ * The price builder — the page's main content, not an extra below it.
  *
- * PROGRESSIVE ENHANCEMENT, NOT A REQUIREMENT. The full price list is printed
- * as real tables above this component, in both currencies, and that is the
- * canonical copy. This only adds up a selection from it. With JS off the
- * builder is hidden and nothing is lost: every number is still on the page.
+ * STRUCTURE. Choices on the left, a summary on the right that sticks on
+ * desktop and becomes a bottom bar on mobile. Three numbered steps: plan,
+ * setup (fixed), website work (optional).
  *
- * NO FRAMEWORK AND NO ISLAND. The arithmetic is about twenty lines; a runtime
- * to perform it would cost more than it does. Vanilla, inline, no hydration.
+ * NATIVE INPUTS THROUGHOUT. The plan cards and the website tiles are labels
+ * wrapping real radio inputs, so they are keyboard-operable, announce as a
+ * radio group, and still render as a readable set of choices with JS off. The
+ * card appearance is :has()-driven off the checked input rather than a class
+ * the script maintains — one less thing to desynchronise.
+ *
+ * WITHOUT JS the choices render and the summary says "See the full price list
+ * below" instead of a total it cannot compute. Nothing is hidden: the complete
+ * list, in both currencies, is further down the page.
  *
  * NO LAYOUT SHIFT. The summary renders server-side with the Core defaults
- * already filled in, so the box is its final size before the script runs; the
- * script only changes the numbers inside it.
+ * already in place, so every box is final-size before the script runs; the
+ * script only rewrites the numbers inside. Totals change with a short opacity
+ * fade, never a reflow.
  *
- * The price table is handed to the script as JSON built from the same data
- * module the tables render from, so the builder cannot total a price that
- * differs from the one printed above it.
- *
- * DESIGN DECISION FLAGGED FOR JOE: the layout is the existing .card surface
- * with the form field styles already used by the report and booking forms, in
- * a two-column grid that stacks on mobile — the same shape as the booking
- * form. No new tokens, no new component vocabulary. Worth a look before it
- * settles.
+ * Prices come from src/data/pricing.ts — the same module the full list and the
+ * schema read, so the builder cannot total a figure the page does not print.
  */
 const rates = {
   plans: Object.fromEntries(PLANS.map((p) => [p.key, p.monthly])),
@@ -32,100 +32,149 @@ const rates = {
   addons: Object.fromEntries(ADDONS.filter((a) => a.price).map((a) => [a.key, a.price])),
   nudgeFrom: NUDGE_FROM_PAGES,
 };
-const core = PLANS[0];
-const initialSetup = money(SETUP_FEE.price);
-const initialMonthly = money(core.monthly);
+
+const WHO = {
+  core: 'For one category, where you need to be found and named.',
+  growth: 'For several services or locations, and for taking ground from competitors.',
+};
+const BULLETS = {
+  core: ['All six AI engines tracked separately', 'Ongoing SEO for your priority pages', '2 earned citation placements a month'],
+  growth: ['Up to three categories or service lines', '4 earned citation placements a month', 'Competitor displacement plan'],
+};
+
+const page = ADDONS.find((a) => a.key === 'page')!;
+const r10 = ADDONS.find((a) => a.key === 'rebuild10')!;
+const r20 = ADDONS.find((a) => a.key === 'rebuild20')!;
+const copyAddon = ADDONS.find((a) => a.key === 'copy')!;
+
+const TILES = [
+  { key: 'none', label: 'No website work', price: null, hint: 'My site is fine' },
+  { key: 'page', label: 'New pages', price: page.price, hint: 'per page' },
+  { key: 'rebuild10', label: 'Rebuild, up to 10 pages', price: r10.price, hint: 'one-off' },
+  { key: 'rebuild20', label: 'Rebuild, up to 20 pages', price: r20.price, hint: 'one-off' },
+  { key: 'ecommerce', label: 'Ecommerce / 20+ pages', price: null, hint: 'Quoted' },
+];
+
+const money2 = (m: { aed: number; gbp: number }) => money(m);
+const setup0 = money(SETUP_FEE.price);
+const monthly0 = money(PLANS[0].monthly);
 ---
-<section class="section" id="builder" aria-labelledby="builder-h">
-  <div class="wrap-narrow" data-reveal>
-    <div class="section-head">
-      <h2 id="builder-h">Build your plan</h2>
-      <p class="lede">
-        Pick a monthly plan, then add the setup you need. You&rsquo;ll see the
-        exact setup cost and monthly fee before you talk to anyone.
-      </p>
-    </div>
+<section class="section pbx-sec" id="builder" aria-labelledby="pbx-h">
+  <div class="wrap">
+    <h2 class="sr-only" id="pbx-h">Build your plan</h2>
 
-    <form class="card pb" id="price-builder" novalidate>
-      <fieldset class="pb__f">
-        <legend class="pb__lg">Step 1: Monthly plan</legend>
-        <div class="pb__opts">
-          {PLANS.map((p, i) => (
-            <label class="pb__opt">
-              <input type="radio" name="plan" value={p.key} checked={i === 0} />
-              <span>
-                <strong>{p.name}</strong>
-                <span class="pb__p">
-                  <span class="cur-aed">{money(p.monthly).aed}</span><span class="cur-gbp">{money(p.monthly).gbp}</span> a month
+    <form class="pbx" id="price-builder">
+      <div class="pbx__main">
+        <!-- 1 · Plan -->
+        <fieldset class="pbx__step">
+          <legend class="pbx__lg"><span class="pbx__n" aria-hidden="true">1</span> Choose your plan</legend>
+          <div class="pbx__plans">
+            {PLANS.map((p, i) => (
+              <label class="pcard">
+                <input type="radio" name="plan" value={p.key} checked={i === 0} />
+                <span class="pcard__in">
+                  {p.key === 'growth' && <span class="pcard__tag">Most chosen</span>}
+                  <span class="pcard__tick" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                  </span>
+                  <span class="pcard__n">{p.name}</span>
+                  <span class="pcard__who">{WHO[p.key as 'core' | 'growth']}</span>
+                  <span class="pcard__price">
+                    <span class="pcard__big"><span class="cur-aed">{money2(p.monthly).aed}</span><span class="cur-gbp">{money2(p.monthly).gbp}</span></span>
+                    <span class="pcard__per">/month</span>
+                  </span>
+                  <span class="pcard__bul">
+                    {BULLETS[p.key as 'core' | 'growth'].map((b) => <span>{b}</span>)}
+                  </span>
                 </span>
-              </span>
+              </label>
+            ))}
+          </div>
+        </fieldset>
+
+        <!-- 2 · Setup -->
+        <fieldset class="pbx__step">
+          <legend class="pbx__lg"><span class="pbx__n" aria-hidden="true">2</span> Setup <span class="pbx__inc">included</span></legend>
+          <div class="scard">
+            <span class="scard__tick" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+            </span>
+            <span>
+              <strong>{SETUP_FEE.name}: <span class="cur-aed">{setup0.aed}</span><span class="cur-gbp">{setup0.gbp}</span></strong>, one-off, 10 working days
+              <span class="scard__d">Technical SEO, schema, AI crawler access, entity fixes, tracking and your visibility baseline.</span>
+            </span>
+          </div>
+        </fieldset>
+
+        <!-- 3 · Website -->
+        <fieldset class="pbx__step">
+          <legend class="pbx__lg"><span class="pbx__n" aria-hidden="true">3</span> Website work <span class="pbx__inc">optional</span></legend>
+          <div class="pbx__tiles">
+            {TILES.map((t, i) => (
+              <label class="tile">
+                <input type="radio" name="web" value={t.key} checked={i === 0} />
+                <span class="tile__in">
+                  <span class="tile__l">{t.label}</span>
+                  <span class="tile__p">
+                    {t.price
+                      ? <><span class="cur-aed">{money2(t.price).aed}</span><span class="cur-gbp">{money2(t.price).gbp}</span> {t.hint}</>
+                      : t.hint}
+                  </span>
+                </span>
+              </label>
+            ))}
+          </div>
+
+          <div class="pbx__sub" id="pbx-pages-row" hidden>
+            <label class="pbx__lb" for="pb-pages">How many pages?</label>
+            <input id="pb-pages" name="pages" type="number" min="1" max="10" step="1" value="1" inputmode="numeric" />
+          </div>
+
+          <p class="pbx__nudge" id="pb-nudge" hidden role="status"></p>
+
+          <div class="pbx__sub" id="pbx-copy-row" hidden>
+            <label class="pbx__lb" for="pb-copy">
+              Need copy written? <span class="note-sm">(+<span class="cur-aed">{money2(copyAddon.price).aed}</span><span class="cur-gbp">{money2(copyAddon.price).gbp}</span> per page)</span>
             </label>
-          ))}
-        </div>
-      </fieldset>
-
-      <fieldset class="pb__f">
-        <legend class="pb__lg">Step 2: Setup</legend>
-        <p class="pb__fixed">
-          <strong>{SETUP_FEE.name}</strong> &mdash;
-          <span class="cur-aed">{initialSetup.aed}</span><span class="cur-gbp">{initialSetup.gbp}</span>,
-          {' '}{SETUP_FEE.note}.
-        </p>
-
-        <div class="pb__row">
-          <label class="pb__lb" for="pb-web">Website work</label>
-          <select id="pb-web" name="web">
-            <option value="none" selected>None &mdash; my site is fine</option>
-            <option value="page">New or rebuilt pages</option>
-            <option value="rebuild10">Full rebuild, up to 10 pages</option>
-            <option value="rebuild20">Full rebuild, up to 20 pages</option>
-            <option value="ecommerce">Ecommerce or larger site</option>
-          </select>
-        </div>
-
-        <div class="pb__row" id="pb-pages-row" hidden>
-          <label class="pb__lb" for="pb-pages">How many pages?</label>
-          <input id="pb-pages" name="pages" type="number" min="1" max="10" step="1" value="1" inputmode="numeric" />
-        </div>
-
-        <p class="pb__nudge" id="pb-nudge" hidden role="status"></p>
-
-        <div class="pb__row">
-          <label class="pb__lb" for="pb-copy">Copywriting (pages)</label>
-          <input id="pb-copy" name="copy" type="number" min="0" max="20" step="1" value="0" inputmode="numeric" />
-        </div>
-      </fieldset>
-
-      <div class="pb__sum" aria-live="polite">
-        <p class="pb__sumrow">
-          <span>Setup total (one-off)</span>
-          <strong id="pb-setup">
-            <span class="cur-aed">{initialSetup.aed}</span><span class="cur-gbp">{initialSetup.gbp}</span>
-          </strong>
-        </p>
-        <p class="pb__sumrow">
-          <span>Monthly fee</span>
-          <strong id="pb-monthly">
-            <span class="cur-aed">{initialMonthly.aed}</span><span class="cur-gbp">{initialMonthly.gbp}</span>
-          </strong>
-        </p>
-        <p class="note-sm">{VAT_TERMS}</p>
-        <p><a class="btn" id="pb-cta" href="/service#book">Book a call with this plan</a></p>
+            <input id="pb-copy" name="copy" type="number" min="0" max="20" step="1" value="0" inputmode="numeric" />
+          </div>
+        </fieldset>
       </div>
-    </form>
 
-    <div class="prose pb__ex">
-      <h3>Example totals</h3>
-      <ul>
-        {EXAMPLES.map((e) => (
-          <li>
-            <strong>{e.label}:</strong>{' '}
-            {money(e.setup).aed} setup, then {money(e.monthly).aed}/month
-            {' '}({money(e.setup).gbp} then {money(e.monthly).gbp})
-          </li>
-        ))}
-      </ul>
-    </div>
+      <!-- Summary -->
+      <aside class="pbx__sum" id="pbx-sum" aria-live="polite">
+        <button type="button" class="pbx__peek" id="pbx-peek" aria-expanded="false" aria-controls="pbx-sumbody">
+          <span class="pbx__peekrow">
+            <span><span class="pbx__peekl">Setup</span> <strong id="pb-setup-m"><span class="cur-aed">{setup0.aed}</span><span class="cur-gbp">{setup0.gbp}</span></strong></span>
+            <span><span class="pbx__peekl">Monthly</span> <strong id="pb-monthly-m"><span class="cur-aed">{monthly0.aed}</span><span class="cur-gbp">{monthly0.gbp}</span></strong></span>
+          </span>
+          <span class="pbx__chev" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
+          </span>
+        </button>
+
+        <div class="pbx__sumbody" id="pbx-sumbody">
+          <p class="pbx__big">
+            <span class="pbx__biglb">Setup today</span>
+            <strong id="pb-setup"><span class="cur-aed">{setup0.aed}</span><span class="cur-gbp">{setup0.gbp}</span></strong>
+          </p>
+          <p class="pbx__big">
+            <span class="pbx__biglb">Then</span>
+            <strong id="pb-monthly"><span class="cur-aed">{monthly0.aed}</span><span class="cur-gbp">{monthly0.gbp}</span></strong>
+            <span class="pbx__per">/month</span>
+          </p>
+
+          <ul class="pbx__lines" id="pb-lines">
+            <li><span>{SETUP_FEE.name}</span><span><span class="cur-aed">{setup0.aed}</span><span class="cur-gbp">{setup0.gbp}</span></span></li>
+            <li><span>{PLANS[0].name} plan</span><span><span class="cur-aed">{monthly0.aed}</span><span class="cur-gbp">{monthly0.gbp}</span>/mo</span></li>
+          </ul>
+
+          <p class="note-sm pbx__terms">{VAT_TERMS}</p>
+          <p class="pbx__cta"><a class="btn" id="pb-cta" href="/service#book">Book a call with this plan</a></p>
+          <p class="note-sm pbx__nojs">See the full price list below for every figure in AED and pounds.</p>
+        </div>
+      </aside>
+    </form>
   </div>
 </section>
 
@@ -133,126 +182,261 @@ const initialMonthly = money(core.monthly);
   (function () {
     var form = document.getElementById('price-builder');
     if (!form) return;
-    /* This inline script runs during parse, before paint, so marking the form
-       ready here reveals it with no layout shift. Deliberately NOT keyed off
-       .no-js: ThemeScript re-adds that class if the motion layer fails to
-       signal, which would hide a working builder. */
+    /* Runs during parse, before paint: marking ready here reveals the computed
+       summary without a shift. Not keyed off .no-js — the motion layer owns
+       that class and a failure there must not disable the builder. */
     form.setAttribute('data-ready', '1');
 
     var fmt = {
       aed: function (n) { return 'AED ' + n.toLocaleString('en-GB'); },
       gbp: function (n) { return '£' + n.toLocaleString('en-GB'); },
     };
-    var webSel = document.getElementById('pb-web');
-    var pagesRow = document.getElementById('pb-pages-row');
-    var pages = document.getElementById('pb-pages');
-    var copy = document.getElementById('pb-copy');
-    var nudge = document.getElementById('pb-nudge');
-    var setupEl = document.getElementById('pb-setup');
-    var monthlyEl = document.getElementById('pb-monthly');
-    var cta = document.getElementById('pb-cta');
-
     function pair(a, g) {
       return '<span class="cur-aed">' + fmt.aed(a) + '</span><span class="cur-gbp">' + fmt.gbp(g) + '</span>';
     }
+    var $ = function (id) { return document.getElementById(id); };
+    var pagesRow = $('pbx-pages-row'), pages = $('pb-pages');
+    var copyRow = $('pbx-copy-row'), copy = $('pb-copy');
+    var nudge = $('pb-nudge'), lines = $('pb-lines');
+    var cta = $('pb-cta');
 
     function state() {
       var plan = form.querySelector('input[name="plan"]:checked').value;
-      var web = webSel.value;
-      var nPages = web === 'page' ? Math.max(1, Math.min(10, Number(pages.value) || 1)) : 0;
-      var nCopy = Math.max(0, Math.min(20, Number(copy.value) || 0));
-      return { plan: plan, web: web, pages: nPages, copy: nCopy };
+      var web = form.querySelector('input[name="web"]:checked').value;
+      return {
+        plan: plan,
+        web: web,
+        pages: web === 'page' ? Math.max(1, Math.min(10, Number(pages.value) || 1)) : 0,
+        copy: web === 'none' ? 0 : Math.max(0, Math.min(20, Number(copy.value) || 0)),
+      };
     }
 
     function compute(s) {
-      var out = { aed: rates.setup.aed, gbp: rates.setup.gbp, quote: false };
+      var out = { aed: rates.setup.aed, gbp: rates.setup.gbp, quote: false, items: [] };
+      out.items.push(['AI search & SEO setup', rates.setup.aed, rates.setup.gbp, '']);
       if (s.web === 'page') {
         out.aed += rates.addons.page.aed * s.pages;
         out.gbp += rates.addons.page.gbp * s.pages;
+        out.items.push([s.pages + (s.pages === 1 ? ' new page' : ' new pages'), rates.addons.page.aed * s.pages, rates.addons.page.gbp * s.pages, '']);
       } else if (s.web === 'rebuild10' || s.web === 'rebuild20') {
         out.aed += rates.addons[s.web].aed;
         out.gbp += rates.addons[s.web].gbp;
+        out.items.push([s.web === 'rebuild10' ? 'Rebuild, up to 10 pages' : 'Rebuild, up to 20 pages', rates.addons[s.web].aed, rates.addons[s.web].gbp, '']);
       } else if (s.web === 'ecommerce') {
-        /* The floor is setup plus the up-to-10 rebuild; the rest is quoted,
-           so this is stated as a floor and never as a total. */
+        /* Floor only: setup plus the up-to-10 rebuild. The rest is quoted, so
+           this is never presented as a total. */
         out.aed += rates.addons.rebuild10.aed;
         out.gbp += rates.addons.rebuild10.gbp;
         out.quote = true;
+        out.items.push(['Ecommerce build', rates.addons.rebuild10.aed, rates.addons.rebuild10.gbp, 'from']);
       }
-      out.aed += rates.addons.copy.aed * s.copy;
-      out.gbp += rates.addons.copy.gbp * s.copy;
+      if (s.copy > 0) {
+        out.aed += rates.addons.copy.aed * s.copy;
+        out.gbp += rates.addons.copy.gbp * s.copy;
+        out.items.push(['Copywriting, ' + s.copy + (s.copy === 1 ? ' page' : ' pages'), rates.addons.copy.aed * s.copy, rates.addons.copy.gbp * s.copy, '']);
+      }
       return out;
+    }
+
+    var fading;
+    function flash(el) {
+      el.classList.add('is-upd');
+      clearTimeout(fading);
+      fading = setTimeout(function () { el.classList.remove('is-upd'); }, 220);
     }
 
     function render() {
       var s = state();
       pagesRow.hidden = s.web !== 'page';
+      copyRow.hidden = s.web === 'none';
       copy.max = String(s.web === 'page' ? s.pages : 20);
       if (Number(copy.value) > Number(copy.max)) copy.value = copy.max;
 
-      var showNudge = s.web === 'page' && s.pages >= rates.nudgeFrom;
-      nudge.hidden = !showNudge;
-      if (showNudge) {
+      var show = s.web === 'page' && s.pages >= rates.nudgeFrom;
+      nudge.hidden = !show;
+      if (show) {
         nudge.innerHTML = 'A full rebuild up to 10 pages is better value at ' +
           pair(rates.addons.rebuild10.aed, rates.addons.rebuild10.gbp) + '.';
       }
 
-      var t = compute(s);
-      var m = rates.plans[s.plan];
-      setupEl.innerHTML = t.quote
-        ? 'from ' + pair(t.aed, t.gbp) + ' + quote'
+      var t = compute(s), m = rates.plans[s.plan];
+      /* The approved copy states this exactly: ecommerce shows a floor and
+         says the rest is quoted, in the headline figure itself rather than
+         only in the line items. */
+      var setupHtml = t.quote
+        ? 'from ' + pair(t.aed, t.gbp) + ' <span class="pbx__q">+ quote</span>'
         : pair(t.aed, t.gbp);
-      monthlyEl.innerHTML = pair(m.aed, m.gbp);
+      ['pb-setup', 'pb-setup-m'].forEach(function (id) { $(id).innerHTML = setupHtml; flash($(id)); });
+      ['pb-monthly', 'pb-monthly-m'].forEach(function (id) { $(id).innerHTML = pair(m.aed, m.gbp); });
+
+      var html = '';
+      t.items.forEach(function (it) {
+        html += '<li><span>' + it[0] + '</span><span>' + (it[3] ? it[3] + ' ' : '') + pair(it[1], it[2]) + '</span></li>';
+      });
+      html += '<li><span>' + (s.plan === 'growth' ? 'Growth' : 'Core') + ' plan</span><span>' + pair(m.aed, m.gbp) + '/mo</span></li>';
+      if (t.quote) html += '<li><span>Ecommerce scope</span><span>Quoted</span></li>';
+      lines.innerHTML = html;
+
       cta.textContent = t.quote ? 'Get a quote' : 'Book a call with this plan';
 
-      /* Carried into the booking form as hidden fields, which FormEnhance
-         already forwards into the Calendly prefill. */
       var cur = document.documentElement.getAttribute('data-cur') === 'aed' ? 'aed' : 'gbp';
       var q = {
         plan: s.plan === 'growth' ? 'Growth' : 'Core',
         pages: String(s.pages),
         rebuild: s.web,
         copywriting: String(s.copy),
-        setup_total: t.quote ? 'from ' + fmt[cur](t[cur]) + ' + quote' : fmt[cur](t[cur]),
+        setup_total: (t.quote ? 'from ' : '') + fmt[cur](t[cur]) + (t.quote ? ' + quote' : ''),
         monthly_total: fmt[cur](m[cur]),
         currency: cur.toUpperCase(),
       };
-      /* Query before fragment. '/service#book?x=1' puts the query inside the
-         fragment, where no form and no server ever sees it. */
+      /* Query before fragment: '#book?x=1' buries the query in the fragment. */
       cta.href = '/service?' + new URLSearchParams(q).toString() + '#book';
-      try { sessionStorage.setItem('brandure.plan', JSON.stringify(q)); } catch (e) { /* link still carries it */ }
+      try { sessionStorage.setItem('brandure.plan', JSON.stringify(q)); } catch (e) { /* link carries it */ }
     }
 
     form.addEventListener('input', render);
     form.addEventListener('change', render);
     document.addEventListener('brandure:currency', render);
+
+    /* The cookie banner is also pinned to the bottom. Rather than move this
+       bar out of its way — which animated a fixed element and scored 0.035 of
+       layout shift — the bar publishes its height and the banner sits above
+       it. The bar never moves, so it never shifts. */
+    var sum = document.getElementById('pbx-sum');
+    function publishHeight() {
+      var fixed = getComputedStyle(sum).position === 'fixed';
+      document.documentElement.style.setProperty(
+        '--pbx-bar-h', fixed ? sum.getBoundingClientRect().height + 'px' : '0px');
+    }
+    addEventListener('resize', publishHeight);
+    publishHeight();
+
+    var peek = document.getElementById('pbx-peek');
+    peek.addEventListener('click', function () {
+      var open = document.getElementById('pbx-sum').classList.toggle('is-open');
+      peek.setAttribute('aria-expanded', String(open));
+    });
+
     render();
   })();
 </script>
 
 <style>
-  /* Hidden until the builder's own inline script marks it ready, so a reader
-     with JS off never sees a form that cannot add up. The tables above carry
-     every price regardless. */
-  .pb:not([data-ready]) { display: none; }
-  .pb { padding: 1.5rem; display: grid; gap: 1.5rem; }
-  .pb__f { border: 0; padding: 0; margin: 0; }
-  .pb__lg { font-family: var(--font-mono); font-size: var(--label); letter-spacing: 0.05em; color: var(--muted); padding: 0; margin-bottom: 0.7rem; }
-  .pb__opts { display: grid; gap: 0.6rem; }
-  .pb__opt { display: flex; gap: 0.6rem; align-items: flex-start; cursor: pointer; }
-  .pb__opt input { margin-top: 0.3rem; }
-  .pb__p { display: block; font-size: var(--small); color: var(--muted); }
-  .pb__fixed { font-size: var(--small); margin: 0 0 0.9rem; }
-  .pb__row { display: grid; gap: 0.35rem; margin-bottom: 0.8rem; }
-  .pb__lb { font-size: var(--small); color: var(--muted); }
-  .pb__row input, .pb__row select { width: 100%; }
-  .pb__nudge { font-size: var(--small); color: var(--link); margin: 0 0 0.8rem; }
-  .pb__sum { border-top: 1px solid var(--border); padding-top: 1.1rem; }
-  .pb__sumrow { display: flex; justify-content: space-between; gap: 1rem; align-items: baseline; margin: 0 0 0.5rem; }
-  .pb__sumrow strong { font-family: var(--font-display); font-size: var(--h3); letter-spacing: -0.02em; }
-  .pb__ex { margin-top: 1.75rem; }
-  @media (min-width: 46rem) {
-    .pb { grid-template-columns: 1fr 1fr; }
-    .pb__sum { grid-column: 1 / -1; }
+  /* Everything below is built from existing tokens: --surface, --surface-sunk,
+     --border, --accent, --radius, the type scale and the .btn classes. No new
+     colours, no new type sizes. */
+  .pbx-sec { padding-top: 1rem; }
+  .pbx { display: grid; gap: 1.5rem; align-items: start; }
+  @media (min-width: 60rem) {
+    .pbx { grid-template-columns: minmax(0, 1fr) 21rem; gap: 2rem; }
+  }
+
+  .pbx__step { border: 0; padding: 0; margin: 0 0 1.75rem; }
+  .pbx__lg { display: flex; align-items: center; gap: 0.55rem; padding: 0; margin-bottom: 0.85rem; font-family: var(--font-display); font-weight: 700; font-size: var(--h3); letter-spacing: -0.015em; }
+  .pbx__n { display: inline-grid; place-items: center; width: 1.6rem; height: 1.6rem; border-radius: 50%; background: var(--surface-sunk); border: 1px solid var(--border); font-family: var(--font-mono); font-size: var(--label); font-weight: 400; }
+  .pbx__inc { font-family: var(--font-mono); font-size: var(--label); font-weight: 400; letter-spacing: 0.05em; color: var(--muted); }
+
+  /* Plan cards: native radio, :has() drives the selected look. */
+  .pbx__plans { display: grid; gap: 0.9rem; }
+  @media (min-width: 40rem) { .pbx__plans { grid-template-columns: 1fr 1fr; } }
+  .pcard { display: block; cursor: pointer; }
+  .pcard input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+  .pcard__in {
+    position: relative; display: grid; gap: 0.5rem; height: 100%;
+    padding: 1.15rem 1.2rem; border: 2px solid var(--border);
+    border-radius: var(--radius); background: var(--surface);
+    transition: border-color 140ms ease, box-shadow 140ms ease;
+  }
+  .pcard:hover .pcard__in { border-color: var(--muted); }
+  .pcard:has(input:checked) .pcard__in { border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 14%, transparent); }
+  .pcard:has(input:focus-visible) .pcard__in { outline: 2px solid var(--focus); outline-offset: 2px; }
+  .pcard__tick { position: absolute; top: 0.9rem; right: 0.9rem; width: 1.2rem; height: 1.2rem; color: var(--accent); opacity: 0; transition: opacity 140ms ease; }
+  .pcard:has(input:checked) .pcard__tick { opacity: 1; }
+  .pcard__tick svg { width: 100%; height: 100%; }
+  .pcard__tag { position: absolute; top: -0.65rem; left: 1.1rem; font-family: var(--font-mono); font-size: var(--label); letter-spacing: 0.05em; background: var(--accent); color: #fff; border-radius: var(--pill, 99px); padding: 0.1rem 0.55rem; }
+  .pcard__n { font-family: var(--font-display); font-weight: 700; font-size: var(--h3); }
+  .pcard__who { font-size: var(--small); color: var(--muted); }
+  .pcard__price { display: flex; align-items: baseline; gap: 0.3rem; margin-top: 0.15rem; }
+  .pcard__big { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.7rem, 1.2rem + 1.6vw, 2.2rem); letter-spacing: -0.03em; line-height: 1; }
+  .pcard__per { font-size: var(--small); color: var(--muted); }
+  .pcard__bul { display: grid; gap: 0.3rem; margin-top: 0.3rem; font-size: var(--small); }
+  .pcard__bul span { position: relative; padding-left: 1.1rem; }
+  .pcard__bul span::before { content: ''; position: absolute; left: 0; top: 0.45em; width: 0.45rem; height: 0.45rem; border-radius: 50%; background: color-mix(in srgb, var(--accent) 30%, transparent); box-shadow: inset 0 0 0 2px var(--accent); }
+
+  /* Setup: fixed, always ticked. */
+  .scard { display: flex; gap: 0.7rem; align-items: flex-start; padding: 0.95rem 1.1rem; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface-sunk); font-size: var(--small); }
+  .scard__tick { flex: 0 0 auto; width: 1.1rem; height: 1.1rem; color: var(--accent); margin-top: 0.15rem; }
+  .scard__tick svg { width: 100%; height: 100%; }
+  .scard__d { display: block; color: var(--muted); margin-top: 0.2rem; }
+
+  /* Website tiles. */
+  .pbx__tiles { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+  .tile { cursor: pointer; }
+  .tile input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+  .tile__in { display: grid; gap: 0.15rem; padding: 0.6rem 0.85rem; border: 2px solid var(--border); border-radius: var(--radius); background: var(--surface); transition: border-color 140ms ease; }
+  .tile:hover .tile__in { border-color: var(--muted); }
+  .tile:has(input:checked) .tile__in { border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 14%, transparent); }
+  .tile:has(input:focus-visible) .tile__in { outline: 2px solid var(--focus); outline-offset: 2px; }
+  .tile__l { font-weight: 600; font-size: var(--small); }
+  .tile__p { font-size: var(--label); color: var(--muted); }
+
+  .pbx__sub { display: grid; gap: 0.3rem; margin-top: 0.9rem; max-width: 18rem; }
+  .pbx__sub[hidden] { display: none; }
+  .pbx__lb { font-size: var(--small); color: var(--muted); }
+  .pbx__nudge { font-size: var(--small); color: var(--link); margin: 0.8rem 0 0; }
+  .pbx__nudge[hidden] { display: none; }
+
+  /* Summary: sticky column on desktop. */
+  .pbx__sum { border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface-sunk); padding: 1.25rem; }
+  @media (min-width: 60rem) { .pbx__sum { position: sticky; top: calc(var(--header-h) + 1rem); } }
+  .pbx__big { display: flex; align-items: baseline; gap: 0.4rem; flex-wrap: wrap; margin: 0 0 0.35rem; }
+  .pbx__biglb { font-size: var(--small); color: var(--muted); min-width: 5.5rem; }
+  .pbx__big strong { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.5rem, 1.1rem + 1.4vw, 1.9rem); letter-spacing: -0.03em; line-height: 1.05; transition: opacity 180ms ease; }
+  .pbx__big strong.is-upd { opacity: 0.45; }
+  .pbx__per { font-size: var(--small); color: var(--muted); }
+  /* "+ quote" rides with the figure but at body size, so the number stays the
+     thing you read first. */
+  /* Also generated by the script, so also global. */
+  :global(.pbx__q) { font-family: var(--font-text); font-weight: 600; font-size: var(--small); color: var(--muted); }
+  .pbx__lines { list-style: none; margin: 1rem 0; padding: 0.9rem 0 0; border-top: 1px solid var(--border); font-size: var(--small); }
+  /* :global because the script rebuilds these <li> with innerHTML on every
+     change, and generated nodes do not carry Astro's scoping attribute — the
+     scoped rules silently stopped applying and the price ran into the label.
+     Scoped through .pbx__lines, so the globality is contained to this list. */
+  .pbx__lines :global(li) { display: flex; justify-content: space-between; gap: 1rem; margin-bottom: 0.35rem; }
+  .pbx__lines :global(li span:last-child) { color: var(--muted); white-space: nowrap; }
+  .pbx__terms { margin: 0 0 0.9rem; }
+  .pbx__cta { margin: 0; }
+  .pbx__cta .btn { width: 100%; justify-content: center; }
+  /* Only useful when the totals cannot be computed. */
+  .pbx__nojs { margin: 0.8rem 0 0; }
+  .pbx[data-ready] .pbx__nojs { display: none; }
+
+  /* The peek bar is the mobile face of the summary. */
+  .pbx__peek { display: none; }
+
+  @media (max-width: 59.99rem) {
+    .pbx[data-ready] .pbx__sum {
+      position: fixed; left: 0; right: 0; bottom: 0; z-index: 50;
+      border-radius: var(--radius) var(--radius) 0 0;
+      border-bottom: 0; padding: 0.75rem 1rem calc(0.75rem + env(safe-area-inset-bottom));
+      box-shadow: 0 -10px 30px -18px rgba(0, 0, 0, 0.45);
+      background: var(--surface);
+    }
+    .pbx[data-ready] .pbx__peek {
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+      width: 100%; appearance: none; background: none; border: 0; padding: 0;
+      font: inherit; color: inherit; cursor: pointer; text-align: left;
+    }
+    .pbx__peekrow { display: flex; gap: 1.25rem; flex-wrap: wrap; }
+    .pbx__peekl { font-size: var(--label); color: var(--muted); display: block; }
+    .pbx__peekrow strong { font-family: var(--font-display); font-size: 1.05rem; letter-spacing: -0.02em; }
+    .pbx__chev { width: 1.1rem; height: 1.1rem; color: var(--muted); transition: transform 160ms ease; flex: 0 0 auto; }
+    .pbx__chev svg { width: 100%; height: 100%; }
+    .pbx[data-ready] .pbx__sum .pbx__sumbody { display: none; padding-top: 0.9rem; }
+    .pbx[data-ready] .pbx__sum.is-open .pbx__sumbody { display: block; }
+    .pbx[data-ready] .pbx__sum.is-open .pbx__chev { transform: rotate(180deg); }
+    /* Room for the bar so it never covers the last section. */
+    .pbx[data-ready] { padding-bottom: 4.5rem; }
   }
 </style>

@@ -96,6 +96,13 @@
           clone.setAttribute('aria-hidden', 'true');
           clone.querySelectorAll('img').forEach(function (img) { img.alt = ''; });
           clone.querySelectorAll('a,button').forEach(function (a) { a.tabIndex = -1; });
+          /* IDS DO NOT SURVIVE CLONING. A clone is a presentation copy, so a
+             duplicated id would leave getElementById and every in-page link
+             pointing at whichever copy came first in the document — which is
+             how the testimonial dots would have started scrolling to a hidden
+             clone instead of the card. */
+          clone.removeAttribute('id');
+          clone.querySelectorAll('[id]').forEach(function (n) { n.removeAttribute('id'); });
           track.appendChild(clone);
         });
       }

@@ -36,6 +36,13 @@ const cols = [
   [TESTIMONIALS[2], TESTIMONIALS[5]],
 ];
 const anyPlaceholder = TESTIMONIALS.some((t) => t.placeholder);
+
+/* DOM order, which on a phone is swipe order: the three columns become
+   display: contents, so the cards flatten column by column. The dots are
+   numbered off this list rather than off TESTIMONIALS, or dot 2 would scroll
+   to the fourth card. */
+const flat = cols.flat();
+const qid = (t: (typeof flat)[number]) => `tst-q${flat.indexOf(t) + 1}`;
 ---
 
 {/* Plain, not sunk: the section below it is sunk, and the home page's rule is
@@ -60,11 +67,11 @@ const anyPlaceholder = TESTIMONIALS.some((t) => t.placeholder);
       </p>
     )}
 
-    <div class="tst__cols" role="region" aria-label="Client quotes">
+    <div class="tst__cols" id="tst-cols" role="region" aria-label="Client quotes">
       {cols.map((col, ci) => (
         <ul class:list={['tst__col', `tst__col--${ci + 1}`]} role="list" data-loop="2">
           {col.map((t) => (
-            <li class:list={['tst__card', `tst--${t.accent}`]}>
+            <li class:list={['tst__card', `tst--${t.accent}`]} id={qid(t)}>
               <blockquote>
                 {t.placeholder && <span class="tst__flag">Placeholder</span>}
                 <p>{t.quote}</p>
@@ -81,5 +88,153 @@ const anyPlaceholder = TESTIMONIALS.some((t) => t.placeholder);
         </ul>
       ))}
     </div>
+
+    {/* Rendered server-side as real links to each card, not built by the
+        script: a dots row that appears after paint is a layout shift, and a
+        dots row that needs JS is a dead strip for anyone without it. Each one
+        is an in-page link, so with no JS at all a tap still scrolls the track
+        to that quote. The script only upgrades them to smooth, hash-free
+        scrolling and keeps aria-current in step with the swipe. Hidden above
+        46rem, where every quote is on screen anyway. */}
+    <div class="tst__dots" id="tst-dots" role="group" aria-label="Choose a quote">
+      {flat.map((t, i) => (
+        <a
+          class="tst__dot"
+          href={`#${qid(t)}`}
+          aria-current={i === 0 ? 'true' : undefined}
+          aria-label={`Quote ${i + 1} of ${flat.length}, ${t.name} of ${t.brand}`}
+        ></a>
+      ))}
+    </div>
   </div>
 </section>
+
+<script is:inline>
+  /* THE PHONE CAROUSEL. Layout is CSS at a media query — flex track, mandatory
+     x snap, one card per view — so everything structural happens before paint
+     and this script is additive. It does three things: smooth hash-free
+     scrolling from the dots, aria-current tracking, and a 6-second
+     auto-advance.
+
+     The auto-advance is the part that has to be careful. It never runs under
+     prefers-reduced-motion, it never runs above the phone breakpoint, it stops
+     the moment a finger touches the track, and it only runs while the section
+     is actually on screen — an off-screen scroller animating every six seconds
+     is work nobody can see, which is what cost two Lighthouse points on the
+     desktop roll.
+
+     IT WAITS FOR IDLE. Run at parse time this cost the home page a point:
+     two observers, two media-query listeners and six click handlers, all set
+     up on the critical path for a section well below the fold. Nothing here
+     is needed before first paint — the track and its snap points are CSS, and
+     the dots are real in-page links that already work — so it goes after. */
+  (function () {
+    function init() {
+    var track = document.getElementById('tst-cols');
+    var dots = document.getElementById('tst-dots');
+    if (!track || !dots) return;
+
+    var phone = matchMedia('(max-width: 45.99rem)');
+    var reduced = matchMedia('(prefers-reduced-motion: reduce)');
+    var links = [].slice.call(dots.querySelectorAll('.tst__dot'));
+    /* The loop clones are display:none on a phone; they are not slides. */
+    var cards = function () {
+      return [].slice.call(track.querySelectorAll('.tst__card')).filter(function (c) {
+        return c.getAttribute('aria-hidden') !== 'true';
+      });
+    };
+
+    var current = 0;
+    function mark(i) {
+      if (i === current) return;
+      current = i;
+      links.forEach(function (a, n) {
+        if (n === i) a.setAttribute('aria-current', 'true');
+        else a.removeAttribute('aria-current');
+      });
+    }
+
+    function go(i, smooth) {
+      var list = cards();
+      if (!list[i]) return;
+      track.scrollTo({
+        left: list[i].offsetLeft - track.offsetLeft,
+        behavior: smooth && !reduced.matches ? 'smooth' : 'auto',
+      });
+    }
+
+    links.forEach(function (a, i) {
+      a.addEventListener('click', function (e) {
+        /* Above the breakpoint the dots are display:none, so a click can only
+           be a keyboard activation of a hidden control — let the href do its
+           ordinary thing there. */
+        if (!phone.matches) return;
+        e.preventDefault(); // the href would put #tst-q3 in the address bar
+        stop();
+        go(i, true);
+        mark(i);
+      });
+    });
+
+    var onScreen = false;
+    var timer = null;
+    var resume = null;
+
+    function stop() { clearInterval(timer); timer = null; }
+    function start() {
+      if (timer || reduced.matches || !phone.matches || !onScreen) return;
+      timer = setInterval(function () {
+        go((current + 1) % cards().length, true);
+      }, 6000);
+    }
+
+    /* A finger on the track stops it. It comes back eight seconds after the
+       last touch or scroll, so "pause" means pause and not "give up". */
+    function hold() {
+      stop();
+      clearTimeout(resume);
+      resume = setTimeout(start, 8000);
+    }
+    track.addEventListener('touchstart', hold, { passive: true });
+    track.addEventListener('pointerdown', hold);
+    track.addEventListener('scroll', hold, { passive: true });
+
+    var hasIO = 'IntersectionObserver' in window;
+
+    /* Which card is in view, decided by the browser rather than recomputed
+       from scrollLeft on every scroll event. */
+    if (hasIO) {
+      var slides = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (en) {
+            if (!en.isIntersecting) return;
+            var i = cards().indexOf(en.target);
+            if (i > -1) mark(i);
+          });
+        },
+        { root: track, threshold: 0.6 },
+      );
+      cards().forEach(function (c) { slides.observe(c); });
+
+      /* Nothing advances while the section is off screen. */
+      new IntersectionObserver(
+        function (entries) {
+          onScreen = entries[0].isIntersecting;
+          if (onScreen) start();
+          else stop();
+        },
+        { threshold: 0.25 },
+      ).observe(track);
+    } else {
+      onScreen = true;
+      start();
+    }
+
+    phone.addEventListener('change', function () { stop(); start(); });
+    reduced.addEventListener('change', function () { stop(); start(); });
+    }
+
+    if ('requestIdleCallback' in window) requestIdleCallback(init, { timeout: 2000 });
+    else addEventListener('load', init);
+  })();
+</script>

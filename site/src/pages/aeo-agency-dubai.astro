@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import CurrencySwitch from '../components/CurrencySwitch.astro';
+import PlanCards from '../components/PlanCards.astro';
 import { SITE } from '../consts';
 import { PLANS, SETUP_FEE, ADDONS, money } from '../data/pricing';
 import { TESTIMONIALS } from '../data/testimonials';
@@ -145,6 +146,25 @@ const faqSchema = {
   description="Brandure is an AEO agency in Dubai. We get businesses named in ChatGPT, Gemini, Perplexity and Google AI Overviews, with SEO and AI-ready websites included. Plans from AED 6,500 a month."
   schemas={[webPageSchema, breadcrumbSchema, officeSchema, faqSchema]}
 >
+  <script is:inline>
+    /* AED is this page's default. A visitor who has already picked pounds
+       keeps pounds — a default must not overrule a choice.
+
+       IT HAS TO RUN BEFORE CurrencySwitch. Sitting at the end of the body, it
+       did not: the switch had already read an unset data-cur, fallen back to
+       pounds and pressed the £ button, and this script then moved the prices
+       to AED underneath it. The page showed AED figures beside a control
+       saying £ was selected. Here it runs first, so the switch reads 'aed'
+       and marks the right button — one source of truth for that state, which
+       is the switch's own. */
+    (function () {
+      var root = document.documentElement;
+      var stored = null;
+      try { stored = localStorage.getItem('brandure_cur'); } catch (e) { /* no choice stored */ }
+      if (stored !== 'aed' && stored !== 'gbp') root.setAttribute('data-cur', 'aed');
+    })();
+  </script>
+
   <section class="hero hero--short">
     <div class="mesh" aria-hidden="true">
       <div class="mesh__layer mesh__layer--1"><div class="mesh__blob mesh__blob--1"></div></div>
@@ -238,24 +258,30 @@ const faqSchema = {
         <h2 id="pr-h">Prices in Dubai</h2>
       </div>
       <CurrencySwitch />
+
+      {/* THE SAME TWO CARDS AS /pricing, display-only. A bullet list of
+          figures reads as fine print on the page a buyer lands on from
+          "AEO agency Dubai" — the cards are what they will see when they get
+          to /pricing, so showing them here makes the two pages one journey
+          rather than two quotes. .pcard lives in global.css for exactly this
+          reason; the markup is an <a> instead of a <label> because there is
+          nothing to choose on this page.
+
+          Every figure comes from data/pricing.ts, so this cannot drift from
+          the builder. */}
+      <div class="grid grid--2 dub-plans">
+        <PlanCards mode="link" />
+      </div>
+
       <div class="prose">
-        <ul>
-          <li>
-            <strong>Core: <span class="cur-aed">{money(PLANS[0].monthly).aed}</span><span class="cur-gbp">{money(PLANS[0].monthly).gbp}</span> a month.</strong>
-            One category, six AI engines tracked, ongoing SEO, 2 earned citations a month.
-          </li>
-          <li>
-            <strong>Growth: <span class="cur-aed">{money(PLANS[1].monthly).aed}</span><span class="cur-gbp">{money(PLANS[1].monthly).gbp}</span> a month.</strong>
-            <span class="dub-tag">Most chosen</span>
-            Up to three categories, 4 earned citations a month, competitor displacement plan.
-          </li>
-          <li>
-            <strong>AI search &amp; SEO setup: <span class="cur-aed">{money(SETUP_FEE.price).aed}</span><span class="cur-gbp">{money(SETUP_FEE.price).gbp}</span> one-off</strong>, included with every plan.
-          </li>
-          <li>
-            <strong>Website work</strong> from <span class="cur-aed">{money(page.price).aed}</span><span class="cur-gbp">{money(page.price).gbp}</span> per page.
-          </li>
-        </ul>
+        {/* Astro collapses the newline between a close tag and the text on the
+            next line, which is how "a month." and "One category" ran together
+            in the list this replaced. Every space that has to survive is
+            written inside the text, never left to the indentation. */}
+        <p class="note-sm dub-plus">
+          <strong>{SETUP_FEE.name} <span class="cur-aed">{money(SETUP_FEE.price).aed}</span><span class="cur-gbp">{money(SETUP_FEE.price).gbp}</span> one-off</strong>, included with every plan
+          &middot; <strong>Website work</strong> from <span class="cur-aed">{money(page.price).aed}</span><span class="cur-gbp">{money(page.price).gbp}</span> per page
+        </p>
         <p class="note-sm">
           Prices exclude 5% VAT. Six-month initial term with a 90-day review.
         </p>
@@ -307,26 +333,14 @@ const faqSchema = {
   </section>
 </BaseLayout>
 
-<script is:inline>
-  /* AED is this page's default. A visitor who has already picked pounds keeps
-     pounds — a default must not overrule a choice. Runs during parse so the
-     right currency is in place before paint. */
-  (function () {
-    var root = document.documentElement;
-    var stored = null;
-    try { stored = localStorage.getItem('brandure_cur'); } catch (e) { /* no choice stored */ }
-    if (stored !== 'aed' && stored !== 'gbp') root.setAttribute('data-cur', 'aed');
-  })();
-</script>
-
 <style>
   /* Reuses .case and .tst__card wholesale; these only place them on a page
      that has one of each rather than a grid. */
   .dub-case { margin: 0 0 1.5rem; }
   .dub-quote { list-style: none; margin: 0; padding: 0; max-width: 34rem; }
-  .dub-tag {
-    display: inline-block; font-family: var(--font-mono); font-size: var(--label);
-    letter-spacing: 0.05em; background: var(--accent); color: #fff;
-    border-radius: var(--pill, 99px); padding: 0.1rem 0.55rem; margin: 0 0.35rem;
-  }
+  /* The cards sit between the currency switch and the prose, so they need the
+     gap the prose would otherwise have given them. The "Most chosen" tag
+     overhangs the card's top edge, hence the row of top padding. */
+  .dub-plans { margin: 0 0 1.5rem; padding-top: 0.65rem; }
+  .dub-plus { margin-top: 0; }
 </style>

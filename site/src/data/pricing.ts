@@ -20,11 +20,25 @@ export const money = (m: Money) => ({
   both: `AED ${m.aed.toLocaleString('en-GB')} / £${m.gbp.toLocaleString('en-GB')}`,
 });
 
+/**
+ * `who` and `bullets` are the card face of a plan — the one-line "this is for
+ * you if" and the three things it buys. They live here, not in the component,
+ * because the cards are now rendered in two places: the builder on /pricing
+ * (labels wrapping radios) and the display-only cards on /aeo-agency-dubai
+ * (links to /pricing). Two copies of the sentences would be two chances to
+ * disagree about what Growth includes.
+ */
 export const PLANS = [
   {
     key: 'core',
     name: 'Core',
     monthly: { aed: 6500, gbp: 1400 },
+    who: 'For one category, where you need to be found and named.',
+    bullets: [
+      'All six AI engines tracked separately',
+      'Ongoing SEO for your priority pages',
+      '2 earned citation placements a month',
+    ],
     includes:
       'One category. AI search tracked separately across ChatGPT, Google AI Overviews, Gemini, Perplexity, Claude and Copilot. On-going SEO for your priority pages. 2 earned citation placements a month. Quarterly authority asset. Monthly reporting on AI visibility, rankings and AI-referred traffic.',
   },
@@ -32,6 +46,12 @@ export const PLANS = [
     key: 'growth',
     name: 'Growth',
     monthly: { aed: 12000, gbp: 2600 },
+    who: 'For several services or locations, and for taking ground from competitors.',
+    bullets: [
+      'Up to three categories or service lines',
+      '4 earned citation placements a month',
+      'Competitor displacement plan',
+    ],
     includes:
       'Everything in Core, for up to three categories or service lines. 4 earned citation placements a month. Monthly authority asset. Competitor displacement plan. Entity correction across third-party sources.',
   },

@@ -1,5 +1,6 @@
 ---
 import { PLANS, SETUP_FEE, ADDONS, VAT_TERMS, NUDGE_FROM_PAGES, money } from '../data/pricing';
+import PlanCards from './PlanCards.astro';
 
 /**
  * The price builder — the page's main content, not an extra below it.
@@ -33,15 +34,6 @@ const rates = {
   nudgeFrom: NUDGE_FROM_PAGES,
 };
 
-const WHO = {
-  core: 'For one category, where you need to be found and named.',
-  growth: 'For several services or locations, and for taking ground from competitors.',
-};
-const BULLETS = {
-  core: ['All six AI engines tracked separately', 'Ongoing SEO for your priority pages', '2 earned citation placements a month'],
-  growth: ['Up to three categories or service lines', '4 earned citation placements a month', 'Competitor displacement plan'],
-};
-
 const page = ADDONS.find((a) => a.key === 'page')!;
 const r10 = ADDONS.find((a) => a.key === 'rebuild10')!;
 const r20 = ADDONS.find((a) => a.key === 'rebuild20')!;
@@ -69,26 +61,7 @@ const monthly0 = money(PLANS[0].monthly);
         <fieldset class="pbx__step">
           <legend class="pbx__lg"><span class="pbx__n" aria-hidden="true">1</span> Choose your plan</legend>
           <div class="pbx__plans">
-            {PLANS.map((p, i) => (
-              <label class="pcard">
-                <input type="radio" name="plan" value={p.key} checked={i === 0} />
-                <span class="pcard__in">
-                  {p.key === 'growth' && <span class="pcard__tag">Most chosen</span>}
-                  <span class="pcard__tick" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
-                  </span>
-                  <span class="pcard__n">{p.name}</span>
-                  <span class="pcard__who">{WHO[p.key as 'core' | 'growth']}</span>
-                  <span class="pcard__price">
-                    <span class="pcard__big"><span class="cur-aed">{money2(p.monthly).aed}</span><span class="cur-gbp">{money2(p.monthly).gbp}</span></span>
-                    <span class="pcard__per">/month</span>
-                  </span>
-                  <span class="pcard__bul">
-                    {BULLETS[p.key as 'core' | 'growth'].map((b) => <span>{b}</span>)}
-                  </span>
-                </span>
-              </label>
-            ))}
+            <PlanCards mode="choose" />
           </div>
         </fieldset>
 
@@ -125,33 +98,65 @@ const monthly0 = money(PLANS[0].monthly);
             ))}
           </div>
 
+          {/* THE INPUT IS STILL THE FIELD. Both of these were bare
+              type="number" boxes: browser-default chrome, a ~20px tap target
+              and spinner arrows a thumb cannot hit. The native input stays —
+              it carries the value, it is what no-JS gets, and tapping it still
+              brings up the numeric keypad — and the stepper is built around
+              it: a 44px minus, the field at 44px, a 44px plus. The buttons are
+              inert without the script, so they only appear once the form is
+              marked ready. */}
           <div class="pbx__sub" id="pbx-pages-row" hidden>
             <label class="pbx__lb" for="pb-pages">How many pages?</label>
-            <input id="pb-pages" name="pages" type="number" min="1" max="10" step="1" value="1" inputmode="numeric" />
+            <div class="pbx__spin">
+              <button type="button" class="pbx__sbtn" data-spin="pb-pages" data-by="-1" aria-label="Fewer pages">&minus;</button>
+              <input id="pb-pages" name="pages" type="number" min="1" max="10" step="1" value="1" inputmode="numeric" />
+              <button type="button" class="pbx__sbtn" data-spin="pb-pages" data-by="1" aria-label="More pages">+</button>
+            </div>
           </div>
 
-          <p class="pbx__nudge" id="pb-nudge" hidden role="status"></p>
+          {/* The nudge said a rebuild was better value and then left you to
+              find the tile yourself. The button is static markup and only the
+              sentence is rewritten, so this live region announces the advice
+              rather than re-announcing its own control. */}
+          <p class="pbx__nudge" id="pb-nudge" hidden role="status">
+            <span id="pb-nudge-t"></span>
+            <button type="button" class="pbx__nbtn" id="pb-nudge-go">Switch to rebuild</button>
+          </p>
 
           <div class="pbx__sub" id="pbx-copy-row" hidden>
             <label class="pbx__lb" for="pb-copy">
               Need copy written? <span class="note-sm">(+<span class="cur-aed">{money2(copyAddon.price).aed}</span><span class="cur-gbp">{money2(copyAddon.price).gbp}</span> per page)</span>
             </label>
-            <input id="pb-copy" name="copy" type="number" min="0" max="20" step="1" value="0" inputmode="numeric" />
+            <div class="pbx__spin">
+              <button type="button" class="pbx__sbtn" data-spin="pb-copy" data-by="-1" aria-label="Fewer copywriting pages">&minus;</button>
+              <input id="pb-copy" name="copy" type="number" min="0" max="20" step="1" value="0" inputmode="numeric" />
+              <button type="button" class="pbx__sbtn" data-spin="pb-copy" data-by="1" aria-label="More copywriting pages">+</button>
+            </div>
           </div>
         </fieldset>
       </div>
 
       <!-- Summary -->
       <aside class="pbx__sum" id="pbx-sum" aria-live="polite">
-        <button type="button" class="pbx__peek" id="pbx-peek" aria-expanded="false" aria-controls="pbx-sumbody">
-          <span class="pbx__peekrow">
-            <span><span class="pbx__peekl">Setup</span> <strong id="pb-setup-m"><span class="cur-aed">{setup0.aed}</span><span class="cur-gbp">{setup0.gbp}</span></strong></span>
-            <span><span class="pbx__peekl">Monthly</span> <strong id="pb-monthly-m"><span class="cur-aed">{monthly0.aed}</span><span class="cur-gbp">{monthly0.gbp}</span></strong></span>
-          </span>
-          <span class="pbx__chev" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
-          </span>
-        </button>
+        {/* THE BAR NEEDED A WAY OUT OF ITSELF. On a phone this is the whole
+            summary: two totals and a chevron, with the only CTA inside a panel
+            you had to guess was there. The button sits beside the totals as a
+            sibling — not nested, because an <a> inside a <button> is invalid
+            and neither control would be reliably operable. Tapping the totals
+            still expands the panel. */}
+        <div class="pbx__bar">
+          <button type="button" class="pbx__peek" id="pbx-peek" aria-expanded="false" aria-controls="pbx-sumbody">
+            <span class="pbx__peekrow">
+              <span><span class="pbx__peekl">Setup</span> <strong id="pb-setup-m"><span class="cur-aed">{setup0.aed}</span><span class="cur-gbp">{setup0.gbp}</span></strong></span>
+              <span><span class="pbx__peekl">Monthly</span> <strong id="pb-monthly-m"><span class="cur-aed">{monthly0.aed}</span><span class="cur-gbp">{monthly0.gbp}</span></strong></span>
+            </span>
+            <span class="pbx__chev" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
+            </span>
+          </button>
+          <a class="btn pbx__barcta" id="pb-cta-m" href="/service#book">Book a call</a>
+        </div>
 
         <div class="pbx__sumbody" id="pbx-sumbody">
           <p class="pbx__big">
@@ -197,17 +202,31 @@ const monthly0 = money(PLANS[0].monthly);
     var $ = function (id) { return document.getElementById(id); };
     var pagesRow = $('pbx-pages-row'), pages = $('pb-pages');
     var copyRow = $('pbx-copy-row'), copy = $('pb-copy');
-    var nudge = $('pb-nudge'), lines = $('pb-lines');
-    var cta = $('pb-cta');
+    var nudge = $('pb-nudge'), nudgeT = $('pb-nudge-t'), nudgeGo = $('pb-nudge-go');
+    var lines = $('pb-lines');
+    var cta = $('pb-cta'), ctaM = $('pb-cta-m');
+
+    /* How many pages the chosen website work actually covers — the ceiling on
+       copywriting, since copy is priced per page. It was a flat 20, so a
+       10-page rebuild would happily take copy for twenty pages. */
+    function pageCount(web, n) {
+      if (web === 'page') return n;
+      if (web === 'rebuild10') return 10;
+      if (web === 'rebuild20' || web === 'ecommerce') return 20;
+      return 0;
+    }
 
     function state() {
       var plan = form.querySelector('input[name="plan"]:checked').value;
       var web = form.querySelector('input[name="web"]:checked').value;
+      var n = Math.max(1, Math.min(10, Number(pages.value) || 1));
+      var cap = pageCount(web, n);
       return {
         plan: plan,
         web: web,
-        pages: web === 'page' ? Math.max(1, Math.min(10, Number(pages.value) || 1)) : 0,
-        copy: web === 'none' ? 0 : Math.max(0, Math.min(20, Number(copy.value) || 0)),
+        pages: web === 'page' ? n : 0,
+        cap: cap,
+        copy: web === 'none' ? 0 : Math.max(0, Math.min(cap, Number(copy.value) || 0)),
       };
     }
 
@@ -254,14 +273,18 @@ const monthly0 = money(PLANS[0].monthly);
       var s = state();
       pagesRow.hidden = s.web !== 'page';
       copyRow.hidden = s.web === 'none';
-      copy.max = String(s.web === 'page' ? s.pages : 20);
+      copy.max = String(s.cap);
       if (Number(copy.value) > Number(copy.max)) copy.value = copy.max;
+      /* The ends of each range are dead, and saying so with disabled is
+         clearer than a button that looks live and does nothing. */
+      spinState(pages);
+      spinState(copy);
 
       var show = s.web === 'page' && s.pages >= rates.nudgeFrom;
       nudge.hidden = !show;
       if (show) {
-        nudge.innerHTML = 'A full rebuild up to 10 pages is better value at ' +
-          pair(rates.addons.rebuild10.aed, rates.addons.rebuild10.gbp) + '.';
+        nudgeT.innerHTML = 'A full rebuild up to 10 pages is better value at ' +
+          pair(rates.addons.rebuild10.aed, rates.addons.rebuild10.gbp) + '. ';
       }
 
       var t = compute(s), m = rates.plans[s.plan];
@@ -283,6 +306,9 @@ const monthly0 = money(PLANS[0].monthly);
       lines.innerHTML = html;
 
       cta.textContent = t.quote ? 'Get a quote' : 'Book a call with this plan';
+      /* The bar has room for three words, not five. Same destination, same
+         selection — set from the same href below. */
+      ctaM.textContent = t.quote ? 'Get a quote' : 'Book a call';
 
       var cur = document.documentElement.getAttribute('data-cur') === 'aed' ? 'aed' : 'gbp';
       var q = {
@@ -294,10 +320,54 @@ const monthly0 = money(PLANS[0].monthly);
         monthly_total: fmt[cur](m[cur]),
         currency: cur.toUpperCase(),
       };
-      /* Query before fragment: '#book?x=1' buries the query in the fragment. */
-      cta.href = '/service?' + new URLSearchParams(q).toString() + '#book';
+      /* Query before fragment: '#book?x=1' buries the query in the fragment.
+         Built once and set on both, because reading back `cta.href` returns
+         the resolved absolute URL — copying that to the bar button would bake
+         the current origin into the markup and leave the two links carrying
+         different hrefs for the same destination. */
+      var href = '/service?' + new URLSearchParams(q).toString() + '#book';
+      cta.href = href;
+      ctaM.href = href;
       try { sessionStorage.setItem('brandure.plan', JSON.stringify(q)); } catch (e) { /* link carries it */ }
     }
+
+    /* ---- Steppers ----
+       One delegated handler for both fields. The input stays the single source
+       of truth — a button only nudges its value and re-renders, so there is no
+       second copy of the number that could fall out of step with the field a
+       visitor can still type into. */
+    function spinState(el) {
+      var v = Number(el.value) || 0;
+      var row = el.parentNode;
+      var minus = row.querySelector('[data-by="-1"]');
+      var plus = row.querySelector('[data-by="1"]');
+      if (minus) minus.disabled = v <= Number(el.min);
+      if (plus) plus.disabled = v >= Number(el.max);
+    }
+
+    form.addEventListener('click', function (e) {
+      var btn = e.target.closest('[data-spin]');
+      if (!btn) return;
+      e.preventDefault();
+      var el = $(btn.getAttribute('data-spin'));
+      var next = (Number(el.value) || 0) + Number(btn.getAttribute('data-by'));
+      next = Math.max(Number(el.min), Math.min(Number(el.max), next));
+      if (String(next) === el.value) return;
+      el.value = String(next);
+      render();
+    });
+
+    /* The nudge now does the thing it advises. */
+    nudgeGo.addEventListener('click', function (e) {
+      e.preventDefault();
+      var tile = form.querySelector('input[name="web"][value="rebuild10"]');
+      if (!tile) return;
+      tile.checked = true;
+      render();
+      /* The tile row is above the nudge, so move focus to what just changed
+         rather than leaving it on a button that has disappeared. */
+      tile.focus({ preventScroll: true });
+    });
 
     form.addEventListener('input', render);
     form.addEventListener('change', render);
@@ -348,32 +418,12 @@ const monthly0 = money(PLANS[0].monthly);
   .pbx__n { display: inline-grid; place-items: center; width: 1.6rem; height: 1.6rem; border-radius: 50%; background: var(--surface-sunk); border: 1px solid var(--border); font-family: var(--font-mono); font-size: var(--label); font-weight: 400; }
   .pbx__inc { font-family: var(--font-mono); font-size: var(--label); font-weight: 400; letter-spacing: 0.05em; color: var(--muted); }
 
-  /* Plan cards: native radio, :has() drives the selected look. */
+  /* Plan cards: native radio, :has() drives the selected look. The card
+     itself now lives in global.css, because /aeo-agency-dubai shows the same
+     two cards as links — a scoped style could not reach it. Only the layout
+     of the pair is this component's business. */
   .pbx__plans { display: grid; gap: 0.9rem; }
   @media (min-width: 40rem) { .pbx__plans { grid-template-columns: 1fr 1fr; } }
-  .pcard { display: block; cursor: pointer; }
-  .pcard input { position: absolute; opacity: 0; width: 1px; height: 1px; }
-  .pcard__in {
-    position: relative; display: grid; gap: 0.5rem; height: 100%;
-    padding: 1.15rem 1.2rem; border: 2px solid var(--border);
-    border-radius: var(--radius); background: var(--surface);
-    transition: border-color 140ms ease, box-shadow 140ms ease;
-  }
-  .pcard:hover .pcard__in { border-color: var(--muted); }
-  .pcard:has(input:checked) .pcard__in { border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 14%, transparent); }
-  .pcard:has(input:focus-visible) .pcard__in { outline: 2px solid var(--focus); outline-offset: 2px; }
-  .pcard__tick { position: absolute; top: 0.9rem; right: 0.9rem; width: 1.2rem; height: 1.2rem; color: var(--accent); opacity: 0; transition: opacity 140ms ease; }
-  .pcard:has(input:checked) .pcard__tick { opacity: 1; }
-  .pcard__tick svg { width: 100%; height: 100%; }
-  .pcard__tag { position: absolute; top: -0.65rem; left: 1.1rem; font-family: var(--font-mono); font-size: var(--label); letter-spacing: 0.05em; background: var(--accent); color: #fff; border-radius: var(--pill, 99px); padding: 0.1rem 0.55rem; }
-  .pcard__n { font-family: var(--font-display); font-weight: 700; font-size: var(--h3); }
-  .pcard__who { font-size: var(--small); color: var(--muted); }
-  .pcard__price { display: flex; align-items: baseline; gap: 0.3rem; margin-top: 0.15rem; }
-  .pcard__big { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.7rem, 1.2rem + 1.6vw, 2.2rem); letter-spacing: -0.03em; line-height: 1; }
-  .pcard__per { font-size: var(--small); color: var(--muted); }
-  .pcard__bul { display: grid; gap: 0.3rem; margin-top: 0.3rem; font-size: var(--small); }
-  .pcard__bul span { position: relative; padding-left: 1.1rem; }
-  .pcard__bul span::before { content: ''; position: absolute; left: 0; top: 0.45em; width: 0.45rem; height: 0.45rem; border-radius: 50%; background: color-mix(in srgb, var(--accent) 30%, transparent); box-shadow: inset 0 0 0 2px var(--accent); }
 
   /* Setup: fixed, always ticked. */
   .scard { display: flex; gap: 0.7rem; align-items: flex-start; padding: 0.95rem 1.1rem; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface-sunk); font-size: var(--small); }
@@ -402,8 +452,66 @@ const monthly0 = money(PLANS[0].monthly);
   .pbx__sub[hidden] { display: none; }
   @media (prefers-reduced-motion: reduce) { .pbx__sub { transition: none; } }
   .pbx__lb { font-size: var(--small); color: var(--muted); }
+
+  /* The stepper. 44px on every side of the value, which is the whole reason it
+     exists — the bare number input was a ~20px target with spinner arrows
+     about 8px tall. Border, radius and surface are the same tokens the tiles
+     use, so it reads as part of the same control set. */
+  .pbx__spin {
+    display: inline-flex; align-items: stretch;
+    border: 1px solid var(--border); border-radius: var(--radius);
+    background: var(--surface); overflow: hidden; width: max-content;
+  }
+  .pbx__sbtn {
+    /* Inert without the script, so they are not offered: no JS leaves the
+       plain number field that has always been there. */
+    display: none;
+    appearance: none; border: 0; background: none; cursor: pointer;
+    width: 2.75rem; min-height: 2.75rem; padding: 0;
+    font-family: var(--font-text); font-size: 1.25rem; line-height: 1;
+    color: var(--ink);
+    transition: background 120ms ease;
+  }
+  .pbx[data-ready] .pbx__sbtn { display: block; }
+  .pbx__sbtn:hover:not(:disabled) { background: var(--surface-sunk); }
+  .pbx__sbtn:disabled { color: var(--muted); opacity: 0.45; cursor: default; }
+  .pbx__sbtn:focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; }
+  .pbx__spin input {
+    width: 3.25rem; min-height: 2.75rem; padding: 0;
+    border: 0; border-left: 1px solid var(--border); border-right: 1px solid var(--border);
+    background: none; color: inherit;
+    font-family: var(--font-display); font-weight: 700; font-size: 1.0625rem;
+    text-align: center;
+    /* The native spinners are the thing being replaced. */
+    appearance: textfield;
+  }
+  .pbx__spin input::-webkit-outer-spin-button,
+  .pbx__spin input::-webkit-inner-spin-button { appearance: none; margin: 0; }
+  .pbx__spin input:focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; }
+  .pbx:not([data-ready]) .pbx__spin input { width: auto; min-width: 5rem; padding: 0 0.6rem; border-left: 0; border-right: 0; }
+
   .pbx__nudge { font-size: var(--small); color: var(--link); margin: 0.8rem 0 0; }
   .pbx__nudge[hidden] { display: none; }
+  /* A text button, not a .btn: it sits mid-sentence inside the nudge. 44px of
+     height comes from the padding, and it is inline-flex so the line wraps
+     around it rather than through it. */
+  .pbx__nbtn {
+    display: inline-flex; align-items: center; min-height: 2.75rem;
+    padding: 0 0.9rem; margin-left: 0.1rem;
+    appearance: none; cursor: pointer;
+    border: 1px solid currentColor; border-radius: var(--radius);
+    background: none; color: inherit;
+    font-family: var(--font-text); font-weight: 600; font-size: var(--small);
+  }
+  .pbx__nbtn:hover { background: color-mix(in srgb, var(--link) 10%, transparent); }
+  .pbx__nbtn:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+  .pbx:not([data-ready]) .pbx__nbtn { display: none; }
+  /* On a phone the sentence wraps and the button lands beside an orphaned
+     "12,000.", which reads as a caption on the wrong line. Below 40rem it
+     takes its own line. */
+  @media (max-width: 40rem) {
+    .pbx[data-ready] .pbx__nbtn { display: flex; width: max-content; margin: 0.6rem 0 0; }
+  }
 
   /* Summary: sticky column on desktop. */
   .pbx__sum { border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface-sunk); padding: 1.25rem; }
@@ -431,10 +539,21 @@ const monthly0 = money(PLANS[0].monthly);
   .pbx__nojs { margin: 0.8rem 0 0; }
   .pbx[data-ready] .pbx__nojs { display: none; }
 
-  /* The peek bar is the mobile face of the summary. */
-  .pbx__peek { display: none; }
+  /* The peek bar is the mobile face of the summary. Both it and its CTA are
+     off on desktop, where the summary is the sticky column it has always
+     been. */
+  .pbx__peek, .pbx__bar { display: none; }
 
   @media (max-width: 59.99rem) {
+    .pbx[data-ready] .pbx__bar { display: flex; align-items: center; gap: 0.75rem; }
+    /* The totals take the room that is left; the button keeps its own. */
+    .pbx[data-ready] .pbx__peek { flex: 1 1 auto; min-width: 0; }
+    .pbx__barcta {
+      flex: 0 0 auto; min-height: 2.75rem;
+      padding: 0.55rem 1rem; font-size: var(--small);
+      white-space: nowrap;
+    }
+
     .pbx[data-ready] .pbx__sum {
       position: fixed; left: 0; right: 0; bottom: 0; z-index: 50;
       border-radius: var(--radius) var(--radius) 0 0;

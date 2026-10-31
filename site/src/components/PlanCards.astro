@@ -1,0 +1,100 @@
+---
+import { PLANS, money } from '../data/pricing';
+
+/**
+ * The two plan cards, in the one place that defines them.
+ *
+ * WHY A COMPONENT AND NOT A GLOBAL CLASS. These cards appear twice: as the
+ * choice at the top of the builder on /pricing, and as display-only links on
+ * /aeo-agency-dubai. The first attempt put the CSS in global.css, which works
+ * but loads 25 rules of plan-card styling into the render-blocking stylesheet
+ * of every page on the site, the home page included, where no card exists.
+ * As a component the styles are bundled only into the pages that use it, and
+ * there is still exactly one definition.
+ *
+ * `mode` is the only difference between the two. "choose" wraps each card in
+ * a label around a real radio, so it is keyboard-operable, announces as a
+ * radio group and still renders as a readable set of choices with JS off.
+ * "link" wraps it in an <a> to /pricing, because there is nothing to choose
+ * on a landing page.
+ *
+ * Copy and prices come from src/data/pricing.ts, so the two renderings cannot
+ * disagree about what a plan costs or includes.
+ *
+ * Renders the cards only, no wrapper: each page lays the pair out itself.
+ */
+interface Props {
+  mode: 'choose' | 'link';
+}
+const { mode } = Astro.props;
+const choose = mode === 'choose';
+---
+
+{
+  PLANS.map((p, i) => {
+    /* A dynamic tag, so the card's markup is written once rather than once
+       per mode — two copies of it would be two cards again. */
+    const Tag = choose ? 'label' : 'a';
+    const wrap = choose
+      ? { class: 'pcard' }
+      : { class: 'pcard pcard--link', href: '/pricing' };
+    return (
+      <Tag {...wrap}>
+        {choose && <input type="radio" name="plan" value={p.key} checked={i === 0} />}
+        <span class="pcard__in">
+          {p.key === 'growth' && <span class="pcard__tag">Most chosen</span>}
+          {choose && (
+            <span class="pcard__tick" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+            </span>
+          )}
+          <span class="pcard__n">{p.name}</span>
+          <span class="pcard__who">{p.who}</span>
+          <span class="pcard__price">
+            <span class="pcard__big"><span class="cur-aed">{money(p.monthly).aed}</span><span class="cur-gbp">{money(p.monthly).gbp}</span></span>
+            <span class="pcard__per">/month</span>
+          </span>
+          <span class="pcard__bul">
+            {p.bullets.map((b) => <span>{b}</span>)}
+          </span>
+        </span>
+      </Tag>
+    );
+  })
+}
+
+<style>
+  /* Built from existing tokens: --surface, --border, --accent, --radius, the
+     type scale. No new colours and no new type sizes. */
+  .pcard { display: block; cursor: pointer; }
+  .pcard input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+  .pcard__in {
+    position: relative; display: grid; gap: 0.5rem; height: 100%;
+    padding: 1.15rem 1.2rem; border: 2px solid var(--border);
+    border-radius: var(--radius); background: var(--surface);
+    transition: border-color 140ms ease, box-shadow 140ms ease;
+  }
+  .pcard:hover .pcard__in { border-color: var(--muted); }
+  /* Driven off the checked input rather than a class a script maintains — one
+     less thing to desynchronise. A card with no input simply never matches. */
+  .pcard:has(input:checked) .pcard__in { border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 14%, transparent); }
+  .pcard:has(input:focus-visible) .pcard__in { outline: 2px solid var(--focus); outline-offset: 2px; }
+  .pcard__tick { position: absolute; top: 0.9rem; right: 0.9rem; width: 1.2rem; height: 1.2rem; color: var(--accent); opacity: 0; transition: opacity 140ms ease; }
+  .pcard:has(input:checked) .pcard__tick { opacity: 1; }
+  .pcard__tick svg { width: 100%; height: 100%; }
+  .pcard__tag { position: absolute; top: -0.65rem; left: 1.1rem; font-family: var(--font-mono); font-size: var(--label); letter-spacing: 0.05em; background: var(--accent); color: #fff; border-radius: var(--pill, 99px); padding: 0.1rem 0.55rem; }
+  .pcard__n { font-family: var(--font-display); font-weight: 700; font-size: var(--h3); }
+  .pcard__who { font-size: var(--small); color: var(--muted); }
+  .pcard__price { display: flex; align-items: baseline; gap: 0.3rem; margin-top: 0.15rem; }
+  .pcard__big { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.7rem, 1.2rem + 1.6vw, 2.2rem); letter-spacing: -0.03em; line-height: 1; }
+  .pcard__per { font-size: var(--small); color: var(--muted); }
+  .pcard__bul { display: grid; gap: 0.3rem; margin-top: 0.3rem; font-size: var(--small); }
+  .pcard__bul span { position: relative; padding-left: 1.1rem; }
+  .pcard__bul span::before { content: ''; position: absolute; left: 0; top: 0.45em; width: 0.45rem; height: 0.45rem; border-radius: 50%; background: color-mix(in srgb, var(--accent) 30%, transparent); box-shadow: inset 0 0 0 2px var(--accent); }
+
+  /* The display-only card needs the link reset and its own focus ring: with
+     no input, it cannot borrow :has(input:focus-visible). */
+  .pcard--link { text-decoration: none; color: inherit; }
+  .pcard--link:focus-visible { outline: none; }
+  .pcard--link:focus-visible .pcard__in { outline: 2px solid var(--focus); outline-offset: 2px; }
+</style>

@@ -2295,12 +2295,65 @@ input:focus-visible, select:focus-visible { border-color: var(--focus); }
 @media (max-width: 67.99rem) {
   .tst__card[aria-hidden='true'] { display: none; }
 }
-/* Three quotes on a phone, not six. Stacked one per row, six quotes ran about
-   1,800px and 220 words on the screen after the pricing. One from each column
-   keeps the spread — they are sliced by column so this is not the first three
-   of a list — and halves the section. Everything from 46rem up gets all six. */
+/* ---- Phones get a carousel, not three of six quotes ----
+   This used to hide the second card in every column, on the reasoning that
+   six stacked quotes ran 1,800px down a phone. It did halve the section, and
+   it also meant Gary, Marc and Simon never appeared on a phone at all — half
+   the testimonials, including the only real quote, were desktop-only. A
+   swipeable carousel shows one card at a time, so all six cost the height of
+   one.
+
+   The track is .tst__cols itself and the three <ul>s become display: contents,
+   so the six cards are the scroller's own children and each can snap. Laying
+   them out in a single row cannot be done with the <ul> boxes in the way, and
+   moving the cards with script would mean rebuilding the DOM after paint. The
+   role="list" on each column is explicit in the markup, which is what keeps
+   the list semantics a display: contents <ul> would otherwise drop.
+
+   CSS only, at a media query, so there is no shift: the dots are rendered
+   server-side as links to each card and the script only adds smooth scrolling
+   and the current-dot state on top. */
 @media (max-width: 45.99rem) {
-  .tst__col .tst__card:nth-of-type(2) { display: none; }
+  .tst__cols {
+    display: flex; gap: 1rem;
+    overflow-x: auto; overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    /* The cards carry a shadow; without this the track clips it. */
+    padding: 0.35rem 0.15rem;
+    /* The swipe is the affordance and the dots are the indicator, so the bar
+       itself is noise. It stays keyboard- and wheel-scrollable either way. */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .tst__cols::-webkit-scrollbar { display: none; }
+  .tst__col { display: contents; }
+  /* One card per view. Default row stretch already equalises their heights,
+     so the dots below never move as you swipe. */
+  .tst__card { flex: 0 0 100%; scroll-snap-align: center; scroll-snap-stop: always; }
+
+  .tst__dots {
+    display: flex; justify-content: center; align-items: center;
+    gap: 0.5rem; height: 2.75rem; margin: 0;
+  }
+  .tst__dot {
+    /* 0.5rem of ink inside a 44px touch target. */
+    display: grid; place-items: center;
+    width: 2.75rem; height: 2.75rem; padding: 0;
+    border: 0; background: none; cursor: pointer; appearance: none;
+    text-decoration: none;
+  }
+  .tst__dot::before {
+    content: ''; width: 0.5rem; height: 0.5rem; border-radius: 50%;
+    background: var(--border);
+    transition: background 160ms ease, transform 160ms ease;
+  }
+  .tst__dot[aria-current='true']::before { background: var(--accent); transform: scale(1.4); }
+  .tst__dot:focus-visible { outline: 2px solid var(--focus); outline-offset: -0.5rem; border-radius: var(--radius-sm); }
+}
+/* The dots are a phone affordance. The 2-column grid and the rolling columns
+   above 46rem show every quote without one. */
+@media (min-width: 46rem) {
+  .tst__dots { display: none; }
 }
 
 .tst__card {

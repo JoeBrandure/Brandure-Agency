@@ -55,6 +55,18 @@ const { id = 'book-form', heading = 'Book a call' } = Astro.props;
     <input type="hidden" name="form-name" value="call-request" />
     <p class="hp"><label>Leave this empty<input name="company-website-2" tabindex="-1" autocomplete="off" /></label></p>
 
+    {/* Filled by the price builder on /pricing via the query string it links
+        with, or from sessionStorage if the visitor arrived another way. Empty
+        when someone books without using the builder, which is why none of
+        them is required. */}
+    <input type="hidden" name="plan" value="" />
+    <input type="hidden" name="pages" value="" />
+    <input type="hidden" name="rebuild" value="" />
+    <input type="hidden" name="copywriting" value="" />
+    <input type="hidden" name="setup_total" value="" />
+    <input type="hidden" name="monthly_total" value="" />
+    <input type="hidden" name="currency" value="" />
+
     <div class="form-grid">
       <div class="field">
         <label for={`${id}-name`}>Name</label>
@@ -101,3 +113,39 @@ const { id = 'book-form', heading = 'Book a call' } = Astro.props;
     <p class="hint">We use your details to prepare for the call and get back to you. Nothing else, and we will not pass them on.</p>
   </form>
 </section>
+
+<script is:inline>
+  (function () {
+    /* The price builder links here with its selection in the query string, and
+       also leaves a copy in sessionStorage so a visitor who navigates another
+       way still arrives with their plan attached. The query wins.
+
+       This runs on a static build, so it reads location.search in the browser
+       — unlike Astro.url.searchParams, which is evaluated at build time and
+       would be frozen at whatever the builder happened to emit. */
+    var KEYS = ['plan', 'pages', 'rebuild', 'copywriting', 'setup_total', 'monthly_total', 'currency'];
+    var q = new URLSearchParams(location.search);
+    var stored = {};
+    try { stored = JSON.parse(sessionStorage.getItem('brandure.plan') || '{}'); } catch (e) { /* query only */ }
+
+    var forms = document.querySelectorAll('form[name="call-request"]');
+    for (var i = 0; i < forms.length; i++) {
+      for (var k = 0; k < KEYS.length; k++) {
+        var name = KEYS[k];
+        var field = forms[i].elements[name];
+        if (!field) continue;
+        var v = q.get(name) || stored[name] || '';
+        if (v) field.value = v;
+      }
+      /* If a plan came through, preselect the matching tier so the visible
+         part of the form agrees with the hidden part. */
+      var plan = q.get('plan') || stored.plan;
+      var tier = forms[i].elements['tier'];
+      if (plan && tier) {
+        for (var o = 0; o < tier.options.length; o++) {
+          if (tier.options[o].value === plan) { tier.selectedIndex = o; break; }
+        }
+      }
+    }
+  })();
+</script>

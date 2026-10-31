@@ -1,0 +1,171 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CurrencySwitch from '../components/CurrencySwitch.astro';
+import { SITE } from '../consts';
+import { PLANS, SETUP_FEE, ADDONS, WEB_FAQS, money } from '../data/pricing';
+import { webServiceSchema } from '../lib/schema';
+
+/* AI-READY WEBSITES. Copy as approved; this file decides structure only.
+ *
+ * Prices render from src/data/pricing.ts, the same module /pricing reads, so
+ * the two pages cannot quote different figures for the same page build. Both
+ * currencies are printed in the text, as everywhere else.
+ */
+const url = `${SITE.url}/ai-ready-websites`;
+const page = ADDONS.find((a) => a.key === 'page')!;
+const r10 = ADDONS.find((a) => a.key === 'rebuild10')!;
+const r20 = ADDONS.find((a) => a.key === 'rebuild20')!;
+const copy = ADDONS.find((a) => a.key === 'copy')!;
+
+const webPageSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  '@id': `${url}#webpage`,
+  url,
+  name: 'Websites built for AI search and SEO',
+  description:
+    'Websites built so Google and AI assistants can read, trust and recommend your business. On WordPress, Shopify, Webflow or our own stack, with AI search optimisation and SEO included.',
+  inLanguage: 'en-GB',
+  isPartOf: { '@id': `${SITE.url}/#website` },
+  about: { '@id': `${SITE.url}/#organization` },
+  mainEntity: { '@id': `${SITE.url}/#service-web` },
+};
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  '@id': `${url}#breadcrumb`,
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: SITE.url },
+    { '@type': 'ListItem', position: 2, name: 'Websites built for AI search and SEO', item: url },
+  ],
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  '@id': `${url}#faq`,
+  isPartOf: { '@id': `${SITE.url}/#website` },
+  mainEntity: WEB_FAQS.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+---
+<BaseLayout
+  title="Website design for AI search and SEO, UK &amp; UAE | Brandure"
+  fullTitle
+  description="Websites built so Google and AI assistants can read, trust and recommend your business. On WordPress, Shopify, Webflow or our own stack, with AI search optimisation and SEO included."
+  {/* webServiceSchema is emitted here as well as on /, /service and /pricing.
+      This is its canonical page — its own url field points here — so a reader
+      who lands only on this page can resolve the #service-web the WebPage
+      above references. Identical object, one definition in src/lib/schema.ts. */}
+  schemas={[webPageSchema, webServiceSchema, breadcrumbSchema, faqSchema]}
+>
+  <section class="hero hero--short">
+    <div class="mesh" aria-hidden="true">
+      <div class="mesh__layer mesh__layer--1"><div class="mesh__blob mesh__blob--1"></div></div>
+      <div class="mesh__layer mesh__layer--2"><div class="mesh__blob mesh__blob--2"></div></div>
+    </div>
+    <div class="wrap-narrow" data-load>
+      <p class="eyebrow">Websites</p>
+      <h1 class="statement statement--sub" data-split>Websites built for AI search and SEO</h1>
+      <p class="lede">
+        Brandure designs and rebuilds websites so Google, ChatGPT, Gemini and
+        Perplexity can read them, trust them and recommend you. We work on the
+        platform you already use, or build on our own stack when a site needs a
+        fresh start, and every build comes with ongoing AI search and SEO as
+        part of a monthly plan.
+      </p>
+    </div>
+  </section>
+
+  <section class="section section--sunk">
+    <div class="wrap-narrow" data-reveal>
+      <div class="prose">
+        <h2>Why a website holds you back</h2>
+        <p>
+          Search engines and AI assistants recommend businesses they can
+          understand. Many websites get in the way: content loaded by scripts
+          that crawlers can&rsquo;t run, services buried in one long page, no
+          structured data, slow mobile pages, or copy that never answers the
+          questions buyers ask.
+        </p>
+        <p>
+          You can optimise around a weak site for a while. At some point the
+          site itself is the problem. When our audit shows that, we rebuild.
+        </p>
+
+        <h2>What we build</h2>
+        <ul>
+          <li><strong>Service and product pages that answer buyer questions.</strong> Each page says what you do, for whom, where and at what price range, in words Google and AI assistants can quote.</li>
+          <li><strong>Structure crawlers can read.</strong> Clean HTML, schema markup, fast mobile pages, nothing hidden behind scripts.</li>
+          <li><strong>FAQ and comparison pages.</strong> The page types AI assistants cite most often when they recommend a business.</li>
+          <li><strong>Measurement from day one.</strong> Rankings, AI visibility per engine and AI-referred traffic, before and after.</li>
+        </ul>
+
+        <h2>Platforms</h2>
+        <p>
+          WordPress, Shopify, Webflow, Wix and Squarespace, or Astro on Netlify
+          when a full rebuild makes more sense. If your platform works for you,
+          we build on it.
+        </p>
+
+        <h2>Your copy, our build</h2>
+        <p>
+          We build with the copy you already have. If you need pages written,
+          add copywriting in the price builder.
+        </p>
+
+        <h2>How it works</h2>
+        <ol>
+          <li><strong>Audit.</strong> We check how Google and AI assistants see your business and whether your site is the blocker. It starts with the <a href="/#report">free AI visibility report</a>.</li>
+          <li><strong>Build your plan.</strong> Choose a monthly plan and add the pages or rebuild you need in the <a href="/pricing">price builder</a>. You&rsquo;ll see the exact cost up front.</li>
+          <li><strong>Build.</strong> Page projects take two to three weeks; full rebuilds four to six.</li>
+          <li><strong>Optimise.</strong> Your monthly AI search and SEO work starts with the new site live.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="web-prices-h">
+    <div class="wrap-narrow" data-reveal>
+      <div class="section-head">
+        <h2 id="web-prices-h">Prices</h2>
+      </div>
+      <CurrencySwitch />
+      <div class="prose">
+        <p>
+          New or rebuilt pages are {money(page.price).both} each. Full rebuilds
+          are {money(r10.price).both} up to 10 pages, or {money(r20.price).both}
+          {' '}up to 20. All website work is added to a Core
+          ({money(PLANS[0].monthly).both} a month) or Growth
+          ({money(PLANS[1].monthly).both} a month) plan, with AI search &amp;
+          SEO setup at {money(SETUP_FEE.price).both}. Copywriting is
+          {' '}{money(copy.price).both} per page if you need it. Prices exclude
+          VAT. <a href="/pricing#builder">Build your plan</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--sunk">
+    <div class="wrap-narrow" data-reveal>
+      <div class="section-head">
+        <h2>Questions</h2>
+      </div>
+      <div class="qa">
+        {WEB_FAQS.map((f) => (
+          <details>
+            <summary>{f.q}</summary>
+            <p>{f.a}</p>
+          </details>
+        ))}
+      </div>
+      <p class="center-row mt-2">
+        <a class="btn" href="/pricing#builder">Build your plan</a>
+      </p>
+    </div>
+  </section>
+</BaseLayout>

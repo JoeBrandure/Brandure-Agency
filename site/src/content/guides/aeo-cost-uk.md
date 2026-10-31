@@ -31,7 +31,7 @@ More UK agencies publish prices than UAE ones, but most still quote on request. 
 |---|---|---|
 | Straight Up Search | GEO add-ons £595 and £995 a month; SEO + GEO bundle from £1,990 | Rolling monthly terms, excl. VAT ([reported by GTMLab](https://www.gtmlab.ai/blog/best-geo-agencies-united-kingdom)) |
 | MarGen | £2,950 audit; £2,950, £5,950 and from £12,950 a month | Audit credited against month one ([MarGen](https://www.margen.net/aeo-agency-pricing-uk/)) |
-| Brandure | approx. £1,400 a month (Core) or £2,600 (Growth), plus approx. £750 setup | AEO only, tracked separately across six AI engines; priced in AED ([our pricing](/pricing)) |
+| Brandure | £1,400 a month (Core) or £2,600 (Growth), plus £750 setup | AI search (AEO) with SEO included, tracked separately across six AI engines; website builds available as an add-on ([our pricing](/pricing)) |
 
 Brandure wrote this guide, so treat our row the same way you'd treat any agency's own figures.
 

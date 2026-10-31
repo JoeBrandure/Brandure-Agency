@@ -117,7 +117,14 @@
                 val('website') ? 'Site: ' + val('website') : '',
                 val('category') ? 'Category: ' + val('category') : '',
                 val('market') ? 'Market: ' + val('market') : 'Market: not specified',
-                val('tier') ? 'Asking about: ' + val('tier') : ''
+                val('tier') ? 'Asking about: ' + val('tier') : '',
+                /* From the price builder, when they came through it. */
+                val('plan') ? 'Plan: ' + val('plan') : '',
+                val('setup_total') ? 'Setup total: ' + val('setup_total') : '',
+                val('monthly_total') ? 'Monthly: ' + val('monthly_total') : '',
+                val('rebuild') && val('rebuild') !== 'none' ? 'Website: ' + val('rebuild') : '',
+                Number(val('pages')) ? 'Pages: ' + val('pages') : '',
+                Number(val('copywriting')) ? 'Copywriting pages: ' + val('copywriting') : ''
               ].filter(Boolean).join('\n');
 
               var mount = function () {

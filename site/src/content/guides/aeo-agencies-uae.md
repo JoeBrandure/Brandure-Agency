@@ -27,7 +27,7 @@ We didn't score or rank agencies on results we can't verify.
 
 | Agency | AI search offering | Published price | Best suited to | Named by AI in our tracking |
 |---|---|---|---|---|
-| **Brandure** (brandure.io) | AEO only; each engine tracked and reported separately; third-party citation placements | AED 6,500 or 12,000 a month + AED 3,500 setup | UK and UAE businesses that want AI search as the main job | Not yet (0.7% visibility) |
+| **Brandure** (brandure.io) | AI search (AEO) with SEO included; each AI engine tracked and reported separately; third-party citation placements; AI-ready website builds available | AED 6,500 or 12,000 a month + AED 3,500 setup | UK and UAE businesses that want AI search as the main job | Not yet (0.7% visibility) |
 | **SEO Sherpa** (seosherpa.com) | Dedicated GEO service within a large SEO agency | Quote only | Larger brands wanting SEO and AI search together | Yes |
 | **Tenet** (wearetenet.com) | GEO and AI citation audits included in every SEO package | AED 7,500 / 12,000 / 15,000 a month | Businesses buying SEO first, with AI search included | Yes |
 | **Arab SEO** (arabseo.ae) | Dedicated AI SEO service | AI SEO from AED 5,500 a month | Arabic and English search in the Gulf | Named in Google AI Mode answers |

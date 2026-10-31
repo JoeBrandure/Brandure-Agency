@@ -52,12 +52,12 @@ export const SITE = {
      changing either way. */
   bookingUrl: 'https://calendly.com/joe-brandure/15min' as string | null,
   description:
-    'Brandure is an AI search optimisation (AEO) agency for businesses in the UK and the UAE.',
+    'Brandure is an AI search specialist agency: AI search optimisation (AEO) and SEO, with websites built for both. For businesses in the UK and the UAE.',
 
   /* Reads as a correction, because it is one: the name gets mistaken for a
      branding studio, and this is the field that tells an engine otherwise. */
   disambiguatingDescription:
-    'An AI search optimisation (AEO) agency. Not a branding, logo or design studio.',
+    'An AI search optimisation (AEO) and SEO agency that also builds websites for AI search. Not a branding or logo studio.',
 
   alternateName: ['Brandure AEO', 'Brandure AI search agency'],
 } as const;

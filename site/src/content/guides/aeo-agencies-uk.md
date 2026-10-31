@@ -27,7 +27,7 @@ We didn't score or rank agencies on results we can't verify.
 
 | Agency | AI search offering | Published price | Best suited to | Named by AI in our tracking |
 |---|---|---|---|---|
-| **Brandure** (brandure.io) | AEO only; each engine tracked and reported separately; third-party citation placements | approx. £1,400 or £2,600 a month + approx. £750 setup (priced in AED) | UK and UAE businesses that want AI search as the main job | Not yet (0.7% visibility) |
+| **Brandure** (brandure.io) | AI search (AEO) with SEO included; each AI engine tracked and reported separately; third-party citation placements; AI-ready website builds available | £1,400 or £2,600 a month + £750 setup (AED 6,500 / 12,000 + AED 3,500) | UK and UAE businesses that want AI search as the main job | Not yet (0.7% visibility) |
 | **The SEO Works** (seoworks.co.uk) | GEO within organic search: question research, structured content, business information consistency | Quote only | UK SMEs and mid-market wanting SEO and GEO together | Yes |
 | **Exposure Ninja** (exposureninja.com) | GEO alongside SEO and conversion work | Quote only | Growth-focused businesses wanting SEO, GEO and CRO in one place | Yes |
 | **Impression** (impressiondigital.com) | GEO across technical discoverability, content and off-site reputation | Quote only | Mid-market and larger brands; reported 1,793 AI Overview citations for client Tensar | — |
@@ -62,7 +62,7 @@ Whoever you speak to, get a baseline of your AI visibility on named questions be
 It depends on what you need. Established SEO agencies such as The SEO Works and Exposure Ninja include GEO in organic search; enterprise teams such as SALT.agency and Found handle large sites; specialists such as Brandure focus only on AI search. No agency dominates AI answers yet.
 
 **Which UK agencies publish GEO or AEO prices?**
-Straight Up Search (add-ons from £595 a month), MarGen (from £2,950 a month) and Brandure (approx. £1,400 or £2,600 a month) publish prices. Most others quote on request.
+Straight Up Search (add-ons from £595 a month), MarGen (from £2,950 a month) and Brandure (£1,400 or £2,600 a month) publish prices. Most others quote on request.
 
 **Is GEO the same as AEO?**
 Yes, in practice. Both mean getting your business named and cited in AI-generated answers. UK agencies more often say GEO.

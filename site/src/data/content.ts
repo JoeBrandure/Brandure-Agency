@@ -367,7 +367,7 @@ export const PACKAGES = [
     coversLabel: 'All four stages, monthly',
     price: 'AED 6,500',
     unit: 'per month \u00b7 plus AED 3,500 one time setup fee',
-    gbp: 'approx. \u00a31,400/month',
+    gbp: '\u00a31,400/month',
     lede: 'Own the market you\u2019re already in.',
     summary: '',
     gets: [
@@ -399,7 +399,7 @@ export const PACKAGES = [
     coversLabel: 'All four stages, monthly',
     price: 'AED 12,000',
     unit: 'per month \u00b7 plus AED 3,500 one time setup fee',
-    gbp: 'approx. \u00a32,600/month',
+    gbp: '\u00a32,600/month',
     lede: 'Take the ground you don\u2019t hold yet.',
     summary: 'Everything in Core, plus:',
     /* Arabic and UAE-wide were removed from this tier on 2026-10-21. They are
@@ -442,7 +442,7 @@ export const SETUP = {
   name: 'One time setup fee',
   price: 'AED 3,500',
   unit: '',
-  gbp: 'approx. £750 setup',
+  gbp: '£750 setup',
   d: 'Schema, crawler access, entity fixes, tracking baseline and measurement setup. Ten working days, completed before month one begins.',
 } as const;
 

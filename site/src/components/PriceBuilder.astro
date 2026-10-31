@@ -1,0 +1,258 @@
+---
+import { PLANS, SETUP_FEE, ADDONS, EXAMPLES, VAT_TERMS, NUDGE_FROM_PAGES, money } from '../data/pricing';
+
+/**
+ * The price builder.
+ *
+ * PROGRESSIVE ENHANCEMENT, NOT A REQUIREMENT. The full price list is printed
+ * as real tables above this component, in both currencies, and that is the
+ * canonical copy. This only adds up a selection from it. With JS off the
+ * builder is hidden and nothing is lost: every number is still on the page.
+ *
+ * NO FRAMEWORK AND NO ISLAND. The arithmetic is about twenty lines; a runtime
+ * to perform it would cost more than it does. Vanilla, inline, no hydration.
+ *
+ * NO LAYOUT SHIFT. The summary renders server-side with the Core defaults
+ * already filled in, so the box is its final size before the script runs; the
+ * script only changes the numbers inside it.
+ *
+ * The price table is handed to the script as JSON built from the same data
+ * module the tables render from, so the builder cannot total a price that
+ * differs from the one printed above it.
+ *
+ * DESIGN DECISION FLAGGED FOR JOE: the layout is the existing .card surface
+ * with the form field styles already used by the report and booking forms, in
+ * a two-column grid that stacks on mobile — the same shape as the booking
+ * form. No new tokens, no new component vocabulary. Worth a look before it
+ * settles.
+ */
+const rates = {
+  plans: Object.fromEntries(PLANS.map((p) => [p.key, p.monthly])),
+  setup: SETUP_FEE.price,
+  addons: Object.fromEntries(ADDONS.filter((a) => a.price).map((a) => [a.key, a.price])),
+  nudgeFrom: NUDGE_FROM_PAGES,
+};
+const core = PLANS[0];
+const initialSetup = money(SETUP_FEE.price);
+const initialMonthly = money(core.monthly);
+---
+<section class="section" id="builder" aria-labelledby="builder-h">
+  <div class="wrap-narrow" data-reveal>
+    <div class="section-head">
+      <h2 id="builder-h">Build your plan</h2>
+      <p class="lede">
+        Pick a monthly plan, then add the setup you need. You&rsquo;ll see the
+        exact setup cost and monthly fee before you talk to anyone.
+      </p>
+    </div>
+
+    <form class="card pb" id="price-builder" novalidate>
+      <fieldset class="pb__f">
+        <legend class="pb__lg">Step 1: Monthly plan</legend>
+        <div class="pb__opts">
+          {PLANS.map((p, i) => (
+            <label class="pb__opt">
+              <input type="radio" name="plan" value={p.key} checked={i === 0} />
+              <span>
+                <strong>{p.name}</strong>
+                <span class="pb__p">
+                  <span class="cur-aed">{money(p.monthly).aed}</span><span class="cur-gbp">{money(p.monthly).gbp}</span> a month
+                </span>
+              </span>
+            </label>
+          ))}
+        </div>
+      </fieldset>
+
+      <fieldset class="pb__f">
+        <legend class="pb__lg">Step 2: Setup</legend>
+        <p class="pb__fixed">
+          <strong>{SETUP_FEE.name}</strong> &mdash;
+          <span class="cur-aed">{initialSetup.aed}</span><span class="cur-gbp">{initialSetup.gbp}</span>,
+          {' '}{SETUP_FEE.note}.
+        </p>
+
+        <div class="pb__row">
+          <label class="pb__lb" for="pb-web">Website work</label>
+          <select id="pb-web" name="web">
+            <option value="none" selected>None &mdash; my site is fine</option>
+            <option value="page">New or rebuilt pages</option>
+            <option value="rebuild10">Full rebuild, up to 10 pages</option>
+            <option value="rebuild20">Full rebuild, up to 20 pages</option>
+            <option value="ecommerce">Ecommerce or larger site</option>
+          </select>
+        </div>
+
+        <div class="pb__row" id="pb-pages-row" hidden>
+          <label class="pb__lb" for="pb-pages">How many pages?</label>
+          <input id="pb-pages" name="pages" type="number" min="1" max="10" step="1" value="1" inputmode="numeric" />
+        </div>
+
+        <p class="pb__nudge" id="pb-nudge" hidden role="status"></p>
+
+        <div class="pb__row">
+          <label class="pb__lb" for="pb-copy">Copywriting (pages)</label>
+          <input id="pb-copy" name="copy" type="number" min="0" max="20" step="1" value="0" inputmode="numeric" />
+        </div>
+      </fieldset>
+
+      <div class="pb__sum" aria-live="polite">
+        <p class="pb__sumrow">
+          <span>Setup total (one-off)</span>
+          <strong id="pb-setup">
+            <span class="cur-aed">{initialSetup.aed}</span><span class="cur-gbp">{initialSetup.gbp}</span>
+          </strong>
+        </p>
+        <p class="pb__sumrow">
+          <span>Monthly fee</span>
+          <strong id="pb-monthly">
+            <span class="cur-aed">{initialMonthly.aed}</span><span class="cur-gbp">{initialMonthly.gbp}</span>
+          </strong>
+        </p>
+        <p class="note-sm">{VAT_TERMS}</p>
+        <p><a class="btn" id="pb-cta" href="/service#book">Book a call with this plan</a></p>
+      </div>
+    </form>
+
+    <div class="prose pb__ex">
+      <h3>Example totals</h3>
+      <ul>
+        {EXAMPLES.map((e) => (
+          <li>
+            <strong>{e.label}:</strong>{' '}
+            {money(e.setup).aed} setup, then {money(e.monthly).aed}/month
+            {' '}({money(e.setup).gbp} then {money(e.monthly).gbp})
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<script is:inline define:vars={{ rates }}>
+  (function () {
+    var form = document.getElementById('price-builder');
+    if (!form) return;
+    /* This inline script runs during parse, before paint, so marking the form
+       ready here reveals it with no layout shift. Deliberately NOT keyed off
+       .no-js: ThemeScript re-adds that class if the motion layer fails to
+       signal, which would hide a working builder. */
+    form.setAttribute('data-ready', '1');
+
+    var fmt = {
+      aed: function (n) { return 'AED ' + n.toLocaleString('en-GB'); },
+      gbp: function (n) { return '£' + n.toLocaleString('en-GB'); },
+    };
+    var webSel = document.getElementById('pb-web');
+    var pagesRow = document.getElementById('pb-pages-row');
+    var pages = document.getElementById('pb-pages');
+    var copy = document.getElementById('pb-copy');
+    var nudge = document.getElementById('pb-nudge');
+    var setupEl = document.getElementById('pb-setup');
+    var monthlyEl = document.getElementById('pb-monthly');
+    var cta = document.getElementById('pb-cta');
+
+    function pair(a, g) {
+      return '<span class="cur-aed">' + fmt.aed(a) + '</span><span class="cur-gbp">' + fmt.gbp(g) + '</span>';
+    }
+
+    function state() {
+      var plan = form.querySelector('input[name="plan"]:checked').value;
+      var web = webSel.value;
+      var nPages = web === 'page' ? Math.max(1, Math.min(10, Number(pages.value) || 1)) : 0;
+      var nCopy = Math.max(0, Math.min(20, Number(copy.value) || 0));
+      return { plan: plan, web: web, pages: nPages, copy: nCopy };
+    }
+
+    function compute(s) {
+      var out = { aed: rates.setup.aed, gbp: rates.setup.gbp, quote: false };
+      if (s.web === 'page') {
+        out.aed += rates.addons.page.aed * s.pages;
+        out.gbp += rates.addons.page.gbp * s.pages;
+      } else if (s.web === 'rebuild10' || s.web === 'rebuild20') {
+        out.aed += rates.addons[s.web].aed;
+        out.gbp += rates.addons[s.web].gbp;
+      } else if (s.web === 'ecommerce') {
+        /* The floor is setup plus the up-to-10 rebuild; the rest is quoted,
+           so this is stated as a floor and never as a total. */
+        out.aed += rates.addons.rebuild10.aed;
+        out.gbp += rates.addons.rebuild10.gbp;
+        out.quote = true;
+      }
+      out.aed += rates.addons.copy.aed * s.copy;
+      out.gbp += rates.addons.copy.gbp * s.copy;
+      return out;
+    }
+
+    function render() {
+      var s = state();
+      pagesRow.hidden = s.web !== 'page';
+      copy.max = String(s.web === 'page' ? s.pages : 20);
+      if (Number(copy.value) > Number(copy.max)) copy.value = copy.max;
+
+      var showNudge = s.web === 'page' && s.pages >= rates.nudgeFrom;
+      nudge.hidden = !showNudge;
+      if (showNudge) {
+        nudge.innerHTML = 'A full rebuild up to 10 pages is better value at ' +
+          pair(rates.addons.rebuild10.aed, rates.addons.rebuild10.gbp) + '.';
+      }
+
+      var t = compute(s);
+      var m = rates.plans[s.plan];
+      setupEl.innerHTML = t.quote
+        ? 'from ' + pair(t.aed, t.gbp) + ' + quote'
+        : pair(t.aed, t.gbp);
+      monthlyEl.innerHTML = pair(m.aed, m.gbp);
+      cta.textContent = t.quote ? 'Get a quote' : 'Book a call with this plan';
+
+      /* Carried into the booking form as hidden fields, which FormEnhance
+         already forwards into the Calendly prefill. */
+      var cur = document.documentElement.getAttribute('data-cur') === 'aed' ? 'aed' : 'gbp';
+      var q = {
+        plan: s.plan === 'growth' ? 'Growth' : 'Core',
+        pages: String(s.pages),
+        rebuild: s.web,
+        copywriting: String(s.copy),
+        setup_total: t.quote ? 'from ' + fmt[cur](t[cur]) + ' + quote' : fmt[cur](t[cur]),
+        monthly_total: fmt[cur](m[cur]),
+        currency: cur.toUpperCase(),
+      };
+      /* Query before fragment. '/service#book?x=1' puts the query inside the
+         fragment, where no form and no server ever sees it. */
+      cta.href = '/service?' + new URLSearchParams(q).toString() + '#book';
+      try { sessionStorage.setItem('brandure.plan', JSON.stringify(q)); } catch (e) { /* link still carries it */ }
+    }
+
+    form.addEventListener('input', render);
+    form.addEventListener('change', render);
+    document.addEventListener('brandure:currency', render);
+    render();
+  })();
+</script>
+
+<style>
+  /* Hidden until the builder's own inline script marks it ready, so a reader
+     with JS off never sees a form that cannot add up. The tables above carry
+     every price regardless. */
+  .pb:not([data-ready]) { display: none; }
+  .pb { padding: 1.5rem; display: grid; gap: 1.5rem; }
+  .pb__f { border: 0; padding: 0; margin: 0; }
+  .pb__lg { font-family: var(--font-mono); font-size: var(--label); letter-spacing: 0.05em; color: var(--muted); padding: 0; margin-bottom: 0.7rem; }
+  .pb__opts { display: grid; gap: 0.6rem; }
+  .pb__opt { display: flex; gap: 0.6rem; align-items: flex-start; cursor: pointer; }
+  .pb__opt input { margin-top: 0.3rem; }
+  .pb__p { display: block; font-size: var(--small); color: var(--muted); }
+  .pb__fixed { font-size: var(--small); margin: 0 0 0.9rem; }
+  .pb__row { display: grid; gap: 0.35rem; margin-bottom: 0.8rem; }
+  .pb__lb { font-size: var(--small); color: var(--muted); }
+  .pb__row input, .pb__row select { width: 100%; }
+  .pb__nudge { font-size: var(--small); color: var(--link); margin: 0 0 0.8rem; }
+  .pb__sum { border-top: 1px solid var(--border); padding-top: 1.1rem; }
+  .pb__sumrow { display: flex; justify-content: space-between; gap: 1rem; align-items: baseline; margin: 0 0 0.5rem; }
+  .pb__sumrow strong { font-family: var(--font-display); font-size: var(--h3); letter-spacing: -0.02em; }
+  .pb__ex { margin-top: 1.75rem; }
+  @media (min-width: 46rem) {
+    .pb { grid-template-columns: 1fr 1fr; }
+    .pb__sum { grid-column: 1 / -1; }
+  }
+</style>

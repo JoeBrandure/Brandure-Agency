@@ -1,0 +1,87 @@
+---
+/**
+ * AED / £ override.
+ *
+ * The default comes from the edge function, which stamps data-cur on <html>
+ * from the visitor's country. This lets them disagree with it, and remembers
+ * that they did.
+ *
+ * It changes which currency the PLAN CARDS and the BUILDER lead with. It never
+ * hides a price: the static price tables print both currencies in every state,
+ * so a reader with JS off, or a crawler, sees the whole list either way.
+ *
+ * DESIGN DECISION FLAGGED FOR JOE: a two-button segmented control, built from
+ * the existing .btn--ghost styling and the token palette, sitting above the
+ * plan cards. Nothing in the design system covers a toggle of this kind, so
+ * this is the most conservative thing that fits rather than a new pattern.
+ */
+---
+<div class="cur" role="group" aria-label="Show prices in">
+  <span class="cur__l" id="cur-label">Show prices in</span>
+  <div class="cur__set">
+    <button type="button" class="cur__b" data-cur-set="aed" aria-pressed="false">AED</button>
+    <button type="button" class="cur__b" data-cur-set="gbp" aria-pressed="false">&pound;</button>
+  </div>
+</div>
+
+<style>
+  .cur {
+    display: flex; align-items: center; gap: 0.6rem;
+    justify-content: center; flex-wrap: wrap;
+    margin-bottom: 1.25rem;
+  }
+  .cur__l { font-size: var(--small); color: var(--muted); }
+  .cur__set { display: inline-flex; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+  .cur__b {
+    appearance: none; background: transparent; border: 0;
+    font: inherit; font-size: var(--small); font-weight: 600;
+    color: var(--link); cursor: pointer;
+    padding: 0.4rem 0.9rem;
+  }
+  .cur__b + .cur__b { border-left: 1px solid var(--border); }
+  .cur__b[aria-pressed='true'] { background: var(--btn-bg); color: var(--btn-fg); }
+  /* Hidden until this component's own inline script marks it ready, so a
+     reader with JS off never sees a control that does nothing. Deliberately
+     NOT keyed off .no-js: ThemeScript re-adds that class when the motion layer
+     fails to signal, which would hide a working switch. The prices are on the
+     page in both currencies either way. */
+  .cur:not([data-ready]) { display: none; }
+</style>
+
+<script is:inline>
+  (function () {
+    var KEY = 'brandure_cur';
+    var root = document.documentElement;
+    var hosts = document.querySelectorAll('.cur:not([data-ready])');
+    for (var h = 0; h < hosts.length; h++) hosts[h].setAttribute('data-ready', '1');
+
+    function mark(cur) {
+      root.setAttribute('data-cur', cur);
+      var btns = document.querySelectorAll('[data-cur-set]');
+      for (var i = 0; i < btns.length; i++) {
+        btns[i].setAttribute('aria-pressed', String(btns[i].getAttribute('data-cur-set') === cur));
+      }
+    }
+
+    /* A stored choice is authoritative over the edge function's guess. Reading
+       localStorage throws in a private window or with site data blocked, so a
+       failure just leaves the geographic default in place. */
+    var stored = null;
+    try { stored = localStorage.getItem(KEY); } catch (e) { /* geo default stands */ }
+    mark(stored === 'aed' || stored === 'gbp' ? stored : root.getAttribute('data-cur') || 'gbp');
+
+    document.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-cur-set]');
+      if (!b) return;
+      var cur = b.getAttribute('data-cur-set');
+      mark(cur);
+      try { localStorage.setItem(KEY, cur); } catch (e2) { /* this page still switched */ }
+      /* Mirrored into a cookie so the edge function serves the same currency
+         on the next page without a flash. */
+      try {
+        document.cookie = KEY + '=' + cur + ';path=/;max-age=31536000;samesite=lax';
+      } catch (e3) { /* localStorage already has it for this browser */ }
+      document.dispatchEvent(new CustomEvent('brandure:currency', { detail: cur }));
+    });
+  })();
+</script>

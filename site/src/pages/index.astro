@@ -5,7 +5,7 @@ import PromptRotator from '../components/PromptRotator.astro';
 import LogoStrip from '../components/LogoStrip.astro';
 import Testimonials from '../components/Testimonials.astro';
 import { SITE } from '../consts';
-import { serviceSchema } from '../lib/schema';
+import { allServiceSchemas } from '../lib/schema';
 import { FAQS, FAQS_HOME, HERO_MODE, HERO_STATS, HERO_CASES, PROBLEMS, STAGES, PACKAGES, ENGINES, PRIZE, TERMS } from '../data/content';
 import { getCollection } from 'astro:content';
 import { listable, sortDate, tagFor } from '../lib/research';
@@ -51,10 +51,10 @@ const faqSchema = {
 ---
 
 <BaseLayout
-  title="Brandure | AI search optimisation (AEO) agency, UK & UAE"
+  title="Brandure | AI search (AEO) & SEO agency, UK & UAE"
   fullTitle
   description="Brandure is an AI search optimisation (AEO) agency for UK and UAE businesses. We get you recommended by ChatGPT, Gemini, Perplexity and Google AI Overviews."
-  schemas={[serviceSchema, faqSchema]}
+  schemas={[...allServiceSchemas, faqSchema]}
 >
   <!-- 1. Hero — statement centred, case figures in a row beneath (centre.css) -->
   <section class="hero">

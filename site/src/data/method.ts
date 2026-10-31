@@ -46,6 +46,7 @@ export const SCAN: Stage[] = [
       'We agree the questions with you first. The ones someone types when they’re choosing a supplier, not reading around the subject.',
       'Every question goes to all six engines, signed out, more than once. One run tells you almost nothing.',
       'Every answer gets marked the same way: named with a source, named without one, or not there at all.',
+      'Google rankings for the same buying questions, alongside AI visibility.',
     ],
     rules:
       'The idea that checking ChatGPT tells you where you stand. The six disagree constantly. One averaged score won’t tell you which is costing you business.',
@@ -60,6 +61,7 @@ export const SCAN: Stage[] = [
       'It can’t identify you. The AI is unsure who you are or what you sell, so it won’t put your name forward.',
       'It can’t find anything about you. It knows who you are, but none of the sources it trusts mention you.',
       'It prefers someone else. It knows you, the mentions exist, and it still names two competitors. This is the hard one, and we’d rather tell you early.',
+      'Site readiness. We check whether search engines and AI assistants can read, render and trust your site: crawler access, page structure, structured data, mobile speed, and whether your pages answer the questions buyers ask. A failing score means the site is part of the cause.',
     ],
     rules:
       'The assumption that one fix covers it. Publishing more pages helps with the second problem and does nothing for the other two. That’s why “just write more content” is the advice everyone gives and nobody gets much from.',
@@ -73,7 +75,8 @@ export const SCAN: Stage[] = [
     does: [
       'We make the basic facts about your business consistent everywhere an AI can find them. It stops hesitating over who you are.',
       'We write pages an AI can quote from directly, instead of pages it has to rewrite and therefore skips.',
-      'We go after mentions on the sites your category’s answers are actually built from. This is the slow part, and the part that moves it.'
+      'We go after mentions on the sites your category’s answers are actually built from. This is the slow part, and the part that moves it.',
+      'Rebuild where the site is the blocker. If site readiness fails, the first action is new or rebuilt pages, or a full rebuild, before any other optimisation.'
     ],
     rules:
       'The assumption that this is a website job. Most of an AI answer comes from what other sites say about you, so most of the work happens somewhere you don’t control.',

@@ -118,7 +118,11 @@ const allSchemas = [websiteSchema, organizationSchema, personSchema, ...schemas]
 ---
 
 <!doctype html>
-<html lang="en-GB" class="no-js">
+{/* data-cur is the build-time default. netlify/edge-functions/currency.ts
+    rewrites it per request from the visitor's country (or their stored
+    choice), so the right currency is in the markup before paint — no flash.
+    If the edge function is ever off, this default is what ships. */}
+<html lang="en-GB" class="no-js" data-cur="gbp">
   <head>
     <meta charset="utf-8" />
     <ThemeScript />

@@ -2474,3 +2474,14 @@ input:focus-visible, select:focus-visible { border-color: var(--focus); }
 .marquee__item:hover .wordmark-ph { opacity: 1; transform: translateY(-2px); }
 .marquee__item:hover .wordmark-ph { border-color: var(--accent); }
 .marquee__item:hover .wordmark-ph__text { color: var(--accent); }
+
+/* ---------- Currency display ----------
+   Both currencies are always in the HTML; this chooses which one is shown
+   where a single figure is wanted (plan cards, builder totals). The static
+   price tables use .cur-both and print both, so nothing is ever hidden from a
+   crawler or from a reader with JS off. */
+.cur-aed, .cur-gbp { display: none; }
+html[data-cur='aed'] .cur-aed { display: inline; }
+html[data-cur='gbp'] .cur-gbp { display: inline; }
+/* No JS and no edge function still shows one price rather than none. */
+html:not([data-cur]) .cur-gbp { display: inline; }

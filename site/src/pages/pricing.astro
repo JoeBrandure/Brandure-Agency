@@ -1,8 +1,11 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { PACKAGES, SETUP, TERMS, FREE_OFFER, PRICING_FAQS } from '../data/content';
+import { PACKAGES, FREE_OFFER } from '../data/content';
+import { PLANS, SETUP_FEE, ADDONS, VAT_TERMS, PRICING_FAQS, money } from '../data/pricing';
+import PriceBuilder from '../components/PriceBuilder.astro';
+import CurrencySwitch from '../components/CurrencySwitch.astro';
 import { SITE } from '../consts';
-import { serviceSchema } from '../lib/schema';
+import { allServiceSchemas } from '../lib/schema';
 
 /* PRICING EXISTS BECAUSE THE NUMBERS WERE NOT ADDRESSABLE.
  *
@@ -22,11 +25,6 @@ import { serviceSchema } from '../lib/schema';
  */
 
 const offerId = (k: string) => `${SITE.url}/pricing#offer-${k}`;
-
-/* AED, digits only: schema.org/price takes a number, not a formatted string.
-   Derived from the displayed price rather than typed again, so the structured
-   data cannot say one thing while the card says another. */
-const numeric = (p: string) => Number(p.replace(/[^0-9.]/g, ''));
 
 const webPageSchema = {
   '@context': 'https://schema.org',
@@ -56,32 +54,51 @@ const catalogSchema = {
   isPartOf: { '@id': `${SITE.url}/#website` },
   provider: { '@id': `${SITE.url}/#organization` },
   itemListElement: [
-    ...PACKAGES.map((p) => ({
+    ...PLANS.map((p) => ({
       '@type': 'Offer',
       '@id': offerId(p.key),
       name: p.name,
-      description: p.lede,
+      description: p.includes,
       url: `${SITE.url}/pricing`,
+      /* Both currencies. The top-level price stays AED for consumers that read
+         only that; the two UnitPriceSpecifications carry the real pair, which
+         are fixed prices rather than a converted one. */
       priceCurrency: 'AED',
-      price: numeric(p.price),
+      price: p.monthly.aed,
       seller: { '@id': `${SITE.url}/#organization` },
-      priceSpecification: {
-        '@type': 'UnitPriceSpecification',
-        price: numeric(p.price),
-        priceCurrency: 'AED',
-        unitText: 'MONTH',
-      },
+      priceSpecification: [
+        { '@type': 'UnitPriceSpecification', price: p.monthly.aed, priceCurrency: 'AED', unitText: 'MONTH' },
+        { '@type': 'UnitPriceSpecification', price: p.monthly.gbp, priceCurrency: 'GBP', unitText: 'MONTH' },
+      ],
     })),
     {
       '@type': 'Offer',
       '@id': offerId('setup'),
-      name: 'Setup',
-      description: SETUP.d,
+      name: SETUP_FEE.name,
+      description: SETUP_FEE.d,
       url: `${SITE.url}/pricing`,
       priceCurrency: 'AED',
-      price: numeric(SETUP.price),
+      price: SETUP_FEE.price.aed,
       seller: { '@id': `${SITE.url}/#organization` },
+      priceSpecification: [
+        { '@type': 'UnitPriceSpecification', price: SETUP_FEE.price.aed, priceCurrency: 'AED' },
+        { '@type': 'UnitPriceSpecification', price: SETUP_FEE.price.gbp, priceCurrency: 'GBP' },
+      ],
     },
+    ...ADDONS.filter((a) => a.price).map((a) => ({
+      '@type': 'Offer',
+      '@id': offerId(a.key),
+      name: a.label,
+      description: a.notes,
+      url: `${SITE.url}/pricing`,
+      priceCurrency: 'AED',
+      price: a.price.aed,
+      seller: { '@id': `${SITE.url}/#organization` },
+      priceSpecification: [
+        { '@type': 'UnitPriceSpecification', price: a.price.aed, priceCurrency: 'AED', ...(a.perPage ? { unitText: 'PAGE' } : {}) },
+        { '@type': 'UnitPriceSpecification', price: a.price.gbp, priceCurrency: 'GBP', ...(a.perPage ? { unitText: 'PAGE' } : {}) },
+      ],
+    })),
   ],
 };
 
@@ -101,7 +118,7 @@ const faqSchema = {
   title="Pricing | Brandure: AEO agency for UK & UAE businesses"
   fullTitle
   description="Brandure AEO pricing: Core AED 6,500/month, Growth AED 12,000/month, plus a one-time AED 3,500 setup. Six-month term with a 90-day review. Prices exclude VAT."
-  schemas={[webPageSchema, serviceSchema, catalogSchema, faqSchema]}
+  schemas={[webPageSchema, ...allServiceSchemas, catalogSchema, faqSchema]}
 >
   <section class="hero hero--short">
     <div class="mesh" aria-hidden="true">
@@ -121,7 +138,7 @@ const faqSchema = {
     <div class="wrap-narrow" data-reveal>
       {/* The free report sits above the paid tiers rather than beside them.
           Priced next to two numbers it reads as a third tier, which it is not
-          — see the note above SETUP in the data module.
+          — see the note above FREE_OFFER in the data module.
 
           The card heading is an h3 because .offer__head styles h3 specifically;
           an h2 here inherits the white but renders at --h2, which is the wrong
@@ -150,17 +167,24 @@ const faqSchema = {
         <h2>Two ways we get you there.</h2>
       </div>
 
+      <CurrencySwitch />
+
       <div class="pkg" data-stagger>
-        {PACKAGES.map((p) => (
+        {PACKAGES.map((p, i) => (
           <article class:list={['pkg__c', `stages--${p.a}`, p.primary && 'is-featured']}>
             {p.primary && <span class="feat-ring" aria-hidden="true"></span>}
             <div class="pkg__head">
               <h3 class="pkg__n">{p.name}</h3>
               <p class="pkg__lede">{p.lede}</p>
+              {/* Both currencies are rendered; CSS shows the one the switch
+                  (or the edge function) selected. Nothing is hidden from a
+                  crawler — the full list below prints both in every row. */}
               <p class="pkg__price">
-                <span class="pkg__pn">{p.price}</span> <span class="pkg__pu">{p.unit}</span>
+                <span class="pkg__pn">
+                  <span class="cur-aed">{money(PLANS[i].monthly).aed}</span><span class="cur-gbp">{money(PLANS[i].monthly).gbp}</span>
+                </span>
+                <span class="pkg__pu">{p.unit}</span>
               </p>
-              <p class="note-sm">{p.gbp}</p>
             </div>
 
             <div class="pkg__body">
@@ -178,14 +202,65 @@ const faqSchema = {
         ))}
       </div>
 
-      <p class="pkg__setup">
-        <strong>{SETUP.name} &mdash; {SETUP.price}.</strong> {SETUP.d}
-        <span class="note-sm"> {SETUP.gbp}</span>
-      </p>
-
-      <p class="center-row mt-1"><span class="note-sm">{TERMS}</span></p>
+      <p class="center-row mt-1"><span class="note-sm">{VAT_TERMS}</span></p>
     </div>
   </section>
+
+  {/* THE CANONICAL PRICE LIST. Plain tables, both currencies in every cell,
+      no JS required. The builder below only adds these numbers up — if it
+      never loads, nothing here is lost, and a crawler or AI assistant reads
+      the whole list whatever country it is in. */}
+  <section class="section" aria-labelledby="price-list-h">
+    <div class="wrap-narrow" data-reveal>
+      <div class="section-head">
+        <h2 id="price-list-h">The full price list</h2>
+        <p class="lede">
+          Every price in AED and pounds. Prices exclude VAT &mdash; 5% in the
+          UAE, 20% in the UK.
+        </p>
+      </div>
+
+      <div class="prose rs__body">
+        <h3>Step 1: Monthly plan (choose one)</h3>
+        <table>
+          <thead><tr><th scope="col">Plan</th><th scope="col">Monthly</th><th scope="col">What&rsquo;s included</th></tr></thead>
+          <tbody>
+            {PLANS.map((p) => (
+              <tr>
+                <th scope="row">{p.name}</th>
+                <td>{money(p.monthly).both}</td>
+                <td>{p.includes}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
+        <h3>Step 2: Setup (one-off)</h3>
+        <p>
+          <strong>{SETUP_FEE.name}: {money(SETUP_FEE.price).both}</strong> ({SETUP_FEE.note})<br />
+          {SETUP_FEE.d}
+        </p>
+
+        <p>Then add website work if you need it (optional):</p>
+        <table>
+          <thead><tr><th scope="col">Add-on</th><th scope="col">Price</th><th scope="col">Notes</th></tr></thead>
+          <tbody>
+            {ADDONS.map((a) => (
+              <tr>
+                <th scope="row">{a.label}</th>
+                <td>{a.price ? `${money(a.price).both}${a.perPage ? ' per page' : ''}` : 'Quoted'}</td>
+                <td>{a.notes}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
+        <p class="note-sm">{VAT_TERMS}</p>
+      </div>
+    </div>
+  </section>
+
+  <PriceBuilder />
 
   <section class="section">
     <div class="wrap-narrow" data-reveal>

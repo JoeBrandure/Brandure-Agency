@@ -2,21 +2,23 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 import { SITE } from '../../consts';
-import { GUIDE_ORDER } from '../../data/guides';
+import { GUIDE_ORDER, GUIDE_GROUPS } from '../../data/guides';
 
 /* Ordered by the reader's path through them, not by date — all three published
    on the same day, so a date sort would be arbitrary. GUIDE_ORDER is the one
    place that order is stated; llms.txt reads the same list. A guide missing
    from it fails the build rather than silently dropping off the index. */
 const all = await getCollection('guides');
-const guides = GUIDE_ORDER.map((slug) => {
+const bySlug = (slug: string) => {
   const g = all.find((x) => x.data.slug === slug);
-  if (!g) throw new Error(`GUIDE_ORDER lists "${slug}", which no file in src/content/guides declares.`);
+  if (!g) throw new Error(`GUIDE_GROUPS lists "${slug}", which no file in src/content/guides declares.`);
   return g;
-});
+};
+const groups = GUIDE_GROUPS.map((grp) => ({ ...grp, items: grp.slugs.map(bySlug) }));
+const guides = GUIDE_ORDER.map(bySlug);
 if (guides.length !== all.length) {
-  const missing = all.filter((g) => !GUIDE_ORDER.includes(g.data.slug as never)).map((g) => g.data.slug);
-  throw new Error(`Guides not listed in GUIDE_ORDER, so they would not appear on /guides: ${missing.join(', ')}`);
+  const missing = all.filter((g) => !GUIDE_ORDER.includes(g.data.slug)).map((g) => g.data.slug);
+  throw new Error(`Guides not listed in GUIDE_GROUPS, so they would not appear on /guides: ${missing.join(', ')}`);
 }
 
 const schema = {
@@ -82,30 +84,41 @@ const schema = {
   </section>
 
   {/* Same card list as /research — one per row, title and summary carrying the
-      weight. Reused rather than restyled. */}
+      weight. Reused rather than restyled, now under a heading per market. */}
   <section class="section section--sunk">
     <div class="wrap" data-reveal>
-      <ol class="rlist" data-stagger>
-        {guides.map((g, i) => (
-          <li class="rlist__i">
-            <a class="rcard" href={`/guides/${g.data.slug}`}>
-              <span class="rcard__i" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+      {groups.map((grp) => (
+        <>
+          <div class="section-head">
+            <h2>{grp.heading}</h2>
+            <p class="lede">{grp.blurb}</p>
+          </div>
+          <ol class="rlist" data-stagger>
+            {grp.items.map((g, i) => (
+              <li class="rlist__i">
+                <a class="rcard" href={`/guides/${g.data.slug}`}>
+                  <span class="rcard__i" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
 
-              <div class="rcard__body">
-                <h2 class="rcard__t">{g.data.title}</h2>
-                <p class="rcard__d">{g.data.meta_description}</p>
+                  <div class="rcard__body">
+                    {g.data.market && (
+                      <p class="rcard__meta"><span class="tag">{g.data.market}</span></p>
+                    )}
+                    <h3 class="rcard__t">{g.data.title}</h3>
+                    <p class="rcard__d">{g.data.description ?? g.data.meta_description}</p>
 
-                <p class="rcard__go">
-                  Read the guide
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M4 12h15M13 6l6 6-6 6"/>
-                  </svg>
-                </p>
-              </div>
-            </a>
-          </li>
-        ))}
-      </ol>
+                    <p class="rcard__go">
+                      Read the guide
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M4 12h15M13 6l6 6-6 6"/>
+                      </svg>
+                    </p>
+                  </div>
+                </a>
+              </li>
+            ))}
+          </ol>
+        </>
+      ))}
 
       <p class="center-row mt-2"><a class="textlink" href="/research">Our published research &rarr;</a></p>
     </div>

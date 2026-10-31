@@ -2,6 +2,8 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import { readdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 /**
  * Slugs of research pieces marked `placeholder: true`, read from frontmatter
@@ -55,6 +57,57 @@ function rootSlashInSitemap() {
   };
 }
 
+/**
+ * Add rel="noopener" to external links in the BUILT HTML.
+ *
+ * Done here rather than as a rehype plugin because Astro 7's default Markdown
+ * processor does not take them — wiring them back up means installing
+ * @astrojs/markdown-remark and switching the whole site to the unified
+ * pipeline, which would re-render every research page to add one attribute.
+ *
+ * NO nofollow. The guides cite other agencies' pricing pages and third-party
+ * reviews, and those citations are the point; a source worth citing is worth
+ * linking properly. noopener only closes the window.opener hole and carries no
+ * ranking signal.
+ *
+ * Existing rel values are preserved, not replaced — the footer's rel="me" on
+ * the LinkedIn link has to survive.
+ */
+function externalLinkRel() {
+  const EXT = /<a\s+([^>]*?)href="(https?:\/\/[^"]+)"([^>]*)>/gi;
+  return {
+    name: 'brandure-external-link-rel',
+    hooks: {
+      'astro:build:done': ({ dir }) => {
+        const root = fileURLToPath(dir);
+        const walk = (d) => {
+          for (const e of readdirSync(d, { withFileTypes: true })) {
+            const full = join(d, e.name);
+            if (e.isDirectory()) walk(full);
+            else if (e.name.endsWith('.html')) {
+              const html = readFileSync(full, 'utf8');
+              const out = html.replace(EXT, (m, pre, href, post) => {
+                if (href.startsWith(SITE_URL)) return m;
+                const attrs = pre + post;
+                const existing = /rel="([^"]*)"/i.exec(attrs);
+                const rel = new Set((existing?.[1] ?? '').split(/\s+/).filter(Boolean));
+                if (rel.has('noopener')) return m;
+                rel.add('noopener');
+                const value = [...rel].join(' ');
+                return existing
+                  ? m.replace(/rel="[^"]*"/i, `rel="${value}"`)
+                  : `<a ${pre}href="${href}"${post} rel="${value}">`;
+              });
+              if (out !== html) writeFileSync(full, out);
+            }
+          }
+        };
+        walk(root);
+      },
+    },
+  };
+}
+
 export default defineConfig({
   site: SITE_URL,
   output: 'static',
@@ -74,5 +127,6 @@ export default defineConfig({
       },
     }),
     rootSlashInSitemap(),
+    externalLinkRel(),
   ],
 });

@@ -114,15 +114,40 @@ const research = defineCollection({
  */
 const guides = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/guides' }),
-  schema: z.object({
-    title: z.string(),
-    meta_description: z.string(),
-    slug: z.string(),
-    byline: z.string(),
-    date: z.coerce.date(),
-    /** Set when the text changes. The layout falls back to `date`. */
-    updated: z.coerce.date().optional(),
-  }),
+  schema: z
+    .object({
+      title: z.string(),
+      slug: z.string(),
+      byline: z.string(),
+      date: z.coerce.date(),
+      /** Set when the text changes. The layout falls back to `date`. */
+      updated: z.coerce.date().optional(),
+
+      /* TWO NAMES FOR ONE FIELD. The first three guides were written with
+         `meta_description`; the October market guides arrived with
+         `description`. Both are accepted and the layout reads whichever is
+         present, rather than rewriting supplied front matter to match a house
+         style that is itself only a few weeks old. */
+      meta_description: z.string().optional(),
+      description: z.string().optional(),
+
+      /** 'UAE' or 'UK' on the market-specific guides; absent on the general
+       *  ones. /guides groups by it when present. */
+      market: z.enum(['UAE', 'UK']).optional(),
+      /** When the comparison was checked. Distinct from `date`, the day it
+       *  was published — a price table checked in October and published in
+       *  November has two different dates and a reader needs both. */
+      researchDate: z.coerce.date().optional(),
+    })
+    .superRefine((d, ctx) => {
+      if (!d.meta_description && !d.description) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ['description'],
+          message: 'A guide needs a description (or meta_description) for its meta tag and its card.',
+        });
+      }
+    }),
 });
 
 export const collections = { research, guides };

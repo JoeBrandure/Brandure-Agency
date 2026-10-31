@@ -28,11 +28,38 @@ const { guide } = Astro.props;
 const d = guide.data;
 
 const url = `${SITE.url}/guides/${d.slug}`;
+const summary = d.description ?? d.meta_description ?? '';
 
 /* `updated` is optional and falls back to `date`, so the page always states a
    last-updated line and dateModified is never missing from the schema. */
 const published = d.date;
 const modified = d.updated ?? d.date;
+
+/* FAQPAGE IS BUILT FROM THE BODY, NOT FROM FRONT MATTER.
+   The market guides end in a "Frequently asked questions" section written as
+   bold question, plain answer. Parsing it means the marked-up questions are
+   the ones on the page by construction — a front-matter copy would be free to
+   drift from the visible text, which is the failure that puts an answer in a
+   rich result that nobody can find on the page.
+
+   The three general guides have no such section and get no FAQPage, which is
+   the right outcome: marking up an article that is not an FAQ page claims a
+   rich result it has not earned. */
+function faqsFromBody(md: string) {
+  const section = md.split(/^##\s+Frequently asked questions\s*$/m)[1];
+  if (!section) return [];
+  const upToNextHeading = section.split(/^##\s+/m)[0];
+  const out: { q: string; a: string }[] = [];
+  const re = /^\*\*(.+?)\*\*\s*\n([\s\S]*?)(?=\n\*\*|\n---|\n\*Checked|\n\*Prices|$)/gm;
+  for (const m of upToNextHeading.matchAll(re)) {
+    const q = m[1].trim();
+    const a = m[2].replace(/\s+/g, ' ').trim();
+    if (q.endsWith('?') && a) out.push({ q, a });
+  }
+  return out;
+}
+const faqs = faqsFromBody(guide.body ?? '');
+const researched = d.researchDate;
 
 const iso = (x: Date) => x.toISOString().slice(0, 10);
 const human = (x: Date) =>
@@ -51,13 +78,14 @@ const articleSchema = {
   '@type': 'Article',
   '@id': `${url}#article`,
   headline: d.title,
-  description: d.meta_description,
+  description: summary,
   url,
   mainEntityOfPage: url,
   datePublished: iso(published),
   dateModified: iso(modified),
   inLanguage: 'en-GB',
   isPartOf: { '@id': `${SITE.url}/#website` },
+  ...(d.researchDate ? { dateCreated: iso(d.researchDate) } : {}),
   author: { '@id': `${SITE.url}/#organization` },
   publisher: { '@id': `${SITE.url}/#organization` },
 };
@@ -73,6 +101,21 @@ const breadcrumbSchema = {
   ],
 };
 
+const faqSchema =
+  faqs.length > 0
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        '@id': `${url}#faq`,
+        isPartOf: { '@id': `${SITE.url}/#website` },
+        mainEntity: faqs.map((f) => ({
+          '@type': 'Question',
+          name: f.q,
+          acceptedAnswer: { '@type': 'Answer', text: f.a },
+        })),
+      }
+    : null;
+
 /* The layout appends " — Brandure" to a title. On the long AEO guide that
    pushes the tag well past the point a result page will show it, so those
    titles opt out and stand on their own. The threshold is applied here rather
@@ -84,8 +127,8 @@ const useFullTitle = (d.title + SUFFIX).length > 70;
 <BaseLayout
   title={d.title}
   fullTitle={useFullTitle}
-  description={d.meta_description}
-  schemas={[articleSchema, breadcrumbSchema]}
+  description={summary}
+  schemas={faqSchema ? [articleSchema, breadcrumbSchema, faqSchema] : [articleSchema, breadcrumbSchema]}
 >
   <nav aria-label="Breadcrumb" class="wrap-narrow meta rs-crumb">
     <a href="/">Home</a> <span aria-hidden="true">/</span> <a href="/guides">Guides</a>
@@ -95,8 +138,20 @@ const useFullTitle = (d.title + SUFFIX).length > 70;
     <header class="rs__head">
       <h1 class="rs__t">{d.title}</h1>
 
+      {/* The byline renders as written in front matter rather than behind a
+          hardcoded "By". The market guides carry "Brandure | Joe Hickman,
+          Founder", matching the research pages; the three general guides carry
+          "Brandure". Prefixing either with "By" reads wrong, and the agency is
+          the author on all of them. The link goes to /about either way, which
+          is what ties the visible byline to the Person node. */}
       <p class="rs__by">
-        By <a href={bylineHref}>{d.byline}</a>
+        <a href={bylineHref}>{d.byline}</a>
+        {researched && (
+          <>
+            <span class="rs__sep" aria-hidden="true">·</span>
+            Research conducted <time datetime={iso(researched)}>{human(researched)}</time>
+          </>
+        )}
         <span class="rs__sep" aria-hidden="true">·</span>
         Published <time datetime={iso(published)}>{human(published)}</time>
         <span class="rs__sep" aria-hidden="true">·</span>

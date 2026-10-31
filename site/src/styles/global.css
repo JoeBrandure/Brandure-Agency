@@ -1625,8 +1625,12 @@ input:focus-visible, select:focus-visible { border-color: var(--focus); }
 /* Tables carry most of the evidence in this series, so they scroll rather than
    shrink — a squeezed seven-column table is unreadable on a phone. */
 .rs__body table { width: 100%; border-collapse: collapse; font-size: var(--small); }
+/* min-width: 0 overrides the global `table { min-width: 54rem }`. Without it
+   the scroll CONTAINER is itself forced to 54rem, so the page scrolls
+   sideways instead of the table — 494px of horizontal overflow at 390px wide.
+   The cells still size to their content inside, which is what scrolls. */
 .rs__body > table,
-.rs__body .table-scroll { display: block; overflow-x: auto; }
+.rs__body .table-scroll { display: block; overflow-x: auto; min-width: 0; max-width: 100%; }
 .rs__body th, .rs__body td {
   padding: 0.55rem 0.7rem; border-bottom: 1px solid var(--border);
   text-align: left; vertical-align: top;

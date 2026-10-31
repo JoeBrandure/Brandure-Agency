@@ -76,6 +76,13 @@ const organizationSchema = {
   disambiguatingDescription: SITE.disambiguatingDescription,
   alternateName: [...SITE.alternateName],
   areaServed: SITE.areaServed.map((c) => ({ '@type': 'Country', identifier: c })),
+  telephone: SITE.phone,
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: SITE.address.locality,
+    addressRegion: SITE.address.region,
+    addressCountry: SITE.address.country,
+  },
   /* Deduplicated at build time rather than trusted to stay unique by hand. */
   sameAs: [...new Set(SITE.sameAs)],
   knowsAbout: [

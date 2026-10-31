@@ -1,0 +1,332 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CurrencySwitch from '../components/CurrencySwitch.astro';
+import { SITE } from '../consts';
+import { PLANS, SETUP_FEE, ADDONS, money } from '../data/pricing';
+import { TESTIMONIALS } from '../data/testimonials';
+import { HERO_CASES } from '../data/content';
+
+/* AEO AGENCY DUBAI — a local landing page for "AEO agency Dubai".
+ *
+ * Same shape as /ai-ready-websites: hero, prose sections, prices, FAQs. Copy
+ * as approved; this file decides structure only.
+ *
+ * DEFAULTS TO AED. Every other page takes its currency from the edge function
+ * or a stored choice. This one is read by people searching for a Dubai agency,
+ * so it asks for AED up front — but the switch is still here, and a visitor
+ * who has already chosen pounds keeps pounds. The default is a default, not an
+ * override.
+ *
+ * Prices render from src/data/pricing.ts, so this page cannot quote a figure
+ * /pricing does not.
+ */
+const url = `${SITE.url}/aeo-agency-dubai`;
+const page = ADDONS.find((a) => a.key === 'page')!;
+const tom = TESTIMONIALS.find((t) => t.brand === 'Lurio')!;
+const lurio = HERO_CASES.find((c) => /lurio/i.test(c.brand ?? ''));
+
+const FAQS = [
+  {
+    q: 'How much does an AEO agency cost in Dubai?',
+    a: "Most Dubai businesses pay between AED 5,000 and AED 20,000 a month, depending on how many services and questions are tracked. Brandure's plans are AED 6,500 or AED 12,000 a month, plus a one-off AED 3,500 setup, excluding VAT.",
+  },
+  {
+    q: 'How long does AEO take to work in Dubai?',
+    a: 'Technical and Google Business Profile fixes can show within weeks. Earned citations usually take two to three months to show consistently across the engines.',
+  },
+  {
+    q: 'Is AEO different from SEO?',
+    a: 'SEO gets you ranked on Google. AEO gets you named inside AI answers. Most of the groundwork overlaps, so every Brandure plan includes both.',
+  },
+  {
+    q: 'Do you work with businesses outside Dubai?',
+    a: 'Yes. We work across the UAE and the UK, with Dubai as our base.',
+  },
+  {
+    q: 'Where is Brandure based?',
+    a: 'Jumeirah Village Circle (JVC), Dubai, with a second office in the UK.',
+  },
+];
+
+const webPageSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  '@id': `${url}#webpage`,
+  url,
+  name: 'AEO agency in Dubai',
+  description:
+    'Brandure is an AEO agency in Dubai. We get businesses named in ChatGPT, Gemini, Perplexity and Google AI Overviews, with SEO and AI-ready websites included. Plans from AED 6,500 a month.',
+  inLanguage: 'en-GB',
+  isPartOf: { '@id': `${SITE.url}/#website` },
+  about: { '@id': `${SITE.url}/#service` },
+};
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  '@id': `${url}#breadcrumb`,
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: SITE.url },
+    { '@type': 'ListItem', position: 2, name: 'AEO agency in Dubai', item: url },
+  ],
+};
+
+/* The Organization node is a plain Organization, so the Dubai base gets its
+   own ProfessionalService rather than changing that node's type. It is the
+   local entity: same name and site, its own address, phone and area served,
+   pointing back at the parent. */
+const officeSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  '@id': `${SITE.url}/#dubai-office`,
+  name: SITE.name,
+  url,
+  telephone: SITE.phone,
+  email: SITE.email,
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: SITE.address.locality,
+    addressRegion: SITE.address.region,
+    addressCountry: SITE.address.country,
+  },
+  parentOrganization: { '@id': `${SITE.url}/#organization` },
+  areaServed: ['Dubai', 'AE'],
+  /* AED only on this page, as specified. /pricing carries both currencies. */
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    '@id': `${url}#catalog-aed`,
+    name: 'Brandure plans, Dubai',
+    itemListElement: [
+      ...PLANS.map((p) => ({
+        '@type': 'Offer',
+        '@id': `${url}#offer-${p.key}`,
+        name: p.name,
+        description: p.includes,
+        url: `${SITE.url}/pricing`,
+        priceCurrency: 'AED',
+        price: p.monthly.aed,
+        seller: { '@id': `${SITE.url}/#organization` },
+        priceSpecification: {
+          '@type': 'UnitPriceSpecification',
+          price: p.monthly.aed,
+          priceCurrency: 'AED',
+          unitText: 'MONTH',
+        },
+      })),
+      {
+        '@type': 'Offer',
+        '@id': `${url}#offer-setup`,
+        name: SETUP_FEE.name,
+        description: SETUP_FEE.d,
+        url: `${SITE.url}/pricing`,
+        priceCurrency: 'AED',
+        price: SETUP_FEE.price.aed,
+        seller: { '@id': `${SITE.url}/#organization` },
+      },
+    ],
+  },
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  '@id': `${url}#faq`,
+  isPartOf: { '@id': `${SITE.url}/#website` },
+  mainEntity: FAQS.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+---
+<BaseLayout
+  title="AEO Agency in Dubai | AI Search & SEO | Brandure"
+  fullTitle
+  description="Brandure is an AEO agency in Dubai. We get businesses named in ChatGPT, Gemini, Perplexity and Google AI Overviews, with SEO and AI-ready websites included. Plans from AED 6,500 a month."
+  schemas={[webPageSchema, breadcrumbSchema, officeSchema, faqSchema]}
+>
+  <section class="hero hero--short">
+    <div class="mesh" aria-hidden="true">
+      <div class="mesh__layer mesh__layer--1"><div class="mesh__blob mesh__blob--1"></div></div>
+      <div class="mesh__layer mesh__layer--2"><div class="mesh__blob mesh__blob--2"></div></div>
+    </div>
+    <div class="wrap-narrow" data-load>
+      <p class="eyebrow">Dubai</p>
+      <h1 class="statement statement--sub" data-split>AEO agency in Dubai</h1>
+      <p class="lede">
+        Brandure is an AI search optimisation (AEO) and SEO agency based in
+        Jumeirah Village Circle (JVC), Dubai. We get Dubai businesses named when
+        buyers ask ChatGPT, Gemini, Perplexity, Claude, Copilot and
+        Google&rsquo;s AI Overviews who to use, and ranked on Google for the
+        same questions.
+      </p>
+      <div class="hero-actions">
+        <a class="btn" href="/#report">Get your free AI visibility report</a>
+        <a class="btn btn--violet" href="/pricing">Build your plan</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--sunk">
+    <div class="wrap-narrow" data-reveal>
+      <div class="prose">
+        <h2>Why AI search works differently in Dubai</h2>
+        <p>
+          We research how AI engines answer questions about Dubai businesses,
+          and the engines don&rsquo;t agree. Each one often names different
+          businesses for the same question. Gemini leans heavily on
+          Google&rsquo;s own listings and maps. ChatGPT and Perplexity lean on
+          directories, ranked lists and press. So a Dubai business can be
+          recommended by one engine and missing from the rest.
+        </p>
+        <p>
+          That&rsquo;s why we track and report each engine separately, and why
+          most of the work happens on the sites the engines read, not only on
+          yours.
+        </p>
+        <p><a href="/research">Read our Dubai research &rarr;</a></p>
+
+        <h2>What we do for Dubai businesses</h2>
+        <ul>
+          <li><strong>AI visibility tracking per engine.</strong> We track the questions your Dubai buyers actually ask, across six AI engines, reported separately every month.</li>
+          <li><strong>Earned citations.</strong> We get you placed on the Dubai directories, ranked lists and publications the engines quote.</li>
+          <li><strong>SEO included.</strong> Technical SEO at setup and ongoing SEO for your priority pages, so you rank on Google as well.</li>
+          <li><strong>Google Business Profile and entity fixes.</strong> Your name, category and location stay consistent everywhere AI looks, which matters for Gemini and Google AI Overviews.</li>
+          <li><strong>AI-ready websites.</strong> When your site is the blocker, we rebuild the pages that matter on your current platform. <a href="/ai-ready-websites">How we build</a>.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  {/* Results: the existing case figure and testimonial card, reused. */}
+  <section class="section" aria-labelledby="res-h">
+    <div class="wrap-narrow" data-reveal>
+      <div class="section-head">
+        <h2 id="res-h">Results</h2>
+      </div>
+
+      {lurio && (
+        <figure class="case dub-case">
+          <figcaption>
+            <span class="case__n"><span>{lurio.n}</span><span class="case__suffix">{lurio.suffix}</span></span>
+            <span class="case__l">{lurio.label}</span>
+            <span class="case__wordmark">{lurio.brand}</span>
+          </figcaption>
+        </figure>
+      )}
+
+      <ul class="tst__col dub-quote" role="list">
+        <li class:list={['tst__card', `tst--${tom.accent}`]}>
+          <blockquote>
+            <p>{tom.quote}</p>
+            <footer>
+              <span class="tst__mono" aria-hidden="true">{tom.initials}</span>
+              <span class="tst__who">
+                <cite>{tom.name}</cite>
+                <span class="tst__role">{tom.role} &middot; {tom.brand}</span>
+              </span>
+            </footer>
+          </blockquote>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--sunk" aria-labelledby="pr-h">
+    <div class="wrap-narrow" data-reveal>
+      <div class="section-head">
+        <h2 id="pr-h">Prices in Dubai</h2>
+      </div>
+      <CurrencySwitch />
+      <div class="prose">
+        <ul>
+          <li>
+            <strong>Core: <span class="cur-aed">{money(PLANS[0].monthly).aed}</span><span class="cur-gbp">{money(PLANS[0].monthly).gbp}</span> a month.</strong>
+            One category, six AI engines tracked, ongoing SEO, 2 earned citations a month.
+          </li>
+          <li>
+            <strong>Growth: <span class="cur-aed">{money(PLANS[1].monthly).aed}</span><span class="cur-gbp">{money(PLANS[1].monthly).gbp}</span> a month.</strong>
+            <span class="dub-tag">Most chosen</span>
+            Up to three categories, 4 earned citations a month, competitor displacement plan.
+          </li>
+          <li>
+            <strong>AI search &amp; SEO setup: <span class="cur-aed">{money(SETUP_FEE.price).aed}</span><span class="cur-gbp">{money(SETUP_FEE.price).gbp}</span> one-off</strong>, included with every plan.
+          </li>
+          <li>
+            <strong>Website work</strong> from <span class="cur-aed">{money(page.price).aed}</span><span class="cur-gbp">{money(page.price).gbp}</span> per page.
+          </li>
+        </ul>
+        <p class="note-sm">
+          Prices exclude 5% VAT. Six-month initial term with a 90-day review.
+        </p>
+        <p>
+          <a class="btn" href="/pricing">Build your plan</a>
+        </p>
+        <p>
+          <a href="/guides/aeo-cost-uae">How much AEO costs in the UAE &rarr;</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap-narrow" data-reveal>
+      <div class="prose">
+        <h2>How it works</h2>
+        <ol>
+          <li><strong>Free AI visibility report.</strong> See how each engine answers your buyers&rsquo; questions today, and who it names instead of you.</li>
+          <li><strong>Setup in 10 working days.</strong> Technical SEO, schema, AI crawler access, Google Business Profile and your baseline.</li>
+          <li><strong>Monthly work and reporting.</strong> Citations, content and SEO, with AI visibility, rankings and AI-referred traffic reported per engine.</li>
+        </ol>
+
+        <h2>Talk to us</h2>
+        <p>
+          Brandure, Jumeirah Village Circle (JVC), Dubai, UAE<br />
+          Phone: <a href={`tel:${SITE.phone}`}>{SITE.phoneDisplay}</a><br />
+          Email: <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+        </p>
+        <p><a class="btn" href="/service#book">Book a call</a></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--sunk">
+    <div class="wrap-narrow" data-reveal>
+      <div class="section-head">
+        <h2>Questions</h2>
+      </div>
+      <div class="qa">
+        {FAQS.map((f) => (
+          <details>
+            <summary>{f.q}</summary>
+            <p>{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script is:inline>
+  /* AED is this page's default. A visitor who has already picked pounds keeps
+     pounds — a default must not overrule a choice. Runs during parse so the
+     right currency is in place before paint. */
+  (function () {
+    var root = document.documentElement;
+    var stored = null;
+    try { stored = localStorage.getItem('brandure_cur'); } catch (e) { /* no choice stored */ }
+    if (stored !== 'aed' && stored !== 'gbp') root.setAttribute('data-cur', 'aed');
+  })();
+</script>
+
+<style>
+  /* Reuses .case and .tst__card wholesale; these only place them on a page
+     that has one of each rather than a grid. */
+  .dub-case { margin: 0 0 1.5rem; }
+  .dub-quote { list-style: none; margin: 0; padding: 0; max-width: 34rem; }
+  .dub-tag {
+    display: inline-block; font-family: var(--font-mono); font-size: var(--label);
+    letter-spacing: 0.05em; background: var(--accent); color: #fff;
+    border-radius: var(--pill, 99px); padding: 0.1rem 0.55rem; margin: 0 0.35rem;
+  }
+</style>

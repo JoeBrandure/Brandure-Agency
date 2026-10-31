@@ -27,7 +27,7 @@ This is the third of three pieces from our September test. [Piece 1](/research/d
 
 ## What did we test?
 
-We asked four surfaces the same question, "Best [category] in Dubai", across seven categories: law firms, B2B SaaS, aesthetic clinics, boutique hotels, industrial manufacturers, universities and car dealerships. The surfaces were ChatGPT, Perplexity, Gemini and Google Search. Every run was logged out, on the free tier, from a UAE location. That gave 44 answers in total, 11 per surface, with three repeat runs on clinics and manufacturers. Full conditions and limits are in the methodology section at the end.
+We are an [AEO agency in Dubai](/aeo-agency-dubai), and this is our own market. We asked four surfaces the same question, "Best [category] in Dubai", across seven categories: law firms, B2B SaaS, aesthetic clinics, boutique hotels, industrial manufacturers, universities and car dealerships. The surfaces were ChatGPT, Perplexity, Gemini and Google Search. Every run was logged out, on the free tier, from a UAE location. That gave 44 answers in total, 11 per surface, with three repeat runs on clinics and manufacturers. Full conditions and limits are in the methodology section at the end.
 
 ## Which Google feed does Gemini use in each category?
 

@@ -38,6 +38,9 @@ separately, because the six disagree with each other materially.
 - [Service](${SITE.url}/service): how an engagement runs — baseline, diagnosis,
   execution, re-measurement against a control set — and what a client receives
   at each stage.
+- [AEO agency in Dubai](${SITE.url}/aeo-agency-dubai): the Dubai landing page —
+  what AI search optimisation looks like for a UAE business, local prices in
+  AED, and the JVC address and phone number.
 - [AI-ready websites](${SITE.url}/ai-ready-websites): websites built so Google
   and AI assistants can read, trust and recommend a business, on WordPress,
   Shopify, Webflow or our own stack, with AI search and SEO included.

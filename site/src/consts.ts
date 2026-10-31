@@ -44,6 +44,16 @@ export const SITE = {
      two markets the work is actually sold in, and Organization claiming a
      third contradicted it on the same page. */
   areaServed: ['AE', 'GB'],
+
+  /* The Dubai base. Added 2026-10-31 with /aeo-agency-dubai — a local landing
+     page with no address or phone is the thing an engine cannot verify. */
+  phone: '+971585081399',
+  phoneDisplay: '+971 58 508 1399',
+  address: {
+    locality: 'Jumeirah Village Circle',
+    region: 'Dubai',
+    country: 'AE',
+  },
   /* The Calendly event the booking confirmation embeds. Verified against the
      Calendly API on 2026-09-08: account joe@brandure.io, event "15 Minute
      Meeting", Google Meet, active. The 15 matches the copy on the page — an
@@ -84,8 +94,10 @@ export const NAV = [
      item gives a reader deep in /research one obvious way back. */
   { href: '/', label: 'Home' },
   { href: '/service', label: 'Service' },
+  /* Pricing sits next to Service from 2026-10-31. It is the page buyers go
+     looking for, and it was last in a six-item row. */
+  { href: '/pricing', label: 'Pricing' },
   { href: '/method', label: 'Method' },
   { href: '/research', label: 'Research' },
   { href: '/guides', label: 'Guides' },
-  { href: '/pricing', label: 'Pricing' },
 ] as const;

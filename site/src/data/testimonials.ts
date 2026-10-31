@@ -69,10 +69,13 @@ export const TESTIMONIALS: Testimonial[] = [
     placeholder: false,
   },
   {
-    quote: 'Every number in the monthly report traces back to a run we can see. No score on its own, no dashboard we have to take on faith.',
+    /* REAL. Supplied by Joe on 2026-10-31 and the first quote in this file
+       that is the client's own words rather than ours. The note at the top of
+       the file still stands for the other five. */
+    quote: "New website is amazing, we're already seeing an uptick in leads from both Google and ChatGPT references now which we never had before.",
     name: 'Marc',
     role: 'Founder',
-    brand: 'Williams Int.',
+    brand: 'Williams International',
     initials: 'WI',
     accent: 'violet',
     placeholder: false,

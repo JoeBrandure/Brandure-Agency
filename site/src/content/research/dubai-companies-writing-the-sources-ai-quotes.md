@@ -27,7 +27,7 @@ This is the first of three pieces from our September test. [Piece 2](/research/a
 
 ## What did we test?
 
-We asked ChatGPT, Perplexity, Gemini and Google Search the same question, "Best [category] in Dubai", across seven categories: law firms, B2B SaaS, aesthetic clinics, boutique hotels, industrial manufacturers, universities and car dealerships. Every run was logged out, on the free tier, from a UAE location, 44 answers in all. For each business an engine named, we recorded the source it cited and whether that source was the business's own website. Conditions and limits are in the methodology section.
+We are an [AEO agency in Dubai](/aeo-agency-dubai), and this is our own market. We asked ChatGPT, Perplexity, Gemini and Google Search the same question, "Best [category] in Dubai", across seven categories: law firms, B2B SaaS, aesthetic clinics, boutique hotels, industrial manufacturers, universities and car dealerships. Every run was logged out, on the free tier, from a UAE location, 44 answers in all. For each business an engine named, we recorded the source it cited and whether that source was the business's own website. Conditions and limits are in the methodology section.
 
 ## Where does self-citation still work?
 

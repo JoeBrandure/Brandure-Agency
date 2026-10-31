@@ -238,11 +238,16 @@ const monthly0 = money(PLANS[0].monthly);
       return out;
     }
 
-    var fading;
+    /* A TIMER PER ELEMENT. One shared handle meant flashing the desktop total
+       and then the mobile one cancelled the first element's cleanup, so
+       #pb-setup kept .is-upd and sat at opacity 0.45 for good — which is why
+       "Setup today" read grey while "Then" read black. They are the same
+       colour and weight; one of them was simply stuck mid-transition. */
+    var fading = new WeakMap();
     function flash(el) {
       el.classList.add('is-upd');
-      clearTimeout(fading);
-      fading = setTimeout(function () { el.classList.remove('is-upd'); }, 220);
+      clearTimeout(fading.get(el));
+      fading.set(el, setTimeout(function () { el.classList.remove('is-upd'); }, 220));
     }
 
     function render() {
@@ -326,6 +331,13 @@ const monthly0 = money(PLANS[0].monthly);
      --border, --accent, --radius, the type scale and the .btn classes. No new
      colours, no new type sizes. */
   .pbx-sec { padding-top: 1rem; }
+  /* The ~137px under the tiles was never reserved stepper space — the stepper
+     is display:none when hidden, and the gap measured identically in both
+     states. It was the last fieldset's margin plus the section's own bottom
+     padding, which reads as dead space because the tile row is short. Trimmed
+     here rather than reserved anywhere. Static CSS, so CLS stays 0. */
+  .pbx-sec { padding-bottom: 1.75rem; }
+  .pbx__step:last-of-type { margin-bottom: 0; }
   .pbx { display: grid; gap: 1.5rem; align-items: start; }
   @media (min-width: 60rem) {
     .pbx { grid-template-columns: minmax(0, 1fr) 21rem; gap: 2rem; }
@@ -380,8 +392,15 @@ const monthly0 = money(PLANS[0].monthly);
   .tile__l { font-weight: 600; font-size: var(--small); }
   .tile__p { font-size: var(--label); color: var(--muted); }
 
-  .pbx__sub { display: grid; gap: 0.3rem; margin-top: 0.9rem; max-width: 18rem; }
+  /* grid-template-rows 0fr -> 1fr animates height without ever reserving it.
+     display:none when hidden keeps it out of the flow entirely. */
+  .pbx__sub {
+    display: grid; grid-template-rows: 1fr; gap: 0.3rem;
+    margin-top: 0.9rem; max-width: 18rem;
+    transition: grid-template-rows 180ms var(--ease, ease);
+  }
   .pbx__sub[hidden] { display: none; }
+  @media (prefers-reduced-motion: reduce) { .pbx__sub { transition: none; } }
   .pbx__lb { font-size: var(--small); color: var(--muted); }
   .pbx__nudge { font-size: var(--small); color: var(--link); margin: 0.8rem 0 0; }
   .pbx__nudge[hidden] { display: none; }

@@ -52,7 +52,7 @@ Offerings and prices are taken from each agency's site or from [Web Tonic's Duba
 - **If you need Arabic and English:** ask specifically how they handle each language, because AI engines treat them as separate markets (Arab SEO, AIIMS Group).
 - **If AI engines are recommending competitors and you need that changed:** a specialist that reports each engine separately and earns third-party citations. That's the gap Brandure was set up for.
 
-Whoever you speak to, ask for a baseline of your current AI visibility on named questions before you sign. Our [free AI visibility report](/#report) does this across six engines, and [how to choose an AEO agency](/guides/how-to-choose-an-aeo-agency) has the full checklist. For prices, see [how much AEO costs in the UAE](/guides/aeo-cost-uae).
+Brandure is an [AEO agency in Dubai](/aeo-agency-dubai). Whoever you speak to, ask for a baseline of your current AI visibility on named questions before you sign. Our [free AI visibility report](/#report) does this across six engines, and [how to choose an AEO agency](/guides/how-to-choose-an-aeo-agency) has the full checklist. For prices, see [how much AEO costs in the UAE](/guides/aeo-cost-uae).
 
 ## Frequently asked questions
 

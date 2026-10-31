@@ -449,10 +449,31 @@
    section is a static grid of all six quotes, and a roll there would scroll
    content out of a container that no longer clips or masks. */
 @media (min-width: 68rem) {
-  .tst__col[data-looping] { animation: tst-roll linear infinite; will-change: transform; }
-  .tst__col--1 { animation-duration: 46s; }
-  .tst__col--2 { animation-duration: 58s; }
-  .tst__col--3 { animation-duration: 52s; }
+  /* DURATION TRAVELS AS A CUSTOM PROPERTY, NOT ITS OWN DECLARATION.
+     `.tst__col[data-looping]` is (0,2,1) and uses the `animation` SHORTHAND,
+     which resets animation-duration to its initial 0s. `.tst__col--1` is only
+     (0,1,0), so its 46s lost the cascade the moment JS added data-looping —
+     computed animation-name stayed tst-roll while the duration went to 0s, and
+     a 0s animation never runs. The columns sat still with every appearance of
+     being animated. Custom properties sidestep the shorthand reset entirely. */
+  .tst__col[data-looping] {
+    animation: tst-roll var(--tst-dur, 50s) linear infinite;
+    /* PAUSED UNTIL THE SECTION IS ON SCREEN. The quotes sit a long way below
+       the fold, and three masked, continuously-transforming columns were
+       repainting through the whole page load: 641ms of Style & Layout and
+       210ms of blocking time for motion nobody could see yet. `.is-in` lands
+       when the observer reaches the section, which is also when the roll
+       becomes worth running. will-change goes with it, so the layers are not
+       held alive for the entire visit either. */
+    animation-play-state: paused;
+  }
+  [data-reveal].is-in .tst__col[data-looping] {
+    animation-play-state: running;
+    will-change: transform;
+  }
+  .tst__col--1 { --tst-dur: 46s; }
+  .tst__col--2 { --tst-dur: 58s; }
+  .tst__col--3 { --tst-dur: 52s; }
   .tst__cols:hover .tst__col { animation-play-state: paused; }
 }
 @keyframes tst-roll {

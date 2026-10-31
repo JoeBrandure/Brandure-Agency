@@ -35,7 +35,7 @@ Most UAE agencies don't publish AEO prices. Those that do, as listed on their ow
 | Henry Digital Hub | GEO from AED 2,000 a month | GEO alongside local and technical SEO ([GrowAxis](https://www.growaxis.net/insights/geo-agencies-dubai-2026)) |
 | Brandure | AED 6,500 a month (Core) or AED 12,000 (Growth), plus AED 3,500 setup | AI search (AEO) with SEO included, tracked separately across six AI engines; website builds available as an add-on ([our pricing](/pricing)) |
 
-Brandure wrote this guide, so treat our row the same way you'd treat any agency's own figures.
+Brandure wrote this guide, so treat our row the same way you'd treat any agency's own figures. We are an [AEO agency in Dubai](/aeo-agency-dubai), based in JVC.
 
 ## Why prices vary so much
 

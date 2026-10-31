@@ -2277,8 +2277,13 @@ input:focus-visible, select:focus-visible { border-color: var(--focus); }
   .tst__cols { grid-template-columns: repeat(3, 1fr); }
   /* The clipped, masked window only exists while the columns roll. A static
      grid (no JS, reduced motion, automated agents) shows every card whole. */
+  /* THE WINDOW MUST BE SHORTER THAN ONE LOOP. Each column is cloned once and
+     translated half its own height, so if the window is taller than that half
+     the original and its clone are on screen together — measured at 640px of
+     window against a 488px loop half, which put three quotes on the page
+     twice. 26rem keeps the window inside one pass. */
   .tst__cols:has(.tst__col[data-looping]) {
-    max-height: 40rem; overflow: hidden;
+    max-height: 26rem; overflow: hidden;
     -webkit-mask-image: linear-gradient(to bottom, transparent, #000 12%, #000 88%, transparent);
     mask-image: linear-gradient(to bottom, transparent, #000 12%, #000 88%, transparent);
   }

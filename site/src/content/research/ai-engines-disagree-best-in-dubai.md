@@ -29,7 +29,7 @@ This is the second of three pieces from our September test. [Piece 1](/research/
 
 ## What did we test?
 
-We asked ChatGPT, Perplexity, Gemini and Google Search "Best [category] in Dubai" across seven categories: law firms, B2B SaaS, aesthetic clinics, boutique hotels, industrial manufacturers, universities and car dealerships. All logged out, free tier, UAE location, 44 answers in total. Clinics and manufacturers were run three times on every surface. The overlap figures below compare the three chat engines; Google's AI Overview appeared on four of the seven categories, so it's covered separately.
+We are an [AEO agency in Dubai](/aeo-agency-dubai), and this is our own market. We asked ChatGPT, Perplexity, Gemini and Google Search "Best [category] in Dubai" across seven categories: law firms, B2B SaaS, aesthetic clinics, boutique hotels, industrial manufacturers, universities and car dealerships. All logged out, free tier, UAE location, 44 answers in total. Clinics and manufacturers were run three times on every surface. The overlap figures below compare the three chat engines; Google's AI Overview appeared on four of the seven categories, so it's covered separately.
 
 ## How often do the AI engines name the same businesses?
 

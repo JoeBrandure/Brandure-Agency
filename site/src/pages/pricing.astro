@@ -128,24 +128,34 @@ const faqSchema = {
   schemas={[webPageSchema, ...allServiceSchemas, catalogSchema, faqSchema]}
 >
   {/* 1 · SHORT HERO. The old hero ran a lede explaining the page; a buyer who
-      clicked "Pricing" does not need the page explained. One line, and the
-      currency switch where it is needed rather than buried beside the cards. */}
+      clicked "Pricing" does not need the page explained. One line.
+
+      ONE COLUMN. It was a two-column grid with the currency switch in the
+      right-hand column, so "Pricing" and the intro line were centred in the
+      LEFT column rather than on the page — 130px off the axis everything
+      below them sits on, and the title a pixel off its own intro line.
+      Centring inside a column is not centring on the page. */}
   <section class="hero hero--short pr-hero">
     <div class="mesh" aria-hidden="true">
       <div class="mesh__layer mesh__layer--1"><div class="mesh__blob mesh__blob--1"></div></div>
       <div class="mesh__layer mesh__layer--2"><div class="mesh__blob mesh__blob--2"></div></div>
     </div>
-    <div class="wrap pr-hero__in" data-load>
-      <div>
-        <h1 class="statement statement--sub" data-split>Pricing</h1>
-        <p class="lede">
-          Pick a plan, add what you need, and see your total before we talk.
-          Prices exclude VAT.
-        </p>
-      </div>
-      <CurrencySwitch />
+    <div class="wrap" data-load>
+      <h1 class="statement statement--sub" data-split>Pricing</h1>
+      <p class="lede">
+        Pick a plan, add what you need, and see your total before we talk.
+        Prices exclude VAT.
+      </p>
     </div>
   </section>
+
+  {/* The switch, on its own row between the hero and step 1. It belongs to
+      the builder rather than to the title, and keeping it out of the hero is
+      what lets the hero centre on the page. Its own row rather than beside
+      "Choose your plan": sharing that line would mean positioning it against
+      a centred heading, and the heading staying centred matters more than the
+      row of vertical space this costs. */}
+  <div class="pr-curbar"><CurrencySwitch /></div>
 
   {/* 2 · THE BUILDER, immediately. This is what the page is for. */}
   <PriceBuilder />
@@ -299,13 +309,17 @@ const faqSchema = {
 </BaseLayout>
 
 <style>
-  .pr-hero__in { display: grid; gap: 1rem; align-items: end; }
-  @media (min-width: 48rem) {
-    .pr-hero__in { grid-template-columns: 1fr auto; }
-    /* The switch sits top right beside the heading on desktop, under the line
-       on mobile — the grid handles both without a second component. */
-    .pr-hero__in :global(.cur) { justify-content: flex-end; margin-bottom: 0.35rem; }
+  /* The switch row is the builder's width, not the page's, so its right edge
+     lands on the right edge of the plan-card column rather than 224px further
+     out at the edge of .wrap — which is where it sat when it was a hero
+     column, and why it read as belonging to the title. Centred on a phone,
+     where there is no spare width to align to. */
+  .pr-curbar {
+    width: min(100% - 2.5rem, var(--wrap-narrow));
+    margin: 1.5rem auto 0;
+    display: flex; justify-content: center;
   }
+  @media (min-width: 48rem) { .pr-curbar { justify-content: flex-end; } }
 
   .pr-band {
     display: flex; flex-wrap: wrap; gap: 1rem; align-items: center;

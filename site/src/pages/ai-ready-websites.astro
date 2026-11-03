@@ -3,7 +3,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import CurrencySwitch from '../components/CurrencySwitch.astro';
 import Price from '../components/Price.astro';
 import { SITE } from '../consts';
-import { PLANS, SETUP_FEE, ADDONS, WEB_FAQS } from '../data/pricing';
+import { PLANS, SETUP_FEE, ADDONS, WEB_FAQS, faqText } from '../data/pricing';
+import FaqAnswer from '../components/FaqAnswer.astro';
 import { webServiceSchema } from '../lib/schema';
 
 /* AI-READY WEBSITES. Copy as approved; this file decides structure only.
@@ -50,7 +51,7 @@ const faqSchema = {
   mainEntity: WEB_FAQS.map((f) => ({
     '@type': 'Question',
     name: f.q,
-    acceptedAnswer: { '@type': 'Answer', text: f.a },
+    acceptedAnswer: { '@type': 'Answer', text: faqText(f) },
   })),
 };
 ---
@@ -160,7 +161,7 @@ const faqSchema = {
         {WEB_FAQS.map((f) => (
           <details>
             <summary>{f.q}</summary>
-            <p>{f.a}</p>
+            <p><FaqAnswer a={f.a} money={'money' in f ? f.money : undefined} /></p>
           </details>
         ))}
       </div>

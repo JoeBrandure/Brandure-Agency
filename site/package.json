@@ -8,7 +8,8 @@
     "build": "astro build && npm run check",
     "build:only": "astro build",
     "check": "node scripts/check-research.mjs && node scripts/check-whitespace.mjs",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "audit": "node scripts/audit-site.mjs"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.19",

@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import CurrencySwitch from '../components/CurrencySwitch.astro';
 import PlanCards from '../components/PlanCards.astro';
+import Price from '../components/Price.astro';
 import { SITE } from '../consts';
 import { PLANS, SETUP_FEE, ADDONS, money } from '../data/pricing';
 import { TESTIMONIALS } from '../data/testimonials';
@@ -225,10 +226,15 @@ const faqSchema = {
         <h2 id="res-h">Results</h2>
       </div>
 
+      {/* lurio.metric, not lurio.n — the field is called metric, and the typo
+          rendered an empty span, so this card read "% more AI answer
+          appearances" with no number at all. data-count drives the same
+          count-up the home page uses, and the figure is in the HTML either
+          way, so it is there with JS off. */}
       {lurio && (
         <figure class="case dub-case">
           <figcaption>
-            <span class="case__n"><span>{lurio.n}</span><span class="case__suffix">{lurio.suffix}</span></span>
+            <span class="case__n"><span data-count={lurio.metric}>{lurio.metric}</span><span class="case__suffix">{lurio.suffix}</span></span>
             <span class="case__l">{lurio.label}</span>
             <span class="case__wordmark">{lurio.brand}</span>
           </figcaption>
@@ -279,8 +285,8 @@ const faqSchema = {
             in the list this replaced. Every space that has to survive is
             written inside the text, never left to the indentation. */}
         <p class="note-sm dub-plus">
-          <strong>{SETUP_FEE.name} <span class="cur-aed">{money(SETUP_FEE.price).aed}</span><span class="cur-gbp">{money(SETUP_FEE.price).gbp}</span><span class="cur-usd">{money(SETUP_FEE.price).usd}</span> one-off</strong>, included with every plan
-          &middot; <strong>Website work</strong> from <span class="cur-aed">{money(page.price).aed}</span><span class="cur-gbp">{money(page.price).gbp}</span><span class="cur-usd">{money(page.price).usd}</span> per page
+          <strong>{SETUP_FEE.name} <Price m={SETUP_FEE.price} /> one-off</strong>, included with every plan
+          &middot; <strong>Website work</strong> from <Price m={page.price} /> per page
         </p>
         <p class="note-sm">
           Prices exclude 5% VAT. Six-month initial term with a 90-day review.
@@ -336,8 +342,13 @@ const faqSchema = {
 <style>
   /* Reuses .case and .tst__card wholesale; these only place them on a page
      that has one of each rather than a grid. */
-  .dub-case { margin: 0 0 1.5rem; }
-  .dub-quote { list-style: none; margin: 0; padding: 0; max-width: 34rem; }
+  /* ONE WIDTH, BOTH CENTRED. The result card ran the full column while the
+     quote under it was capped at 34rem and left-aligned, so the pair read as
+     two unrelated blocks rather than a result and the client who got it. */
+  .dub-case,
+  .dub-quote { max-width: 34rem; margin-inline: auto; }
+  .dub-case { margin-bottom: 1.5rem; }
+  .dub-quote { list-style: none; padding: 0; }
   /* The cards sit between the currency switch and the prose, so they need the
      gap the prose would otherwise have given them. The "Most chosen" tag
      overhangs the card's top edge, hence the row of top padding. */

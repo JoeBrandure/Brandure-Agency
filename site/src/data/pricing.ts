@@ -176,12 +176,24 @@ export const WEB_FAQS = [
     a: 'Yes. We build on the platform you already use, and only move you to a new stack if your current one is holding you back and you agree.',
   },
   {
+    /* AN ANSWER THAT QUOTES A PRICE IS WRITTEN WITH PLACEHOLDERS. These two
+       carried frozen "AED 2,500 / £550" strings, so they ignored the currency
+       switch and went on quoting dirhams to a visitor reading dollars. The
+       {n} slots are filled by the Price component on the page, and flattened
+       to every currency for the FAQPage schema — see faqText() below. */
     q: 'How much does an AI-ready website cost?',
-    a: 'New or rebuilt pages are AED 2,500 / £550 each. A full rebuild is AED 12,000 / £2,600 up to 10 pages, or AED 19,000 / £4,100 up to 20, on top of the AED 3,500 / £750 setup and a monthly plan.',
+    a: 'New or rebuilt pages are {0} each. A full rebuild is {1} up to 10 pages, or {2} up to 20, on top of the {3} setup and a monthly plan.',
+    money: [
+      { aed: 2500, gbp: 550, usd: 700 },
+      { aed: 12000, gbp: 2600, usd: 3300 },
+      { aed: 19000, gbp: 4100, usd: 5200 },
+      { aed: 3500, gbp: 750, usd: 950 },
+    ],
   },
   {
     q: 'Do you write the copy?',
-    a: 'We build with your existing copy. Copywriting is AED 600 / £130 per page if you need it.',
+    a: 'We build with your existing copy. Copywriting is {0} per page if you need it.',
+    money: [{ aed: 600, gbp: 130, usd: 165 }],
   },
   {
     q: 'How long does a rebuild take?',
@@ -203,3 +215,14 @@ export const WEB_FAQS = [
 export const AED_COUNTRIES = ['AE', 'SA', 'QA', 'KW', 'BH', 'OM'] as const;
 export const GBP_COUNTRIES = ['GB'] as const;
 export const DEFAULT_CURRENCY = 'usd' as const;
+
+/**
+ * An FAQ answer as plain text, with every {n} slot filled with all three
+ * currencies. Used for the FAQPage schema and anywhere an answer has to be a
+ * string; the page itself renders the same answer through Price so it follows
+ * the switch.
+ */
+export const faqText = (f: { a: string; money?: readonly Money[] }) =>
+  f.money
+    ? f.a.replace(/\{(\d+)\}/g, (_, i) => money(f.money![Number(i)]).both)
+    : f.a;

@@ -1,0 +1,35 @@
+---
+import type { Money } from '../data/pricing';
+import Price from './Price.astro';
+
+/**
+ * An FAQ answer whose prices follow the currency switch.
+ *
+ * Most answers are plain sentences and pass straight through. The ones that
+ * quote a Brandure price are written with {0}, {1} … placeholders and a list
+ * of Money objects; each slot renders as a Price, so the answer shows the
+ * selected currency and still carries all three in the markup.
+ *
+ * The same answer is flattened to text for the FAQPage schema by faqText() in
+ * data/pricing.ts, so the structured data and the visible answer cannot
+ * disagree about what anything costs.
+ */
+interface Props {
+  a: string;
+  money?: readonly Money[];
+}
+const { a, money } = Astro.props;
+
+/* Split on the placeholders, keeping them, so text and prices interleave in
+   source order: ['New or rebuilt pages are ', '{0}', ' each. …']. */
+const parts = money?.length ? a.split(/(\{\d+\})/g) : [a];
+---
+
+{
+  parts.map((part) => {
+    const slot = /^\{(\d+)\}$/.exec(part);
+    if (!slot || !money) return part;
+    const m = money[Number(slot[1])];
+    return m ? <Price m={m} /> : part;
+  })
+}

@@ -298,6 +298,32 @@ const path = (vals: readonly number[]) =>
     if (root.hasAttribute('data-automated')) return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
+    /* ---- The bar pins only once the intro is out of the way ----
+       A sentinel sits at the end of the intro. While any of it is still below
+       the header the bar stays static, so it can never be pinned over text
+       the reader has not finished. The bar's height is published for the
+       stage cards' scroll-margin, so jumping to a stage clears both it and
+       the header. */
+    var intro = document.querySelector('#stages .section-head');
+    if (intro) {
+      var publish = function () {
+        document.documentElement.style.setProperty(
+          '--mth-bar-h', track.getBoundingClientRect().height + 'px');
+      };
+      publish();
+      addEventListener('resize', publish);
+
+      var headerH = parseFloat(getComputedStyle(root).getPropertyValue('--header-h')) || 64;
+      new IntersectionObserver(
+        function (entries) {
+          /* Stuck once the intro's bottom edge has passed above the header. */
+          track.classList.toggle('is-stuck', entries[0].boundingClientRect.bottom <= headerH);
+          publish();
+        },
+        { rootMargin: `-${Math.round(headerH)}px 0px 0px 0px`, threshold: [0, 1] },
+      ).observe(intro);
+    }
+
     var items = [].slice.call(track.querySelectorAll('[data-track]'));
     var fill = track.querySelector('.mth-track__fill');
     var stages = [].slice.call(document.querySelectorAll('[data-stage]'));

@@ -184,11 +184,12 @@ const faqSchema = {
             <div class="pkg__head">
               <h3 class="pkg__n">{p.name}</h3>
               <p class="pkg__lede">{p.lede}</p>
+              {/* The setup fee was the one figure on this card still frozen
+                  as a string, so the card read "$1,800 ... plus AED 3,500" —
+                  two currencies on one card. */}
               <p class="pkg__price">
-                <span class="pkg__pn">
-                  <span class="cur-aed">{money(PLANS[i].monthly).aed}</span><span class="cur-gbp">{money(PLANS[i].monthly).gbp}</span><span class="cur-usd">{money(PLANS[i].monthly).usd}</span>
-                </span>
-                <span class="pkg__pu">{p.unit}</span>
+                <span class="pkg__pn"><Price m={PLANS[i].monthly} /></span>
+                <span class="pkg__pu">per month &middot; plus <Price m={SETUP_FEE.price} /> one time setup fee</span>
               </p>
             </div>
             <div class="pkg__body">
@@ -222,7 +223,7 @@ const faqSchema = {
             <h3>{a.label}</h3>
             <p class="pr-wcard__p">
               {a.price
-                ? <><span class="cur-aed">{money(a.price).aed}</span><span class="cur-gbp">{money(a.price).gbp}</span><span class="cur-usd">{money(a.price).usd}</span>{a.perPage ? ' per page' : ''}</>
+                ? <><Price m={a.price} />{a.perPage ? ' per page' : ''}</>
                 : 'Quoted'}
             </p>
             <p class="pr-wcard__d">{a.notes}</p>
@@ -271,18 +272,18 @@ const faqSchema = {
       </dl>
 
       <p class="note-sm plist__terms">{VAT_TERMS}</p>
-      {/* ONE FLEX ITEM, NOT THREE. .center-row is display:flex with a 1.75rem
-          column gap, so a bare sentence around a link became three anonymous
-          items and the gap opened up in front of the full stop — "AEO agency
-          in Dubai ." The span keeps the sentence whole. */}
+      {/* ONE SENTENCE, ONE FLEX ITEM. This was two lines: a Dubai plug and a
+          bare "UAE | UK" pair that did not say where either link went.
+          .center-row is display:flex with a 1.75rem column gap, so the
+          sentence also has to stay inside a single span or the gap opens up
+          between its words. The Dubai link is gone from this page; it is
+          still reached from the home page, /service and the footer. */}
       <p class="center-row mt-1 note-sm">
-        <span>Buying from the UAE? <a class="textlink" href="/aeo-agency-dubai">AEO agency in Dubai</a>.</span>
-      </p>
-      <p class="center-row mt-1">
-        How our prices compare:{' '}
-        <a class="textlink" href="/guides/aeo-cost-uae">UAE</a>{' '}
-        <span aria-hidden="true">|</span>{' '}
-        <a class="textlink" href="/guides/aeo-cost-uk">UK</a>
+        <span>
+          How our prices compare with other agencies:{' '}
+          <a class="textlink" href="/guides/aeo-cost-uae">UAE</a> &middot;{' '}
+          <a class="textlink" href="/guides/aeo-cost-uk">UK</a>
+        </span>
       </p>
     </div>
   </section>

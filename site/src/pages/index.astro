@@ -6,7 +6,9 @@ import LogoStrip from '../components/LogoStrip.astro';
 import Testimonials from '../components/Testimonials.astro';
 import { SITE } from '../consts';
 import { allServiceSchemas } from '../lib/schema';
-import { PLANS, ADDONS, money } from '../data/pricing';
+import { PLANS, SETUP_FEE, ADDONS, money } from '../data/pricing';
+import Price from '../components/Price.astro';
+import CurrencySwitch from '../components/CurrencySwitch.astro';
 
 const WEB_PAGE = ADDONS.find((a) => a.key === 'page')!;
 import { FAQS, FAQS_HOME, HERO_MODE, HERO_STATS, HERO_CASES, PROBLEMS, STAGES, PACKAGES, ENGINES, PRIZE, TERMS } from '../data/content';
@@ -149,11 +151,11 @@ const faqSchema = {
           still one click target, and a second link inside it is simply a
           second link. */}
       <div class="ways" data-stagger>
-        <div class="card way way--lead">
+        <div class="card way">
           <span class="way__k"><a class="way__main" href="/service">AI search (AEO)</a></span>
           <span class="way__d">Get named when buyers ask ChatGPT, Gemini, Perplexity and Google&rsquo;s AI Overviews.</span>
           <span class="way__d">Based in Dubai. See our <a class="way__in" href="/aeo-agency-dubai">AEO agency in Dubai</a> page.</span>
-          <span class="way__p">Plans from <strong><span class="cur-aed">{money(PLANS[0].monthly).aed}</span><span class="cur-gbp">{money(PLANS[0].monthly).gbp}</span><span class="cur-usd">{money(PLANS[0].monthly).usd}</span></strong> a month</span>
+          <span class="way__p">Plans from <strong><Price m={PLANS[0].monthly} /></strong> a month</span>
         </div>
         <div class="card way">
           <span class="way__k"><a class="way__main" href="/service#seo">SEO</a></span>
@@ -163,7 +165,7 @@ const faqSchema = {
         <div class="card way">
           <span class="way__k"><a class="way__main" href="/ai-ready-websites">Websites built for both</a></span>
           <span class="way__d">New pages or a full rebuild on your platform, so Google and AI can read you.</span>
-          <span class="way__p">Pages from <strong><span class="cur-aed">{money(WEB_PAGE.price).aed}</span><span class="cur-gbp">{money(WEB_PAGE.price).gbp}</span><span class="cur-usd">{money(WEB_PAGE.price).usd}</span></strong></span>
+          <span class="way__p">Pages from <strong><Price m={WEB_PAGE.price} /></strong></span>
         </div>
       </div>
     </div>
@@ -284,6 +286,11 @@ const faqSchema = {
         <h2>Two ways we get you there.</h2>
       </div>
 
+      {/* The section quotes two monthly prices and a setup fee, so it needs
+          the switch: without one a visitor reading dollars everywhere else on
+          the page met dirhams here. */}
+      <CurrencySwitch />
+
       {/* A teaser, not the detail. The full artefact list per package lives on
           /service, which is the page organised around what you buy — repeating
           it here is what made three pages say the same thing. */}
@@ -293,8 +300,10 @@ const faqSchema = {
             {o.primary && <span class="feat-ring" aria-hidden="true"></span>}
             <div class="offer__head">
               <h3>{o.name}</h3>
-              <span class="offer__price">{o.price}</span>
-              <span class="offer__unit">{o.unit}</span>
+              <span class="offer__price"><Price m={PLANS.find((x) => x.key === o.key)!.monthly} /></span>
+              <span class="offer__unit">
+                per month &middot; plus <Price m={SETUP_FEE.price} /> one time setup fee
+              </span>
             </div>
             <div class="offer__body">
               <p>{o.lede}</p>
@@ -390,7 +399,7 @@ const faqSchema = {
       <div class="pteas">
         <p class="pteas__t">
           Plans from
-          <strong><span class="cur-aed">{money(PLANS[0].monthly).aed}</span><span class="cur-gbp">{money(PLANS[0].monthly).gbp}</span><span class="cur-usd">{money(PLANS[0].monthly).usd}</span></strong>
+          <strong><Price m={PLANS[0].monthly} /></strong>
           a month. Build yours in under a minute.
         </p>
         <a class="btn" href="/pricing">Build your plan</a>
@@ -433,8 +442,15 @@ const faqSchema = {
     border: 1px solid var(--border);
     transition: border-color 140ms ease, transform 140ms ease;
   }
-  .way:hover { border-color: var(--muted); transform: translateY(-2px); }
-  .way--lead { border-color: var(--accent); border-width: 2px; }
+  /* NEUTRAL AT REST, ACCENT ON HOVER AND ON KEYBOARD FOCUS. The lead card
+     carried a permanent 2px accent border, which on a row of three
+     equal choices read as "this one is already selected". The border width
+     stays 2px in both states so nothing reflows when it lights up. */
+  .way { border-width: 2px; border-color: var(--border); }
+  .way:hover,
+  .way:has(.way__main:focus-visible) {
+    border-color: var(--accent); transform: translateY(-2px);
+  }
   .way__k { font-family: var(--font-display); font-weight: 700; font-size: var(--h3); letter-spacing: -0.015em; }
   /* The heading's link covers the card, so the whole card is still one target
      and the link still has a real name for a screen reader. */

@@ -3,6 +3,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import ReportForm from '../components/ReportForm.astro';
 import BookForm from '../components/BookForm.astro';
 import { PACKAGES, ENGINES, COST_OF_ABSENCE, NOT_SEO, SETUP, TERMS } from '../data/content';
+import { PLANS, SETUP_FEE } from '../data/pricing';
+import Price from '../components/Price.astro';
+import CurrencySwitch from '../components/CurrencySwitch.astro';
 import { SCAN } from '../data/method';
 import { SITE } from '../consts';
 import { allServiceSchemas } from '../lib/schema';
@@ -190,10 +193,8 @@ const webPageSchema = {
           Some sites can&rsquo;t be optimised far enough. Crawlers can&rsquo;t
           read them, services are buried, or mobile pages are too slow. When
           our audit finds that, we rebuild the pages that matter, or the whole
-          site, on the platform you already use. Based in the UAE? See our{' '}
-          <a href="/aeo-agency-dubai">AEO agency in Dubai</a> page.
-          <a href="/ai-ready-websites">Add it to your plan</a> in the{' '}
-          <a href="/pricing#builder">price builder</a>.
+          site, on the platform you already use.{' '}
+          <a href="/pricing">Add website work in the price builder</a>.
         </p>
       </div>
     </div>
@@ -207,6 +208,11 @@ const webPageSchema = {
             softening the number before the reader reached it. */}
         <h2>Start your AI Search growth one of two ways.</h2>
       </div>
+
+      {/* Two monthly prices and a setup fee, so the section carries the
+          switch. It had none, so a visitor reading dollars everywhere else
+          met dirhams on the one page organised around what you buy. */}
+      <CurrencySwitch />
 
       <div class="pkg" data-stagger>
         {PACKAGES.map((p) => (
@@ -223,7 +229,10 @@ const webPageSchema = {
               </p>
               <h3 class="pkg__n">{p.name}</h3>
               <p class="pkg__lede">{p.lede}</p>
-              <p class="pkg__price"><span class="pkg__pn">{p.price}</span> <span class="pkg__pu">{p.unit}</span></p>
+              <p class="pkg__price">
+                <span class="pkg__pn"><Price m={PLANS.find((x) => x.key === p.key)!.monthly} /></span>
+                <span class="pkg__pu">per month &middot; plus <Price m={SETUP_FEE.price} /> one time setup fee</span>
+              </p>
             </div>
 
             <div class="pkg__body">
@@ -244,7 +253,7 @@ const webPageSchema = {
           and both cards already state it in their price line. It sits here as
           a line so the ten-day lead time is visible before the terms. */}
       <p class="pkg__setup">
-        <strong>{SETUP.name} &mdash; {SETUP.price}.</strong> {SETUP.d}
+        <strong>{SETUP.name} &mdash; <Price m={SETUP_FEE.price} />.</strong> {SETUP.d}
       </p>
 
       <p class="center-row mt-1"><span class="note-sm">{TERMS}</span></p>

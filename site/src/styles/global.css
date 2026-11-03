@@ -1088,13 +1088,48 @@ input:focus-visible, select:focus-visible { border-color: var(--focus); }
 .piece-list h2, .piece-list h3 { margin: 0 0 0.35rem; font-size: var(--h3); }
 .piece-list p { margin-bottom: 0; }
 
+/* ---------- The reading column ----------
+   ONE RULE FOR EVERY LONG-FORM BLOCK. Body copy used to inherit the global
+   `p, li { max-width: var(--measure) }` and then sit at the LEFT of whatever
+   container it was in: a 626px paragraph inside a 768px .wrap-narrow is 71px
+   off the page axis, with the empty 142px all on one side. Every long-form
+   page measured exactly that — /service worse, at 412px inside the wide wrap.
+   A measure is a line length, not a position, and capping the line without
+   centring the block is what made the pages look lopsided.
+
+   Each block is capped at the reading width and centred, so they share one
+   left edge on the page axis. Headings and text stay left-aligned inside it;
+   only the column is centred. */
+.prose { --read: 45rem; }
+.prose > * {
+  max-width: var(--read);
+  margin-inline: auto;
+}
+/* Inside the column the measure has already been applied by the column
+   itself; leaving it on descendants left list items capped at 62ch and
+   sitting against the left edge of a 720px list, which is the same lopsided
+   gap one level down. */
+.prose :is(p, li, blockquote, dd, dt) { max-width: none; }
+/* Things that are wider than a line of text by nature break out to the
+   container they sit in, still centred. */
+.prose > :is(table, figure, .table-scroll, .breakout, hr) {
+  max-width: none;
+}
 .prose > :first-child { margin-top: 0; }
 .prose h2 { margin-top: 2.5rem; }
 
 /* ---------- FAQ page ---------- */
 
-.faq-layout { display: grid; gap: clamp(2rem, 4vw, 3rem); align-items: start; }
-@media (min-width: 58rem) { .faq-layout { grid-template-columns: 15rem 1fr; } }
+/* CENTRED AS A PAIR. The index and the questions filled the whole 76rem wrap,
+   which put the index against the left edge of the window and the questions
+   somewhere off to the right of the axis every other section sits on. The
+   index still sits to the left on desktop; the two of them together are what
+   is centred, and the question column is a reading column like any other. */
+.faq-layout {
+  display: grid; gap: clamp(2rem, 4vw, 3rem); align-items: start;
+  max-width: 64rem; margin-inline: auto;
+}
+@media (min-width: 58rem) { .faq-layout { grid-template-columns: 14rem minmax(0, 45rem); justify-content: center; } }
 
 .faq-nav { position: static; }
 @media (min-width: 58rem) {
@@ -1766,16 +1801,34 @@ input:focus-visible, select:focus-visible { border-color: var(--focus); }
    Sticky, but slim and inside one section — not the scroll-pinned scrub
    sections that were removed. It never holds the reader in place. */
 
+/* STATIC UNTIL THE INTRO HAS GONE. It was sticky from the moment the section
+   came into view, and on a phone the bar wraps onto two rows — so a tall,
+   translucent bar sat pinned under the header while the last lines of "Skip
+   the last and you'll never know…" were still scrolling up through it. The
+   intro read through the blur and got cut off mid-line.
+
+   The script adds .is-stuck once the intro is fully above the header, so the
+   bar cannot pin while there is still intro to read. Sticky occupies its flow
+   position in both states, so switching between them shifts nothing. With no
+   JS it simply never sticks, which is the safe end of the trade. */
 .mth-track {
-  position: sticky; top: var(--header-h); z-index: 3;
+  position: static; top: var(--header-h); z-index: 3;
   margin: 0 0 2rem;
   padding: 0.7rem 0 0;
-  /* 96%, not 92%. A stage band scrolls under this bar, and at 92% its heading
-     read through the blur — the same call the site header already makes. */
-  background: color-mix(in srgb, var(--surface) 96%, transparent);
-  -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+  background: var(--surface);
   box-shadow: 0 8px 20px -18px rgba(0, 0, 0, 0.5);
 }
+.mth-track.is-stuck {
+  position: sticky;
+  /* Opaque, not a 96% blur: a stage heading scrolling under a translucent bar
+     is the same bug one section further down. */
+  background: var(--surface);
+}
+.mth-stages { background: var(--surface); }
+/* A jump to a stage clears the header and the bar, so the heading is never
+   the thing hiding behind them. --mth-bar-h is published by the page script
+   from the bar's measured height. */
+.mth-stage { scroll-margin-top: calc(var(--header-h) + var(--mth-bar-h, 0px) + 1rem); }
 .mth-track__l {
   list-style: none; margin: 0 0 0.55rem; padding: 0;
   display: flex; flex-wrap: wrap; gap: 0.3rem 0.45rem;

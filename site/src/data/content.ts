@@ -365,9 +365,6 @@ export const PACKAGES = [
     a: 'cobalt',
     covers: ['S', 'C', 'A', 'N'],
     coversLabel: 'All four stages, monthly',
-    price: 'AED 6,500',
-    unit: 'per month \u00b7 plus AED 3,500 one time setup fee',
-    gbp: '\u00a31,400/month',
     lede: 'Own the market you\u2019re already in.',
     summary: '',
     gets: [
@@ -397,9 +394,6 @@ export const PACKAGES = [
     a: 'violet',
     covers: ['S', 'C', 'A', 'N'],
     coversLabel: 'All four stages, monthly',
-    price: 'AED 12,000',
-    unit: 'per month \u00b7 plus AED 3,500 one time setup fee',
-    gbp: '\u00a32,600/month',
     lede: 'Take the ground you don\u2019t hold yet.',
     summary: 'Everything in Core, plus:',
     /* Arabic and UAE-wide were removed from this tier on 2026-10-21. They are
@@ -438,11 +432,13 @@ export const PACKAGES = [
  * two priced cards made the page read as a three-tier ladder with a free
  * entry point, which is not the offer.
  */
+/* THE FIGURE IS NOT HERE. It lives once, in data/pricing.ts, and renders
+   through the Price component so it follows the currency switch like every
+   other price on the site. This carries the name and the description only —
+   a second copy of "AED 3,500" is how /service ended up quoting dirhams to a
+   visitor reading dollars. */
 export const SETUP = {
   name: 'One time setup fee',
-  price: 'AED 3,500',
-  unit: '',
-  gbp: '£750 setup',
   d: 'Schema, crawler access, entity fixes, tracking baseline and measurement setup. Ten working days, completed before month one begins.',
 } as const;
 

@@ -331,9 +331,16 @@
 .site-header:focus-within { transform: none; }
 
 /* Sticky bars that sit under the header close the gap when it slides away,
-   on the same curve, so the two move as one. */
+   on the same curve, so the two move as one.
+
+   ONLY WHILE THE BAR IS ACTUALLY STUCK. This used to apply to .mth-track
+   whatever it was doing, so scrolling down — which hides the header — hauled
+   the stage bar 72px up out of its place in the flow and straight over the
+   intro paragraph above it. That is what cut "Skip the last…" off mid-line:
+   not the stickiness, a translate meant for the pinned state being applied to
+   a bar still sitting in the page. */
 .mth-track, .sticky-head { transition: transform 380ms var(--ease-out); }
-:root[data-nav='hidden'] .mth-track,
+:root[data-nav='hidden'] .mth-track.is-stuck,
 :root[data-nav='hidden'] .sticky-head { transform: translate3d(0, calc(var(--header-h) * -1), 0); }
 .site-header[data-scrolled='true'] {
   -webkit-backdrop-filter: blur(16px) saturate(1.4);
@@ -764,8 +771,26 @@
    Decorative, aria-hidden, no text. Only ever on the card the content marks
    primary — one per grid, so it reads as a recommendation rather than as
    decoration. */
+/* AT REST IT IS AN ORDINARY CARD. The ring and the accent glow used to be
+   permanent on whichever card the content marks primary, which read as "this
+   one is selected" on a page where nothing is selectable — the first card on
+   the home page, /service and /pricing all looked chosen before the visitor
+   had chosen anything. A recommendation is in the words ("Most chosen"), not
+   in a selection treatment. The ring now answers the pointer and the keyboard
+   instead, which is the one time an accent border means something.
+
+   The builder's plan cards and website tiles are the exception and keep their
+   accent at rest, because there the selection is real. */
 .is-featured { position: relative; isolation: isolate; }
-.is-featured { box-shadow: var(--shadow-card), 0 22px 50px -30px color-mix(in srgb, var(--accent) 55%, transparent); }
+.is-featured {
+  box-shadow: var(--shadow-card);
+  transition: box-shadow var(--dur-1) var(--ease-out);
+}
+.is-featured:hover,
+.is-featured:focus-within,
+.is-featured:has(a:focus-visible) {
+  box-shadow: var(--shadow-lift), 0 22px 50px -30px color-mix(in srgb, var(--accent) 55%, transparent);
+}
 .feat-ring {
   position: absolute; inset: 0; z-index: 3;
   border-radius: inherit;
@@ -773,10 +798,22 @@
   pointer-events: none;
   overflow: hidden;
   container-type: size;
+  /* Hidden until the card is hovered or holds keyboard focus. */
+  opacity: 0;
+  transition: opacity var(--dur-1) var(--ease-out);
   -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
   mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
 }
+.is-featured:hover > .feat-ring,
+.is-featured:focus-within > .feat-ring,
+.is-featured:has(a:focus-visible) > .feat-ring { opacity: 1; }
+/* A ring that only ever appears on hover has nothing to spin for the rest of
+   the time, and an off-screen conic gradient repainting every frame is work
+   nobody can see. */
+.feat-ring::before { animation-play-state: paused; }
+.is-featured:hover > .feat-ring::before,
+.is-featured:focus-within > .feat-ring::before { animation-play-state: running; }
 .feat-ring::before {
   content: '';
   position: absolute; left: 50%; top: 50%;

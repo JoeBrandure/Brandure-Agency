@@ -1,6 +1,7 @@
 ---
 import { PLANS, SETUP_FEE, ADDONS, VAT_TERMS, NUDGE_FROM_PAGES, money } from '../data/pricing';
 import PlanCards from './PlanCards.astro';
+import Price from './Price.astro';
 
 /**
  * The price builder — the page's main content, not an extra below it.
@@ -73,7 +74,7 @@ const monthly0 = money(PLANS[0].monthly);
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
             </span>
             <span>
-              <strong>{SETUP_FEE.name}: <span class="cur-aed">{setup0.aed}</span><span class="cur-gbp">{setup0.gbp}</span><span class="cur-usd">{setup0.usd}</span></strong>, one-off, 10 working days
+              <strong>{SETUP_FEE.name}: <Price m={SETUP_FEE.price} /></strong>, one-off, 10 working days
               <span class="scard__d">Technical SEO, schema, AI crawler access, entity fixes, tracking and your visibility baseline.</span>
             </span>
           </div>
@@ -90,7 +91,7 @@ const monthly0 = money(PLANS[0].monthly);
                   <span class="tile__l">{t.label}</span>
                   <span class="tile__p">
                     {t.price
-                      ? <><span class="cur-aed">{money2(t.price).aed}</span><span class="cur-gbp">{money2(t.price).gbp}</span><span class="cur-usd">{money2(t.price).usd}</span> {t.hint}</>
+                      ? <><Price m={t.price} /> {t.hint}</>
                       : t.hint}
                   </span>
                 </span>
@@ -126,7 +127,7 @@ const monthly0 = money(PLANS[0].monthly);
 
           <div class="pbx__sub" id="pbx-copy-row" hidden>
             <label class="pbx__lb" for="pb-copy">
-              Need copy written? <span class="note-sm">(+<span class="cur-aed">{money2(copyAddon.price).aed}</span><span class="cur-gbp">{money2(copyAddon.price).gbp}</span><span class="cur-usd">{money2(copyAddon.price).usd}</span> per page)</span>
+              Need copy written? <span class="note-sm">(+<Price m={copyAddon.price} /> per page)</span>
             </label>
             <div class="pbx__spin">
               <button type="button" class="pbx__sbtn" data-spin="pb-copy" data-by="-1" aria-label="Fewer copywriting pages">&minus;</button>
@@ -148,8 +149,8 @@ const monthly0 = money(PLANS[0].monthly);
         <div class="pbx__bar">
           <button type="button" class="pbx__peek" id="pbx-peek" aria-expanded="false" aria-controls="pbx-sumbody">
             <span class="pbx__peekrow">
-              <span><span class="pbx__peekl">Setup</span> <strong id="pb-setup-m"><span class="cur-aed">{setup0.aed}</span><span class="cur-gbp">{setup0.gbp}</span><span class="cur-usd">{setup0.usd}</span></strong></span>
-              <span><span class="pbx__peekl">Monthly</span> <strong id="pb-monthly-m"><span class="cur-aed">{monthly0.aed}</span><span class="cur-gbp">{monthly0.gbp}</span><span class="cur-usd">{monthly0.usd}</span></strong></span>
+              <span><span class="pbx__peekl">Setup</span> <strong id="pb-setup-m"><Price m={SETUP_FEE.price} /></strong></span>
+              <span><span class="pbx__peekl">Monthly</span> <strong id="pb-monthly-m"><Price m={PLANS[0].monthly} /></strong></span>
             </span>
             <span class="pbx__chev" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
@@ -161,17 +162,17 @@ const monthly0 = money(PLANS[0].monthly);
         <div class="pbx__sumbody" id="pbx-sumbody">
           <p class="pbx__big">
             <span class="pbx__biglb">Setup today</span>
-            <strong id="pb-setup"><span class="cur-aed">{setup0.aed}</span><span class="cur-gbp">{setup0.gbp}</span><span class="cur-usd">{setup0.usd}</span></strong>
+            <strong id="pb-setup"><Price m={SETUP_FEE.price} /></strong>
           </p>
           <p class="pbx__big">
             <span class="pbx__biglb">Then</span>
-            <strong id="pb-monthly"><span class="cur-aed">{monthly0.aed}</span><span class="cur-gbp">{monthly0.gbp}</span><span class="cur-usd">{monthly0.usd}</span></strong>
+            <strong id="pb-monthly"><Price m={PLANS[0].monthly} /></strong>
             <span class="pbx__per">/month</span>
           </p>
 
           <ul class="pbx__lines" id="pb-lines">
-            <li><span>{SETUP_FEE.name}</span><span><span class="cur-aed">{setup0.aed}</span><span class="cur-gbp">{setup0.gbp}</span><span class="cur-usd">{setup0.usd}</span></span></li>
-            <li><span>{PLANS[0].name} plan</span><span><span class="cur-aed">{monthly0.aed}</span><span class="cur-gbp">{monthly0.gbp}</span><span class="cur-usd">{monthly0.usd}</span>/mo</span></li>
+            <li><span>{SETUP_FEE.name}</span><span><Price m={SETUP_FEE.price} /></span></li>
+            <li><span>{PLANS[0].name} plan</span><span><Price m={PLANS[0].monthly} />/mo</span></li>
           </ul>
 
           <p class="note-sm pbx__terms">{VAT_TERMS}</p>

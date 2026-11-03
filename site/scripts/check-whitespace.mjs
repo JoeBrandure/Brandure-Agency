@@ -69,14 +69,43 @@ function nestedAnchors(html) {
 
 function joinedToLink(html) {
   const hits = [];
-  /* A word character hard against an opening <a>, or against the text right
-     after </a>. An opening bracket, a currency symbol or any punctuation on
-     either side is legitimate; two letters touching across a tag is not. */
-  for (const re of [/([A-Za-z0-9])<a\s[^>]*>([A-Za-z0-9])/g, /([A-Za-z0-9])<\/a>([A-Za-z0-9])/g]) {
+  /* A letter, digit OR SENTENCE PUNCTUATION hard against a link, on either
+     side of it.
+
+     Punctuation was the gap: the first version only looked for a letter
+     against a link, so "…other people's.<a>The research index</a>" and
+     "Contact:<a>joe@…</a>" sailed through — four of them, on /service,
+     /guides, /about and /privacy, all read as run-together sentences on the
+     live site. A full stop, comma, colon, semicolon or question mark butted
+     straight against a link is always a missing space.
+
+     An opening bracket or a currency symbol against a link is legitimate, so
+     the class is listed rather than "anything that is not a space". */
+  const before = /([A-Za-z0-9.,;:!?])<a\s[^>]*>([A-Za-z0-9])/g;
+  /* After a link, only a letter or digit counts: "</a>." and "</a>," are the
+     normal way a sentence closes around a link. */
+  const after = /([A-Za-z0-9])<\/a>([A-Za-z0-9])/g;
+  for (const re of [before, after]) {
     let m;
     while ((m = re.exec(html))) {
       hits.push({ i: m.index, text: html.slice(Math.max(0, m.index - 40), m.index + 60) });
     }
+  }
+  return hits;
+}
+
+/* The same rule, read off the rendered text rather than the markup: any
+   sentence punctuation immediately followed by a letter with no space. This
+   catches the cases the tag-level check cannot see, where the two sides are
+   separated by markup that collapses to nothing. Abbreviations and decimals
+   are excluded by requiring a lower-case letter before and an upper-case
+   letter after, which is the shape of two sentences run together. */
+function punctuationRunOn(text) {
+  const hits = [];
+  const re = /([a-z0-9'’)])([.,;:!?])([A-Z][a-z])/g;
+  let m;
+  while ((m = re.exec(text))) {
+    hits.push({ i: m.index, text: text.slice(Math.max(0, m.index - 40), m.index + 40) });
   }
   return hits;
 }
@@ -112,17 +141,41 @@ const report = (file, label, hits, src) => {
   }
 };
 
+/* Tags out, entities in, so the comparison is against what a reader sees.
+   Block-level tags become a space, inline ones collapse to nothing — which is
+   exactly how the browser renders them, and what makes "people's.<a>The"
+   show up here as a run-on. */
+/* NOT <span>. A span holding a whole sentence is nearly always a layout box
+   — on the home page the cards are grids whose spans are rows, so collapsing
+   them read "…AI Overviews.Based in Dubai" as a run-on when the two sentences
+   are on separate lines. Anything not listed here becomes a space, which is
+   the safe direction: a missed run-on is caught by the tag-level check above,
+   a false one blocks the build for no reason. */
+const INLINE = /^<\/?(a|b|i|em|strong|code|abbr|cite|time|mark|u|s)\b/i;
+const renderedText = (html) =>
+  html
+    .replace(/<[^>]+>/g, (tag) => (INLINE.test(tag) ? '' : ' '))
+    .replace(/&nbsp;|&#160;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/&rsquo;|&#8217;/g, '\u2019')
+    .replace(/&mdash;/g, '\u2014')
+    .replace(/&middot;/g, '\u00b7')
+    .replace(/&[a-z]+;|&#\d+;/gi, ' ');
+
 for (const file of files) {
   const raw = await readFile(file, 'utf8');
   const text = stripNonText(raw);
   report(file, 'link nested inside a link', nestedAnchors(text), raw);
-  report(file, 'letter against a link, missing space', joinedToLink(text), raw);
+  report(file, 'letter or punctuation against a link, missing space', joinedToLink(text), raw);
   report(file, 'space before punctuation', spaceBeforePunctuation(text), raw);
+  /* Offsets here are into the rendered text, not the file, so line numbers
+     would be wrong — the excerpt is what locates it. */
+  report(file, 'punctuation run straight into the next word', punctuationRunOn(renderedText(text)), '');
 }
 
 console.log(
   failures === 0
-    ? `\nPASS — ${files.length} pages, no nested links, no joined words, no space before punctuation`
+    ? `\nPASS — ${files.length} pages, no nested links, no joined words, no run-on punctuation`
     : `\nFAIL — ${failures} problem(s) across ${files.length} pages`,
 );
 process.exit(failures === 0 ? 0 : 1);

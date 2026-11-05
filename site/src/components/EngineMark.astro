@@ -1,5 +1,5 @@
 ---
-import { readdirSync, readFileSync } from 'node:fs';
+import { readdirSync } from 'node:fs';
 import { ENGINE_MARKS } from '../data/engines';
 
 /**
@@ -8,45 +8,41 @@ import { ENGINE_MARKS } from '../data/engines';
  * Uses `public/engines/<slug>.svg` where a file exists; otherwise draws the
  * inline fallback. See `src/data/engines.ts` for what the fallbacks are.
  *
- * The file is INLINED, not referenced with `<img>`, and that matters for one
- * of the six: OpenAI's mark is monochrome and published as
+ * The file is drawn as SVG, not as an `<img>`, and that matters for one of
+ * the six: OpenAI's mark is monochrome and published as
  * `fill="currentColor"`. Inside an `<img>` that resolves against the image's
- * own document and comes out black, which disappears on a dark chip. Inlined,
- * it inherits the chip's colour and works in both themes. The four
+ * own document and comes out black, which disappears on a dark chip. Drawn as
+ * SVG — and `currentColor` resolves through `<use>` from the referencing
+ * element — it inherits the chip's colour and works in both themes. The four
  * multicoloured marks carry their own hard-coded fills and are unaffected
- * either way — nothing here recolours them.
+ * either way.
+ *
+ * REFERENCED, NOT REPEATED. The mark itself lives once per page in
+ * `<EngineSprite />`, which the page must carry; this emits a `<use>`. The
+ * homepage draws 108 marks and inlining them all cost 139KB of HTML and five
+ * mobile Lighthouse points. The audit fails a page whose marks have no
+ * sprite, so the dependency cannot ship broken.
+ *
+ * Only the marks with a file go through the sprite. The fallbacks below are
+ * drawn inline because they are a handful of paths for engines whose file is
+ * missing, and at that count the indirection costs more than it saves.
  */
 interface Props { slug: string; short?: boolean; }
 const { slug, short = false } = Astro.props;
 const e = ENGINE_MARKS.find((x) => x.slug === slug)!;
 
-/* Read once per build, not once per instance — the rotator renders this
-   component 35 times per page. */
-const cache: Map<string, string> = ((globalThis as any).__engineMarks ??= new Map());
-if (!cache.has(slug)) {
+/* Read the directory once per build, not once per instance. */
+const have: Set<string> = ((globalThis as any).__engineMarkHave ??= (() => {
   let files: string[] = [];
   try { files = readdirSync('./public/engines'); } catch { files = []; }
-  const file = files.find((f) => f.replace(/\.[^.]+$/, '') === slug && /\.svg$/i.test(f));
-  let raw = '';
-  if (file) { try { raw = readFileSync(`./public/engines/${file}`, 'utf8'); } catch { raw = ''; } }
-  cache.set(slug, raw);
-}
-const raw = cache.get(slug)!;
-
-/* Gemini's mark carries gradient definitions referenced by id. Inlining the
-   same file 14 times a page would repeat those ids, which is invalid HTML and
-   is exactly the sort of thing an accessibility audit flags. Each instance
-   gets its own suffix. The counter is per-build, so ids are stable for a given
-   build and unique within a document. */
-const n = ((globalThis as any).__engineMarkN = (((globalThis as any).__engineMarkN as number) ?? 0) + 1);
-const markup = raw
-  ? raw.replace(/id="([^"]+)"/g, `id="$1-b${n}"`).replace(/url\(#([^)]+)\)/g, `url(#$1-b${n})`)
-  : '';
+  return new Set(files.filter((f) => /\.svg$/i.test(f)).map((f) => f.replace(/\.[^.]+$/, '')));
+})());
+const sprited = have.has(slug);
 ---
 <span class="engine" style={`--ec:${e.colour}; --ei:${e.ink}`}>
   <span class="engine__chip" aria-hidden="true">
-    {markup ? (
-      <Fragment set:html={markup} />
+    {sprited ? (
+      <svg focusable="false"><use href={`#em-${slug}`} /></svg>
     ) : slug === 'gemini' ? (
       /* Four-point star. The closest of the six to the real mark. */
       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1c.6 5.6 4.4 9.4 10 10-5.6.6-9.4 4.4-10 10-.6-5.6-4.4-9.4-10-10 5.6-.6 9.4-4.4 10-10Z"/></svg>

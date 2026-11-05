@@ -870,7 +870,18 @@ tbody tr:hover th[scope='row'], tbody tr:hover td { background: color-mix(in srg
   color: var(--ei);
 }
 :root[data-theme='dark'] .engine__chip { background: color-mix(in srgb, var(--ec) 26%, transparent); color: var(--ec); }
-.engine__chip svg { width: 0.85rem; height: 0.85rem; display: block; }
+/* flex: none was a presentation attribute on each mark's own root element.
+   With the marks moved into a sprite that attribute is gone, so the rule
+   carries it: the chip is an inline-flex box and a mark that can shrink is a
+   mark that may not measure the same at every text size. */
+.engine__chip svg { width: 0.85rem; height: 0.85rem; display: block; flex: none; }
+
+/* The mark definitions themselves. A zero-sized <svg> is still an inline box
+   and laid out a 26.4px line, which pushed every page that carried it down
+   by a line — invisible on its own and immediately obvious in a diff against
+   the build before it. <use> resolves into a display:none sprite as normal;
+   a symbol is never rendered in place either way. */
+.engine-sprite { display: none; }
 .engine__chip img { width: 0.95rem; height: 0.95rem; display: block; object-fit: contain; }
 .engine__n { font-weight: 600; }
 .intent {
@@ -2301,6 +2312,95 @@ input:focus-visible, select:focus-visible { border-color: var(--focus); }
 
 /* Without JavaScript every panel stays in the DOM; show the first only. */
 .no-js .rotator__panel[hidden] { display: none; }
+
+/* ---------- Prompt cards (below 48rem) ----------
+   The same rows as the table, stacked. The table is four columns and its
+   prompt column is pinned: measured at 390px the scroller was 348px wide and
+   the prompt column 320 of them, so three engines and a score had 28px to
+   share and the reader swiped the comparison through a slot. Laying the same
+   comparison down the page instead of across it costs nothing on a phone,
+   where vertical space is the one thing there is plenty of.
+
+   One breakpoint, two views, and they swap rather than coexist — at no width
+   are both in the layout, so there is no duplicated reading order and no
+   double tab stop. The desktop table is untouched above 48rem. */
+.qcards { display: none; }
+
+@media (max-width: 47.99rem) {
+  .rotator .table-scroll { display: none; }
+  .qcards {
+    display: grid; gap: 0.7rem;
+    list-style: none; margin: 0; padding: 0;
+  }
+}
+/* The global `p, li { max-width: var(--measure) }` is a reading measure and
+   these are not prose. Left on, it capped each card at 626px anchored to the
+   left of the wrap, so between roughly 600px and the breakpoint the cards sat
+   short of the right-hand gutter while the footnote under them ran full
+   width. li's own margin-bottom would also double the grid gap. */
+.qcards > li { max-width: none; margin: 0; }
+
+.qcard {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow-card);
+  padding: 0.85rem 0.9rem 0.9rem;
+}
+.section--inv .qcard { background: rgba(255, 255, 255, 0.04); border-color: var(--border-inv); }
+
+.qcard__p {
+  margin: 0; max-width: none;
+  font-size: var(--small); font-weight: 600; line-height: 1.4;
+  color: var(--ink);
+}
+.section--inv .qcard__p { color: var(--ink-inv); }
+.qcard__i { margin: 0.45rem 0 0; max-width: none; }
+
+/* Hairline rules between engines come from the 1px grid gap showing through,
+   so each row needs an opaque background of its own — the status washes are
+   mixed into --surface rather than into transparent for the same reason. */
+.qcard__engines {
+  display: grid; gap: 1px;
+  margin: 0.7rem 0 0;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+.section--inv .qcard__engines { background: var(--border-inv); border-color: var(--border-inv); }
+.qcard__row {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  gap: 0.6rem;
+  padding: 0.55rem 0.6rem;
+  background: var(--surface);
+}
+.qcard__row--present { background: color-mix(in srgb, var(--status-present) 7%, var(--surface)); }
+.qcard__row--partial { background: color-mix(in srgb, var(--status-partial) 8%, var(--surface)); }
+.qcard__row--absent  { background: color-mix(in srgb, var(--status-absent) 5%, var(--surface)); }
+.qcard__eng { margin: 0; flex: 0 0 auto; font-size: var(--small); }
+.qcard__val {
+  margin: 0; min-width: 0; flex: 1 1 auto;
+  display: flex; flex-direction: column; align-items: flex-end; gap: 0.25rem;
+  text-align: right;
+}
+/* .cite carries its own top margin for the table cell; here the flex gap
+   already provides it. */
+.qcard__val .cite { margin-top: 0; text-align: right; }
+
+.qcard__score {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 0.75rem; margin: 0.7rem 0 0; max-width: none;
+}
+.qcard__scorel {
+  font-size: 0.7rem; font-weight: 600; letter-spacing: 0.06em;
+  text-transform: uppercase; color: var(--muted);
+}
+.section--inv .qcard__scorel { color: var(--muted-inv); }
+/* The table stacks the tally over its bar in a 5rem column; across a card
+   there is width for both on one line. */
+.qcard__score .score { flex-direction: row; align-items: center; gap: 0.55rem; }
+.qcard__score .score__bar { width: 4.5rem; }
 
 /* ---------- Testimonials ----------
    Three columns scrolling vertically at different speeds, masked at both

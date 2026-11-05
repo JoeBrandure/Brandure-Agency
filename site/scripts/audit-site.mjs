@@ -25,8 +25,11 @@
  *   8  sticky elements never cover a heading or a paragraph
  *   9  count-up and stat numbers render as non-empty text
  *  10  full-page screenshots of every page at both widths, into audit/
+ *  11  every row has as many cells as its table has headers
+ *  12  nothing inside a page needs a sideways swipe on a phone
+ *  13  every engine mark resolves to a symbol in the page's sprite
  *
- * Checks 3, 6, 7 and 8 all carry allowlists. Each entry is a deliberate
+ * Checks 3, 6, 7, 8 and 12 all carry allowlists. Each entry is a deliberate
  * exception with a reason, not a way to make a failure go away: a market
  * figure in a guide is in the guide's own currency on purpose, and a
  * two-column section is not a reading column.
@@ -80,6 +83,27 @@ const NOT_A_READING_COLUMN = [
   '.case-grid', '.metric-grid', '.svc-facts', '.ways', '.qa', '.faq-layout',
   '.tst__cols', '.stages__list', '.mth-stage', '.cmp', '.work-grid',
   '.pbx', '.plist', '.logos', '.hero-actions', '.center-row', '.footer',
+];
+
+/* Sideways scrolling that is the design, not a defect. Each of these is a
+   track a reader swipes on purpose, with its own indicator: the sector chips
+   are one scrolling row rather than three wrapped ones, the testimonial
+   track scroll-snaps and has dots under it, and the logo marquee is a
+   marquee. A wide comparison table in a long-form page is allowed to scroll
+   inside its own frame, but only outside the rotator: the allowance is
+   written as a descendant selector rather than a bare .table-scroll so that
+   putting the engine matrix back on a phone fails this check instead of
+   inheriting an exemption written for prose. */
+const DELIBERATE_SCROLLERS = [
+  '.rotator__tabs', '.tst__cols', '.marquee',
+  '.prose .table-scroll', '.rs__body .table-scroll', '.table-figure .table-scroll',
+  /* Research and guide evidence tables, which scroll inside themselves rather
+     than shrink — the call made when the series was built, on the grounds
+     that a squeezed seven-column table is unreadable. They still swipe on a
+     phone (measured: up to 639px of table in a 350px frame), which is the
+     same complaint the homepage matrix got, so this entry is a scope line,
+     not a verdict. */
+  '.rs__body > table',
 ];
 
 /* Selection states that are SUPPOSED to carry the accent at rest. */
@@ -367,6 +391,54 @@ for (const view of ['desktop', 'mobile']) {
         return out.slice(0, 3);
       });
       if (ragged.length) fail(path, view, cur, 'row/header cell mismatch', ragged.join(' | '));
+
+      /* 12 — nothing inside the page needs a sideways swipe on a phone.
+         Check 2 only catches the document scrolling; the engine matrix
+         scrolled *inside itself*, which the document never noticed. At 390px
+         its scroller was 348px wide with a 320px pinned prompt column, so
+         three engine columns and a score shared 28px and the comparison was
+         unreadable without swiping it through a slot. The page passed every
+         check in this file.
+         Only real scroll containers count — computed overflow-x of auto or
+         scroll. An element with overflow visible reports a scrollWidth past
+         its box without ever scrolling, so including those would flag every
+         wrapper of a bleeding decoration. */
+      if (view === 'mobile') {
+        const swipers = await page.evaluate((allow) => {
+          const ok = (el) => allow.some((s) => el.closest(s));
+          return [...document.querySelectorAll('body *')]
+            .filter((el) => {
+              if (!el.offsetWidth || !el.offsetHeight) return false;
+              const ov = getComputedStyle(el).overflowX;
+              if (ov !== 'auto' && ov !== 'scroll') return false;
+              return el.scrollWidth - el.clientWidth > 1 && !ok(el);
+            })
+            .map((el) => {
+              const id = el.id ? `#${el.id}` : '';
+              const cls = (el.getAttribute('class') || '').trim().split(/\s+/)[0];
+              return `${el.tagName.toLowerCase()}${id}${cls ? '.' + cls : ''} ` +
+                `(${el.scrollWidth}px in ${el.clientWidth}px)`;
+            })
+            .slice(0, 4);
+        }, DELIBERATE_SCROLLERS);
+        if (swipers.length)
+          fail(path, view, cur, 'element scrolls sideways', swipers.join(' | '));
+      }
+
+      /* 13 — every engine mark resolves to a symbol on the page.
+         The marks live in one <EngineSprite /> and each appearance is a
+         <use href="#em-…">. A page that draws marks and forgets the sprite
+         renders six empty chips next to six engine names, which looks like
+         a loading state and passes every other check here. */
+      const orphans = await page.evaluate(() => {
+        const ids = new Set([...document.querySelectorAll('symbol[id^="em-"]')].map((s) => s.id));
+        return [...document.querySelectorAll('use')]
+          .map((u) => (u.getAttribute('href') || u.getAttribute('xlink:href') || '').replace(/^#/, ''))
+          .filter((h) => h.startsWith('em-') && !ids.has(h))
+          .slice(0, 3);
+      });
+      if (orphans.length)
+        fail(path, view, cur, 'engine mark has no sprite', `missing symbol(s): ${[...new Set(orphans)].join(', ')}`);
 
       /* 10 — screenshots, once per page per viewport (currency-independent) */
       if (SHOTS && cur === 'usd') {

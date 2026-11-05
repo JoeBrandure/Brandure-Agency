@@ -5,6 +5,25 @@ import { PROMPT_SETS } from '../data/promptsets';
 import { TRACKED_MARKS } from '../data/engines';
 
 /**
+ * RESOLVED ONCE, RENDERED TWICE. The wide table and the phone cards are two
+ * views of the same rows, so they are built from one array computed here
+ * rather than from two walks of the data. That is the whole reason this
+ * block exists: the last time the table's headers and its cells were derived
+ * separately they fell out of step and three cells ended up under no header.
+ * A second rendering of the same facts is exactly where that happens again.
+ */
+const SETS = PROMPT_SETS.map((s) => ({
+  ...s,
+  rows: s.rows.map((row) => {
+    const cells = TRACKED_MARKS.map((e) => ({
+      engine: e,
+      ...(row.cells[e.slug] ?? { status: 'absent' as const }),
+    }));
+    return { ...row, cells, named: cells.filter((c) => c.status !== 'absent').length };
+  }),
+}));
+
+/**
  * Seven prompt sets, one per scanned sector, in one table that swaps between
  * them. It advances on its own and can be driven by the tabs.
  *
@@ -30,7 +49,7 @@ import { TRACKED_MARKS } from '../data/engines';
 <div class="rotator" data-rotator>
   <div class="rotator__bar">
     <div class="rotator__tabs" role="tablist" aria-label="Example prompt sets by sector">
-      {PROMPT_SETS.map((s, i) => (
+      {SETS.map((s, i) => (
         <button
           class="rotator__tab"
           role="tab"
@@ -51,7 +70,7 @@ import { TRACKED_MARKS } from '../data/engines';
 
   <span class="rotator__progress" aria-hidden="true"><span data-progress></span></span>
 
-  {PROMPT_SETS.map((s, i) => (
+  {SETS.map((s, i) => (
     <section
       class="rotator__panel"
       role="tabpanel"
@@ -77,37 +96,65 @@ import { TRACKED_MARKS } from '../data/engines';
             </tr>
           </thead>
           <tbody>
-            {s.rows.map((row) => {
-              /* ONE CELL PER HEADER, DRIVEN BY THE SAME LIST. The cells used
-                 to be a positional array: when the headers were cut to three
-                 the rows still emitted six, so three cells had no header,
-                 "Named" sat over the wrong column and the score read out of
-                 six. Walking TRACKED_MARKS to build both means the two cannot
-                 disagree about how many columns there are. */
-              const cells = TRACKED_MARKS.map((e) => row.cells[e.slug] ?? { status: 'absent' as const });
-              const named = cells.filter((c) => c.status !== 'absent').length;
-              return (
-                <tr>
-                  <th scope="row"><span class="row-label">{row.prompt}</span></th>
-                  <td class="col-intent"><span class="intent">{row.intent}</span></td>
-                  {cells.map((cell) => (
-                    <td class={`cell cell--${cell.status}`}>
-                      <StatusCell status={cell.status} />
-                      {cell.citation && <span class="cite">{cell.citation}</span>}
-                    </td>
-                  ))}
-                  <td class="col-score">
-                    <span class="score" style={`--score:${named / cells.length}`}>
-                      <span class="score__n">{named}<span class="score__of">/{cells.length}</span></span>
-                      <span class="score__bar" aria-hidden="true"><span></span></span>
-                    </span>
+            {s.rows.map((row) => (
+              <tr>
+                <th scope="row"><span class="row-label">{row.prompt}</span></th>
+                <td class="col-intent"><span class="intent">{row.intent}</span></td>
+                {row.cells.map((cell) => (
+                  <td class={`cell cell--${cell.status}`}>
+                    <StatusCell status={cell.status} />
+                    {cell.citation && <span class="cite">{cell.citation}</span>}
                   </td>
-                </tr>
-              );
-            })}
+                ))}
+                <td class="col-score">
+                  <span class="score" style={`--score:${row.named / row.cells.length}`}>
+                    <span class="score__n">{row.named}<span class="score__of">/{row.cells.length}</span></span>
+                    <span class="score__bar" aria-hidden="true"><span></span></span>
+                  </span>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
+
+      {/* THE SAME ROWS, STACKED, BELOW 768px. The table is four columns wide
+          and its first column is sticky: measured at 390px the scroller was
+          348px and the prompt column 320 of them, so a reader swiped three
+          engines through a 28px slot. Cards are the same comparison laid out
+          down the page instead of across it.
+
+          A definition list per card, not a grid of divs: each row is a name
+          and its value, so a screen reader reads "ChatGPT: Cited, Legal 500
+          profile" rather than six unlabelled fragments. */}
+      <ul class="qcards" role="list">
+        {s.rows.map((row) => (
+          <li>
+            <article class="qcard">
+              <p class="qcard__p">{row.prompt}</p>
+              <p class="qcard__i"><span class="intent">{row.intent}</span></p>
+              <dl class="qcard__engines">
+                {row.cells.map((cell) => (
+                  <div class={`qcard__row qcard__row--${cell.status}`}>
+                    <dt class="qcard__eng"><EngineMark slug={cell.engine.slug} short /></dt>
+                    <dd class="qcard__val">
+                      <StatusCell status={cell.status} />
+                      {cell.citation && <span class="cite">{cell.citation}</span>}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+              <p class="qcard__score">
+                <span class="qcard__scorel">Named</span>
+                <span class="score" style={`--score:${row.named / row.cells.length}`}>
+                  <span class="score__n">{row.named}<span class="score__of">/{row.cells.length}</span></span>
+                  <span class="score__bar" aria-hidden="true"><span></span></span>
+                </span>
+              </p>
+            </article>
+          </li>
+        ))}
+      </ul>
     </section>
   ))}
 

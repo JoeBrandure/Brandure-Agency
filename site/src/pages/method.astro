@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import EngineMark from '../components/EngineMark.astro';
 import PromptRotator from '../components/PromptRotator.astro';
+import EngineSprite from '../components/EngineSprite.astro';
 import { SITE } from '../consts';
 import { TRACKED_MARKS } from '../data/engines';
 import { SCAN, NULL_CASES, NOT_SCAN } from '../data/method';
@@ -54,6 +55,9 @@ const path = (vals: readonly number[]) =>
   description="SCAN — surface, cause, act, net. The four stages behind every engagement, and why we hold some of your questions back so you can see how much of any improvement was actually us."
   schemas={[schema]}
 >
+  <!-- Every engine mark, defined once; the marks below reference it. -->
+  <EngineSprite />
+
   <!-- 1. Hero. The word itself, as four letters that mean something. -->
   <section class="hero hero--short">
     <div class="mesh" aria-hidden="true">

@@ -1,0 +1,68 @@
+---
+import { readdirSync, readFileSync } from 'node:fs';
+import { ENGINE_MARKS } from '../data/engines';
+
+/**
+ * EVERY ENGINE MARK, DEFINED ONCE PER PAGE.
+ *
+ * Each mark used to be inlined at every appearance. That was tolerable while
+ * the prompt table drew three marks per panel; the phone cards draw one per
+ * cell, which took the homepage from 24 inlined SVGs to 108 and the HTML from
+ * 260KB to 399KB. Gzip hid most of it — 2.9KB over the wire — but the browser
+ * still parses the full 399KB before it paints, and mobile Lighthouse fell
+ * from 96 to 91 with LCP going 2.3s to 2.8s.
+ *
+ * So the marks are defined here once and referenced with <use>. The reference
+ * is a few dozen bytes and the definition is paid for once, which is what a
+ * mark repeated 84 times should have cost from the start.
+ *
+ * The file's root <svg> becomes the <symbol>, carrying its own attributes
+ * across — viewBox above all, and `fill`/`fill-rule` where a file sets them
+ * on the root, as OpenAI's `fill="currentColor"` does. What is dropped is
+ * width and height: every file ships `1em`, and the chip has always sized
+ * the mark in CSS instead. Nesting the whole <svg> inside the symbol looks
+ * like the safer move and is not — the inner element keeps its own 1em box
+ * and the marks come out a different size. The rendering is verified
+ * pixel-identical to the inlined version it replaces.
+ *
+ * Place it once on any page that uses <EngineMark>. The audit fails a page
+ * carrying a mark whose symbol is missing, so a forgotten sprite cannot ship
+ * as six empty chips.
+ */
+
+/* Read once per build. */
+const cache: Map<string, string> = ((globalThis as any).__engineMarkFiles ??= new Map());
+let files: string[] = [];
+try { files = readdirSync('./public/engines'); } catch { files = []; }
+for (const e of ENGINE_MARKS) {
+  if (cache.has(e.slug)) continue;
+  const file = files.find((f) => f.replace(/\.[^.]+$/, '') === e.slug && /\.svg$/i.test(f));
+  let raw = '';
+  if (file) { try { raw = readFileSync(`./public/engines/${file}`, 'utf8'); } catch { raw = ''; } }
+  cache.set(e.slug, raw);
+}
+/* Root <svg …attrs…>children</svg> becomes <symbol …attrs…>children</symbol>.
+   width/height go (every file ships 1em and the chip sizes in CSS), as do
+   xmlns and the files' `style="flex:none"`, which described the root element
+   and not the mark. */
+const DROP = /^(width|height|xmlns|xmlns:xlink|style|class|id)$/i;
+function toSymbol(raw: string, slug: string): string {
+  const m = raw.match(/<svg\b([^>]*)>([\s\S]*)<\/svg>\s*$/i);
+  if (!m) return '';
+  const attrs = [...m[1].matchAll(/([a-zA-Z_:][-\w:.]*)\s*=\s*"([^"]*)"/g)]
+    .filter((a) => !DROP.test(a[1]))
+    .map((a) => `${a[1]}="${a[2]}"`)
+    .join(' ');
+  return `<symbol id="em-${slug}"${attrs ? ' ' + attrs : ''}>${m[2]}</symbol>`;
+}
+
+const marks = ENGINE_MARKS
+  .map((e) => ({ slug: e.slug, symbol: toSymbol(cache.get(e.slug)!, e.slug) }))
+  .filter((m) => m.symbol);
+---
+
+{marks.length > 0 && (
+  <svg class="engine-sprite" aria-hidden="true" focusable="false" width="0" height="0">
+    {marks.map((m) => <Fragment set:html={m.symbol} />)}
+  </svg>
+)}

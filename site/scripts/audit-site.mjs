@@ -326,6 +326,48 @@ for (const view of ['desktop', 'mobile']) {
       );
       if (empties.length) fail(path, view, cur, 'empty stat number', empties.join(', '));
 
+      /* 11 — a row has as many cells as the table has headers.
+         The engine matrix shipped with three headers and six cells per row,
+         because the headers came from the engine list and the cells came
+         from a positional array that nobody updated. Three cells had no
+         header, "Named" sat over the wrong column and the score read out of
+         six. Counting both sides is the cheap way to never ship that again.
+         Covers <table> and anything using the ARIA table/grid roles, which
+         is every tabular thing on this site. */
+      const ragged = await page.evaluate(() => {
+        const out = [];
+        const label = (el, i) =>
+          `${el.closest('[id]')?.id || el.tagName.toLowerCase()}#${i}`;
+
+        [...document.querySelectorAll('table')].forEach((t, i) => {
+          const head = t.querySelector('thead tr') || t.querySelector('tr');
+          if (!head) return;
+          const cols = head.querySelectorAll('th, td').length;
+          const body = [...t.querySelectorAll('tbody tr')].length
+            ? [...t.querySelectorAll('tbody tr')]
+            : [...t.querySelectorAll('tr')].slice(1);
+          body.forEach((r) => {
+            /* colspan counts for what it spans, or a summary row reads as
+               ragged when it is doing the right thing. */
+            const n = [...r.querySelectorAll('th, td')].reduce(
+              (a, c) => a + (parseInt(c.getAttribute('colspan') || '1', 10) || 1), 0);
+            if (n !== cols) out.push(`${label(t, i)}: ${cols} headers vs ${n} cells — ${(r.textContent || '').trim().slice(0, 40)}`);
+          });
+        });
+
+        [...document.querySelectorAll('[role="table"], [role="grid"]')].forEach((t, i) => {
+          const rows = [...t.querySelectorAll('[role="row"]')];
+          if (rows.length < 2) return;
+          const cols = rows[0].querySelectorAll('[role="columnheader"], [role="cell"], [role="gridcell"]').length;
+          rows.slice(1).forEach((r) => {
+            const n = r.querySelectorAll('[role="columnheader"], [role="cell"], [role="gridcell"], [role="rowheader"]').length;
+            if (n !== cols) out.push(`${label(t, i)} (aria): ${cols} headers vs ${n} cells`);
+          });
+        });
+        return out.slice(0, 3);
+      });
+      if (ragged.length) fail(path, view, cur, 'row/header cell mismatch', ragged.join(' | '));
+
       /* 10 — screenshots, once per page per viewport (currency-independent) */
       if (SHOTS && cur === 'usd') {
         const name = `${path === '/' ? 'home' : path.replace(/^\//, '').replace(/\//g, '_')}-${view}.png`;

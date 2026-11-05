@@ -254,8 +254,16 @@ a.card:hover, .card--hover:hover { transform: translateY(-3px); box-shadow: var(
   border-radius: var(--radius-sm); padding: 0.15rem 0.45rem;
   margin-bottom: 0.55rem;
 }
+/* NO GAP BETWEEN THE FIGURE AND ITS UNIT. This was a flex container with
+   gap: 0.3rem, which set the unit a third of a rem away from the number it
+   belongs to and rendered "47 %" and "4.4 ×" — a unit reads as part of the
+   figure, not as the next item in a row. The markup already has no
+   whitespace between the two spans, so this is the only thing that was
+   separating them; fixing it in CSS leaves the count-up and the no-JS markup
+   exactly as they were. .case__n, the same pattern elsewhere, never had the
+   gap. */
 .metric__n {
-  display: flex; align-items: baseline; gap: 0.3rem;
+  display: flex; align-items: baseline;
   font-family: var(--font-display); font-weight: 700;
   font-size: clamp(2rem, 1.2rem + 2.4vw, 2.9rem);
   line-height: 1; letter-spacing: -0.035em; color: var(--accent);

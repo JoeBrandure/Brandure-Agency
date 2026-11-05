@@ -78,20 +78,27 @@ import { TRACKED_MARKS } from '../data/engines';
           </thead>
           <tbody>
             {s.rows.map((row) => {
-              const named = row.cells.filter((c) => c.status !== 'absent').length;
+              /* ONE CELL PER HEADER, DRIVEN BY THE SAME LIST. The cells used
+                 to be a positional array: when the headers were cut to three
+                 the rows still emitted six, so three cells had no header,
+                 "Named" sat over the wrong column and the score read out of
+                 six. Walking TRACKED_MARKS to build both means the two cannot
+                 disagree about how many columns there are. */
+              const cells = TRACKED_MARKS.map((e) => row.cells[e.slug] ?? { status: 'absent' as const });
+              const named = cells.filter((c) => c.status !== 'absent').length;
               return (
                 <tr>
                   <th scope="row"><span class="row-label">{row.prompt}</span></th>
                   <td class="col-intent"><span class="intent">{row.intent}</span></td>
-                  {row.cells.map((cell) => (
+                  {cells.map((cell) => (
                     <td class={`cell cell--${cell.status}`}>
                       <StatusCell status={cell.status} />
                       {cell.citation && <span class="cite">{cell.citation}</span>}
                     </td>
                   ))}
                   <td class="col-score">
-                    <span class="score" style={`--score:${named / row.cells.length}`}>
-                      <span class="score__n">{named}<span class="score__of">/{row.cells.length}</span></span>
+                    <span class="score" style={`--score:${named / cells.length}`}>
+                      <span class="score__n">{named}<span class="score__of">/{cells.length}</span></span>
                       <span class="score__bar" aria-hidden="true"><span></span></span>
                     </span>
                   </td>

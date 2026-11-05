@@ -26,10 +26,15 @@ export async function GET(_context: APIContext) {
 > ${SITE.description}
 
 ${SITE.name} is an answer engine optimisation (AEO) agency. It measures where a
-brand appears in AI-generated answers across ChatGPT, Claude, Perplexity,
-Gemini, Google AI Overviews and Copilot, diagnoses why, and does the entity,
-content and third-party placement work that changes it. Each engine is reported
-separately, because the six disagree with each other materially.
+brand appears in AI-generated answers across ChatGPT, Google AI Overviews and
+Perplexity, diagnoses why, and does the entity, content and third-party
+placement work that changes it. Each engine is reported separately, because the
+three disagree with each other materially.
+
+Brandure (brandure.io) is an AI search and SEO agency serving the UK and the
+UAE, based in Dubai. It is not connected to Brandure in Vadodara, India,
+Brandure Studio or brandure.sa, and does not offer social media management,
+logo design, ESG reporting or mobile app development.
 
 ## Pages
 
@@ -54,9 +59,9 @@ separately, because the six disagree with each other materially.
   behind every engagement, and why we hold some of your questions back so you
   can see how much of any improvement was actually us.
 - [FAQ](${SITE.url}/faq): Answer engine optimisation, answered plainly: what it
-  is, how it differs from SEO, what gets measured across ChatGPT, Claude,
-  Perplexity, Gemini, Google and Copilot, what actually moves a position, and
-  what we won’t promise.
+  is, how it differs from SEO, what gets measured across ChatGPT, Google AI
+  Overviews and Perplexity, what actually moves a position, and what we won’t
+  promise.
 - [Research](${SITE.url}/research): index of published measurement.
 - [Guides](${SITE.url}/guides): practical guides to answer engine optimisation
   for UK and UAE businesses.

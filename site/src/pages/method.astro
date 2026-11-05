@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import EngineMark from '../components/EngineMark.astro';
 import PromptRotator from '../components/PromptRotator.astro';
 import { SITE } from '../consts';
-import { ENGINE_MARKS } from '../data/engines';
+import { TRACKED_MARKS } from '../data/engines';
 import { SCAN, NULL_CASES, NOT_SCAN } from '../data/method';
 
 /* METHOD IS THE HOW PAGE. It owns SCAN and every instrument the method runs
@@ -221,7 +221,7 @@ const path = (vals: readonly number[]) =>
   <section class="section section--sunk">
     <div class="wrap" data-reveal>
       <div class="section-head">
-        <h2>Six engines, six separate answers</h2>
+        <h2>Three engines, three separate answers</h2>
         <p class="lede">
           You get each of these reported on its own, never averaged together.
           A single visibility score throws away the one thing you need: which
@@ -229,7 +229,7 @@ const path = (vals: readonly number[]) =>
         </p>
       </div>
       <ul class="mth-eng" data-stagger>
-        {ENGINE_MARKS.map((e) => (
+        {TRACKED_MARKS.map((e) => (
           <li><EngineMark slug={e.slug} /></li>
         ))}
       </ul>

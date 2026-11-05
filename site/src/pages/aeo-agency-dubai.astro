@@ -2,11 +2,11 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import CurrencySwitch from '../components/CurrencySwitch.astro';
 import PlanCards from '../components/PlanCards.astro';
+import StatsBand from '../components/StatsBand.astro';
 import Price from '../components/Price.astro';
 import { SITE } from '../consts';
 import { PLANS, SETUP_FEE, ADDONS, money } from '../data/pricing';
 import { TESTIMONIALS } from '../data/testimonials';
-import { HERO_CASES } from '../data/content';
 
 /* AEO AGENCY DUBAI — a local landing page for "AEO agency Dubai".
  *
@@ -25,7 +25,6 @@ import { HERO_CASES } from '../data/content';
 const url = `${SITE.url}/aeo-agency-dubai`;
 const page = ADDONS.find((a) => a.key === 'page')!;
 const tom = TESTIMONIALS.find((t) => t.brand === 'Lurio')!;
-const lurio = HERO_CASES.find((c) => /lurio/i.test(c.brand ?? ''));
 
 const FAQS = [
   {
@@ -57,7 +56,7 @@ const webPageSchema = {
   url,
   name: 'AEO agency in Dubai',
   description:
-    'Brandure is an AEO agency in Dubai. We get businesses named in ChatGPT, Gemini, Perplexity and Google AI Overviews, with SEO and AI-ready websites included. Plans from AED 6,500 a month.',
+    'Brandure is an AEO agency in Dubai. We get businesses named in ChatGPT, Google AI Overviews and Perplexity, with SEO and AI-ready websites included. Plans from AED 6,500 a month.',
   inLanguage: 'en-GB',
   isPartOf: { '@id': `${SITE.url}/#website` },
   about: { '@id': `${SITE.url}/#service` },
@@ -144,7 +143,7 @@ const faqSchema = {
 <BaseLayout
   title="AEO Agency in Dubai | AI Search & SEO | Brandure"
   fullTitle
-  description="Brandure is an AEO agency in Dubai. We get businesses named in ChatGPT, Gemini, Perplexity and Google AI Overviews, with SEO and AI-ready websites included. Plans from AED 6,500 a month."
+  description="Brandure is an AEO agency in Dubai. We get businesses named in ChatGPT, Google AI Overviews and Perplexity, with SEO and AI-ready websites included. Plans from AED 6,500 a month."
   schemas={[webPageSchema, breadcrumbSchema, officeSchema, faqSchema]}
 >
   <script is:inline>
@@ -177,9 +176,8 @@ const faqSchema = {
       <p class="lede">
         Brandure is an AI search optimisation (AEO) and SEO agency based in
         Jumeirah Village Circle (JVC), Dubai. We get Dubai businesses named when
-        buyers ask ChatGPT, Gemini, Perplexity, Claude, Copilot and
-        Google&rsquo;s AI Overviews who to use, and ranked on Google for the
-        same questions.
+        buyers ask ChatGPT, Google AI Overviews and Perplexity who to use, and
+        ranked on Google for the same questions.
       </p>
       <div class="hero-actions">
         <a class="btn" href="/#report">Get your free AI visibility report</a>
@@ -209,38 +207,29 @@ const faqSchema = {
 
         <h2>What we do for Dubai businesses</h2>
         <ul>
-          <li><strong>AI visibility tracking per engine.</strong> We track the questions your Dubai buyers actually ask, across six AI engines, reported separately every month.</li>
+          <li><strong>AI visibility tracking per engine.</strong> We track the questions your Dubai buyers actually ask, across ChatGPT, Google AI Overviews and Perplexity, reported separately every month.</li>
           <li><strong>Earned citations.</strong> We get you placed on the Dubai directories, ranked lists and publications the engines quote.</li>
           <li><strong>SEO included.</strong> Technical SEO at setup and ongoing SEO for your priority pages, so you rank on Google as well.</li>
-          <li><strong>Google Business Profile and entity fixes.</strong> Your name, category and location stay consistent everywhere AI looks, which matters for Gemini and Google AI Overviews.</li>
+          <li><strong>Google Business Profile and entity fixes.</strong> Your name, category and location stay consistent everywhere AI looks, which matters for Google AI Overviews.</li>
           <li><strong>AI-ready websites.</strong> When your site is the blocker, we rebuild the pages that matter on your current platform. <a href="/ai-ready-websites">How we build</a>.</li>
         </ul>
       </div>
     </div>
   </section>
 
-  {/* Results: the existing case figure and testimonial card, reused. */}
+  {/* Results: the market band and the client's own words. The "92% more AI
+      answer appearances / Lurio" card is gone — an unsourced client
+      percentage is exactly what this agency argues against, and the band in
+      its place carries figures a reader can open and check. The quote
+      stays. */}
   <section class="section" aria-labelledby="res-h">
+    <div class="wrap" data-reveal>
+      <StatsBand as="h2" id="res-h" ctaHref="/#report" />
+    </div>
+  </section>
+
+  <section class="section section--tight">
     <div class="wrap-narrow" data-reveal>
-      <div class="section-head">
-        <h2 id="res-h">Results</h2>
-      </div>
-
-      {/* lurio.metric, not lurio.n — the field is called metric, and the typo
-          rendered an empty span, so this card read "% more AI answer
-          appearances" with no number at all. data-count drives the same
-          count-up the home page uses, and the figure is in the HTML either
-          way, so it is there with JS off. */}
-      {lurio && (
-        <figure class="case dub-case">
-          <figcaption>
-            <span class="case__n"><span data-count={lurio.metric}>{lurio.metric}</span><span class="case__suffix">{lurio.suffix}</span></span>
-            <span class="case__l">{lurio.label}</span>
-            <span class="case__wordmark">{lurio.brand}</span>
-          </figcaption>
-        </figure>
-      )}
-
       <ul class="tst__col dub-quote" role="list">
         <li class:list={['tst__card', `tst--${tom.accent}`]}>
           <blockquote>

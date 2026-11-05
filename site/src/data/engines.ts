@@ -35,6 +35,16 @@ export interface Engine {
   ink: string;
 }
 
+/**
+ * THE THREE WE TRACK. Service pages — the prompt table, the /method engine
+ * row — show these, because showing six marks is a claim to measure six.
+ *
+ * ENGINE_MARKS below keeps all six: research articles compare how the wider
+ * field behaves, and a mark there is illustrating the market rather than
+ * promising coverage of it.
+ */
+export const TRACKED_SLUGS = ['chatgpt', 'google', 'perplexity'] as const;
+
 export const ENGINE_MARKS: Engine[] = [
   { slug: 'chatgpt',    name: 'ChatGPT',            short: 'ChatGPT',    colour: '#10A37F', ink: '#0B7A5E' },
   { slug: 'claude',     name: 'Claude',             short: 'Claude',     colour: '#D97757', ink: '#B4522F' },
@@ -43,3 +53,8 @@ export const ENGINE_MARKS: Engine[] = [
   { slug: 'google',     name: 'Google AI Overview', short: 'Google AIO', colour: '#EA4335', ink: '#B5271B' },
   { slug: 'copilot',    name: 'Copilot',            short: 'Copilot',    colour: '#0D91E1', ink: '#075E96' },
 ];
+
+/** The marks for the three tracked engines, in the order they are named. */
+export const TRACKED_MARKS: Engine[] = TRACKED_SLUGS.map(
+  (slug) => ENGINE_MARKS.find((e) => e.slug === slug)!,
+);

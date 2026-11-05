@@ -40,12 +40,12 @@ export const PLANS = [
     monthly: { aed: 6500, gbp: 1400, usd: 1800 },
     who: 'For one category, where you need to be found and named.',
     bullets: [
-      'All six AI engines tracked separately',
+      'ChatGPT, Google AI Overviews and Perplexity, each tracked separately',
       'Ongoing SEO for your priority pages',
       '2 earned citation placements a month',
     ],
     includes:
-      'One category. AI search tracked separately across ChatGPT, Google AI Overviews, Gemini, Perplexity, Claude and Copilot. On-going SEO for your priority pages. 2 earned citation placements a month. Quarterly authority asset. Monthly reporting on AI visibility, rankings and AI-referred traffic.',
+      'One category. AI search tracked separately across ChatGPT, Google AI Overviews and Perplexity. On-going SEO for your priority pages. 2 earned citation placements a month. Quarterly authority asset. Monthly reporting on AI visibility, rankings and AI-referred traffic.',
   },
   {
     key: 'growth',

@@ -142,13 +142,21 @@
     function countUp(el) {
       var target = parseFloat(el.getAttribute('data-count'));
       if (isNaN(target)) { el.textContent = el.getAttribute('data-count'); return; }
+      /* DECIMALS COUNT TOO. Math.round on every frame meant 4.4 animated
+         through whole numbers and finished on "4" — the figure on the page
+         ended up different from the figure in the data. The precision is
+         taken from the value itself unless data-decimals says otherwise. */
+      var dp = el.hasAttribute('data-decimals')
+        ? Number(el.getAttribute('data-decimals'))
+        : (String(el.getAttribute('data-count')).split('.')[1] || '').length;
       var dur = 850, t0 = 0;
       function step(ts) {
         if (!t0) t0 = ts;
         var p = Math.min((ts - t0) / dur, 1);
         var eased = 1 - Math.pow(1 - p, 3);
-        el.textContent = String(Math.round(target * eased));
+        el.textContent = (target * eased).toFixed(dp);
         if (p < 1) requestAnimationFrame(step);
+        else el.textContent = el.getAttribute('data-count');
       }
       requestAnimationFrame(step);
     }

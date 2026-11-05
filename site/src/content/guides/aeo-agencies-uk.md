@@ -54,7 +54,7 @@ Offerings, prices and proof are taken from each agency's site or from [GTMLab's 
 - **If you're in a regulated sector:** ask how compliance review is handled and priced (MarGen publishes a regulated-sector rate).
 - **If AI engines recommend competitors and you need that changed specifically:** a specialist that tracks each engine separately and earns third-party citations. That's the gap Brandure was set up for.
 
-Whoever you speak to, get a baseline of your AI visibility on named questions before you sign. Our [free AI visibility report](/#report) covers six engines, and [how to choose an AEO agency](/guides/how-to-choose-an-aeo-agency) has the full checklist. For prices, see [how much AEO costs in the UK](/guides/aeo-cost-uk).
+Whoever you speak to, get a baseline of your AI visibility on named questions before you sign. Our [free AI visibility report](/#report) covers ChatGPT, Google AI Overviews and Perplexity, and [how to choose an AEO agency](/guides/how-to-choose-an-aeo-agency) has the full checklist. For prices, see [how much AEO costs in the UK](/guides/aeo-cost-uk).
 
 ## Frequently asked questions
 

@@ -107,7 +107,7 @@ Two platforms now show some AI data directly:
 
 Neither covers ChatGPT, Perplexity or Claude. For those, the manual method above is still the only way to see what buyers see.
 
-If you'd rather not run it yourself, Brandure's [free AI Visibility Report](/#report) does this across all six engines and shows which sources are recommending your competitors instead of you.
+If you'd rather not run it yourself, Brandure's [free AI Visibility Report](/#report) does this across ChatGPT, Google AI Overviews and Perplexity and shows which sources are recommending your competitors instead of you.
 
 ## FAQs
 

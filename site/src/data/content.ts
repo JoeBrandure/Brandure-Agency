@@ -1,139 +1,32 @@
 /**
- * Shared page content. Copy lives here so the visible page and the structured
- * data read from one source rather than duplicating each other.
+ * THE ENGINES WE TRACK. Three, not six.
+ *
+ * The site used to claim six — ChatGPT, Claude, Perplexity, Gemini, Google
+ * AI Overviews and Copilot — across every service page. We track three.
+ * Claiming a surface we do not measure is the one thing an agency selling
+ * measurement cannot do, so every service claim now names these and only
+ * these.
+ *
+ * src/data/engines.ts still carries all six marks: research articles compare
+ * how the wider market behaves, and that is describing the field rather than
+ * promising coverage of it.
  */
-/* Six surfaces. Copilot was added on 2026-09-03: the offer covers all six,
-   so the site counts six everywhere. */
-export const ENGINES = ['ChatGPT', 'Claude', 'Perplexity', 'Gemini', 'Google AI Overview', 'Copilot'] as const;
+export const ENGINES = ['ChatGPT', 'Google AI Overviews', 'Perplexity'] as const;
 
-/* ============================ HERO ============================
- * Two hero variants. Switch with one line — no markup change.
- *
- *   'stats' — sourced category statistics (live)
- *   'cases' — client result cards, the shape the reference site uses
- *
- * The 'cases' entries below are PLACEHOLDERS and are marked as such on the
- * page. They must not go live carrying invented outcomes: the agency has no
- * client results to report, and this site sells measurement. Replace the
- * placeholder text with real figures and set HERO_MODE to 'cases'.
- */
-export const HERO_MODE: 'stats' | 'cases' = 'cases';
+/** The three, written out the way plan features say them. */
+export const ENGINES_SENTENCE = 'ChatGPT, Google AI Overviews and Perplexity';
 
-/**
- * SOURCING. Cards 1–3 are one study, cited on the page: Pew Research Center,
- * "Do people click on links in Google AI summaries?", 22 July 2025 — 68,879
- * Google searches by 900+ US adults, browser-tracked through March 2025.
- *
- * They describe GOOGLE AI OVERVIEWS SPECIFICALLY, not AI answers in general,
- * and the copy says so. Stretching a Google-only sample to cover ChatGPT and
- * Perplexity would be the exact move this agency sells against.
- *
- * Card 1 leads with the DERIVED figure — 1 − 8/15 = 46.7%, rounded to 47% —
- * because 8% on its own reads as a small number when the finding is a large
- * loss. The derivation and both raw values are stated in the label, so a
- * reader can check the arithmetic rather than take the headline on trust.
- *
- * NOT USED: Gartner's "search volume down 25% by 2026" (Feb 2024). Its own
- * deadline has passed without it happening, and quoting a failed prediction
- * on a site that sells measurement would be self-defeating.
- *
- * Alternatives, with sources and verification status, are in
- * `site/hero-stat-options.md`.
- */
-export const HERO_STATS = [
-  {
-    chip: 'Clicks lost',
-    n: '47',
-    suffix: '%',
-    label: 'of result clicks disappear when an AI summary is on the page. 15% of Google visits end in a click without one; 8% with.',
-  },
-  {
-    chip: 'Not traffic',
-    n: '1',
-    suffix: '%',
-    label: 'of visits end in a click on a link inside the summary itself. Being cited is not a traffic channel — being named is the win.',
-  },
-  {
-    chip: 'Buying intent',
-    n: '53',
-    suffix: '%',
-    label: 'of searches ten words or longer return an AI summary. That is how people search when they are choosing, not browsing.',
-  },
-  {
-    chip: 'Coverage',
-    n: '6',
-    suffix: '',
-    label: 'answer engines measured separately — ChatGPT, Claude, Perplexity, Gemini, Google AI Overviews, Copilot. Never one blended score.',
-  },
-] as const;
+/* HERO_MODE / HERO_STATS removed 2026-11-05. The hero's four figures now
+   live in src/data/stats.ts and render through StatsBand, which the home
+   page and /aeo-agency-dubai share. The toggle between "stats" and "cases"
+   went with the client results it switched to. */
 
-/**
- * Client results, supplied by Joe on 2026-08-25.
- *
- * These are the first real outcomes on the site. `slug` matches a file in
- * public/logos/, so the mark is picked up at build time by the same mechanism
- * the strip uses.
- *
- * The marks sit straight on the card with no tile. Lurio and Viveonix ship as
- * white-knockout artwork and are invisible on a light surface, so the cards
- * use dark-ink variants generated from the originals — see
- * public/logos/README.md for exactly how.
- *
- * `optical` scales each mark so the four read at the same visual weight. A
- * one-line wordmark and a three-line lockup are not the same shape, so a
- * fixed height makes the taller one's type illegible; the multiplier is set
- * from what each measured on the rendered card.
- *
- * `chip` is retained but no longer drives a tile.
- *
- * WORTH ATTACHING BEFORE ANYONE PUSHES BACK: each of these would be stronger
- * with the engine, the date range and the size of the base beside it. "92%
- * across three LLMs" invites the question "up from what, over how long" from
- * exactly the buyer this site is written for. The figures are Joe's; the
- * suggestion is to publish the working alongside them, not to soften them.
- */
-export const HERO_CASES = [
-  {
-    slug: 'lurio',
-    /* 1140x470 wordmark, tight crop */
-    optical: 0.8,
-    chip: 'dark' as const,
-    brand: 'Lurio',
-    metric: '92',
-    suffix: '%',
-    label: 'more AI answer appearances',
-  },
-  {
-    slug: 'viveonix',
-    /* 900x365 lockup, mark plus wordmark plus strapline */
-    optical: 1.35,
-    chip: 'dark' as const,
-    brand: 'Viveonix',
-    metric: '183',
-    suffix: '%',
-    label: 'more qualified leads from AI Search',
-  },
-  {
-    slug: 'littlelockets',
-    /* 600x296, three-line lockup — icon, name, strapline */
-    optical: 1.45,
-    chip: 'light' as const,
-    brand: 'Little Lockets London',
-    metric: '79',
-    suffix: '%',
-    label: 'more online revenue from AI Search',
-  },
-  {
-    slug: 'fresh',
-    /* 250x100, wordmark plus strapline */
-    optical: 1.15,
-    chip: 'light' as const,
-    brand: 'Fresh Gym',
-    metric: '205',
-    suffix: '%',
-    label: 'more reach in AI answers',
-  },
-] as const;
+/* CLIENT RESULT FIGURES REMOVED 2026-11-05. HERO_CASES carried 92%, 183%,
+   79% and 205% — Joe's own numbers with no engine, date range or base
+   published beside them. A site that sells measurement cannot lead with
+   unsourced percentages, so the home page and /aeo-agency-dubai now run the
+   sourced market band in src/data/stats.ts instead. The client TESTIMONIALS
+   are untouched; it is the numbers that went. */
 
 /* ============================ PROBLEM GRID ============================
  * Plain language. The field's own vocabulary — entity resolution, grounding,
@@ -156,8 +49,8 @@ export const PROBLEMS = [
     n: '02',
     accent: 'violet',
     t: 'Every AI tells your buyer something different.',
-    p: 'Ask ChatGPT, Claude, Perplexity, Gemini, Google and Copilot the same question today and you\u2019ll get six different lists.',
-    e: 'So one “AI visibility score” is an average of six answers. It might tell you there\u2019s a problem. It won\u2019t tell you where.',
+    p: 'Ask ChatGPT, Google AI Overviews and Perplexity the same question today and you\u2019ll get three different lists.',
+    e: 'So one “AI visibility score” is an average of three answers. It might tell you there\u2019s a problem. It won\u2019t tell you where.',
   },
   {
     n: '03',
@@ -181,7 +74,7 @@ export const PROBLEMS = [
  * marketing faster than any single word does.
  */
 export const STAGES = [
-  { n: 'S', a: 'cobalt', t: 'Surface', w: 'Week 1',  d: 'We agree the questions your buyers actually type, then run them across all six engines.' },
+  { n: 'S', a: 'cobalt', t: 'Surface', w: 'Week 1',  d: 'We agree the questions your buyers actually type, then run them across all three engines.' },
   { n: 'C', a: 'violet', t: 'Cause',   w: 'Week 2',  d: 'We find out which of the three is holding you back. Each one needs a different fix.' },
   { n: 'A', a: 'teal',   t: 'Act',     w: 'Ongoing', d: 'We fix what your site controls, then go and earn the mentions that actually move the answer.' },
   { n: 'N', a: 'deep',   t: 'Net',     w: 'Monthly', d: 'Every month you see what moved because of us, with your market\u2019s own movement taken out.' },
@@ -196,7 +89,7 @@ export const FAQS = [
   {
     group: 'The basics',
     q: 'What is answer engine optimisation?',
-    a: 'Getting your brand named and recommended inside the answers AI tools give. ChatGPT, Claude, Perplexity, Gemini, Google’s AI Overviews, Copilot. A search engine hands your buyer a list of options. An answer engine hands them a decision.',
+    a: 'Getting your brand named and recommended inside the answers AI tools give. ChatGPT, Google AI Overviews and Perplexity. A search engine hands your buyer a list of options. An answer engine hands them a decision.',
   },
   {
     group: 'The basics',
@@ -223,7 +116,7 @@ export const FAQS = [
   {
     group: 'What gets measured',
     q: 'Which engines do you measure?',
-    a: 'ChatGPT, Claude, Perplexity, Gemini, Google’s AI Overviews and Copilot, each reported on its own. They disagree with each other far more than people expect, so averaging them into one score hides the part you actually need.',
+    a: 'ChatGPT, Google AI Overviews and Perplexity, each reported on its own. They disagree with each other far more than people expect, so averaging them into one score hides the part you actually need.',
   },
   {
     group: 'What gets measured',
@@ -290,7 +183,7 @@ export const FAQS = [
   {
     group: 'What actually moves it',
     q: 'What if a competitor is already dominant?',
-    a: 'Sometimes that settles it and often it doesn’t. A competitor who owns ChatGPT in your category is frequently missing from Perplexity or Gemini entirely. The first measurement shows you which. If it turns out the category really is closed, we’ll tell you and turn the work down.',
+    a: 'Sometimes that settles it and often it doesn’t. A competitor who owns ChatGPT in your category is frequently missing from Perplexity entirely. The first measurement shows you which. If it turns out the category really is closed, we’ll tell you and turn the work down.',
   },
 
   /* ---- Working together ---- */
@@ -302,7 +195,7 @@ export const FAQS = [
   {
     group: 'Working together',
     q: 'What does the free report actually include?',
-    a: 'Your category run across all six engines: who gets named, in what order, and which sources each answer was built from. It’s the real thing, not a sample. Take it to your own team and act on it if you’d rather.',
+    a: 'Your category run across all three engines: who gets named, in what order, and which sources each answer was built from. It’s the real thing, not a sample. Take it to your own team and act on it if you’d rather.',
   },
   {
     group: 'Working together',
@@ -323,6 +216,16 @@ export const FAQS = [
     group: 'Working together',
     q: 'Who is this not for?',
     a: 'Anyone who wants a guaranteed position. Anyone who wants a set number of blog posts a month. And anyone in a category where buyers aren’t using AI to choose suppliers yet. Better to find that out in the free report than three months into a retainer.',
+  },
+  {
+    /* ASKED BECAUSE AN ENGINE IS ANSWERING IT WRONG. Google AI Overviews was
+       returning the services of Brandure in Vadodara, India — social media,
+       logo design, ESG reporting, mobile apps — as ours. A question and
+       answer in the FAQPage schema is the form an engine can lift whole, and
+       it names both the confusion and the services we do not sell. */
+    group: 'Working together',
+    q: 'Is Brandure the same as Brandure in India?',
+    a: 'No. Brandure (brandure.io) is an AI search and SEO agency serving businesses in the UK and the UAE, with its base in Dubai. We’re not connected to Brandure in Vadodara, India, or other businesses with a similar name. We don’t offer social media management, logo design, ESG reporting or mobile app development.',
   },
 ] as const;
 
@@ -368,7 +271,7 @@ export const PACKAGES = [
     lede: 'Own the market you\u2019re already in.',
     summary: '',
     gets: [
-      'Tracked across ChatGPT, Google AI Overviews, Gemini, Perplexity, Claude and Copilot',
+      'ChatGPT, Google AI Overviews and Perplexity, each tracked separately',
       '2 earned citation placements a month \u2014 around 85% of AI citations come from third-party sources, not your own site',
       'Quarterly category authority asset',
       'Technical and entity foundation: schema, AI crawler access, Google Business Profile',
@@ -381,7 +284,7 @@ export const PACKAGES = [
        is the real difference between the two tiers, so that is all it says. */
     honest: 'One category, English, UK or UAE.',
     teaser: [
-      'Tracked across all six AI engines',
+      'ChatGPT, Google AI Overviews and Perplexity, each tracked separately',
       '2 earned citation placements a month',
       'Monthly reporting on mention rate and share of voice',
     ],
@@ -457,7 +360,7 @@ export const FREE_OFFER = {
   price: 'Free',
   lede: 'See where you stand before you spend anything.',
   gets: [
-    'Your visibility across six AI engines',
+    'Your visibility across ChatGPT, Google AI Overviews and Perplexity',
     'Share of voice against three competitors',
     'Which sources are recommending them instead of you',
   ],

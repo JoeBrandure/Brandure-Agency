@@ -72,25 +72,39 @@ const organizationSchema = {
   legalName: SITE.legalName,
   url: SITE.url,
   email: SITE.email,
-  description: SITE.description,
+  description: SITE.orgDescription,
   disambiguatingDescription: SITE.disambiguatingDescription,
   alternateName: [...SITE.alternateName],
+  logo: new URL(SITE.logo, SITE.url).href,
   areaServed: SITE.areaServed.map((c) => ({ '@type': 'Country', identifier: c })),
   telephone: SITE.phone,
-  address: {
-    '@type': 'PostalAddress',
-    addressLocality: SITE.address.locality,
-    addressRegion: SITE.address.region,
-    addressCountry: SITE.address.country,
-  },
+  /* BOTH BASES. areaServed has said GB and AE for weeks with only a Dubai
+     address underneath it, which left the UK half of the claim unevidenced —
+     and an unevidenced claim is exactly what lets an engine substitute a
+     similarly-named company somewhere else. */
+  address: [
+    {
+      '@type': 'PostalAddress',
+      addressLocality: SITE.address.locality,
+      addressRegion: SITE.address.region,
+      addressCountry: SITE.address.country,
+    },
+    {
+      '@type': 'PostalAddress',
+      addressLocality: SITE.addressUk.locality,
+      addressRegion: SITE.addressUk.region,
+      postalCode: SITE.addressUk.postalCode,
+      addressCountry: SITE.addressUk.country,
+    },
+  ],
   /* Deduplicated at build time rather than trusted to stay unique by hand. */
   sameAs: [...new Set(SITE.sameAs)],
   knowsAbout: [
-    'AI search optimisation',
     'Answer engine optimisation',
-    'Generative engine optimisation',
+    'SEO',
+    'AI-ready websites',
+    'AI search optimisation',
     'AI visibility',
-    'ChatGPT visibility',
   ],
   founder: { '@id': `${SITE.url}/about#person` },
   contactPoint: [{

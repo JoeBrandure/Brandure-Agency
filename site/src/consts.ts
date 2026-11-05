@@ -64,12 +64,37 @@ export const SITE = {
   description:
     'Brandure is an AI search specialist agency: AI search optimisation (AEO) and SEO, with websites built for both. For businesses in the UK and the UAE.',
 
-  /* Reads as a correction, because it is one: the name gets mistaken for a
-     branding studio, and this is the field that tells an engine otherwise. */
-  disambiguatingDescription:
-    'An AI search optimisation (AEO) and SEO agency that also builds websites for AI search. Not a branding or logo studio.',
+  /* Reads as a correction, because it is one — and names the business it is
+     being confused WITH.
 
-  alternateName: ['Brandure AEO', 'Brandure AI search agency'],
+     Google AI Overviews was answering "what does Brandure do" with the
+     services of Brandure in Vadodara, India (brandureindia.com): social
+     media, logo and branding, ESG/BRSR reporting, mobile apps. A description
+     of what we ARE does not fix that on its own, because nothing in it tells
+     an engine the two are different companies. Naming them, and naming the
+     services we do not offer, gives the engine the distinction to carry. */
+  disambiguatingDescription:
+    'Brandure (brandure.io) is an AI search and SEO agency serving the UK and the UAE. It is not connected to Brandure in Vadodara, India, Brandure Studio or brandure.sa.',
+
+  /* The Organization node's own description. Separate from SITE.description,
+     which is the site's meta description and says more than a knowledge
+     panel needs. */
+  orgDescription:
+    'AI search optimisation (AEO) and SEO agency for businesses in the UK and the UAE.',
+
+  logo: '/og/default.png',
+
+  /* The UK half of "UK and the UAE". It was only ever in the /privacy copy,
+     so the Organization node claimed areaServed GB with a Dubai address and
+     nothing to tie it to. */
+  addressUk: {
+    locality: 'Staines-upon-Thames',
+    region: 'Surrey',
+    postalCode: 'TW18',
+    country: 'GB',
+  },
+
+  alternateName: ['Brandure AEO', 'Brandure Agency'],
 } as const;
 
 /** PostHog: organisation "Brandure Agency", EU region. phc_ keys are public

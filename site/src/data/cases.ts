@@ -30,7 +30,7 @@ export const CASES = [
     sector: 'Health and aesthetics',
     art: 'mesh' as const,
     summary: 'No local incumbent on any surface. Sample figures throughout.',
-    baseline: 'Absent from all six engines',
+    baseline: 'Absent from all three engines',
     after: 'Named on two engines',
     control: 'Control set unchanged',
   },

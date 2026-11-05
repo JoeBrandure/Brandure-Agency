@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ReportForm from '../components/ReportForm.astro';
 import PromptRotator from '../components/PromptRotator.astro';
+import StatsBand from '../components/StatsBand.astro';
 import LogoStrip from '../components/LogoStrip.astro';
 import Testimonials from '../components/Testimonials.astro';
 import { SITE } from '../consts';
@@ -11,27 +12,10 @@ import Price from '../components/Price.astro';
 import CurrencySwitch from '../components/CurrencySwitch.astro';
 
 const WEB_PAGE = ADDONS.find((a) => a.key === 'page')!;
-import { FAQS, FAQS_HOME, HERO_MODE, HERO_STATS, HERO_CASES, PROBLEMS, STAGES, PACKAGES, ENGINES, PRIZE, TERMS } from '../data/content';
+import { FAQS, FAQS_HOME, PROBLEMS, STAGES, PACKAGES, PRIZE, TERMS } from '../data/content';
 import { getCollection } from 'astro:content';
 import { listable, sortDate, tagFor } from '../lib/research';
-import { readdirSync } from 'node:fs';
 
-/* Same lookup the strip uses: match a file in public/logos/ by slug. */
-let logoFiles: string[] = [];
-try { logoFiles = readdirSync('./public/logos'); } catch { logoFiles = []; }
-/* Each card carries the mark twice — one file for the light theme, one for
-   the dark — because no single version of these four works on both. Lurio and
-   Viveonix ship as white-knockout artwork and need dark-ink variants on a
-   light card; Little Lockets and Fresh Gym are dark artwork and need lightened
-   variants on a dark one. CSS shows one and hides the other.
-   Naming: `<slug>-light.*` and `<slug>-dark.*`, falling back to `<slug>.*`.
-   How each variant was derived is in public/logos/README.md. */
-const byName = (n: string) => logoFiles.find((f) => f.replace(/\.[^.]+$/, '') === n);
-const caseCards = HERO_CASES.map((c) => ({
-  ...c,
-  light: byName(`${c.slug}-light`) ?? byName(c.slug),
-  dark: byName(`${c.slug}-dark`) ?? byName(c.slug),
-}));
 
 const pieces = listable(await getCollection('research')).slice(0, 3);
 
@@ -58,7 +42,7 @@ const faqSchema = {
 <BaseLayout
   title="Brandure | AI search (AEO) & SEO agency, UK & UAE"
   fullTitle
-  description="Brandure is an AI search optimisation (AEO) agency for UK and UAE businesses. We get you recommended by ChatGPT, Gemini, Perplexity and Google AI Overviews."
+  description="Brandure is an AI search optimisation (AEO) agency for UK and UAE businesses. We get you recommended by ChatGPT, Google AI Overviews and Perplexity."
   schemas={[...allServiceSchemas, faqSchema]}
 >
   <!-- 1. Hero — statement centred, case figures in a row beneath (centre.css) -->
@@ -81,52 +65,23 @@ const faqSchema = {
         </div>
       </div>
 
-      <div>
-        {HERO_MODE === 'stats' ? (
-          <>
-            <div class="metric-grid" data-stagger>
-              {HERO_STATS.map((st) => (
-                <div class="metric">
-                  <span class="metric__chip">{st.chip}</span>
-                  <span class="metric__n">
-                    <span data-count={st.n}>{st.n}</span>{st.suffix && <span class="metric__suffix">{st.suffix}</span>}
-                  </span>
-                  <p class="metric__l">{st.label}</p>
-                </div>
-              ))}
-            </div>
-            <p class="figure__src mt-1">
-              First three: Pew Research Center, 22 July 2025 — 68,879 Google
-              searches by 900+ US adults, March 2025. Google AI Overviews
-              specifically, not AI answers in general. The 47% is derived from
-              that study’s own 15% and 8%.
-            </p>
-          </>
-        ) : (
-          <div class="case-grid" data-stagger>
-            {caseCards.map((c) => (
-              <figure class="case">
-                <span class="case__mark" style={`--optical:${c.optical}`}>
-                  {c.light ? (
-                    <>
-                      <img class="on-light" src={`/logos/${c.light}`} alt={c.brand} decoding="async" />
-                      <img class="on-dark" src={`/logos/${c.dark}`} alt="" aria-hidden="true" decoding="async" loading="lazy" />
-                    </>
-                  ) : (
-                    <span class="case__wordmark">{c.brand}</span>
-                  )}
-                </span>
-                <figcaption>
-                  <span class="case__n">
-                    <span data-count={c.metric}>{c.metric}</span><span class="case__suffix">{c.suffix}</span>
-                  </span>
-                  <span class="case__l">{c.label}</span>
-                </figcaption>
-              </figure>
-            ))}
-          </div>
-        )}
-      </div>
+    </div>
+  </section>
+
+  {/* THE CLIENT RESULTS ARE GONE. Four percentages — 92% more AI answer
+      appearances and the rest — were Joe's own figures with no engine, date
+      range or base beside them. This agency's whole argument is that an
+      unsourced number is worth nothing, so the band now carries market
+      figures that each link to the study they came from. The client quotes
+      stay; the percentages do not.
+
+      ITS OWN SECTION, NOT A HERO COLUMN. Dropped into the hero's right-hand
+      column it inherited that column's centre, which put the heading 387px
+      off the page axis — the audit caught it before this was looked at. The
+      band is full width and centred on the axis, like every other section. */}
+  <section class="section section--tight" aria-labelledby="market-h">
+    <div class="wrap">
+      <StatsBand as="h2" id="market-h" />
     </div>
   </section>
 
@@ -153,7 +108,7 @@ const faqSchema = {
       <div class="ways" data-stagger>
         <div class="card way">
           <span class="way__k"><a class="way__main" href="/service">AI search (AEO)</a></span>
-          <span class="way__d">Get named when buyers ask ChatGPT, Gemini, Perplexity and Google&rsquo;s AI Overviews.</span>
+          <span class="way__d">Get named when buyers ask ChatGPT, Google&rsquo;s AI Overviews and Perplexity.</span>
           <span class="way__d">Based in Dubai. See our <a class="way__in" href="/aeo-agency-dubai">AEO agency in Dubai</a> page.</span>
           <span class="way__p">Plans from <strong><Price m={PLANS[0].monthly} /></strong> a month</span>
         </div>
@@ -337,7 +292,7 @@ const faqSchema = {
       <div class="section-head">
         <h2 class="statement statement--sub">Providing everything you need to grow through AI Search.</h2>
         <p class="lede">
-          One question. Six different answers. Across six engines. Different
+          One question. Three different answers. Across three engines. Different
           companies named each time, built from different sources. Pick a sector
           and see.
         </p>
@@ -418,7 +373,7 @@ const faqSchema = {
               different offers. Change it here and change it there. */}
           <h2 class="statement statement--sub" data-split>Find out what AI Search is telling your buyers right now.</h2>
           <p class="lede">
-            Your category across all six engines. Who gets named, in what
+            Your category across all three engines. Who gets named, in what
             order, and where each answer came from. It is a top-level read,
             it is free, and there is no obligation attached to it.
           </p>

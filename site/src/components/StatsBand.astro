@@ -1,0 +1,82 @@
+---
+import { MARKET_STATS, MARKET_BAND } from '../data/stats';
+
+/**
+ * The market stats band: four sourced figures, a heading, a CTA and the
+ * terms line. Used on the home page and on /aeo-agency-dubai, which is why
+ * it is a component rather than two copies of the same markup.
+ *
+ * EVERY NUMBER IS IN THE HTML. The count-up rewrites the text node it finds;
+ * it does not supply it. So the final value ships in the markup and a reader
+ * with no JS, and a crawler, sees 47%, 35%, 4.4x and 93% — which is the
+ * point, since these are the figures the page is arguing from.
+ *
+ * Each figure carries a source link. The three external ones open in a new
+ * tab with rel="noopener"; our own research is an ordinary in-page link.
+ *
+ * Built from .metric, the existing stat tile, so there is no new visual
+ * style here — only the source line under each one, which is .figure__src at
+ * the size it already uses elsewhere.
+ */
+interface Props {
+  /** The heading level to use, so the band fits the page's outline. */
+  as?: 'h2' | 'h3';
+  /** Where "Check where you stand" goes, if not the home page report form. */
+  ctaHref?: string;
+  id?: string;
+}
+const { as = 'h2', ctaHref = MARKET_BAND.ctaHref, id } = Astro.props;
+const Heading = as;
+---
+
+<div class="section-head" data-reveal>
+  <Heading id={id}>{MARKET_BAND.heading}</Heading>
+</div>
+
+<div class="metric-grid stat-band" data-stagger>
+  {
+    MARKET_STATS.map((s) => (
+      <div class="metric">
+        <span class="metric__n">
+          {s.prefix}
+          <span data-count={s.n} data-decimals={s.decimals ?? 0}>{s.n}</span>
+          {s.suffix && <span class="metric__suffix">{s.suffix}</span>}
+        </span>
+        <p class="metric__l">{s.label}</p>
+        <p class="figure__src stat-band__src">
+          {s.external ? (
+            <a href={s.href} target="_blank" rel="noopener">{s.source}</a>
+          ) : (
+            <a href={s.href}>{s.source}</a>
+          )}
+        </p>
+      </div>
+    ))
+  }
+</div>
+
+<div class="stat-band__foot" data-reveal>
+  <a class="btn" href={ctaHref}>{MARKET_BAND.cta}</a>
+  <p class="note-sm stat-band__terms">{MARKET_BAND.terms}</p>
+</div>
+
+<style>
+  /* 4 across, 2x2, then stacked — the same steps .metric-grid already uses
+     elsewhere, stated here so the band keeps them wherever it is dropped in.
+     Each block centres on the page axis rather than filling its cell. */
+  .stat-band {
+    display: grid; gap: 1.5rem 1.25rem;
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 34rem) { .stat-band { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 62rem) { .stat-band { grid-template-columns: repeat(4, 1fr); } }
+  .stat-band :global(.metric) { text-align: center; align-items: center; }
+  .stat-band :global(.metric__l) { text-align: center; margin-inline: auto; max-width: 24ch; }
+  .stat-band__src { text-align: center; margin: 0.5rem auto 0; max-width: none; }
+
+  .stat-band__foot {
+    display: flex; flex-direction: column; align-items: center;
+    gap: 0.85rem; margin-top: clamp(2rem, 4vw, 3rem);
+  }
+  .stat-band__terms { text-align: center; max-width: 52ch; margin: 0; }
+</style>

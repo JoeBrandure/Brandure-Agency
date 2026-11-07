@@ -131,6 +131,15 @@ const guides = defineCollection({
       meta_description: z.string().optional(),
       description: z.string().optional(),
 
+      /* THE CARD LINE, WHERE IT IS NOT THE META DESCRIPTION. /guides renders
+         the description on each card, which is right while the two say the
+         same thing. A meta description is written for a result page and a
+         card line is written for a reader already on /guides, and a guide is
+         allowed to want different words for each. Optional, and the card
+         falls back to the description, so the seven guides written before
+         this field existed are unaffected. */
+      summary: z.string().optional(),
+
       /** 'UAE' or 'UK' on the market-specific guides; absent on the general
        *  ones. /guides groups by it when present. */
       market: z.enum(['UAE', 'UK']).optional(),

@@ -104,7 +104,7 @@ const schema = {
                       <p class="rcard__meta"><span class="tag">{g.data.market}</span></p>
                     )}
                     <h3 class="rcard__t">{g.data.title}</h3>
-                    <p class="rcard__d">{g.data.description ?? g.data.meta_description}</p>
+                    <p class="rcard__d">{g.data.summary ?? g.data.description ?? g.data.meta_description}</p>
 
                     <p class="rcard__go">
                       Read the guide

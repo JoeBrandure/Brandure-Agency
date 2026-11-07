@@ -20,6 +20,7 @@ export const GUIDE_GROUPS = [
       'answer-engine-optimisation-uk-uae-guide',
       'how-to-choose-an-aeo-agency',
       'check-whether-chatgpt-recommends-your-business',
+      'what-ai-visibility-tools-measure',
     ],
   },
   {
@@ -47,6 +48,8 @@ export const GUIDE_BLURBS: Record<string, string> = {
     'eight checks before hiring, from pricing and exit terms to per-engine reporting and the red flags.',
   'check-whether-chatgpt-recommends-your-business':
     'the manual method: logged out, location set, three runs per prompt, and what to record.',
+  'what-ai-visibility-tools-measure':
+    'what AI visibility tracking tools show you, what they don’t change, what each option costs, and what actually moves your mention rate and citation share.',
   'aeo-cost-uae':
     'what AEO costs in Dubai and the UAE in 2026, the published prices, and what each band buys.',
   'aeo-agencies-uae':

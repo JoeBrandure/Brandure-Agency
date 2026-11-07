@@ -62,7 +62,7 @@ This is the distinction that matters most, and it is the one most often glossed 
 
 A tool is a diagnostic instrument. It tells you what is wrong in the same way a blood test tells a doctor what to investigate. The blood test does not treat the condition.
 
-[Search Engine Land's coverage of AI search](https://searchengineland.com/category/ai-search/) consistently makes the point that AI answer engines are drawing on a broader set of signals than traditional search: structured data, entity relationships, third-party sources and content quality all contribute. A tool can surface which of those signals are weak. Addressing them requires execution.
+[Search Engine Land's coverage of AI search](https://searchengineland.com/topic/ai-overviews/) consistently makes the point that AI answer engines are drawing on a broader set of signals than traditional search: structured data, entity relationships, third-party sources and content quality all contribute. A tool can surface which of those signals are weak. Addressing them requires execution.
 
 ## What actually moves the numbers?
 
@@ -100,7 +100,7 @@ For businesses that want to understand where they stand before committing to a p
 
 Dedicated AI visibility trackers run from about US$29 to US$500 a month, with most between about US$190 and US$300 for 100 to 150 tracked prompts ([GTM8020, October 2026](https://www.gtm8020.com/blog/ai-visibility-tool-pricing)). SEO suites that add AI tracking start from roughly US$99 to US$199 a month.
 
-Agency programmes cost more because they include the work that moves the numbers. Brandure's Core plan is AED 6,500 or £1,400 a month. For typical agency pricing across each market, see [how much AEO costs in the UAE](/guides/aeo-cost-uae) and [how much AEO costs in the UK](/guides/aeo-cost-uk).
+Agency programmes cost more because they include the work that moves the numbers. Brandure's Core plan is <span class="cur-aed">AED 6,500</span><span class="cur-gbp">£1,400</span><span class="cur-usd">$1,800</span> a month. For typical agency pricing across each market, see [how much AEO costs in the UAE](/guides/aeo-cost-uae) and [how much AEO costs in the UK](/guides/aeo-cost-uk).
 
 ## How should a business evaluate AI visibility progress?
 

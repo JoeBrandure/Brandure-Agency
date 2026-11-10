@@ -1,6 +1,7 @@
 ---
 title: "How to choose an AEO agency: 8 things to check"
-meta_description: "Eight checks before hiring an AEO agency: pricing, contract and exit terms, per-engine reporting, baselines, earned placements, entity work, timelines and red flags."
+meta_description: "Eight checks before hiring an AEO agency: pricing, contract and exit terms, per-engine reporting, baselines, earned placements and the red flags."
+summary: "Eight checks before hiring an AEO agency: pricing, contract and exit terms, per-engine reporting, baselines, earned placements, entity work, timelines and red flags."
 slug: how-to-choose-an-aeo-agency
 byline: Brandure
 date: 2026-10-21

@@ -48,6 +48,14 @@ const research = defineCollection({
       dateModified: publishDate.optional(),
       heroImage: z.string().optional(),
       heroAlt: z.string().optional(),
+      /* THE CARD LINE, WHERE IT IS NOT THE META DESCRIPTION. /research and
+         llms.txt both print the description, which is right while the two say
+         the same thing. A meta description is written for a result page and
+         has to fit one; a card and an index for AI clients have no such
+         limit and lose something when the sentence is cut to fit one.
+         Optional, and both surfaces fall back to the description. */
+      summary: z.string().optional(),
+
       /**
        * Rendered by the layout as both the visible FAQ section and the
        * FAQPage JSON-LD, so the page and the schema cannot drift apart.

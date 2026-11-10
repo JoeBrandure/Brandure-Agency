@@ -1,7 +1,7 @@
 ---
 title: "What AI visibility tools measure (and what it takes to move the numbers)"
 slug: what-ai-visibility-tools-measure
-meta_description: "AI visibility tools track mentions, citations and share of voice across ChatGPT, Google AI Overviews and Perplexity. Here's what they measure and what moves the numbers."
+meta_description: "AI visibility tools track mentions, citations and share of voice across ChatGPT, Google AI Overviews and Perplexity. What they measure, and what moves it."
 summary: "What AI visibility tracking tools show you, what they don't change, what each option costs, and what actually moves your mention rate and citation share."
 byline: "Brandure | Joe Hickman, Founder"
 date: 2026-11-06

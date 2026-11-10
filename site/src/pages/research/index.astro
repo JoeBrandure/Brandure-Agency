@@ -96,7 +96,7 @@ const schema = {
                   </p>
 
                   <h3 class="rcard__t">{p.data.title}</h3>
-                  <p class="rcard__d">{p.data.description}</p>
+                  <p class="rcard__d">{p.data.summary ?? p.data.description}</p>
 
                   <p class="rcard__go">
                     Read the research

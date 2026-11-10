@@ -321,7 +321,7 @@ const faqSchema = {
               {p.data.placeholder && <span class="tag tag--draft">Placeholder</span>}
             </p>
             <h3>{p.data.title}</h3>
-            <p class="note-sm mb-0">{p.data.description}</p>
+            <p class="note-sm mb-0">{p.data.summary ?? p.data.description}</p>
           </a>
         ))}
       </div>

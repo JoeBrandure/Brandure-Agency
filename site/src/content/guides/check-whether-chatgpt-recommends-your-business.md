@@ -1,6 +1,7 @@
 ---
 title: "How to check whether ChatGPT recommends your business"
-meta_description: "A step-by-step manual method to check if ChatGPT, Perplexity, Gemini, AI Overviews, Claude and Copilot name your business: logged out, location set, repeated runs."
+meta_description: "How to check whether ChatGPT, Perplexity, Gemini, AI Overviews, Claude and Copilot name your business: logged out, location set, three runs per prompt."
+summary: "A step-by-step manual method to check if ChatGPT, Perplexity, Gemini, AI Overviews, Claude and Copilot name your business: logged out, location set, repeated runs."
 slug: check-whether-chatgpt-recommends-your-business
 byline: Brandure
 date: 2026-10-21

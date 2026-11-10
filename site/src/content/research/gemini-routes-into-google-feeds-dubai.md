@@ -1,6 +1,7 @@
 ---
 title: "Gemini isn't answering your question. It's routing you into Google."
-description: "A 44-answer test of ChatGPT, Perplexity, Gemini and Google Search in Dubai found Gemini routes answers into Google's own feeds, which feed depends on the category, and Google's AI Overview already covers four of seven categories."
+description: "A 44-answer Dubai test found Gemini routes its answers into Google's own feeds, which feed depends on the category, and AI Overviews covered four of seven."
+summary: "A 44-answer test of ChatGPT, Perplexity, Gemini and Google Search in Dubai found Gemini routes answers into Google's own feeds, which feed depends on the category, and Google's AI Overview already covers four of seven categories."
 piece: 3
 researchDate: 2026-09-10
 datePublished: 2026-09-25

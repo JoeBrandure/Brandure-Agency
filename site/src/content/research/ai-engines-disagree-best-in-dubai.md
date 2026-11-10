@@ -1,6 +1,7 @@
 ---
 title: "Ask three AI engines who's best in Dubai: the overlap is low, not zero"
-description: "Across seven Dubai categories, ChatGPT, Perplexity and Gemini named 147 businesses and 10 appeared on all three. The same engine asked twice also returned different lists below first place."
+description: "Across seven Dubai categories, ChatGPT, Perplexity and Gemini named 147 businesses and only 10 of them appeared in all three engines' answers."
+summary: "Across seven Dubai categories, ChatGPT, Perplexity and Gemini named 147 businesses and 10 appeared on all three. The same engine asked twice also returned different lists below first place."
 piece: 2
 researchDate: 2026-09-10
 datePublished: 2026-09-25

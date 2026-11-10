@@ -75,7 +75,7 @@ ${GUIDE_ORDER.map((s) => `- [${guideTitle(s)}](${SITE.url}/guides/${s}): ${GUIDE
 ${pieces.length === 0
   ? 'No research published yet.'
   : pieces
-      .map((p) => `- [${p.data.title}](${SITE.url}/research/${p.id}) — ${p.data.description} Published ${sortDate(p).toISOString().slice(0, 10)}. Category: ${tagFor(p)}.`)
+      .map((p) => `- [${p.data.title}](${SITE.url}/research/${p.id}) — ${p.data.summary ?? p.data.description} Published ${sortDate(p).toISOString().slice(0, 10)}. Category: ${tagFor(p)}.`)
       .join('\n')}
 
 ## How to cite

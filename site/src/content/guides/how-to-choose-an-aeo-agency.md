@@ -73,7 +73,7 @@ So ask which third-party sources the engines cite in your category today, and wh
 
 Engines have to know who you are before they can name you. Two examples from our data:
 
-- **Entity confusion.** SKIN111 and SKINIII are separate Dubai clinics with separate Google listings. Perplexity had merged them into one record; ChatGPT and Gemini each picked one. That's an identity problem, fixed with consistent names, descriptions and profile data, not with more content.
+- **Entity confusion.** One Dubai clinic appears under two spellings of its name, with two Google listings. Perplexity treated it as one business; ChatGPT and Gemini each picked one spelling and ignored the other. Inconsistent names and duplicate listings split your visibility in two — an identity problem, fixed with consistent names, descriptions and profile data, not with more content.
 - **Google's own feeds.** Gemini's answers mapped onto Google products: the Google Hotels module for hotels, Google Maps for local services, Shopping cards for manufacturers, YouTube for universities. For a local business, Google Business Profile work is AEO work.
 
 An agency that never mentions profiles, directories or business identity is skipping the cheapest wins.

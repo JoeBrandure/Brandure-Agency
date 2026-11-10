@@ -87,7 +87,7 @@ Capture screenshots at the time you run each prompt. Answers change, and you can
 - **Claude:** it doesn't always search. One study found it searched on about 36.6% of prompts, mostly "best", ranking, location and comparison questions ([Search Engine Land](https://searchengineland.com/claude-visibility-brave-search-rankings-480053)). An answer with no citations is coming from what the model already knows.
 - **Copilot:** it draws on Bing, so your Bing visibility matters (see Step 8).
 
-Also check whether the engine has your business right. Two separate Dubai clinics with near-identical names, SKIN111 and SKINIII, were merged into one record by Perplexity, while ChatGPT and Gemini each picked one. If an engine confuses you with someone else, that's the first thing to fix.
+Also check whether the engine has your business right. One Dubai clinic appears under two spellings of its name, with two Google listings. Perplexity treated it as one business; ChatGPT and Gemini each picked one spelling and ignored the other. Inconsistent names and duplicate listings split your visibility in two, and that's the first thing to fix.
 
 ## Step 7: How do you read the results?
 

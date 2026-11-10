@@ -53,7 +53,7 @@ For a local business, that makes Google Business Profile work AEO work, not a se
 
 ### Google AI Overviews: the citation is a lottery, the shortlist isn't
 
-AI Overviews fired on 3 of our 7 categories in September, up from 1 in August, and moved onto law firms, manufacturers and universities. Across three identical manufacturer searches, Google named the same three brands each time but rotated which source it cited, while the organic results underneath stayed identical.
+AI Overviews fired on 4 of our 7 categories in both August and September: law firms, B2B SaaS, manufacturers and universities. Across three identical manufacturer searches, Google named the same three brands each time but rotated which source it cited, while the organic results underneath stayed identical.
 
 So the realistic goal is being in the pool Google draws from. Anyone promising you a specific AI Overview citation is overselling.
 
@@ -81,7 +81,7 @@ Five levers, in roughly this order for most businesses:
 2. **Earned coverage.** Independent articles that name you, in publications the engines pull from. This is what kept a brand's ChatGPT position after its own article stopped being cited.
 3. **Reviews and profiles.** For local and service businesses, review volume and Google Business Profile quality drive ChatGPT's fallback ranking and Gemini's Maps answers.
 4. **Google's feeds.** Hotels, Merchant Center, YouTube. If Gemini routes your vertical into one of them, that feed is the lever.
-5. **A clean entity.** Two Dubai clinics with near-identical names, SKIN111 and SKINIII, are separate businesses on Google. Perplexity had merged them into one record; ChatGPT and Gemini each picked one. That's a fixable identity problem, not a content problem.
+5. **A clean entity.** One Dubai clinic appears under two spellings of its name, with two Google listings. Perplexity treated it as one business; ChatGPT and Gemini each picked one spelling and ignored the other. Inconsistent names and duplicate listings split your visibility in two. That's a fixable identity problem, not a content problem.
 
 Your own site still matters as the thing these sources point to, and Google's guidance on its AI features is that they rest on the same fundamentals as normal search, with no special markup required ([Search Engine Journal](https://searchenginejournal.com/googles-new-ai-search-guide-calls-aeo-and-geo-still-seo/575026)).
 

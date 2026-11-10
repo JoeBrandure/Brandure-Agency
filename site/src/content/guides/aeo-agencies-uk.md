@@ -59,7 +59,7 @@ The engines draw on a mix of signals when deciding which businesses to name for 
 
 | Agency | AI search offering | Published price | Best suited to | Named by AI in our tracking |
 |---|---|---|---|---|
-| **Brandure** (brandure.io) | AI search (AEO) with SEO included; each AI engine tracked and reported separately; third-party citation placements; AI-ready website builds available | £1,400 or £2,600 a month + £750 setup (AED 6,500 / 12,000 + AED 3,500) | UK and UAE businesses that want AI search as the main job | Not yet (0.7% visibility) |
+| **Brandure** (brandure.io) | AI search (AEO) with SEO included; each AI engine tracked and reported separately; third-party citation placements; AI-ready website builds available | £1,400 or £2,600 a month + £750 setup (AED 6,500 / 12,000 + AED 3,500) | UK and UAE businesses that want AI search as the main job | Not yet |
 | **The SEO Works** (seoworks.co.uk) | GEO within organic search: question research, structured content, business information consistency | Quote only | UK SMEs and mid-market wanting SEO and GEO together | Yes |
 | **Exposure Ninja** (exposureninja.com) | GEO alongside SEO and conversion work | Quote only | Growth-focused businesses wanting SEO, GEO and CRO in one place | Yes |
 | **Impression** (impressiondigital.com) | GEO across technical discoverability, content and off-site reputation | Quote only | Mid-market and larger brands; reported 1,793 AI Overview citations for client Tensar | — |

@@ -6,6 +6,11 @@ import EngineSprite from '../components/EngineSprite.astro';
 import { SITE } from '../consts';
 import { TRACKED_MARKS } from '../data/engines';
 import { SCAN, NULL_CASES, NOT_SCAN } from '../data/method';
+/* The page describes how the AEO service is delivered, so it names the
+   service itself as well as the HowTo. Same node as /service and
+   /pricing emit — one @id, provider the #organization node — not a
+   second definition of it. */
+import { serviceSchema } from '../lib/schema';
 
 /* METHOD IS THE HOW PAGE. It owns SCAN and every instrument the method runs
    on — the frozen prompt set, the coding scheme, the held-back prompts.
@@ -51,9 +56,9 @@ const path = (vals: readonly number[]) =>
     .join(' ');
 ---
 <BaseLayout
-  title="Method"
+  title="SCAN: our AI search optimisation (AEO) method"
   description="SCAN — surface, cause, act, net. The four stages behind every engagement, and why we hold some of your questions back so you can see how much of any improvement was actually us."
-  schemas={[schema]}
+  schemas={[schema, serviceSchema]}
 >
   <!-- Every engine mark, defined once; the marks below reference it. -->
   <EngineSprite />

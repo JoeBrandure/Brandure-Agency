@@ -7,6 +7,9 @@ import Price from '../components/Price.astro';
 import { SITE } from '../consts';
 import { PLANS, SETUP_FEE, ADDONS, money } from '../data/pricing';
 import { TESTIMONIALS } from '../data/testimonials';
+/* The Dubai page sells the same service from a local base: the
+   ProfessionalService node below is the office, this is what it sells. */
+import { serviceSchema } from '../lib/schema';
 
 /* AEO AGENCY DUBAI — a local landing page for "AEO agency Dubai".
  *
@@ -49,14 +52,20 @@ const FAQS = [
   },
 ];
 
+/* The page's own sentence, written once. The meta tag and the WebPage node
+   carried identical copies, so trimming the meta description for the SERP
+   would have left the schema describing the page in words the page no longer
+   used. Trimmed to 155 characters with the answer still first. */
+const pageDescription =
+  'Brandure is an AEO agency in Dubai, getting businesses named in ChatGPT, Google AI Overviews and Perplexity. SEO and AI-ready websites included.';
+
 const webPageSchema = {
   '@context': 'https://schema.org',
   '@type': 'WebPage',
   '@id': `${url}#webpage`,
   url,
   name: 'AEO agency in Dubai',
-  description:
-    'Brandure is an AEO agency in Dubai. We get businesses named in ChatGPT, Google AI Overviews and Perplexity, with SEO and AI-ready websites included. Plans from AED 6,500 a month.',
+  description: pageDescription,
   inLanguage: 'en-GB',
   isPartOf: { '@id': `${SITE.url}/#website` },
   about: { '@id': `${SITE.url}/#service` },
@@ -143,8 +152,8 @@ const faqSchema = {
 <BaseLayout
   title="AEO Agency in Dubai | AI Search & SEO | Brandure"
   fullTitle
-  description="Brandure is an AEO agency in Dubai. We get businesses named in ChatGPT, Google AI Overviews and Perplexity, with SEO and AI-ready websites included. Plans from AED 6,500 a month."
-  schemas={[webPageSchema, breadcrumbSchema, officeSchema, faqSchema]}
+  description={pageDescription}
+  schemas={[webPageSchema, breadcrumbSchema, serviceSchema, officeSchema, faqSchema]}
 >
   <script is:inline>
     /* AED is this page's default. A visitor who has already picked pounds

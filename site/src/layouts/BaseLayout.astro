@@ -135,7 +135,69 @@ const personSchema = {
     'Paid social',
   ],
 };
-const allSchemas = [websiteSchema, organizationSchema, personSchema, ...schemas];
+/* ---------------------------------------------------------- breadcrumbs */
+
+/**
+ * ONE BREADCRUMB TRAIL, DERIVED FROM THE ROUTE, ON EVERY PAGE THAT WANTS ONE.
+ *
+ * Four pages hand-rolled their own and the rest had none, which is how the
+ * research articles ended up without one: the trail was written in
+ * research/[slug].astro and then the real pieces started rendering through
+ * ResearchLayout, which never passed it on. Nobody noticed, because a missing
+ * breadcrumb looks exactly like a page that was never given one.
+ *
+ * Derived here, it cannot go missing when a page changes layout. A page that
+ * still supplies its own is left alone — emitting a second BreadcrumbList
+ * would describe the same page with two different trails — so the four
+ * existing ones keep their own wording and this fills in everywhere else.
+ *
+ * The root gets none: a trail whose only item is the page you are on tells a
+ * consumer nothing. Neither do noindex pages, which nothing is indexing.
+ */
+const SECTIONS: Record<string, string> = {
+  guides: 'Guides',
+  research: 'Research',
+  work: 'Case studies',
+};
+
+const callerHasBreadcrumb = schemas.some(
+  (s) => (s as { '@type'?: string })['@type'] === 'BreadcrumbList',
+);
+
+function breadcrumbTrail() {
+  const segments = route.split('/').filter(Boolean);
+  if (segments.length === 0) return null;
+
+  const items: { name: string; item: string }[] = [{ name: 'Home', item: SITE.url }];
+  /* The middle rung only exists where the section has a page of its own to
+     point at; /method has no parent index, so it goes straight under Home. */
+  if (segments.length > 1 && SECTIONS[segments[0]]) {
+    items.push({ name: SECTIONS[segments[0]], item: `${SITE.url}/${segments[0]}` });
+  }
+  items.push({ name: title, item: canonical.href });
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    '@id': `${canonical.href}#breadcrumb`,
+    itemListElement: items.map((x, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: x.name,
+      item: x.item,
+    })),
+  };
+}
+
+const breadcrumbSchema = noindex || callerHasBreadcrumb ? null : breadcrumbTrail();
+
+const allSchemas = [
+  websiteSchema,
+  organizationSchema,
+  personSchema,
+  ...(breadcrumbSchema ? [breadcrumbSchema] : []),
+  ...schemas,
+];
 ---
 
 <!doctype html>

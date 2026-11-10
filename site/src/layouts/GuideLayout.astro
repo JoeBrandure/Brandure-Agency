@@ -59,6 +59,21 @@ function faqsFromBody(md: string) {
   return out;
 }
 const faqs = faqsFromBody(guide.body ?? '');
+
+/* ONE ANSWER PER QUESTION. Appending a block of new FAQ entries to a guide is
+   how the same question ends up asked twice with two different answers —
+   which reads as an editing mistake on the page and is invalid in FAQPage
+   markup, where a repeated question is grounds for ignoring the block. It
+   happened on the first attempt at this, so it fails the build now. */
+const dupes = faqs
+  .map((f) => f.q)
+  .filter((q, i, all) => all.indexOf(q) !== i);
+if (dupes.length) {
+  throw new Error(
+    `Guide "${d.slug}" asks the same FAQ question twice: ${[...new Set(dupes)].join('; ')}. ` +
+      `Merge the answers, or reword one question.`,
+  );
+}
 const researched = d.researchDate;
 
 const iso = (x: Date) => x.toISOString().slice(0, 10);
@@ -73,12 +88,20 @@ const bylineHref = '/about';
    BaseLayout. The byline reads "By Brandure", so both point at the
    organisation — attributing a guide to the Person node would contradict the
    visible byline. */
+/* The guide's own OG card, generated from its title by
+   src/pages/og/guides/[slug].png.ts. Named as the Article's image because it
+   is the image the page presents — Searchable's audit read the Article as
+   incomplete without one, and a schema that points at the site-wide default
+   card would be describing a picture that is not about this article. */
+const ogImage = `/og/guides/${d.slug}.png`;
+
 const articleSchema = {
   '@context': 'https://schema.org',
   '@type': 'Article',
   '@id': `${url}#article`,
   headline: d.title,
   description: summary,
+  image: [new URL(ogImage, SITE.url).href],
   url,
   mainEntityOfPage: url,
   datePublished: iso(published),
@@ -128,6 +151,7 @@ const useFullTitle = (d.title + SUFFIX).length > 70;
   title={d.title}
   fullTitle={useFullTitle}
   description={summary}
+  ogImage={ogImage}
   schemas={faqSchema ? [articleSchema, breadcrumbSchema, faqSchema] : [articleSchema, breadcrumbSchema]}
 >
   <nav aria-label="Breadcrumb" class="wrap-narrow meta rs-crumb">

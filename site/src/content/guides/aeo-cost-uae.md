@@ -1,7 +1,8 @@
 ---
 title: "How much does AEO cost in the UAE? 2026 prices"
 slug: aeo-cost-uae
-description: "What AI search optimisation (AEO) costs in Dubai and the UAE in 2026: audits from about AED 3,500, SME programmes AED 4,000–15,000 a month, mid-market AED 15,000–35,000. What each level buys and what to check."
+description: "AEO in the UAE costs about AED 3,500–10,000 for an audit and AED 4,000–15,000 a month for an SME programme. What each level buys, and what to check."
+summary: "What AI search optimisation (AEO) costs in Dubai and the UAE in 2026: audits from about AED 3,500, SME programmes AED 4,000–15,000 a month, mid-market AED 15,000–35,000. What each level buys and what to check."
 market: UAE
 byline: "Brandure | Joe Hickman, Founder"
 researchDate: 2026-10-30

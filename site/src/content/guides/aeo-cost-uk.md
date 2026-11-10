@@ -1,7 +1,8 @@
 ---
 title: "How much does AEO cost in the UK? 2026 prices"
 slug: aeo-cost-uk
-description: "What AI search optimisation (AEO/GEO) costs in the UK in 2026: most businesses pay £2,000–5,000 a month, plus a £1,500–5,000 audit or setup. What each level buys and what to check."
+description: "AEO in the UK costs £2,000–5,000 a month for most businesses, plus a £1,500–5,000 audit or setup. What each level buys, and what to check before you sign."
+summary: "What AI search optimisation (AEO/GEO) costs in the UK in 2026: most businesses pay £2,000–5,000 a month, plus a £1,500–5,000 audit or setup. What each level buys and what to check."
 market: UK
 byline: "Brandure | Joe Hickman, Founder"
 researchDate: 2026-10-30

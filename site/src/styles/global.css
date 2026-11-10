@@ -1676,6 +1676,24 @@ input:focus-visible, select:focus-visible { border-color: var(--focus); }
   font-style: normal; font-size: var(--small); color: var(--muted);
 }
 
+/* A pulled-out point in the body copy. Markdown's only callout is a
+   blockquote, and in this body it had no style at all: the UK agencies guide
+   shipped one and it rendered as an ordinary paragraph, indistinguishable
+   from the three paragraphs above it, which is the whole thing a callout is
+   for. No new values — the box is the one the hero image, the body images and
+   the quoted-figure block already use (--border, --radius, --surface-sunk),
+   and the spacing is the rhythm the body's other blocks sit on. */
+.rs__body blockquote {
+  margin: 1.75rem 0;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius);
+  background: var(--surface-sunk);
+}
+.rs__body blockquote > :first-child { margin-top: 0; }
+.rs__body blockquote > :last-child { margin-bottom: 0; }
+
 /* Tables carry most of the evidence in this series, so they scroll rather than
    shrink — a squeezed seven-column table is unreadable on a phone. */
 .rs__body table { width: 100%; border-collapse: collapse; font-size: var(--small); }

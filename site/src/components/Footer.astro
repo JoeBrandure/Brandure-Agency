@@ -28,6 +28,11 @@ const year = new Date().getFullYear();
         <ul>
           <li><a href={`mailto:${SITE.email}`}>{SITE.email}</a></li>
           <li><a href={SITE.linkedin} rel="me noopener">LinkedIn</a></li>
+          {/* rel is written out rather than left to the build hook that adds
+              noopener to external links, so the attribute is visible where
+              the link is. Plain and followed on purpose: it is our own
+              profile, the same as the LinkedIn line above it. */}
+          <li><a href="https://www.designrush.com/agency/search-engine-optimization" target="_blank" rel="noopener">DesignRush Verified Agency</a></li>
           <li><a href="/#report">Free visibility report</a></li>
         </ul>
       </div>

@@ -1,8 +1,9 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Testimonials from '../components/Testimonials.astro';
 import ReportForm from '../components/ReportForm.astro';
 import BookForm from '../components/BookForm.astro';
-import { PACKAGES, ENGINES, COST_OF_ABSENCE, NOT_SEO, SETUP, TERMS } from '../data/content';
+import { PACKAGES, ENGINES, COST_OF_ABSENCE, NOT_SEO, SETUP, TERMS, SERVICE_FAQS } from '../data/content';
 import { PLANS, SETUP_FEE } from '../data/pricing';
 import Price from '../components/Price.astro';
 import CurrencySwitch from '../components/CurrencySwitch.astro';
@@ -39,11 +40,26 @@ const webPageSchema = {
   about: { '@id': `${SITE.url}/#organization` },
   mainEntity: { '@id': `${SITE.url}/#service` },
 };
+
+/* Searchable's 11 November re-audit: "FAQ schema is missing" on this page.
+   Built from SERVICE_FAQS, which is also what the section below renders, so
+   the marked-up questions are the visible ones. */
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  '@id': `${SITE.url}/service#faq`,
+  isPartOf: { '@id': `${SITE.url}/#website` },
+  mainEntity: SERVICE_FAQS.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
 ---
 <BaseLayout
   title="Our AI search optimisation (AEO) service"
   description="Our AI search optimisation (AEO) service: Core at AED 6,500 a month or Growth at AED 12,000, with the setup fee and the terms stated in full."
-  schemas={[webPageSchema, ...allServiceSchemas]}
+  schemas={[webPageSchema, ...allServiceSchemas, faqSchema]}
 >
   <!-- 1. Hero: the offer and the constraint in the same breath. -->
   <section class="hero hero--short">
@@ -200,6 +216,15 @@ const webPageSchema = {
     </div>
   </section>
 
+  {/* Social proof, directly before the ask. Two quotes, not the home page's
+      six: these are the only two confirmed as the clients' own words, and a
+      page answering "no independent reviews" cannot answer it with a
+      sentence we wrote. Same component, same data file. */}
+  <Testimonials
+    picks={['Williams International', 'Little Lockets London']}
+    lede="Two clients, in their own words."
+  />
+
   <section class="section" id="buy">
     <div class="wrap" data-reveal>
       <div class="section-head">
@@ -278,6 +303,29 @@ const webPageSchema = {
         </p>
       </div>
       <BookForm id="book-form" />
+    </div>
+  </section>
+
+  {/* 5b. The questions a buyer asks before the ask, and the ones an engine
+      needs to get right when it is asked what this costs and how long it
+      runs. Same markup as the home page's FAQ; the JSON-LD above is built
+      from the same array. */}
+  <section class="section section--sunk">
+    <div class="wrap-narrow" data-reveal>
+      <div class="section-head">
+        <h2>Questions people ask</h2>
+      </div>
+      <div class="qa" data-stagger>
+        {SERVICE_FAQS.map((f, i) => (
+          <details open={i === 0}>
+            <summary>{f.q}</summary>
+            <p>{f.a}</p>
+          </details>
+        ))}
+      </div>
+      <p class="center-row mt-2">
+        <a class="btn btn--ghost" href="/pricing">See the full price list</a>
+      </p>
     </div>
   </section>
 

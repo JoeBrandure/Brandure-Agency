@@ -492,3 +492,75 @@ export const NOT_SEO = [
     aeo: 'Your position went up, and your competitors’ did not',
   },
 ] as const;
+
+/* ======================= /service AND /method FAQs =======================
+ *
+ * Searchable's 11 November re-audit flagged both pages for missing FAQ
+ * schema, and ChatGPT's read of Brandure put the six-month commitment in its
+ * risks. Both are the same problem: the answers exist on the site, but not on
+ * the pages an engine reads when it is asked what Brandure sells and how it
+ * works.
+ *
+ * Plain strings, as on every other FAQ here, because the page renders these
+ * and the FAQPage JSON-LD is built from the same array — the marked-up answer
+ * is the visible answer by construction, not by anyone keeping two copies in
+ * step.
+ *
+ * THE PRICE IS COMPOSED, NOT TYPED, for the reason recorded above SETUP: the
+ * figure lives once, in data/pricing.ts. It is given in all three currencies
+ * rather than through the Price component, which is the one place on the site
+ * that is right: a switch shows one figure and the JSON-LD can only carry one
+ * string, so a dirham answer would be marked up for a reader seeing dollars.
+ * All three in both means the answer is true whichever currency is selected,
+ * and it is the form the price list itself calls the one every crawler should
+ * be able to quote.
+ */
+import { PLANS, SETUP_FEE, money } from './pricing';
+
+const core = PLANS.find((p) => p.key === 'core')!;
+const growth = PLANS.find((p) => p.key === 'growth')!;
+
+/** Shared where the two pages answer the same question the same way. */
+const ENGINES_ANSWER =
+  'ChatGPT, Google AI Overviews and Perplexity. Each is measured separately, because the same business can be named in one and missing from another.';
+
+const TIMING_ANSWER =
+  'Changes to your entity data and on-site content can start to show in AI answers within four to eight weeks. Earning citations on third-party sources takes longer, typically three to six months. These are typical ranges, not guarantees: timing depends on your starting visibility, the engine, the type of work and how competitive your category is. That’s why we measure your starting position first.';
+
+export const SERVICE_FAQS = [
+  {
+    q: 'Is there a minimum term?',
+    a: 'Yes. Engagements start with a six-month initial term and a 90-day review. If your citation share hasn’t moved against your baseline by day 90, you can end the engagement.',
+  },
+  { q: 'How soon will we see results?', a: TIMING_ANSWER },
+  { q: 'Which AI engines do you track?', a: ENGINES_ANSWER },
+  {
+    q: 'How much does it cost?',
+    a:
+      `Core is ${money(core.monthly).both} a month, and Growth is ${money(growth.monthly).both} a month. ` +
+      `There’s a one-off setup fee of ${money(SETUP_FEE.price).both}. Full details are on the pricing page.`,
+  },
+  {
+    q: 'What happens before we sign anything?',
+    a: 'We run a free AI visibility report and go through it with you on a 15-minute call. It shows where you’re named, where competitors are named instead, and which sources the answers are built from.',
+  },
+] as const;
+
+export const METHOD_FAQS = [
+  {
+    q: 'What does SCAN stand for?',
+    a: 'Surface, cause, act, net: the four stages behind every Brandure engagement. We surface where you stand, find the cause, act on the fixes, and net out what actually moved.',
+  },
+  {
+    q: 'Why do you hold some of our questions back?',
+    a: 'We keep a control set of questions we don’t work on. If the questions we’ve worked on move and the control set doesn’t, the movement came from the work, not from the engines changing.',
+  },
+  {
+    q: 'Which AI engines does SCAN measure?',
+    a: 'ChatGPT, Google AI Overviews and Perplexity, each reported separately.',
+  },
+  {
+    q: 'How do you measure progress?',
+    a: 'Against your baseline: how often you’re named (mention rate), how often your site is cited (citation share), and your share of voice against competitors, per engine.',
+  },
+] as const;

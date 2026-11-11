@@ -160,7 +160,7 @@ const useFullTitle = (d.title + SUFFIX).length > 70;
 
   <article class="wrap-narrow rs">
     <header class="rs__head">
-      <h1 class="rs__t">{d.title}</h1>
+      <h1 class="rs__t">{d.h1 ?? d.title}</h1>
 
       {/* The byline renders as written in front matter rather than behind a
           hardcoded "By". The market guides carry "Brandure | Joe Hickman,

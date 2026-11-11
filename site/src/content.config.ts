@@ -125,6 +125,12 @@ const guides = defineCollection({
   schema: z
     .object({
       title: z.string(),
+      /* THE HEADING, WHERE IT IS NOT THE TITLE. `title` is the SERP line, the
+         og:title and the Article headline; on every guide but one it is also
+         the H1, which is right while the two want the same words. The long
+         UK/UAE explainer needs a 49-character title and keeps its fuller
+         heading on the page. Optional, and the H1 falls back to `title`. */
+      h1: z.string().optional(),
       slug: z.string(),
       byline: z.string(),
       date: z.coerce.date(),

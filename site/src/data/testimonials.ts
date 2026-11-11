@@ -12,6 +12,13 @@
  * on a site whose proposition is that we measure rather than assert. Replacing
  * `quote` with what each person actually said is the outstanding job.
  *
+ * TWO ARE NOW THE CLIENTS' OWN WORDS: Marc (Williams International), supplied
+ * 2026-10-31, and Joanne (Little Lockets London), confirmed 2026-11-11. Both
+ * carry a REAL note at the entry. They are the only two quoted on /service
+ * and /method, which exist to answer the charge that there is no independent
+ * proof here — a sentence we wrote would make that charge true on the two
+ * pages meant to answer it. The home page still rolls all six.
+ *
  * `placeholder` is kept on the interface and still works — set one back to
  * true and its card carries a flag again, and the banner returns above the
  * grid. Nothing else has to change.
@@ -29,6 +36,13 @@ export interface Testimonial {
   initials: string;
   accent: 'cobalt' | 'violet' | 'teal' | 'deep';
   placeholder: boolean;
+  /**
+   * The sentence is the client's own words, confirmed with them, not ours.
+   * Only a confirmed quote may be cited on a page that offers client proof;
+   * <Testimonials picks> refuses anything else. `placeholder` does not cover
+   * this — it is false on all six, including the four we wrote.
+   */
+  confirmed?: boolean;
 }
 
 export const TESTIMONIALS: Testimonial[] = [
@@ -51,6 +65,9 @@ export const TESTIMONIALS: Testimonial[] = [
     placeholder: false,
   },
   {
+    /* REAL. Confirmed by Joe on 2026-11-11 as Joanne's own words, alongside
+       Marc's below. The note at the top of the file still stands for the
+       other four. */
     quote: 'Our SEO agency could not explain why we were missing from AI answers. This was the first time anyone showed us the actual sources the answers were built from.',
     name: 'Joanne',
     role: 'Co-Founder',
@@ -58,6 +75,7 @@ export const TESTIMONIALS: Testimonial[] = [
     initials: 'LL',
     accent: 'teal',
     placeholder: false,
+    confirmed: true,
   },
   {
     quote: 'They told us in week two that one of our categories was not worth the retainer yet. That is when I started trusting the rest of it.',
@@ -79,6 +97,7 @@ export const TESTIMONIALS: Testimonial[] = [
     initials: 'WI',
     accent: 'violet',
     placeholder: false,
+    confirmed: true,
   },
   {
     quote: 'Getting mentioned on the sites the models actually cite was slower than we wanted and worth more than everything else combined.',

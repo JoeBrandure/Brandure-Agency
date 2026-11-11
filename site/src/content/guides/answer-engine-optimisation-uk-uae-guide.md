@@ -1,5 +1,6 @@
 ---
-title: "Answer engine optimisation for UK and UAE businesses: what it is, how AI picks who to name, and what moves it"
+title: "Answer engine optimisation (AEO): a UK & UAE guide"
+h1: "Answer engine optimisation for UK and UAE businesses: what it is, how AI picks who to name, and what moves it"
 meta_description: "What AEO is, how ChatGPT, Perplexity, Gemini, AI Overviews, Claude and Copilot choose which businesses to name, and how to measure it per engine."
 slug: answer-engine-optimisation-uk-uae-guide
 byline: Brandure

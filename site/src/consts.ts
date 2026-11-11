@@ -19,7 +19,7 @@ export const SITE = {
      BaseLayout, and llms.txt — so none of those files is edited directly. */
   linkedin: 'https://www.linkedin.com/company/brandureagency',
 
-  /* Organization sameAs. Exactly these five, in this order.
+  /* Organization sameAs. Exactly these six, in this order.
      https://clutch.co/profile/brandure — WITHOUT the "-0" — is a DIFFERENT
      COMPANY and must never appear here or anywhere else on the site. The
      correct profile is brandure-0. Equally, the only valid LinkedIn vanity is
@@ -28,6 +28,7 @@ export const SITE = {
     'https://www.linkedin.com/company/brandureagency',
     'https://www.instagram.com/brandure.agency/',
     'https://clutch.co/profile/brandure-0',
+    'https://www.designrush.com/agency/search-engine-optimization',
     'https://www.sortlist.com/agency/brandure-3',
     'https://www.goodfirms.co/company/brandure',
   ],

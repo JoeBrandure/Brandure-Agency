@@ -1,11 +1,13 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Testimonials from '../components/Testimonials.astro';
 import EngineMark from '../components/EngineMark.astro';
 import PromptRotator from '../components/PromptRotator.astro';
 import EngineSprite from '../components/EngineSprite.astro';
 import { SITE } from '../consts';
 import { TRACKED_MARKS } from '../data/engines';
 import { SCAN, NULL_CASES, NOT_SCAN } from '../data/method';
+import { METHOD_FAQS } from '../data/content';
 /* The page describes how the AEO service is delivered, so it names the
    service itself as well as the HowTo. Same node as /service and
    /pricing emit — one @id, provider the #organization node — not a
@@ -54,11 +56,25 @@ const path = (vals: readonly number[]) =>
       return `${i === 0 ? 'M' : 'L'}${x.toFixed(1)} ${y.toFixed(1)}`;
     })
     .join(' ');
+
+/* Searchable's 11 November re-audit: "FAQ schema is missing" on this page.
+   Built from METHOD_FAQS, the same array the section below renders. */
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  '@id': `${SITE.url}/method#faq`,
+  isPartOf: { '@id': `${SITE.url}/#website` },
+  mainEntity: METHOD_FAQS.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
 ---
 <BaseLayout
   title="SCAN: our AI search optimisation (AEO) method"
   description="SCAN — surface, cause, act, net. The four stages behind every AEO engagement, and why we hold questions back so you can see what actually moved."
-  schemas={[schema, serviceSchema]}
+  schemas={[schema, serviceSchema, faqSchema]}
 >
   <!-- Every engine mark, defined once; the marks below reference it. -->
   <EngineSprite />
@@ -266,6 +282,31 @@ const path = (vals: readonly number[]) =>
       </div>
     </div>
   </section>
+
+  {/* 6b. The questions asked about the method itself, marked up above from
+      the same array. */}
+  <section class="section section--sunk">
+    <div class="wrap-narrow" data-reveal>
+      <div class="section-head">
+        <h2>Questions people ask</h2>
+      </div>
+      <div class="qa" data-stagger>
+        {METHOD_FAQS.map((f, i) => (
+          <details open={i === 0}>
+            <summary>{f.q}</summary>
+            <p>{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* 6c. Social proof, directly before the ask. The two quotes confirmed as
+      the clients' own words; see the note in src/data/testimonials.ts. */}
+  <Testimonials
+    picks={['Little Lockets London', 'Williams International']}
+    lede="Two clients, in their own words."
+  />
 
   <!-- 7. CTA. -->
   <section class="section section--tight">

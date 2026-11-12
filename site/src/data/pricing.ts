@@ -140,8 +140,20 @@ export const EXAMPLES = [
   },
 ] as const;
 
-export const VAT_TERMS =
-  'Prices exclude VAT (UAE 5%, UK 20%). Six-month initial term with a 90-day review.';
+/**
+ * THE TERM AND THE WAY OUT, IN ONE SENTENCE, IN ONE PLACE.
+ *
+ * ChatGPT's read of Brandure lists the six-month commitment among its risks.
+ * It was never a six-month lock — the 90-day break clause has been on the
+ * site throughout — but it was written as a separate sentence in four places
+ * and omitted in two others, so a reader, or an engine lifting one line,
+ * could meet the commitment without the exit. They are one sentence now, and
+ * everywhere that states the term composes from this.
+ */
+export const TERM_AND_EXIT =
+  'Six-month initial term with a 90-day review — if your citation share hasn’t moved against your baseline by day 90, you can end the engagement.';
+
+export const VAT_TERMS = `Prices exclude VAT (UAE 5%, UK 20%). ${TERM_AND_EXIT}`;
 
 /** 5 or more single pages costs more than the up-to-10 rebuild, so the builder
  *  says so rather than letting someone overpay by not noticing. */

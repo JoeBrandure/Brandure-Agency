@@ -1,3 +1,7 @@
+import { TERM_AND_EXIT } from './pricing';
+import { SITE } from '../consts';
+
+const IDENTITY_SENTENCE = SITE.identityLine;
 /**
  * THE ENGINES WE TRACK. Three, not six.
  *
@@ -86,6 +90,17 @@ export const STAGES = [
  */
 export const FAQS = [
   /* ---- The basics ---- */
+  {
+    /* FIRST, BECAUSE IT IS THE ONE BEING ANSWERED WRONG. Searchable Task 22,
+       12 November: Google AI Overviews named us first in 0 of 6 runs on
+       "What is Brandure?", and 39 of 55 of its answers carried another
+       company's facts. Ask it plainly, answer it plainly, and put it where
+       both a reader and a crawler meet it first. It says only what Brandure
+       is — see the note on SITE.identityLine for why there is no denial. */
+    group: 'The basics',
+    q: 'What is Brandure?',
+    a: `${IDENTITY_SENTENCE} We measure where a brand appears in AI answers across ChatGPT, Google AI Overviews and Perplexity, find out why, and do the website, entity, content and third-party citation work that changes it. Each engine is reported separately.`,
+  },
   {
     group: 'The basics',
     q: 'What is answer engine optimisation?',
@@ -213,19 +228,18 @@ export const FAQS = [
     a: 'Every engine separately, never one blended score. Raw counts next to any summary figure. The questions we left alone shown beside the ones we worked on. And the prompt list, market, date and run count attached, so anything in the report can be traced back and checked.',
   },
   {
+    /* ChatGPT's read of Brandure lists the six-month commitment as a risk,
+       and it only reads as one if the exit is somewhere else on the page.
+       Composed from TERMS rather than restated, so the break clause cannot
+       be described two ways. */
+    group: 'Working together',
+    q: 'Can I leave early?',
+    a: `Yes. ${TERM_AND_EXIT} After the initial term it runs rolling monthly, so you can stop with a month’s notice.`,
+  },
+  {
     group: 'Working together',
     q: 'Who is this not for?',
     a: 'Anyone who wants a guaranteed position. Anyone who wants a set number of blog posts a month. And anyone in a category where buyers aren’t using AI to choose suppliers yet. Better to find that out in the free report than three months into a retainer.',
-  },
-  {
-    /* ASKED BECAUSE AN ENGINE IS ANSWERING IT WRONG. Google AI Overviews was
-       returning the services of Brandure in Vadodara, India — social media,
-       logo design, ESG reporting, mobile apps — as ours. A question and
-       answer in the FAQPage schema is the form an engine can lift whole, and
-       it names both the confusion and the services we do not sell. */
-    group: 'Working together',
-    q: 'Is Brandure the same as Brandure in India?',
-    a: 'No. Brandure (brandure.io) is an AI search and SEO agency serving businesses in the UK and the UAE, with its base in Dubai. We’re not connected to Brandure in Vadodara, India, or other businesses with a similar name. We don’t offer social media management, logo design, ESG reporting or mobile app development.',
   },
 ] as const;
 
@@ -375,8 +389,7 @@ export const FREE_OFFER = {
  * commercial expression of the Net stage: it only works because a baseline is
  * taken at the start and held back prompts make the movement attributable.
  */
-export const TERMS =
-  'Six-month initial term with a 90-day review \u2014 if citation share hasn\u2019t moved against your baseline by day 90, you can end the engagement. Rolling monthly thereafter. Prices exclude VAT.';
+export const TERMS = `${TERM_AND_EXIT} Rolling monthly thereafter. Prices exclude VAT.`;
 
 /**
  * /pricing only. The four things a buyer asks before they ask for a call, and
@@ -528,9 +541,10 @@ const TIMING_ANSWER =
   'Changes to your entity data and on-site content can start to show in AI answers within four to eight weeks. Earning citations on third-party sources takes longer, typically three to six months. These are typical ranges, not guarantees: timing depends on your starting visibility, the engine, the type of work and how competitive your category is. That’s why we measure your starting position first.';
 
 export const SERVICE_FAQS = [
+  { q: 'Is there a minimum term?', a: `Yes. ${TERM_AND_EXIT} It runs rolling monthly after that.` },
   {
-    q: 'Is there a minimum term?',
-    a: 'Yes. Engagements start with a six-month initial term and a 90-day review. If your citation share hasn’t moved against your baseline by day 90, you can end the engagement.',
+    q: 'Can I leave early?',
+    a: `Yes. ${TERM_AND_EXIT} After the initial term it runs rolling monthly, so you can stop with a month’s notice.`,
   },
   { q: 'How soon will we see results?', a: TIMING_ANSWER },
   { q: 'Which AI engines do you track?', a: ENGINES_ANSWER },

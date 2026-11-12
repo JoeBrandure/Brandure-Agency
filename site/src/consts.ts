@@ -1,3 +1,7 @@
+/** The identity sentence. See the note on SITE.identityLine. */
+const IDENTITY =
+  'Brandure is an AI search optimisation (AEO) agency for UK and UAE brands, founded by Joe Hickman.';
+
 export const SITE = {
   name: 'Brandure',
   legalName: 'Brandure',
@@ -19,11 +23,16 @@ export const SITE = {
      BaseLayout, and llms.txt — so none of those files is edited directly. */
   linkedin: 'https://www.linkedin.com/company/brandureagency',
 
-  /* Organization sameAs. Exactly these six, in this order.
+  /* Organization sameAs. Exactly these, in this order.
      https://clutch.co/profile/brandure — WITHOUT the "-0" — is a DIFFERENT
      COMPANY and must never appear here or anywhere else on the site. The
      correct profile is brandure-0. Equally, the only valid LinkedIn vanity is
-     /company/brandureagency; /company/brandure is not ours. */
+     /company/brandureagency; /company/brandure is not ours.
+
+     TODO — GOOGLE BUSINESS PROFILE. Asked for on 2026-11-12 and still not
+     here: no URL for it exists in this repo, and inventing one would point
+     the entity at a page that may not be ours, which is the failure this
+     whole change is about. Add the real URL and the list is complete. */
   sameAs: [
     'https://www.linkedin.com/company/brandureagency',
     'https://www.instagram.com/brandure.agency/',
@@ -65,23 +74,35 @@ export const SITE = {
   description:
     'Brandure is an AI search specialist agency: AI search optimisation (AEO) and SEO, with websites built for both. For businesses in the UK and the UAE.',
 
-  /* Reads as a correction, because it is one — and names the business it is
-     being confused WITH.
+  /**
+   * WHO WE ARE, IN ONE SENTENCE. Used as the Organization node's
+   * disambiguatingDescription, as the footer line, as the "What is Brandure?"
+   * answer and in llms.txt, so every one of them says the same thing.
+   *
+   * NOTHING HERE DENIES ANYTHING. Searchable Task 22 (12 November, 160
+   * branded answers) found Google AI Overviews naming us first in 0 of 6 runs
+   * on "What is Brandure?", with 39 of 55 of its answers carrying a
+   * namesake's facts — and on "Brandure AEO agency" prompts we are named
+   * first on every engine. So the gap is the bare name.
+   *
+   * The site used to answer that by naming the other companies and denying
+   * them. Changed on instruction 2026-11-12 to say only what we are: a denial
+   * puts their names on our pages, which is an association an engine would
+   * otherwise have to make for itself. State the entity, repeat it
+   * everywhere, and give the engines a cleaner answer to lift than the one
+   * they currently have.
+   */
+  identityLine: IDENTITY,
 
-     Google AI Overviews was answering "what does Brandure do" with the
-     services of Brandure in Vadodara, India (brandureindia.com): social
-     media, logo and branding, ESG/BRSR reporting, mobile apps. A description
-     of what we ARE does not fix that on its own, because nothing in it tells
-     an engine the two are different companies. Naming them, and naming the
-     services we do not offer, gives the engine the distinction to carry. */
-  disambiguatingDescription:
-    'Brandure (brandure.io) is an AI search and SEO agency serving the UK and the UAE. It is not connected to Brandure in Vadodara, India, Brandure Studio or brandure.sa.',
+  /** The Organization node's disambiguatingDescription: the same sentence, so
+   *  the schema and the visible line cannot say different things. */
+  disambiguatingDescription: IDENTITY,
 
   /* The Organization node's own description. Separate from SITE.description,
      which is the site's meta description and says more than a knowledge
      panel needs. */
   orgDescription:
-    'AI search optimisation (AEO) and SEO agency for businesses in the UK and the UAE.',
+    'AI search optimisation (AEO) agency, UK and UAE. Brandure (brandure.io) gets businesses named and cited in the answers ChatGPT, Google AI Overviews and Perplexity give their buyers. Founded by Joe Hickman.',
 
   logo: '/og/default.png',
 
@@ -95,7 +116,11 @@ export const SITE = {
     country: 'GB',
   },
 
-  alternateName: ['Brandure AEO', 'Brandure Agency'],
+  /* "Brandure Agency" came off 2026-11-12. An alternateName tells an engine
+     another string means this entity; that one is generic enough that several
+     namesakes answer to it, so it was inviting the merge rather than
+     preventing it. "Brandure AEO" is ours alone. */
+  alternateName: ['Brandure AEO'],
 } as const;
 
 /** PostHog: organisation "Brandure Agency", EU region. phc_ keys are public

@@ -1,3 +1,4 @@
+import { TERM_AND_EXIT } from './pricing';
 /**
  * THE MARKET BAND. Four figures about what AI answers are doing to search,
  * three of them other people's and one of them ours.
@@ -69,6 +70,5 @@ export const MARKET_BAND = {
   heading: "Ranking on Google isn't enough any more.",
   cta: 'Check where you stand',
   ctaHref: '/#report',
-  terms:
-    'Six-month initial term with a 90-day review. If your visibility hasn’t moved by day 90, you can end the engagement.',
+  terms: TERM_AND_EXIT,
 } as const;

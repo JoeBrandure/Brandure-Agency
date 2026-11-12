@@ -5,7 +5,7 @@ import PlanCards from '../components/PlanCards.astro';
 import StatsBand from '../components/StatsBand.astro';
 import Price from '../components/Price.astro';
 import { SITE } from '../consts';
-import { PLANS, SETUP_FEE, ADDONS, money } from '../data/pricing';
+import { PLANS, SETUP_FEE, ADDONS, money, TERM_AND_EXIT } from '../data/pricing';
 import { TESTIMONIALS } from '../data/testimonials';
 /* The Dubai page sells the same service from a local base: the
    ProfessionalService node below is the office, this is what it sells. */
@@ -287,7 +287,7 @@ const faqSchema = {
           &middot; <strong>Website work</strong> from <Price m={page.price} /> per page
         </p>
         <p class="note-sm">
-          Prices exclude 5% VAT. Six-month initial term with a 90-day review.
+          Prices exclude 5% VAT. {TERM_AND_EXIT}
         </p>
         <p>
           <a class="btn" href="/pricing">Build your plan</a>

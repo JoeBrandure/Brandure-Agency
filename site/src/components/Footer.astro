@@ -48,6 +48,11 @@ const year = new Date().getFullYear();
     </div>
     <div class="footer-base">
       <p>&copy; {year} {SITE.legalName}.</p>
+      {/* On every page, because the bare name is on every page and it is the
+          bare name an engine is getting wrong. States what Brandure is and
+          nothing else — same constant as the Organization node's
+          disambiguatingDescription, so the two cannot drift. */}
+      <p class="note-sm">{SITE.identityLine}</p>
     </div>
   </div>
 </footer>

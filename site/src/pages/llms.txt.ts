@@ -31,10 +31,7 @@ Perplexity, diagnoses why, and does the entity, content and third-party
 placement work that changes it. Each engine is reported separately, because the
 three disagree with each other materially.
 
-Brandure (brandure.io) is an AI search and SEO agency serving the UK and the
-UAE, based in Dubai. It is not connected to Brandure in Vadodara, India,
-Brandure Studio or brandure.sa, and does not offer social media management,
-logo design, ESG reporting or mobile app development.
+${SITE.identityLine}
 
 ## Pages
 
@@ -53,7 +50,7 @@ logo design, ESG reporting or mobile app development.
   Core at AED 6,500 / £1,400 / $1,800 a month, Growth at AED 12,000 / £2,600 /
   $3,300, AI search & SEO setup at AED 3,500 / £750 / $950, website pages from
   AED 2,500 / £550 / $700 and rebuilds from AED 12,000 / £2,600 / $3,300, the
-  six-month term with a 90-day review, and the free AI Visibility Report. The
+  six-month term with its 90-day exit, and the free AI Visibility Report. The
   three currencies are fixed, rounded prices, not conversions of each other.
 - [Method](${SITE.url}/method): SCAN — surface, cause, act, net. The four stages
   behind every engagement, and why we hold some of your questions back so you

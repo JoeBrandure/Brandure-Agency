@@ -29,10 +29,10 @@ export const SITE = {
      correct profile is brandure-0. Equally, the only valid LinkedIn vanity is
      /company/brandureagency; /company/brandure is not ours.
 
-     TODO — GOOGLE BUSINESS PROFILE. Asked for on 2026-11-12 and still not
-     here: no URL for it exists in this repo, and inventing one would point
-     the entity at a page that may not be ours, which is the failure this
-     whole change is about. Add the real URL and the list is complete. */
+     The Google Business Profile is the maps.google.com ?cid= form, supplied
+     2026-11-12. The cid is the profile's own identifier, so the link
+     survives a rename or a move in a way a /place/ URL built from the name
+     does not. */
   sameAs: [
     'https://www.linkedin.com/company/brandureagency',
     'https://www.instagram.com/brandure.agency/',
@@ -40,6 +40,7 @@ export const SITE = {
     'https://www.designrush.com/agency/search-engine-optimization',
     'https://www.sortlist.com/agency/brandure-3',
     'https://www.goodfirms.co/company/brandure',
+    'https://maps.google.com/?cid=8798909916733823593',
   ],
 
   /* GA4. Loaded only after the visitor grants analytics consent — see

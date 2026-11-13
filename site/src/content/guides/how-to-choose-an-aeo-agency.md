@@ -40,11 +40,11 @@ Ask also how many times each prompt is run. We asked ChatGPT the same aesthetic 
 
 | Position | Run 1 | Run 2 |
 |---|---|---|
-| 1 | Biolite Clinic Dubai | Biolite Clinic Dubai |
-| 2 | Los Angeles Aesthetic Medical Center | Glow Aesthetics Dermatology |
-| 3 | CLINICA COSMETIC POLY CLINIC | Los Angeles Aesthetic Medical Center |
-| 4 | Athena Dermatology Clinic | Athena Dermatology Clinic |
-| 5 | EDEN Aesthetics Clinic | Modern Aestheticss Dermatology & Laser |
+| 1 | Clinic A | Clinic A |
+| 2 | Clinic B | Clinic G |
+| 3 | Clinic C | Clinic B |
+| 4 | Clinic D | Clinic D |
+| 5 | Clinic E | Clinic H |
 
 Single-run reports are snapshots, not positions.
 

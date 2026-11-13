@@ -29,7 +29,7 @@ Write the questions a buyer would type when they're choosing, not researching. S
 
 Keep the wording identical every time you run it. Change one word and you're testing a different prompt.
 
-Expect the engines to interpret your category differently. When we asked for the best industrial manufacturers in Dubai, Perplexity listed heavy-industry names like Emirates Global Aluminium, while ChatGPT listed small fabricators from business listings. Neither was wrong; they read the question differently. That tells you something too.
+Expect the engines to interpret your category differently. When we asked for the best industrial manufacturers in Dubai, Perplexity listed heavy-industry manufacturers, while ChatGPT listed small fabricators from business listings. Neither was wrong; they read the question differently. That tells you something too.
 
 ## Step 2: How do you set up a clean, logged-out test?
 

@@ -20,7 +20,7 @@ faq:
     a: "It depends on the category. Law firms were grounded entirely on Legal 500, B2B SaaS on trade coverage such as eChai Ventures and DXBStart, and aesthetic clinics on ratings and review volume with no per-clinic citations."
 ---
 
-Ask Gemini for the best boutique hotels in Dubai and you get Google's own hotel inventory back. We asked it signed out, from the UAE, and it returned the three properties Google Search puts at the top of its Hotels module: Meliá Desert Palm, Andaz Dubai The Palm and The Canvas Dubai MGallery. Same ratings, same 5-star classification, and review counts matching to the unit. The order and the nightly rates differ, which tells you it is a separate query against the same inventory rather than a copy of the results page.
+Ask Gemini for the best boutique hotels in Dubai and you get Google's own hotel inventory back. We asked it signed out, from the UAE, and it returned the three properties Google Search puts at the top of its Hotels module: Hotels B, C and D. Same ratings, same 5-star classification, and review counts matching to the unit. The order and the nightly rates differ, which tells you it is a separate query against the same inventory rather than a copy of the results page.
 
 That pattern ran through the whole test. Gemini switched between four different Google properties depending on the category, and in the three categories where it didn't, it cited nothing at all. The practical result for a Dubai business: before you publish anything for AI search, find out which Google feed owns your category, because on Gemini that feed is the answer.
 
@@ -48,34 +48,34 @@ Four categories, four different Google properties. The other three got plain tex
 
 | Property | Google review count | Gemini review count | Rating |
 |---|---|---|---|
-| The Canvas Dubai MGallery | 7.5K | 7,540 | 4.4 |
-| Meliá Desert Palm | 2.6K | 2,588 | 4.6 |
-| Andaz Dubai The Palm | 3K | 3,033 | 4.6 |
+| Hotel D | 7.5K | 7,540 | 4.4 |
+| Hotel B | 2.6K | 2,588 | 4.6 |
+| Hotel C | 3K | 3,033 | 4.6 |
 
 Google rounds its review counts and Gemini gives the exact figure. Same three properties, same ratings, same 5-star classification, review counts matching to the unit.
 
-**The order and the nightly rates differ.** Google returned Meliá, then Andaz, then Canvas, at AED 589, 320 and 212, with dates and a "Top-rated" filter applied. Gemini returned Canvas, then Meliá, then Andaz, at AED 188, 749 and 455, with no date context. So this is a separate query against the same inventory, not a mirror of the results-page module.
+**The order and the nightly rates differ.** Google returned Hotel B, then C, then D, at AED 589, 320 and 212, with dates and a "Top-rated" filter applied. Gemini returned Hotel D, then B, then C, at AED 188, 749 and 455, with no date context. So this is a separate query against the same inventory, not a mirror of the results-page module.
 
 That distinction strengthens the finding rather than weakening it. Matching rates on a given date could be coincidence. Review counts matching to the unit across three properties cannot.
 
-![Google Search Hotels module for "Best boutique hotels in Dubai", showing Meliá Desert Palm, Andaz Dubai The Palm and The Canvas Dubai MGallery with nightly rates](/images/research/04-google-hotels-module-rates.webp)
-*Google Search, signed out, UAE. The Hotels module sits at the top of the page.*
+![Google Search Hotels module for "Best boutique hotels in Dubai", showing three properties with their names redacted and their nightly rates visible](/images/research/04-google-hotels-module-rates.webp)
+*Google Search, signed out, UAE. The Hotels module sits at the top of the page. Property names are redacted.*
 
-![Gemini's answer to "Best boutique hotels in Dubai", rendering the same three hotels as Google Hotels cards with review counts and rates](/images/research/08-gemini-hotels-google-hotels-cards.webp)
-*Gemini, signed out, UAE. The order and the rates differ from Google's module; the properties, ratings and review counts do not.*
+![Gemini's answer to "Best boutique hotels in Dubai", rendering the same three hotels as Google Hotels cards with their names redacted and review counts and rates visible](/images/research/08-gemini-hotels-google-hotels-cards.webp)
+*Gemini, signed out, UAE. The order and the rates differ from Google's module; the properties, ratings and review counts do not. Property names are redacted.*
 
 What moves a hotel up that answer is its Google Hotels listing and its rate, not an article about it.
 
 ### Clinics: the answer is Google Business Profile
 
-For aesthetic clinics, Gemini's answer was built from place cards: name, rating, category, opening hours and address. No editorial sources and no citations. It was also the most stable answer in the study. Hortman Clinics was first and The Nova Clinic second in all three runs.
+For aesthetic clinics, Gemini's answer was built from place cards: name, rating, category, opening hours and address. No editorial sources and no citations. It was also the most stable answer in the study. Clinic K was first and Clinic L second in all three runs.
 
 ### Manufacturers: product cards from Google Shopping
 
-In two of three runs, Gemini added Google Shopping product cards to an answer about industrial manufacturers: three cards in the first run, eight in the third. The merchants were small local sellers with product feeds, including DANA (a water chiller at AED 11,000), ANBI Online, UaeGamer.com, shopURtool and bayanuae.com. None of them appeared in the text list above the cards, which named EGA, Ducab and Jubaili Bros.
+In two of three runs, Gemini added Google Shopping product cards to an answer about industrial manufacturers: three cards in the first run, eight in the third. The merchants were small local sellers with product feeds: Merchant A (a water chiller at AED 11,000), and Merchants B, C, D and E. None of them appeared in the text list above the cards, which named Manufacturers A, B and J.
 
-![Gemini's answer to "Best industrial manufacturers in Dubai" with Google Shopping product cards showing UaeGamer.com stainless steel sink units and AED prices](/images/research/07-gemini-manufacturers-shopping-cards.webp)
-*Gemini, signed out, UAE. Merchant product cards inside a B2B manufacturer answer.*
+![Gemini's answer to "Best industrial manufacturers in Dubai" with Google Shopping product cards showing stainless steel sink units and AED prices, merchant names redacted](/images/research/07-gemini-manufacturers-shopping-cards.webp)
+*Gemini, signed out, UAE. Merchant product cards inside a B2B manufacturer answer. Merchant names are redacted.*
 
 Two of three runs is repeatable but not guaranteed, and we only tested one product-adjacent category. Treat this as an open door worth checking, not a proven channel.
 
@@ -103,13 +103,13 @@ One number we are not publishing, and why. Our first August scan recorded an AI 
 
 | Category | Named in the AI Overview | Sources it cited |
 |---|---|---|
-| Law firms | Al Tamimi & Company, Clyde & Co, Hadef & Partners | Legal 500 (×2) |
-| B2B SaaS | Nazm.ae, Dukkantek, Verofax | F6S, DXB Start, Wellfound |
-| Industrial manufacturers | Ducab, EGA, NAFFCO | Rotated between runs (see next section) |
-| Universities | University of Birmingham Dubai, Canadian University Dubai | AECC Global, TopUniversities (QS), University of Birmingham's own site |
+| Law firms | Law firms A, C and B | Legal 500 (×2) |
+| B2B SaaS | SaaS companies F, E and G | F6S, DXB Start, Wellfound |
+| Industrial manufacturers | Manufacturers B, A and M | Rotated between runs (see next section) |
+| Universities | University A, University B | AECC Global, TopUniversities (QS), University A's own site |
 
-![Google AI Overview for "Best law firms in Dubai" naming Al Tamimi & Company, Clyde & Co and Hadef & Partners, with Legal 500 as the cited source](/images/research/02-google-lawfirms-ai-overview-legal500.webp)
-*Google Search, signed out, UAE. The AI Overview on law firms is grounded on Legal 500.*
+![Google AI Overview for "Best law firms in Dubai" naming three firms whose names are redacted, with Legal 500 as the cited source](/images/research/02-google-lawfirms-ai-overview-legal500.webp)
+*Google Search, signed out, UAE. The AI Overview on law firms is grounded on Legal 500. Firm names are redacted.*
 
 For a Dubai business in one of those four categories, the practical reading is that the AI Overview is not a thing arriving later this year. It was sitting above your organic result in August and it was still there in September.
 
@@ -119,16 +119,16 @@ You can get into the pool. You can't pick the citation. We ran the manufacturer 
 
 | Run | Brands named | Sources cited |
 |---|---|---|
-| 1 | Ducab, EGA, NAFFCO | mazeed (+1), Invest in Dubai, Scribd |
-| 2 | Ducab, EGA, NAFFCO | Peko.one, Invest in Dubai, Scribd |
-| 3 | Ducab, EGA, NAFFCO | Peko.one, Jafza, Peko.one |
+| 1 | Manufacturers B, A, M | mazeed (+1), Invest in Dubai, Scribd |
+| 2 | Manufacturers B, A, M | Peko.one, Invest in Dubai, Scribd |
+| 3 | Manufacturers B, A, M | Peko.one, Jafza, Peko.one |
 
-![Google results for "Best industrial manufacturers in Dubai": the AI Overview citing mazeed above the Places pack](/images/research/01-google-manufacturers-localpack-35-16-6.webp)
-*Google Search, signed out, UAE. AI Overview (top) citing mazeed, local pack below.*
+![Google results for "Best industrial manufacturers in Dubai": the AI Overview citing mazeed above the Places pack, business names redacted](/images/research/01-google-manufacturers-localpack-35-16-6.webp)
+*Google Search, signed out, UAE. AI Overview (top) citing mazeed, local pack below. Business names are redacted.*
 
 The organic page is stable. The AI Overview draws its citation from a small group of eligible pages and rotates between them. mazeed is also Perplexity's main source for the same query, so one aggregator page was feeding two surfaces.
 
-Within a single day the names held and only the sources moved. Over five weeks the names moved too. B2B SaaS had an AI Overview in both August and September, and between them the list it led with turned over almost completely: GrubTech, Dukkantek, Keepface and Saphyte in August; Nazm.ae, Dukkantek and Verofax in September. One company out of four survived the month. In manufacturers over the same period, EGA and Ducab held both times. Whether your category's AI Overview names a stable set or reshuffles it is worth knowing before anyone sells you a position in it.
+Within a single day the names held and only the sources moved. Over five weeks the names moved too. B2B SaaS had an AI Overview in both August and September, and between them the list it led with turned over almost completely: SaaS companies D, E, H and I in August; SaaS companies F, E and G in September. One company out of four survived the month. In manufacturers over the same period, Manufacturers A and B held both times. Whether your category's AI Overview names a stable set or reshuffles it is worth knowing before anyone sells you a position in it.
 
 For a buyer, this is the useful part. Being one of the pages Google considers citable is winnable, and it's mostly ordinary search work. Being the cited source on a given day isn't something anyone controls. An agency promising you a specific AI Overview citation is promising something the data says doesn't hold still.
 
@@ -148,7 +148,7 @@ The format was the same throughout: text plus a comparison table. ChatGPT showed
 
 They read different kinds of source. Perplexity leaned on editorial coverage in almost every category: GRAZIA, Country & Town House, What's On, Upgraded Points, Manufacturing Digital, Legal 500. ChatGPT leaned on listings and directories: Bayut, Best in Hood, Doctify, Dubai Industrial City, dubicars.com.
 
-Perplexity also shows two answers at once on local queries, a Places module and a written answer, and they can disagree completely. For boutique hotels, the Places module led with Rove La Mer Beach (4.9, 14,933 reviews), DAMAC Maison Cour Jardin and Palace Downtown. The written answer recommended XVA Art Hotel, La Ville Hotel & Suites, Mazmi Casa, Beach Walk and Al Seef Heritage Hotel. None of the hotels in one appeared in the other. The Places module follows review volume; the written answer follows editors.
+Perplexity also shows two answers at once on local queries, a Places module and a written answer, and they can disagree completely. For boutique hotels, the Places module led with Hotel E (4.9, 14,933 reviews), Hotel F and Hotel G. The written answer recommended Hotels H, I, J, A and K. None of the hotels in one appeared in the other. The Places module follows review volume; the written answer follows editors.
 
 [Piece 2](/research/ai-engines-disagree-best-in-dubai) measures how far apart the engines land as a result.
 
@@ -156,7 +156,7 @@ Perplexity also shows two answers at once on local queries, a Places module and 
 
 Start with the feed, then the content. For most local businesses, the Google Business Profile is doing more AI work than the website.
 
-Look at Dubai's industrial local pack. The top three listings in September were Shuaiba Industrial Company, rated 4.5 on 35 reviews; NAZ Industries, 5.0 on 16; and Johar Manufacturing Services, 4.8 on 6. Johar, with six reviews, also appeared in ChatGPT's manufacturer shortlist in two of three runs. Six reviews is the whole of third place in an entire category's local pack. That is how little it currently takes to be visible here.
+Look at Dubai's industrial local pack. The top three listings in September were Manufacturer O, rated 4.5 on 35 reviews; Manufacturer P, 5.0 on 16; and Manufacturer G, 4.8 on 6. Manufacturer G, with six reviews, also appeared in ChatGPT's manufacturer shortlist in two of three runs. Six reviews is the whole of third place in an entire category's local pack. That is how little it currently takes to be visible here.
 
 | If your category looks like... | The engine answer is built from... | Where to start |
 |---|---|---|

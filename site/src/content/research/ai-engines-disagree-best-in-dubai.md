@@ -7,13 +7,13 @@ researchDate: 2026-09-10
 datePublished: 2026-09-25
 dateModified: 2026-09-25
 heroImage: /images/research/p2-hero-chatgpt-clinics-three-runs.webp
-heroAlt: "Table of ChatGPT's three runs of 'Best aesthetic clinics in Dubai', showing Biolite Clinic first every time and ten different clinics filling the places below it"
+heroAlt: "Table of ChatGPT's three runs of 'Best aesthetic clinics in Dubai', showing the same clinic first every time and ten different clinics filling the places below it, all labelled Clinic A to Clinic J"
 draft: false
 faq:
   - q: Do ChatGPT, Perplexity and Gemini recommend the same businesses in Dubai?
     a: "Rarely. Across seven categories they named 147 businesses between them and 10 appeared on all three. In law firms, aesthetic clinics and car dealerships, no business appeared on all three."
   - q: Does ChatGPT give the same answer if you ask twice?
-    a: "At the top, often yes. Below it, no. Across three runs of the same clinic question, ChatGPT put Biolite Clinic first each time but named ten different clinics in total."
+    a: "At the top, often yes. Below it, no. Across three runs of the same clinic question, ChatGPT put the same clinic first each time but named ten different clinics in total."
   - q: Why do Perplexity and ChatGPT give different answers?
     a: "They read different sources. Perplexity mostly grounds on editorial coverage such as GRAZIA and What's On; ChatGPT mostly grounds on listings and directories such as Bayut and Doctify."
   - q: Which Dubai categories do AI engines agree on most?
@@ -51,10 +51,10 @@ The ten businesses on all three engines:
 
 | Category | On ChatGPT, Perplexity and Gemini |
 |---|---|
-| Universities | American University in Dubai, Canadian University Dubai, University of Wollongong in Dubai, University of Dubai |
-| B2B SaaS | Bayzat, GrubTech, Dukkantek (DTEK) |
-| Industrial manufacturers | Emirates Global Aluminium (EGA), Ducab |
-| Boutique hotels | Beach Walk Boutique Hotel |
+| Universities | University B, University C, University D, University E |
+| B2B SaaS | SaaS company A, SaaS company D, SaaS company E |
+| Industrial manufacturers | Manufacturer A, Manufacturer B |
+| Boutique hotels | Hotel A |
 
 About 7% of the businesses named made every list. A business can lead one engine and be missing from another, and in law firms, clinics and dealerships that was true of every business named.
 
@@ -67,10 +67,10 @@ They read different things. In almost every category, Perplexity grounded its an
 | Perplexity | GRAZIA, Country & Town House, What's On, Upgraded Points, Manufacturing Digital, Legal 500 |
 | ChatGPT | Bayut, Best in Hood, Doctify, Dubai Industrial City, dubicars.com |
 
-Industrial manufacturers show it most clearly. Across three runs each, ChatGPT's shortlist was SME fabricators: Al Shirawi, SIGMA, NOVA Composites, CAMTECH, Johar, Hotpack. Perplexity's was heavy industry: EGA, Ducab, Jebel Ali Cement, Jubaili Bros, All Metals, Invention Steel. EGA and Ducab were the only names on both, and on ChatGPT they sat in a separate "large companies" section rather than the shortlist. The two engines didn't share a single source either. ChatGPT cited Bayut, Dubai Industrial City, Dubai Holding, Dubai Investments and ICD. Perplexity cited mazeed, UAE Business Blog and Manufacturing Digital.
+Industrial manufacturers show it most clearly. Across three runs each, ChatGPT's shortlist was SME fabricators: Manufacturers C, D, E, F, G and H. Perplexity's was heavy industry: Manufacturers A, B, I, J, K and L. Manufacturers A and B were the only names on both, and on ChatGPT they sat in a separate "large companies" section rather than the shortlist. The two engines didn't share a single source either. ChatGPT cited Bayut, Dubai Industrial City, Dubai Holding, Dubai Investments and ICD. Perplexity cited mazeed, UAE Business Blog and Manufacturing Digital.
 
-![ChatGPT's answer to "Best industrial manufacturers in Dubai" listing SME fabricators such as SIGMA Factory for Steel Products and SUDU, with Ducab and EGA mentioned separately as large-scale companies](/images/research/06-chatgpt-manufacturers-sme-fabricators.webp)
-*ChatGPT, logged out, UAE. SME fabricators in the shortlist, heavy industry set apart. Recaptured for publication; the shortlist differs from the logged runs, which is the next section's point.*
+![ChatGPT's answer to "Best industrial manufacturers in Dubai" listing SME fabricators with their names redacted, and two heavy-industry manufacturers mentioned separately as large-scale companies](/images/research/06-chatgpt-manufacturers-sme-fabricators.webp)
+*ChatGPT, logged out, UAE. SME fabricators in the shortlist, heavy industry set apart. Business names are redacted. Recaptured for publication; the shortlist differs from the logged runs, which is the next section's point.*
 
 Same prompt, two readings of what a "manufacturer" is. Gemini sided with Perplexity: it shared five manufacturers with Perplexity and two with ChatGPT.
 
@@ -80,27 +80,27 @@ Not below first place. We ran ChatGPT's aesthetic clinics answer three times, mi
 
 | Position | Run 1 | Run 2 | Run 3 |
 |---|---|---|---|
-| 1 | Biolite Clinic Dubai | Biolite Clinic Dubai | Biolite Clinic Dubai |
-| 2 | Los Angeles Aesthetic Medical Center | Glow Aesthetics Dermatology Clinic | CLINICA Cosmetic Poly Clinic |
-| 3 | CLINICA Cosmetic Poly Clinic | Los Angeles Aesthetic Medical Center | New Me Clinic |
-| 4 | Athena Dermatology Clinic | Athena Dermatology Clinic | Five Cosmetic |
-| 5 | EDEN Aesthetics Clinic | Modern Aestheticss Dermatology & Laser Clinic | Athena Dermatology Clinic |
-| 6 | Five Cosmetic | — | Premium Cosmetic Laser Center |
+| 1 | Clinic A | Clinic A | Clinic A |
+| 2 | Clinic B | Clinic G | Clinic C |
+| 3 | Clinic C | Clinic B | Clinic I |
+| 4 | Clinic D | Clinic D | Clinic F |
+| 5 | Clinic E | Clinic H | Clinic D |
+| 6 | Clinic F | — | Clinic J |
 
-Biolite was first every time. Athena was the only other clinic in all three runs. Ten different clinics filled 17 slots.
+Clinic A was first every time. Clinic D was the only other clinic in all three runs. Ten different clinics filled 17 slots.
 
 The engines don't all vary the same amount:
 
 | Engine | Category | Same #1 in all three runs? | In every run | Different businesses named |
 |---|---|---|---|---|
-| ChatGPT | Clinics | Yes (Biolite) | 2 | 10 |
-| ChatGPT | Manufacturers | No (Al Shirawi twice, SIGMA once) | 4 | 9 |
-| Perplexity | Clinics | No (Hortman once, another clinic twice) | 5 | 14 |
-| Perplexity | Manufacturers | Yes (EGA) | 7 | 11 |
-| Gemini | Clinics | Yes (Hortman) | 2 | 7 |
-| Gemini | Manufacturers | Yes (EGA) | 4 | 11 |
+| ChatGPT | Clinics | Yes (Clinic A) | 2 | 10 |
+| ChatGPT | Manufacturers | No (Manufacturer C twice, Manufacturer D once) | 4 | 9 |
+| Perplexity | Clinics | No (Clinic K once, another clinic twice) | 5 | 14 |
+| Perplexity | Manufacturers | Yes (Manufacturer A) | 7 | 11 |
+| Gemini | Clinics | Yes (Clinic K) | 2 | 7 |
+| Gemini | Manufacturers | Yes (Manufacturer A) | 4 | 11 |
 
-Gemini's clinic answer was the steadiest: Hortman first and The Nova second in every run. Google's own results page didn't move at all. The organic results and local pack were identical across three runs; only the AI layer varied.
+Gemini's clinic answer was the steadiest: Clinic K first and Clinic L second in every run. Google's own results page didn't move at all. The organic results and local pack were identical across three runs; only the AI layer varied.
 
 ## What happens when one business goes by two names?
 
@@ -121,21 +121,21 @@ A business with inconsistent naming gives each engine a chance to treat it as so
 
 Where all three read the same kind of authority. Universities had the most overlap, with four institutions on all three engines, and it's the category where independent rankings (Times Higher Education, QS, uniRank) are everywhere in the sources. B2B SaaS came next, with trade coverage like eChai Ventures shared across engines.
 
-Car dealerships showed a different pattern. ChatGPT and Perplexity shared one dealer, Gargash. Gemini shared six with ChatGPT (including ALBA CARS, The Elite Cars and the franchise groups) and two with Perplexity (Al Tayer Motors, F1rst Motors). Gemini sat between the two engines that otherwise barely overlapped.
+Car dealerships showed a different pattern. ChatGPT and Perplexity shared one dealer, Dealer C. Gemini shared six with ChatGPT (including Dealers D and E and the franchise groups) and two with Perplexity (Dealers A and F). Gemini sat between the two engines that otherwise barely overlapped.
 
 Google's AI Overview mostly picked from the same consensus names:
 
 | Category | Named in the AI Overview | Also named by |
 |---|---|---|
-| Industrial manufacturers | Ducab, EGA | All three engines |
-| Industrial manufacturers | NAFFCO | Gemini |
-| Universities | Canadian University Dubai | All three engines |
-| Universities | University of Birmingham Dubai | Perplexity, Gemini |
-| Law firms | Al Tamimi & Company, Hadef & Partners | ChatGPT, Gemini |
-| Law firms | Clyde & Co | Perplexity, Gemini |
-| B2B SaaS | Dukkantek (DTEK) | All three engines |
+| Industrial manufacturers | Manufacturer B, Manufacturer A | All three engines |
+| Industrial manufacturers | Manufacturer M | Gemini |
+| Universities | University B | All three engines |
+| Universities | University A | Perplexity, Gemini |
+| Law firms | Law firm A, Law firm B | ChatGPT, Gemini |
+| Law firms | Law firm C | Perplexity, Gemini |
+| B2B SaaS | SaaS company E | All three engines |
 
-In manufacturers, universities and law firms, every business the AI Overview named was on at least one of the three engines, and most were on two or more. B2B SaaS is the partial exception: of the three companies its AI Overview led with, only Dukkantek made all three engines. Nazm.ae and Verofax did not.
+In manufacturers, universities and law firms, every business the AI Overview named was on at least one of the three engines, and most were on two or more. B2B SaaS is the partial exception: of the three companies its AI Overview led with, only SaaS company E made all three engines. SaaS companies F and G did not.
 
 ## What does a single-engine, single-run score miss?
 
@@ -148,7 +148,7 @@ Most of the picture. A score taken from one engine once can't show:
 | Which source to fix | Perplexity reads editorial, ChatGPT reads listings |
 | Naming splits | One clinic appeared under one spelling on Google and another on Gemini and ChatGPT |
 
-Even the most anchored category reorders. ChatGPT's law firm answer was grounded entirely on Legal 500 in both our August scan and in September. Between the two, A&O Shearman went from first to absent, Dentons and Norton Rose Fulbright dropped out, King & Spalding came in, and Al Tamimi moved from fourth to first. A directory holds the source steady. It doesn't hold the ranking steady.
+Even the most anchored category reorders. ChatGPT's law firm answer was grounded entirely on Legal 500 in both our August scan and in September. Between the two, Law firm D went from first to absent, Law firms E and F dropped out, Law firm G came in, and Law firm A moved from fourth to first. A directory holds the source steady. It doesn't hold the ranking steady.
 
 ## Methodology
 

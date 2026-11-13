@@ -6,21 +6,21 @@ piece: 1
 researchDate: 2026-09-10
 datePublished: 2026-09-25
 dateModified: 2026-09-25
-heroImage: /images/research/p1-hero-bayzat-google-vs-perplexity.webp
-heroAlt: "Side by side: Google Search showing Bayzat's own 'best SaaS companies in Dubai' article as the first organic result, and Perplexity citing that same article as its source"
+heroImage: /images/research/03-google-saas-organic-no1.webp
+heroAlt: "Google Search for 'Best B2B SaaS companies in Dubai', with the AI Overview cited to F6S and Wellfound and the page-one organic results redacted because they are the companies' own list articles"
 draft: false
 faq:
   - q: Do AI engines cite companies' own "best of" articles?
-    a: "Perplexity does. In our Dubai test, Bayzat's own list was the source for 7 of 14 entries in Perplexity's B2B SaaS answer, with Bayzat ranked first. ChatGPT cited no company's own site across 11 answers."
+    a: "Perplexity does. In our Dubai test, one SaaS company's own list was the source for 7 of 14 entries in Perplexity's B2B SaaS answer, with that company ranked first. ChatGPT cited no company's own site across 11 answers."
   - q: Does ChatGPT still rank companies that published their own lists?
-    a: "It can. ChatGPT named Bayzat the best overall Dubai SaaS company in September, but cited eChai Ventures, Analytics Insight and DXBStart rather than Bayzat's own article."
+    a: "It can. ChatGPT named the same company the best overall Dubai SaaS company in September, but cited eChai Ventures, Analytics Insight and DXBStart rather than that company's own article."
   - q: If my own article is cited by an AI engine, will it name my business?
     a: "Not necessarily. Perplexity's Dubai law firm answer drew on four law firms' own 'top law firms' articles and named none of those firms."
   - q: Can a self-published list lose its position?
     a: "Yes. A Dubai law firm's 'best law firms' article dropped off Google's first page and was replaced by another firm's article of the same type."
 ---
 
-Bayzat, a Dubai HR software company, publishes an article called "10 Best SaaS Companies in Dubai". Bayzat is number one on it. When we asked Perplexity for the best B2B SaaS companies in Dubai, it used that article as its main source and named Bayzat first. The same article ranks first on Google for the same search.
+SaaS company A, a Dubai HR software company, publishes an article called "10 Best SaaS Companies in Dubai". It is number one on its own list. When we asked Perplexity for the best B2B SaaS companies in Dubai, it used that article as its main source and named SaaS company A first. The same article ranks first on Google for the same search.
 
 A company writing the list and then being quoted from it is still working in Dubai in September 2026, but only on some engines. ChatGPT has stopped citing companies about themselves. Perplexity hasn't. And where the play does work, the bigger threat to the company running it isn't the AI engines catching on. It's a competitor publishing the same article and taking the slot.
 
@@ -37,27 +37,21 @@ On Perplexity. It was the only AI engine in our test where a business's own webs
 | Surface | Self-citation in September |
 |---|---|
 | ChatGPT | None. Zero self-cited sources across all 11 answers. |
-| Perplexity | Present. Bayzat's own article grounds its SaaS answer; Al Tayer Motors' own site grounds its dealership entry. |
+| Perplexity | Present. SaaS company A's own article grounds its SaaS answer; Dealer A's own site grounds its dealership entry. |
 
-Perplexity's B2B SaaS answer named 14 companies. Bayzat's article was the cited source on 7 of those 14 entries and on the opening summary, and Bayzat was ranked first. A second self-published list, Penieltech's "Best SaaS Companies in Dubai | Top 10 List (2026)", sat in the same source set.
+Perplexity's B2B SaaS answer named 14 companies. SaaS company A's article was the cited source on 7 of those 14 entries and on the opening summary, and SaaS company A was ranked first. A second self-published list, SaaS company B's "Best SaaS Companies in Dubai | Top 10 List (2026)", sat in the same source set.
 
-![Perplexity's answer to "Best B2B SaaS companies in Dubai" with Bayzat first and bayzat citation chips on each row; the sources panel lists Bayzat's own blog post and Penieltech's list](/images/research/05-perplexity-saas-bayzat-self-cited.webp)
-*Perplexity, logged out, UAE. The sources panel leads with Bayzat's own article.*
+On Google, SaaS company A's article ranks first organically, carrying a September 2026 title. Two more self-published lists rank on the same page: SaaS company C's "10 SaaS Development Companies in Dubai You Can Trust" and SaaS company B's list. Three companies running the same play, all on page one.
 
-On Google, Bayzat's article ranks first organically, carrying a September 2026 title. Two more self-published lists rank on the same page: Tenet's "10 SaaS Development Companies in Dubai You Can Trust" and Penieltech's list. Three companies running the same play, all on page one.
-
-![Google results for "Best B2B SaaS companies in Dubai" with Bayzat's "10 Best SaaS Companies in Dubai (September, 2026)" as the first organic result](/images/research/03-google-saas-bayzat-organic-no1.webp)
-*Google Search, signed out, UAE. Bayzat's list is the first organic result, under an AI Overview grounded on F6S, DXB Start and Wellfound — all three of which are page-one organic results for the same search.*
-
-It isn't limited to software. In Perplexity's car dealership answer, Al Tayer Motors was the recommendation for luxury new cars, and the cited source was Al Tayer Motors' own website.
+It isn't limited to software. In Perplexity's car dealership answer, Dealer A was the recommendation for luxury new cars, and the cited source was Dealer A's own website.
 
 ## Where did it stop working?
 
 On ChatGPT. Across all 11 ChatGPT answers we recorded zero self-cited sources. Every category was grounded on third parties.
 
-Bayzat shows what that looks like in practice. In our August scan, ChatGPT's Bayzat entry was grounded on Bayzat's own article. In September, ChatGPT still named Bayzat first and called it the best overall Dubai SaaS company, but the citations were eChai Ventures, Analytics Insight and DXBStart. The position stayed. The source changed. Gemini, signed out, also named Bayzat first, with no citation at all (one run).
+SaaS company A shows what that looks like in practice. In our August scan, ChatGPT's entry for it was grounded on its own article. In September, ChatGPT still named it first and called it the best overall Dubai SaaS company, but the citations were eChai Ventures, Analytics Insight and DXBStart. The position stayed. The source changed. Gemini, signed out, also named it first, with no citation at all (one run).
 
-That's the most useful thing in the data for anyone considering the play. The list got Bayzat into the category answer. Third-party coverage is what holds it there on ChatGPT now.
+That's the most useful thing in the data for anyone considering the play. The list got SaaS company A into the category answer. Third-party coverage is what holds it there on ChatGPT now.
 
 | Category | What ChatGPT cited | Businesses with their own citation |
 |---|---|---|
@@ -71,7 +65,7 @@ Where a directory exists, ChatGPT uses it and nothing else. Where trade press ex
 
 No. Perplexity's law firm answer drew on 10 sources. Four of them were local law firms' own "top law firms in Dubai" articles. None of those four firms appeared in the answer. The answer named international firms grounded on Legal 500, and cited one of the four once, on a line noting that some directories and blogs compile top-firm lists.
 
-The same thing happened with car dealerships. One of Perplexity's sources, wheree, lists Expat Motors first. Expat Motors was ChatGPT's top pick. It didn't appear in Perplexity's answer.
+The same thing happened with car dealerships. One of Perplexity's sources, wheree, lists Dealer B first. Dealer B was ChatGPT's top pick. It didn't appear in Perplexity's answer.
 
 Publishing the list gets you into the reading pile. Whether the engine names you from it is a separate question, and on law firms in September the answer was no.
 
@@ -87,9 +81,9 @@ Google has started labelling the tactic, though not penalising it. In the law fi
 
 ## Does this happen outside commercial categories?
 
-Yes, in universities. Google's AI Overview for "Best universities in Dubai" named the University of Birmingham Dubai and Canadian University Dubai. One of its three cited sources was the University of Birmingham's own website, used to support the claim that Birmingham is "among the highest-ranked UK universities in the UAE". A self-published superlative, grounding an AI Overview, in the category we expected to be anchored on independent rankings.
+Yes, in universities. Google's AI Overview for "Best universities in Dubai" named University A, the Dubai campus of a UK university, and University B. One of its three cited sources was University A's own website, used to support the claim that it is "among the highest-ranked UK universities in the UAE". A self-published superlative, grounding an AI Overview, in the category we expected to be anchored on independent rankings.
 
-It doesn't carry across engines. ChatGPT's universities answer didn't mention Birmingham at all.
+It doesn't carry across engines. ChatGPT's universities answer didn't mention University A at all.
 
 ## What does this mean if you're not doing it?
 
@@ -109,11 +103,11 @@ The list is where the position starts. Third-party coverage keeps it on ChatGPT,
 - **Categories:** law firms, B2B SaaS, aesthetic clinics, boutique hotels, industrial manufacturers, universities, car dealerships.
 - **Surfaces:** ChatGPT, Perplexity, Gemini, Google Search.
 - **Conditions:** data collected 10 September 2026. Four surfaces, logged out, clean profile, geo verified to the United Arab Emirates, free or default model tier. Fresh session per cell. Signed-out Gemini served Flash-Lite and returned no citations outside local categories, so it tells us little about self-citation on Gemini.
-- **Volume:** 44 answers. Aesthetic clinics and industrial manufacturers were run three times per surface (n=3). The other five categories, including B2B SaaS and law firms, were run once per surface (n=1). The Bayzat, Al Tayer and law firm findings are single runs.
+- **Volume:** 44 answers. Aesthetic clinics and industrial manufacturers were run three times per surface (n=3). The other five categories, including B2B SaaS and law firms, were run once per surface (n=1). The SaaS company A, Dealer A and law firm findings are single runs.
 - **Self-citation:** counted when the cited source for a named business was that business's own domain.
 - **Market:** Dubai only.
 - **Date:** re-run logged 10 September 2026.
-- **August comparisons:** we ran two August scans. The ChatGPT and Perplexity cells were logged out and are directly comparable, so the Bayzat grounding change stands on like-for-like conditions. The Google Search cells in the first scan ran on a signed-in profile; we re-ran them signed out on 17 August. The law firm listing change is reported against both, and the caveat is stated where the claim is made.
+- **August comparisons:** we ran two August scans. The ChatGPT and Perplexity cells were logged out and are directly comparable, so the SaaS company A grounding change stands on like-for-like conditions. The Google Search cells in the first scan ran on a signed-in profile; we re-ran them signed out on 17 August. The law firm listing change is reported against both, and the caveat is stated where the claim is made.
 - **What this doesn't cover:** signed-in or paid tiers, other phrasings, Arabic queries, Claude and Copilot.
 - **Screenshots:** recaptured after the logged run. Answers shift between runs, so every number here comes from the run log.
 

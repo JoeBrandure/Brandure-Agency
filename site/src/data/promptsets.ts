@@ -83,7 +83,7 @@ export const PROMPT_SETS: PromptSet[] = [
         google: { status: 'partial', citation: 'local pack' },
         perplexity: { status: 'present', citation: 'own fee guide' },
       } },
-      { prompt: 'Al Tamimi vs Hadef & Partners for corporate work', intent: 'Comparing', cells: {
+      { prompt: 'Comparing two Dubai law firms for corporate work', intent: 'Comparing', cells: {
         chatgpt: { status: 'absent' },
         google: { status: 'absent' },
         perplexity: { status: 'partial', citation: 'competitor page' },

@@ -37,7 +37,6 @@ export const SITE = {
     'https://www.linkedin.com/company/brandureagency',
     'https://www.instagram.com/brandure.agency/',
     'https://clutch.co/profile/brandure-0',
-    'https://www.designrush.com/agency/search-engine-optimization',
     'https://www.sortlist.com/agency/brandure-3',
     'https://www.goodfirms.co/company/brandure',
     'https://maps.google.com/?cid=8798909916733823593',

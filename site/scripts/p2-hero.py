@@ -15,16 +15,20 @@ inter_s = lambda s: ImageFont.truetype(F + "Inter-SemiBold.ttf", s)
 INK, MUTED, SURFACE, BORDER = "#14181F", "#5C6673", "#FCFBF8", "#E4E1DA"
 SUNK, COBALT = "#F4F2EC", "#2F5BFF"
 
+# ANONYMISED 2026-11-13, in step with the article's own table. This figure is
+# drawn from text rather than captured, so the clinics are relabelled rather
+# than blocked out — which keeps the finding legible, because the whole point
+# is which label repeats and which do not.
 ROWS = [
-    ("1", "Biolite Clinic Dubai", "Biolite Clinic Dubai", "Biolite Clinic Dubai"),
-    ("2", "Los Angeles Aesthetic Medical Center", "Glow Aesthetics Dermatology Clinic", "CLINICA Cosmetic Poly Clinic"),
-    ("3", "CLINICA Cosmetic Poly Clinic", "Los Angeles Aesthetic Medical Center", "New Me Clinic"),
-    ("4", "Athena Dermatology Clinic", "Athena Dermatology Clinic", "Five Cosmetic"),
-    ("5", "EDEN Aesthetics Clinic", "Modern Aestheticss Dermatology & Laser Clinic", "Athena Dermatology Clinic"),
-    ("6", "Five Cosmetic", "—", "Premium Cosmetic Laser Center"),
+    ("1", "Clinic A", "Clinic A", "Clinic A"),
+    ("2", "Clinic B", "Clinic G", "Clinic C"),
+    ("3", "Clinic C", "Clinic B", "Clinic I"),
+    ("4", "Clinic D", "Clinic D", "Clinic F"),
+    ("5", "Clinic E", "Clinic H", "Clinic D"),
+    ("6", "Clinic F", "—", "Clinic J"),
 ]
 # Everything that appears in all three runs is emphasised; that is the finding.
-EVERY_RUN = {"Biolite Clinic Dubai", "Athena Dermatology Clinic"}
+EVERY_RUN = {"Clinic A", "Clinic D"}
 
 W, PAD = 2000, 72
 NUM_W = 78
@@ -71,7 +75,7 @@ for pos, *cells in ROWS:
 
 d.line([x0, y, W - PAD, y], fill=BORDER, width=1)
 d.text((x0, y + 22),
-       "Biolite first in every run. Athena the only other clinic in all three. Ten different clinics filled 17 slots.",
+       "Clinic A first in every run. Clinic D the only other clinic in all three. Ten different clinics filled 17 slots.",
        font=inter(28), fill=MUTED)
 
 out = "/home/user/Brandure-Agency/site/public/images/research/p2-hero-chatgpt-clinics-three-runs.webp"

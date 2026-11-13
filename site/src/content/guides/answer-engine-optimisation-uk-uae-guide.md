@@ -45,7 +45,7 @@ Self-published content still works here. A Dubai HR software company's own "best
 
 Gemini's answers mapped onto Google products, and which product depended on the vertical ([full breakdown](/research/gemini-routes-into-google-feeds-dubai)):
 
-- Hotels: the Google Hotels module. Same three hotels, same order, same rates.
+- Hotels: the Google Hotels module. The same three hotels, ratings and review counts as Google's own Hotels module, but in a different order and at different nightly rates.
 - Local services: Google Maps.
 - Manufacturers: Google Shopping cards.
 - Universities: YouTube.

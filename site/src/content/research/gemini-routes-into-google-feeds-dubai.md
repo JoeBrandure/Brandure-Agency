@@ -6,7 +6,7 @@ piece: 3
 researchDate: 2026-09-10
 datePublished: 2026-09-25
 dateModified: 2026-09-25
-heroImage: /images/research/p3-hero-google-vs-gemini-hotels.webp
+heroImage: /images/research/p3-hero-google-vs-gemini-hotels-r2.webp
 heroAlt: "Side by side: Google Search's Hotels module and Gemini's answer for 'best boutique hotels in Dubai', showing the same three properties with matching review counts but a different order and different nightly rates"
 draft: false
 faq:
@@ -58,10 +58,10 @@ Google rounds its review counts and Gemini gives the exact figure. Same three pr
 
 That distinction strengthens the finding rather than weakening it. Matching rates on a given date could be coincidence. Review counts matching to the unit across three properties cannot.
 
-![Google Search Hotels module for "Best boutique hotels in Dubai", showing three properties with their names redacted and their nightly rates visible](/images/research/04-google-hotels-module-rates.webp)
+![Google Search Hotels module for "Best boutique hotels in Dubai", showing three properties with their names redacted and their nightly rates visible](/images/research/04-google-hotels-module-rates-r2.webp)
 *Google Search, signed out, UAE. The Hotels module sits at the top of the page. Property names are redacted.*
 
-![Gemini's answer to "Best boutique hotels in Dubai", rendering the same three hotels as Google Hotels cards with their names redacted and review counts and rates visible](/images/research/08-gemini-hotels-google-hotels-cards.webp)
+![Gemini's answer to "Best boutique hotels in Dubai", rendering the same three hotels as Google Hotels cards with their names redacted and review counts and rates visible](/images/research/08-gemini-hotels-google-hotels-cards-r2.webp)
 *Gemini, signed out, UAE. The order and the rates differ from Google's module; the properties, ratings and review counts do not. Property names are redacted.*
 
 What moves a hotel up that answer is its Google Hotels listing and its rate, not an article about it.
@@ -74,7 +74,7 @@ For aesthetic clinics, Gemini's answer was built from place cards: name, rating,
 
 In two of three runs, Gemini added Google Shopping product cards to an answer about industrial manufacturers: three cards in the first run, eight in the third. The merchants were small local sellers with product feeds: Merchant A (a water chiller at AED 11,000), and Merchants B, C, D and E. None of them appeared in the text list above the cards, which named Manufacturers A, B and J.
 
-![Gemini's answer to "Best industrial manufacturers in Dubai" with Google Shopping product cards showing stainless steel sink units and AED prices, merchant names redacted](/images/research/07-gemini-manufacturers-shopping-cards.webp)
+![Gemini's answer to "Best industrial manufacturers in Dubai" with Google Shopping product cards showing stainless steel sink units and AED prices, merchant names redacted](/images/research/07-gemini-manufacturers-shopping-cards-r2.webp)
 *Gemini, signed out, UAE. Merchant product cards inside a B2B manufacturer answer. Merchant names are redacted.*
 
 Two of three runs is repeatable but not guaranteed, and we only tested one product-adjacent category. Treat this as an open door worth checking, not a proven channel.
@@ -123,7 +123,7 @@ You can get into the pool. You can't pick the citation. We ran the manufacturer 
 | 2 | Manufacturers B, A, M | Peko.one, Invest in Dubai, Scribd |
 | 3 | Manufacturers B, A, M | Peko.one, Jafza, Peko.one |
 
-![Google results for "Best industrial manufacturers in Dubai": the AI Overview citing mazeed above the Places pack, business names redacted](/images/research/01-google-manufacturers-localpack-35-16-6.webp)
+![Google results for "Best industrial manufacturers in Dubai": the AI Overview citing mazeed above the Places pack, business names redacted](/images/research/01-google-manufacturers-localpack-35-16-6-r2.webp)
 *Google Search, signed out, UAE. AI Overview (top) citing mazeed, local pack below. Business names are redacted.*
 
 The organic page is stable. The AI Overview draws its citation from a small group of eligible pages and rotates between them. mazeed is also Perplexity's main source for the same query, so one aggregator page was feeding two surfaces.

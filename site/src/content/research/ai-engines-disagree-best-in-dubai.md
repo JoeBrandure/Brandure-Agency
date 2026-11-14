@@ -69,7 +69,7 @@ They read different things. In almost every category, Perplexity grounded its an
 
 Industrial manufacturers show it most clearly. Across three runs each, ChatGPT's shortlist was SME fabricators: Manufacturers C, D, E, F, G and H. Perplexity's was heavy industry: Manufacturers A, B, I, J, K and L. Manufacturers A and B were the only names on both, and on ChatGPT they sat in a separate "large companies" section rather than the shortlist. The two engines didn't share a single source either. ChatGPT cited Bayut, Dubai Industrial City, Dubai Holding, Dubai Investments and ICD. Perplexity cited mazeed, UAE Business Blog and Manufacturing Digital.
 
-![ChatGPT's answer to "Best industrial manufacturers in Dubai" listing SME fabricators with their names redacted, and two heavy-industry manufacturers mentioned separately as large-scale companies](/images/research/06-chatgpt-manufacturers-sme-fabricators.webp)
+![ChatGPT's answer to "Best industrial manufacturers in Dubai" listing SME fabricators with their names redacted, and two heavy-industry manufacturers mentioned separately as large-scale companies](/images/research/06-chatgpt-manufacturers-sme-fabricators-r2.webp)
 *ChatGPT, logged out, UAE. SME fabricators in the shortlist, heavy industry set apart. Business names are redacted. Recaptured for publication; the shortlist differs from the logged runs, which is the next section's point.*
 
 Same prompt, two readings of what a "manufacturer" is. Gemini sided with Perplexity: it shared five manufacturers with Perplexity and two with ChatGPT.

@@ -240,11 +240,13 @@ const FITS = [
         <p class="lede">Named, cited and recommended inside the answers your buyers are given.</p>
       </div>
 
-      <h3 class="svc-sub">This isn&rsquo;t an SEO retainer with a new name.</h3>
-      <p class="svc-sub__p">
-        AI Search needs its own strategy, budget and reporting. Bolt it onto an
-        SEO retainer and it gets none of the three.
-      </p>
+      <div class="section-head svc-sub-head">
+        <h3 class="svc-sub">This isn&rsquo;t an SEO retainer with a new name.</h3>
+        <p class="lede">
+          AI Search needs its own strategy, budget and reporting. Bolt it onto
+          an SEO retainer and it gets none of the three.
+        </p>
+      </div>
       <div class="compare" data-stagger>
         <div class="compare__head" aria-hidden="true">
           <span class="compare__t compare__t--axis">The difference</span>
@@ -271,7 +273,9 @@ const FITS = [
       {/* The four stages, one line each. STAGES rather than SCAN: the full
           stage descriptions live on /method, and this strip exists to show
           that there are four and that they repeat, not to teach them. */}
-      <h3 class="svc-sub svc-sub--gap">Every engagement runs the same four stages. We call it SCAN.</h3>
+      <div class="section-head svc-sub-head svc-sub-head--gap">
+        <h3 class="svc-sub">Every engagement runs the same four stages. We call it SCAN.</h3>
+      </div>
       <ol class="scan-strip" data-stagger>
         {STAGES.map((st) => (
           <li class:list={['scan-strip__i', `stages--${st.a}`]}>
@@ -607,10 +611,25 @@ const FITS = [
     font-size: var(--small); font-weight: 600; color: var(--sa);
   }
 
-  /* ---------- Sub-headings inside a service section ---------- */
-  .svc-sub { max-width: 30ch; margin: 0 0 1rem; font-size: var(--h3); letter-spacing: -0.015em; }
-  .svc-sub--gap { margin-top: 2.6rem; }
-  .svc-sub__p { max-width: 58ch; margin: -0.4rem 0 1.1rem; color: var(--muted); font-size: var(--small); }
+  /* ---------- Sub-headings inside a service section ----------
+     These sit under #ai-search's own h2, so they stay a step smaller than a
+     section heading — but in every other respect they ARE section heads, and
+     left-aligning them between centred content above and centred cards below
+     made one section look like two pages spliced together.
+
+     So the wrapper is the site's own .section-head: it supplies the centring,
+     the 62rem column, the gap down to the content, and — because the
+     supporting line is now a plain .lede — the exact type and measure every
+     other section lede on the page uses. All this adds is the heading rules
+     that .section-head pins to an h2, restated for the h3. */
+  .svc-sub {
+    text-align: center; max-width: 32ch; margin: 0 0 0.85rem;
+    font-size: var(--h3); line-height: 1.12; letter-spacing: -0.015em;
+    text-wrap: balance;
+  }
+  /* Overrides .section-head's `margin: 0 auto ...` top value. Astro scopes
+     this block with an attribute selector, so it outranks the global class. */
+  .svc-sub-head--gap { margin-top: clamp(2.5rem, 4vw, 3.5rem); }
 
   /* ---------- Two- and three-up fact cards ---------- */
   .two { display: grid; gap: 1rem; grid-template-columns: 1fr; }

@@ -325,7 +325,6 @@ export const PACKAGES = [
       'Monthly category authority asset',
       'Active competitor displacement \u2014 named targets, quarterly plan',
       'Entity correction across third-party sources',
-      'Technical SEO at setup, ongoing SEO every month',
     ],
     honest: 'Up to three categories.',
     /* Three bullets, matching Core. Removing the Arabic line left this tier

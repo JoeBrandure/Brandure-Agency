@@ -37,9 +37,11 @@ ${SITE.identityLine}
 
 - [Home](${SITE.url}/): what AEO is, why answer engines differ from search, the
   six-surface point, and the free visibility report request.
-- [Service](${SITE.url}/service): how an engagement runs — baseline, diagnosis,
-  execution, re-measurement against a control set — and what a client receives
-  at each stage.
+- [Services](${SITE.url}/services): the three parts of the offer, sold as one
+  plan — AI search optimisation (AEO), SEO included in every plan, and websites
+  added to a plan rather than sold on their own. Also how an engagement runs:
+  baseline, diagnosis, execution, re-measurement against a control set, and
+  what a client receives at each stage.
 - [AEO agency in Dubai](${SITE.url}/aeo-agency-dubai): the Dubai landing page —
   what AI search optimisation looks like for a UAE business, local prices in
   AED, and the JVC address and phone number.

@@ -1,0 +1,656 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Testimonials from '../components/Testimonials.astro';
+import ReportForm from '../components/ReportForm.astro';
+import BookForm from '../components/BookForm.astro';
+import { PACKAGES, ENGINES_SENTENCE, COST_OF_ABSENCE, NOT_SEO, SETUP, TERMS, SERVICE_FAQS, STAGES } from '../data/content';
+import { PLANS, SETUP_FEE, ADDONS } from '../data/pricing';
+import Price from '../components/Price.astro';
+import CurrencySwitch from '../components/CurrencySwitch.astro';
+import { SCAN } from '../data/method';
+import { SITE } from '../consts';
+import { allServiceSchemas } from '../lib/schema';
+
+/* SERVICES IS THE COMMERCIAL PAGE. What we sell, why it exists, and why this
+   buyer needs it now. It shows SCAN and refuses to explain it.
+
+     /services  organised by what you buy   → the three parts, artefacts, price
+     /method    organised by how it runs    → SCAN in full, the instruments
+
+   The four-letter strip below is the only SCAN content on this page and it
+   links out rather than expanding. Anything explaining *how* a stage works
+   belongs on /method; anything describing what lands on a desk belongs here.
+
+   MOVED FROM /service ON 2026-11-17, with 301s from /service and /service/*
+   in netlify.toml. The page now leads with the three parts of the offer
+   rather than with AEO alone, because AEO, SEO and websites are sold as one
+   plan and the singular URL said otherwise. #buy, #book and #report keep
+   their ids, so every link ever published against them still lands. */
+
+/* THE SHAPE OF THIS PAGE, TOP TO BOTTOM.
+     hero          the three parts named in the H1, and three ways down
+     cards         one card each, with the tag that says how it is bought
+     #ai-search    the cost of absence, the not-SEO table, SCAN in four lines
+     #seo          what lands at setup, what runs every month
+     #websites     a summary of /ai-ready-websites, and the rule about plans
+     fits          the one strip that says how the three stack up
+   then the commercial run, unchanged: proof, price, booking, questions, the
+   refusal, and the free report. */
+
+const WEB_PAGE = ADDONS.find((a) => a.key === 'page')!;
+const url = `${SITE.url}/services`;
+
+const webPageSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  '@id': `${url}#webpage`,
+  url,
+  name: 'Services',
+  inLanguage: 'en-GB',
+  isPartOf: { '@id': `${SITE.url}/#website` },
+  about: { '@id': `${SITE.url}/#organization` },
+  mainEntity: { '@id': `${SITE.url}/#service` },
+};
+
+/* ONE SERVICE PER PART, INSIDE ONE CATALOG. The three Service nodes already
+   existed and are still defined once, in src/lib/schema.ts, so the home page
+   and /pricing emit the identical objects. What was missing was anything
+   saying they are three parts of one offer: a consumer reading the page met
+   three unrelated services and an Organization that claimed none of them.
+
+   This catalog is the statement that they belong together, and the
+   Organization node in BaseLayout points at it by @id. Bare references to a
+   node defined on another page are the pattern already used here — each
+   Service points at /pricing#catalog the same way.
+
+   It is NOT the priced catalog. /pricing#catalog lists Offers with figures on
+   them and is untouched; this one lists the three things we do. Two catalogs,
+   two @ids, two different questions. */
+const servicesCatalogSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'OfferCatalog',
+  '@id': `${url}#catalog`,
+  name: 'Brandure services',
+  url,
+  isPartOf: { '@id': `${SITE.url}/#website` },
+  provider: { '@id': `${SITE.url}/#organization` },
+  itemListElement: [
+    { '@type': 'Offer', itemOffered: { '@id': `${SITE.url}/#service` } },
+    { '@type': 'Offer', itemOffered: { '@id': `${SITE.url}/#service-seo` } },
+    { '@type': 'Offer', itemOffered: { '@id': `${SITE.url}/#service-web` } },
+  ],
+};
+
+/* Built from SERVICE_FAQS, which is also what the section below renders, so
+   the marked-up questions are the visible ones. */
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  '@id': `${url}#faq`,
+  isPartOf: { '@id': `${SITE.url}/#website` },
+  mainEntity: SERVICE_FAQS.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+
+/* The three cards. Data here rather than in a shared module because nothing
+   else renders them: the home page links at these anchors instead of
+   repeating the list, which is the duplication this page was built to end. */
+const PARTS = [
+  {
+    id: 'ai-search',
+    a: 'cobalt',
+    t: 'AI Search (AEO)',
+    d: `Get named when your buyers ask ${ENGINES_SENTENCE}.`,
+    tag: 'Core or Growth plan',
+    b: [
+      'Each engine measured separately, never averaged',
+      'Earned citations on the sources those answers use',
+      'A monthly net figure, your category’s movement taken out',
+    ],
+  },
+  {
+    id: 'seo',
+    a: 'violet',
+    t: 'SEO',
+    d: 'Rank on Google for the searches that bring buyers.',
+    tag: 'Included in every plan',
+    b: [
+      'Technical SEO, schema and crawler access at setup',
+      'Ongoing work on your priority pages',
+      'Measured on Google and in AI answers',
+    ],
+  },
+  {
+    id: 'websites',
+    a: 'teal',
+    t: 'Websites',
+    d: 'New pages or a full rebuild, on the platform you already use.',
+    tag: null,
+    b: [
+      'WordPress, Shopify, Webflow, Wix or Squarespace — or our stack',
+      'We build with your copy; copywriting if you need it',
+      'Pages in two to three weeks, rebuilds in four to six',
+    ],
+  },
+] as const;
+
+/* Website → SEO → AI Search → measured. Stated as a stack because that is the
+   order the work has to happen in: nothing ranks or gets cited off a site a
+   crawler cannot read. */
+const FITS = [
+  { a: 'teal', t: 'Website', d: 'Google and AI can read you' },
+  { a: 'violet', t: 'SEO', d: 'Google ranks you' },
+  { a: 'cobalt', t: 'AI Search', d: 'AI names you' },
+  { a: 'deep', t: 'Measured monthly', d: 'net of your category’s own movement' },
+] as const;
+---
+<BaseLayout
+  title="AI search, SEO and websites in one plan"
+  description="AI search optimisation (AEO), SEO and websites, sold as one plan. Core at AED 6,500 a month or Growth at AED 12,000, with the terms stated in full."
+  schemas={[webPageSchema, ...allServiceSchemas, servicesCatalogSchema, faqSchema]}
+>
+  <!-- 1. Hero. The three parts in the H1, and three ways straight down to
+       them. Nothing else: this page's job in the first second is to say that
+       there are three and that they are one purchase. -->
+  <section class="hero hero--short">
+    <div class="mesh" aria-hidden="true">
+      <div class="mesh__layer mesh__layer--1"><div class="mesh__blob mesh__blob--1"></div></div>
+      <div class="mesh__layer mesh__layer--2"><div class="mesh__blob mesh__blob--2"></div></div>
+    </div>
+    <div class="wrap-narrow" data-load>
+      <h1 class="statement" data-split>AI Search, SEO and websites. One team, one plan.</h1>
+      <p class="lede">
+        Providing everything you need to get found, whether your buyer asks an
+        AI or types into Google.
+      </p>
+      <nav class="jump" aria-label="Jump to a service">
+        <a class="jump__l" href="#ai-search">AI Search</a>
+        <a class="jump__l" href="#seo">SEO</a>
+        <a class="jump__l" href="#websites">Websites</a>
+      </nav>
+      <div class="hero-actions">
+        <a class="btn" href="#report">Show me where I stand</a>
+        <a class="btn btn--ghost" href="#buy">See the plans</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. The three parts, one card each. The tag is the commercial fact: how
+       this part is bought. That is the question the page exists to answer in
+       a few seconds, so it sits on the card rather than three sections down. -->
+  <section class="section section--tight" aria-labelledby="parts-h">
+    <div class="wrap" data-reveal>
+      <div class="section-head">
+        <h2 id="parts-h">Everything we do, in three parts.</h2>
+      </div>
+      {/* The websites card quotes a price, so the section carries the switch. */}
+      <CurrencySwitch />
+      <div class="svc3" data-stagger>
+        {PARTS.map((p) => (
+          <div class:list={['card', 'svc3__c', `stages--${p.a}`]}>
+            <span class="tile-icon svc3__i" aria-hidden="true">
+              {p.id === 'ai-search' && (
+                <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M17 11.4a1.6 1.6 0 0 1-1.6 1.6H8.2L4.8 16v-3H4.6A1.6 1.6 0 0 1 3 11.4v-6A1.6 1.6 0 0 1 4.6 3.8h10.8A1.6 1.6 0 0 1 17 5.4z"/>
+                  <path d="M10 5.9l.85 2.05L12.9 8.8l-2.05.85L10 11.7l-.85-2.05L7.1 8.8l2.05-.85z"/>
+                </svg>
+              )}
+              {p.id === 'seo' && (
+                <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="8.8" cy="8.8" r="5.3"/>
+                  <path d="M12.7 12.7L17 17"/>
+                  <path d="M6.9 10.6V9.2M8.8 10.6V7.3M10.7 10.6V8.4"/>
+                </svg>
+              )}
+              {p.id === 'websites' && (
+                <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2.8" y="3.8" width="14.4" height="12.4" rx="1.8"/>
+                  <path d="M2.8 7.6h14.4M5.4 5.7h.01M7.6 5.7h.01"/>
+                </svg>
+              )}
+            </span>
+            <h3 class="svc3__t"><a class="svc3__main" href={`#${p.id}`}>{p.t}</a></h3>
+            <p class="svc3__d">{p.d}</p>
+            <ul class="svc3__b">
+              {p.b.map((x) => <li>{x}</li>)}
+            </ul>
+            <p class="svc3__tag">
+              {p.tag ?? <>Add to any plan, from <Price m={WEB_PAGE.price} /></>}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. AI SEARCH. Three sub-parts: what absence costs, why it is not an SEO
+       retainer, and the four stages shown rather than explained. -->
+  <section class="section section--sunk" id="ai-search">
+    <div class="wrap" data-reveal>
+      <div class="section-head">
+        <h2>AI Search (AEO)</h2>
+        <p class="lede">Named, cited and recommended inside the answers your buyers are given.</p>
+      </div>
+
+      <h3 class="svc-sub">You&rsquo;re losing business here and your reporting says nothing.</h3>
+      <div class="problem-grid problem-grid--3" data-stagger>
+        {COST_OF_ABSENCE.map((c) => (
+          <div class:list={['card', 'problem', `problem--${c.a}`]}>
+            <span class="problem__n" aria-hidden="true">{c.n}</span>
+            <h4>{c.t}</h4>
+            <p class="problem__p">{c.p}</p>
+            <div class="problem__effect">
+              <span class="problem__k">Why it matters</span>
+              <p>{c.e}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <h3 class="svc-sub svc-sub--gap">This isn&rsquo;t an SEO retainer with a new name.</h3>
+      <p class="svc-sub__p">
+        AI Search needs its own strategy, budget and reporting. Bolt it onto an
+        SEO retainer and it gets none of the three.
+      </p>
+      <div class="compare" data-stagger>
+        <div class="compare__head" aria-hidden="true">
+          <span class="compare__t compare__t--axis">The difference</span>
+          <span class="compare__t compare__t--seo">Search engine</span>
+          <span class="compare__t compare__t--aeo">Answer engine<span class="compare__tag">what we work on</span></span>
+        </div>
+        {NOT_SEO.map((r, i) => (
+          <div class="compare__row">
+            <span class="compare__axis"><span class="compare__i" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>{r.axis}</span>
+            <span class="compare__cell compare__cell--seo">
+              <span class="compare__mob">Search engine</span>{r.seo}
+            </span>
+            <span class="compare__cell compare__cell--aeo">
+              <span class="compare__mob">Answer engine</span>{r.aeo}
+            </span>
+          </div>
+        ))}
+        <p class="compare__foot">
+          <strong>Both can be true on the same day.</strong> You can rank first
+          on Google and still be missing from the AI answer sitting above it.
+        </p>
+      </div>
+
+      {/* The four stages, one line each. STAGES rather than SCAN: the full
+          stage descriptions live on /method, and this strip exists to show
+          that there are four and that they repeat, not to teach them. */}
+      <h3 class="svc-sub svc-sub--gap">Every engagement runs the same four stages. We call it SCAN.</h3>
+      <ol class="scan-strip" data-stagger>
+        {STAGES.map((st) => (
+          <li class:list={['scan-strip__i', `stages--${st.a}`]}>
+            <span class="scan-strip__k" aria-hidden="true">{st.n}</span>
+            <h4 class="scan-strip__t">{st.t}</h4>
+            <p class="scan-strip__w">{st.w}</p>
+            <p class="scan-strip__d">{st.d}</p>
+          </li>
+        ))}
+      </ol>
+      <p class="center-row mt-2">
+        <a class="btn btn--ghost" href="/method">See how each stage works &rarr;</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- 4. SEO. Two columns, because the only thing a buyer needs to know is
+       what lands once and what runs every month. -->
+  <section class="section" id="seo">
+    <div class="wrap" data-reveal>
+      <div class="section-head">
+        <h2>SEO</h2>
+        <p class="lede">
+          Most of what helps an AI understand you also helps Google rank you.
+          The same work does both, so SEO is in every plan rather than priced
+          beside it.
+        </p>
+      </div>
+      <div class="two" data-stagger>
+        <div class="card two__c stages--violet">
+          <p class="two__k">At setup</p>
+          <ul class="two__l">
+            <li>Technical SEO</li>
+            <li>Schema and structured data</li>
+            <li>AI crawler access</li>
+            <li>Google Business Profile</li>
+          </ul>
+        </div>
+        <div class="card two__c stages--cobalt">
+          <p class="two__k">Every month</p>
+          <ul class="two__l">
+            <li>Your priority pages</li>
+            <li>Measured on Google and in AI answers</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. WEBSITES. A summary of /ai-ready-websites, and the one rule that page
+       exists to state: website work is added to a plan, never sold alone. -->
+  <section class="section section--sunk" id="websites">
+    <div class="wrap" data-reveal>
+      <div class="section-head">
+        <h2>Websites</h2>
+        <p class="lede">
+          Some sites can&rsquo;t be optimised far enough &mdash; crawlers
+          can&rsquo;t read them, services are buried, mobile pages are too
+          slow. When the audit finds that, we rebuild.
+        </p>
+      </div>
+      <div class="two two--3" data-stagger>
+        <div class="card two__c stages--teal">
+          <p class="two__k">Your platform</p>
+          <p class="two__d">WordPress, Shopify, Webflow, Wix and Squarespace, or our own stack for a fresh start.</p>
+        </div>
+        <div class="card two__c stages--teal">
+          <p class="two__k">Your copy, our build</p>
+          <p class="two__d">We build with the copy you have. Copywriting only if you need pages written.</p>
+        </div>
+        <div class="card two__c stages--teal">
+          <p class="two__k">From <Price m={WEB_PAGE.price} /> a page</p>
+          <p class="two__d">Pages in two to three weeks. Full rebuilds in four to six.</p>
+        </div>
+      </div>
+      <p class="svc-rule">
+        <strong>Websites are added to a plan, not sold on their own.</strong>
+        {' '}<a href="/ai-ready-websites">How we build them &rarr;</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- 6. How the three stack up. One strip, four beats, no prose. -->
+  <section class="section section--tight" aria-labelledby="fits-h">
+    <div class="wrap" data-reveal>
+      <div class="section-head">
+        <h2 id="fits-h">How it fits together</h2>
+      </div>
+      <ol class="flow" data-stagger>
+        {FITS.map((f) => (
+          <li class:list={['flow__i', `stages--${f.a}`]}>
+            <span class="flow__t">{f.t}</span>
+            <span class="flow__d">{f.d}</span>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  {/* Social proof, directly before the ask. Two quotes, not the home page's
+      six: these are the only two confirmed as the clients' own words, and a
+      page answering "no independent reviews" cannot answer it with a
+      sentence we wrote. Same component, same data file. */}
+  <Testimonials
+    picks={['Williams International', 'Little Lockets London']}
+    lede="Two clients, in their own words."
+  />
+
+  <section class="section" id="buy">
+    <div class="wrap" data-reveal>
+      <div class="section-head">
+        {/* No subheading. The cards carry the price and the artefact list, and
+            a lede in between was softening the number before the reader
+            reached it. */}
+        <h2>Start your AI Search growth one of two ways.</h2>
+      </div>
+
+      <CurrencySwitch />
+
+      <div class="pkg" data-stagger>
+        {PACKAGES.map((p) => (
+          <article class:list={['pkg__c', `stages--${p.a}`, p.primary && 'is-featured']}>
+            {p.primary && <span class="feat-ring" aria-hidden="true"></span>}
+            <div class="pkg__head">
+              <p class="pkg__covers">
+                <span class="pkg__letters" aria-hidden="true">
+                  {SCAN.map((s) => (
+                    <span class:list={['pkg__l', p.covers.includes(s.k) && 'is-on', `stages--${s.a}`]}>{s.k}</span>
+                  ))}
+                </span>
+                <span class="pkg__coversl">{p.coversLabel}</span>
+              </p>
+              <h3 class="pkg__n">{p.name}</h3>
+              <p class="pkg__lede">{p.lede}</p>
+              <p class="pkg__price">
+                <span class="pkg__pn"><Price m={PLANS.find((x) => x.key === p.key)!.monthly} /></span>
+                <span class="pkg__pu">per month &middot; plus <Price m={SETUP_FEE.price} /> one time setup fee</span>
+              </p>
+            </div>
+
+            <div class="pkg__body">
+              {p.summary && <p class="pkg__s">{p.summary}</p>}
+
+              <p class="pkg__k">What lands on your desk</p>
+              <ul class="pkg__gets">
+                {p.gets.map((g) => <li>{g}</li>)}
+              </ul>
+
+              <a class:list={['btn', !p.primary && 'btn--ghost', 'pkg__cta']} href="#book">{p.cta}</a>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      {/* Setup is not a third card — it is bought alongside either tier, and
+          both cards already state it in their price line. It sits here as a
+          line so the ten-day lead time is visible before the terms. */}
+      <p class="pkg__setup">
+        <strong>{SETUP.name} &mdash; <Price m={SETUP_FEE.price} />.</strong> {SETUP.d}
+      </p>
+
+      <p class="center-row mt-1"><span class="note-sm">{TERMS}</span></p>
+      {/* The capacity cap. It was one of three figures in the old hero; the
+          hero now has a job that three numbers got in the way of, and this is
+          where it actually bears on a decision. */}
+      <p class="center-row"><span class="note-sm">We take on four new companies a quarter, so the work stays good.</span></p>
+      <p class="center-row mt-1"><a class="textlink" href="/pricing#builder">Build your plan &rarr;</a></p>
+    </div>
+  </section>
+
+  <!-- 7. Booking. Both package buttons point here rather than at a bare
+       calendar link, so the qualifying detail is captured before a slot is
+       given away. See the note at the top of BookForm.astro. -->
+  <section class="section section--tight" id="book">
+    {/* `wrap`, not `wrap-narrow`. The card inside is capped at the narrow
+        width while it holds a form, and the cap lifts when the calendar
+        mounts — a booking widget needs room for a month grid and a column of
+        times side by side, and at 768px it stacks them and runs enormously
+        tall. See `.book-wrap` in global.css. */}
+    <div class="wrap book-wrap" data-reveal>
+      <div class="section-head">
+        <h2 class="statement statement--sub">Book a call.</h2>
+        <p class="lede">
+          Fifteen minutes on your category, what the three engines are saying
+          about it now, and which tier fits. No deck.
+        </p>
+      </div>
+      <BookForm id="book-form" />
+    </div>
+  </section>
+
+  {/* The questions a buyer asks before the ask, and the ones an engine needs
+      to get right when it is asked what this costs and how long it runs. Same
+      markup as the home page's FAQ; the JSON-LD above is built from the same
+      array. */}
+  <section class="section section--sunk">
+    <div class="wrap-narrow" data-reveal>
+      <div class="section-head">
+        <h2>Questions people ask</h2>
+      </div>
+      <div class="qa" data-stagger>
+        {SERVICE_FAQS.map((f, i) => (
+          <details open={i === 0}>
+            <summary>{f.q}</summary>
+            <p>{f.a}</p>
+          </details>
+        ))}
+      </div>
+      <p class="center-row mt-2">
+        <a class="btn btn--ghost" href="/pricing">See the full price list</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- 8. The refusal. Kept as its own moment because it’s the whole positioning. -->
+  <section class="section section--tight">
+    <div class="wrap" data-reveal>
+      <div class="cta-card">
+        <span class="cta-card__glint" aria-hidden="true"><span class="cta-card__sheen"></span></span>
+        <div>
+          <h2>Sometimes the answer is &ldquo;don&rsquo;t bother yet&rdquo;.</h2>
+          <p class="lede">
+            If the first measurement shows your category sewn up by two
+            competitors with no way in, we&rsquo;ll tell you and turn the work
+            down. Be suspicious of any agency whose research always concludes
+            that you should hire them.
+          </p>
+        </div>
+        <a class="btn cta-card__btn" href="#report">Start with the measurement</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--sunk" id="report">
+    <div class="wrap">
+      <div class="hero-grid">
+        <div data-reveal>
+          {/* Verbatim copy of the canonical form section on the home page.
+              Keep the two in step — see the note there. */}
+          <h2 class="statement statement--sub" data-split>Find out what AI Search is telling your buyers right now.</h2>
+          <p class="lede">
+            Your category across all three engines. Who gets named, in what
+            order, and where each answer came from. It is a top-level read,
+            it is free, and there is no obligation attached to it.
+          </p>
+        </div>
+        <ReportForm id="report-form" heading="Get your free report" />
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* ---------- Hero jump links ---------- */
+  /* Three chips, not three buttons. The hero already has two buttons and a
+     row of five would make none of them read as the primary action. */
+  .jump { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1.1rem 0 0; }
+  .jump__l {
+    font-size: var(--small); font-weight: 600; text-decoration: none;
+    color: var(--link); padding: 0.35rem 0.8rem;
+    border: 1px solid var(--border); border-radius: 999px;
+    transition: border-color 140ms ease, background 140ms ease;
+  }
+  .jump__l:hover { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 7%, transparent); }
+
+  /* ---------- The three service cards ---------- */
+  .svc3 { display: grid; gap: 1rem; grid-template-columns: 1fr; }
+  @media (min-width: 46rem) { .svc3 { grid-template-columns: repeat(3, 1fr); } }
+  /* Flex column, not a grid, so the tag can be pushed to the bottom edge with
+     margin-top:auto. The three cards carry different numbers of bullet lines,
+     and with align-content:start the tags landed at three different heights —
+     which on a row whose whole job is "here is how each one is bought" put the
+     answer in three places. */
+  .svc3__c {
+    position: relative; display: flex; flex-direction: column; gap: 0.55rem;
+    padding: 1.3rem 1.35rem 1.1rem;
+    border: 2px solid var(--border);
+    transition: border-color 140ms ease, transform 140ms ease;
+  }
+  .svc3__c.stages--cobalt { --sa: var(--cobalt); }
+  .svc3__c.stages--violet { --sa: var(--violet); }
+  .svc3__c.stages--teal   { --sa: var(--teal); }
+  /* The hue is carried on the icon tile and the bullet markers, not on the
+     border: three permanently coloured borders on three equal choices read as
+     three selected states. The border lights up on hover like .way does. */
+  .svc3__c:hover,
+  .svc3__c:has(.svc3__main:focus-visible) { border-color: var(--sa); transform: translateY(-2px); }
+  .svc3__c:has(.svc3__main:focus-visible) { outline: 2px solid var(--focus); outline-offset: 2px; }
+  .svc3__i { margin: 0; background: color-mix(in srgb, var(--sa) 13%, transparent); color: var(--sa); }
+  .svc3__t { margin: 0; font-size: var(--h3); letter-spacing: -0.015em; }
+  .svc3__main { color: inherit; text-decoration: none; }
+  /* The heading's link covers the card, so the whole card is one target and
+     the link still has a real name for a screen reader. */
+  .svc3__main::after { content: ''; position: absolute; inset: 0; border-radius: inherit; }
+  .svc3__main:focus-visible { outline: none; }
+  .svc3__d { margin: 0; font-size: var(--small); }
+  .svc3__b { margin: 0.1rem 0 0; padding: 0; list-style: none; display: grid; gap: 0.4rem; }
+  .svc3__b li {
+    position: relative; padding-left: 1.1rem;
+    font-size: var(--small); line-height: 1.5; color: var(--muted);
+  }
+  .svc3__b li::before {
+    content: ''; position: absolute; left: 0; top: 0.52em;
+    width: 0.42rem; height: 0.42rem; border-radius: 50%; background: var(--sa);
+  }
+  .svc3__tag {
+    margin: 0.9rem 0 0; margin-top: auto; padding-top: 0.9rem;
+    border-top: 1px solid var(--border);
+    font-size: var(--small); font-weight: 600; color: var(--sa);
+  }
+
+  /* ---------- Sub-headings inside a service section ---------- */
+  .svc-sub { max-width: 30ch; margin: 0 0 1rem; font-size: var(--h3); letter-spacing: -0.015em; }
+  .svc-sub--gap { margin-top: 2.6rem; }
+  .svc-sub__p { max-width: 58ch; margin: -0.4rem 0 1.1rem; color: var(--muted); font-size: var(--small); }
+
+  /* ---------- Two- and three-up fact cards ---------- */
+  .two { display: grid; gap: 1rem; grid-template-columns: 1fr; }
+  @media (min-width: 46rem) {
+    .two { grid-template-columns: repeat(2, 1fr); }
+    .two--3 { grid-template-columns: repeat(3, 1fr); }
+  }
+  .two__c { position: relative; padding: 1.25rem 1.3rem; display: grid; gap: 0.6rem; align-content: start; }
+  .two__c.stages--cobalt { --sa: var(--cobalt); }
+  .two__c.stages--violet { --sa: var(--violet); }
+  .two__c.stages--teal   { --sa: var(--teal); }
+  .two__c::before { content: ''; position: absolute; inset: 0 auto 0 0; width: 3px; background: var(--sa); border-radius: var(--radius) 0 0 var(--radius); }
+  .two__k { margin: 0; font-family: var(--font-display); font-weight: 700; font-size: 1.05rem; letter-spacing: -0.015em; }
+  .two__d { margin: 0; font-size: var(--small); color: var(--muted); }
+  .two__l { margin: 0; padding: 0; list-style: none; display: grid; gap: 0.4rem; }
+  .two__l li { position: relative; padding-left: 1.1rem; font-size: var(--small); color: var(--muted); }
+  .two__l li::before { content: ''; position: absolute; left: 0; top: 0.52em; width: 0.42rem; height: 0.42rem; border-radius: 50%; background: var(--sa); }
+
+  .svc-rule {
+    margin: 1.25rem 0 0; padding: 0.95rem 1.2rem; max-width: none;
+    border: 1px solid var(--border); border-radius: var(--radius);
+    background: var(--surface-card); font-size: var(--small);
+  }
+
+  /* ---------- How it fits together ---------- */
+  /* A stack on a phone with the arrow pointing down, a row from 46rem with it
+     pointing right. The arrow is a pseudo-element so it is never read out. */
+  .flow { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.6rem; grid-template-columns: 1fr; counter-reset: flow; }
+  @media (min-width: 46rem) { .flow { grid-template-columns: repeat(4, 1fr); gap: 1.9rem; } }
+  .flow__i {
+    position: relative; display: grid; gap: 0.3rem; align-content: start;
+    padding: 0.9rem 1rem 0.9rem 1.1rem;
+    border: 1px solid var(--border); border-radius: var(--radius);
+    background: var(--surface-card);
+  }
+  .flow__i.stages--cobalt { --sa: var(--cobalt); }
+  .flow__i.stages--violet { --sa: var(--violet); }
+  .flow__i.stages--teal   { --sa: var(--teal); }
+  .flow__i.stages--deep   { --sa: var(--cobalt-deep); }
+  .flow__i::before { content: ''; position: absolute; inset: 0 auto 0 0; width: 3px; background: var(--sa); border-radius: var(--radius) 0 0 var(--radius); }
+  .flow__i:not(:last-child)::after {
+    content: '\2193'; position: absolute; left: 50%; bottom: -1.25rem;
+    transform: translateX(-50%); color: var(--muted); font-size: 0.95rem; line-height: 1;
+  }
+  @media (min-width: 46rem) {
+    .flow__i:not(:last-child)::after { content: '\2192'; left: auto; right: -1.3rem; bottom: auto; top: 50%; transform: translateY(-50%); }
+  }
+  .flow__t { font-family: var(--font-display); font-weight: 700; font-size: 1.05rem; letter-spacing: -0.015em; }
+  .flow__d { font-size: var(--small); color: var(--muted); }
+
+  /* The week label on the SCAN strip, which the shared component has no slot
+     for. Same scale and colour as the stage line it sits above. */
+  .scan-strip__w {
+    margin: 0 0 0.3rem; font-size: 0.78rem; font-weight: 600;
+    letter-spacing: 0.04em; text-transform: uppercase; color: var(--sa);
+  }
+</style>

@@ -8,12 +8,12 @@ import LogoStrip from '../components/LogoStrip.astro';
 import Testimonials from '../components/Testimonials.astro';
 import { SITE } from '../consts';
 import { allServiceSchemas } from '../lib/schema';
-import { PLANS, SETUP_FEE, ADDONS, money } from '../data/pricing';
+import { PLANS, ADDONS } from '../data/pricing';
 import Price from '../components/Price.astro';
 import CurrencySwitch from '../components/CurrencySwitch.astro';
 
 const WEB_PAGE = ADDONS.find((a) => a.key === 'page')!;
-import { FAQS, FAQS_HOME, PROBLEMS, STAGES, PACKAGES, PRIZE, TERMS } from '../data/content';
+import { FAQS, FAQS_HOME, PROBLEMS, STAGES, PRIZE } from '../data/content';
 import { getCollection } from 'astro:content';
 import { listable, sortDate, tagFor } from '../lib/research';
 
@@ -109,20 +109,24 @@ const faqSchema = {
           pseudo-element stretching that link over the whole card. The card is
           still one click target, and a second link inside it is simply a
           second link. */}
+      {/* All three now point at their own section on /services, which is the
+          page that describes them. They used to point at three different
+          places — /service, /service#seo and /ai-ready-websites — which is
+          what made "what does Brandure actually do" a three-page answer. */}
       <div class="ways" data-stagger>
         <div class="card way">
-          <span class="way__k"><a class="way__main" href="/service">AI search (AEO)</a></span>
+          <span class="way__k"><a class="way__main" href="/services#ai-search">AI search (AEO)</a></span>
           <span class="way__d">Get named when buyers ask ChatGPT, Google&rsquo;s AI Overviews and Perplexity.</span>
           <span class="way__d">Based in Dubai. See our <a class="way__in" href="/aeo-agency-dubai">AEO agency in Dubai</a> page.</span>
           <span class="way__p">Plans from <strong><Price m={PLANS[0].monthly} /></strong> a month</span>
         </div>
         <div class="card way">
-          <span class="way__k"><a class="way__main" href="/service#seo">SEO</a></span>
+          <span class="way__k"><a class="way__main" href="/services#seo">SEO</a></span>
           <span class="way__d">Rank on Google for the searches that bring buyers. Included in every plan.</span>
           <span class="way__p">Included</span>
         </div>
         <div class="card way">
-          <span class="way__k"><a class="way__main" href="/ai-ready-websites">Websites built for both</a></span>
+          <span class="way__k"><a class="way__main" href="/services#websites">Websites built for both</a></span>
           <span class="way__d">New pages or a full rebuild on your platform, so Google and AI can read you.</span>
           <span class="way__p">Pages from <strong><Price m={WEB_PAGE.price} /></strong></span>
         </div>
@@ -184,29 +188,24 @@ const faqSchema = {
     </div>
   </section>
 
-  <!-- 4. The four stages. Numbered cards on a coloured spine, each in its own
-       brand hue, arriving in sequence as the spine draws through them. -->
-  <section class="section stages">
+  {/* 4. The four stages, as one line. The full block — four cards on a drawn
+       spine, with a week label and a sentence each — now lives once, on
+       /services#ai-search. It was the clearest duplication on the site: the
+       same four stages were told at length here, again on /services, and in
+       full on /method, so a reader met SCAN three times before being told
+       what it costs. The letters stay, because they are the shape of the
+       thing and the strip is what makes the link worth following. */}
+  <section class="section section--tight">
     <div class="wrap" data-reveal>
-      <div class="section-head">
-        <h2>Delivering it in four stages, in the same order, every time.</h2>
-        <p class="lede">Every engagement runs the same four stages, in the same order. We call it SCAN.</p>
+      <div class="scanline">
+        <p class="scanline__t">
+          <span class="scanline__ks" aria-hidden="true">
+            {STAGES.map((st) => <span class:list={['scanline__k', `stages--${st.a}`]}>{st.n}</span>)}
+          </span>
+          <span class="scanline__s">Every engagement runs the same four stages. We call it SCAN.</span>
+        </p>
+        <a class="btn btn--ghost" href="/services#ai-search">See the four stages</a>
       </div>
-
-      <ol class="stages__track" data-timeline>
-        <span class="stages__spine" aria-hidden="true"><span class="stages__fill"></span></span>
-        {STAGES.map((st, i) => (
-          <li class:list={['stages__item', `stages--${st.a}`]} style={`--i:${i}`}>
-            <span class="stages__node" aria-hidden="true"></span>
-            <article class="stages__card">
-              <span class="stages__n" aria-hidden="true">{st.n}</span>
-              <p class="stages__when">{st.w}</p>
-              <h3 class="stages__t">{st.t}</h3>
-              <p class="stages__d">{st.d}</p>
-            </article>
-          </li>
-        ))}
-      </ol>
     </div>
   </section>
 
@@ -235,55 +234,25 @@ const faqSchema = {
     </div>
   </section>
 
-  <!-- 6. Pricing — two cards, gradient headers, prices stated -->
+  {/* 6. Pricing, as one line. Both plan cards — name, price, setup fee, lede
+       and three teaser bullets each — are on /services#buy in full, and the
+       same two cards were being rendered here from the same PACKAGES array.
+       A home page does not need to re-state a price list it links to; it
+       needs to say what the entry point costs and get out of the way. The
+       terms stay on the page that takes the booking. */}
   <section class="section section--sunk" id="pricing">
     <div class="wrap" data-reveal>
-      <div class="section-head">
-        {/* No subheading here, and none on /service either. The packages
-            sections carry a price and a card list; a lede between the heading
-            and the cards was hedging in front of the number. */}
-        <h2>Two ways we get you there.</h2>
-      </div>
-
-      {/* The section quotes two monthly prices and a setup fee, so it needs
-          the switch: without one a visitor reading dollars everywhere else on
-          the page met dirhams here. */}
       <CurrencySwitch />
-
-      {/* A teaser, not the detail. The full artefact list per package lives on
-          /service, which is the page organised around what you buy — repeating
-          it here is what made three pages say the same thing. */}
-      <div class="price-grid" data-stagger>
-        {PACKAGES.map((o) => (
-          <div class:list={['card', 'offer', o.primary && 'is-featured']}>
-            {o.primary && <span class="feat-ring" aria-hidden="true"></span>}
-            <div class="offer__head">
-              <h3>{o.name}</h3>
-              <span class="offer__price"><Price m={PLANS.find((x) => x.key === o.key)!.monthly} /></span>
-              <span class="offer__unit">
-                per month &middot; plus <Price m={SETUP_FEE.price} /> one time setup fee
-              </span>
-            </div>
-            <div class="offer__body">
-              <p>{o.lede}</p>
-              <ul>{o.teaser.map((i) => <li>{i}</li>)}</ul>
-              {/* Both tiers say "Book a call", so both go to the booking form
-                  on /service rather than one landing on the report form. */}
-              <a class:list={['btn', !o.primary && 'btn--ghost']} href="/service#book">{o.cta}</a>
-            </div>
-          </div>
-        ))}
+      <div class="pteas">
+        <p class="pteas__t">
+          Plans from <strong><Price m={PLANS[0].monthly} /></strong> a month,
+          with AI search, SEO and website work on one plan.
+        </p>
+        <a class="btn" href="/services#buy">See the plans</a>
       </div>
       <p class="center-row mt-1">
         <a class="textlink" href="/pricing">Full pricing &rarr;</a>
-        <a class="textlink" href="/service#buy">Everything in both, in full &rarr;</a>
       </p>
-
-      {/* The sample-pricing flag was removed here on 2026-09-03: these are the
-          real figures from the pricing sheet, not placeholders. The terms line
-          replaces it because a six-month term and a 90-day break clause are
-          part of the price and belong beside it. */}
-      <p class="center-row mt-2"><span class="note-sm">{TERMS}</span></p>
     </div>
   </section>
 
@@ -352,19 +321,10 @@ const faqSchema = {
     </div>
   </section>
 
-  {/* 9b. Pricing teaser, immediately before the closing CTA. */}
-  <section class="section section--tight">
-    <div class="wrap" data-reveal>
-      <div class="pteas">
-        <p class="pteas__t">
-          Plans from
-          <strong><Price m={PLANS[0].monthly} /></strong>
-          a month. Build yours in under a minute.
-        </p>
-        <a class="btn" href="/pricing">Build your plan</a>
-      </div>
-    </div>
-  </section>
+  {/* The second pricing teaser that used to sit here is gone. It said "Plans
+      from X a month" and sent the reader to /pricing, which is now word for
+      word what the pricing section above does — one sentence, said twice on
+      one page. The hero still carries "Build your plan". */}
 
   <!-- 10. CTA — INVERTED band, full section -->
   <section class="section" id="report">
@@ -428,5 +388,34 @@ const faqSchema = {
     border: 1px solid var(--border); border-radius: var(--radius);
     background: var(--surface-sunk); padding: 1.1rem 1.35rem;
   }
-  .pteas__t { margin: 0; }
+  /* The pricing strip sits on a sunk section, so the sunk fill it was given
+     for the plain surface would have disappeared into it. */
+  #pricing .pteas { background: var(--surface-card); }
+  .pteas__t { margin: 0; max-width: 46ch; }
+
+  /* The SCAN line that replaced the four-card stage block. Same shape as
+     .pteas — a sentence, then one way out — with the four letters in their
+     own hues standing in for the cards that used to carry them. */
+  .scanline {
+    display: flex; flex-wrap: wrap; gap: 1rem; align-items: center;
+    justify-content: space-between;
+    border: 1px solid var(--border); border-radius: var(--radius);
+    background: var(--surface-card); padding: 1.1rem 1.35rem;
+  }
+  /* max-width:none because the flex row sets its own: the four letters plus a
+     52ch sentence overflowed the cap and pushed the sentence onto its own
+     line, which is the one thing a single-line strip must not do. */
+  .scanline__t { margin: 0; max-width: none; display: flex; flex-wrap: wrap; align-items: center; gap: 0.65rem; }
+  .scanline__s { max-width: 62ch; }
+  .scanline__ks { display: inline-flex; gap: 0.3rem; flex: none; }
+  .scanline__k {
+    display: grid; place-items: center;
+    width: 1.75rem; height: 1.75rem; border-radius: var(--radius-sm);
+    font-family: var(--font-display); font-weight: 700; font-size: 0.95rem;
+    color: #fff; background: var(--sa);
+  }
+  .scanline__k.stages--cobalt { --sa: var(--cobalt-deep); }
+  .scanline__k.stages--violet { --sa: var(--violet); }
+  .scanline__k.stages--teal   { --sa: var(--teal); }
+  .scanline__k.stages--deep   { --sa: var(--cobalt-deep); }
 </style>

@@ -156,7 +156,7 @@ const monthly0 = money(PLANS[0].monthly);
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
             </span>
           </button>
-          <a class="btn pbx__barcta" id="pb-cta-m" href="/service#book">Book a call</a>
+          <a class="btn pbx__barcta" id="pb-cta-m" href="/services#book">Book a call</a>
         </div>
 
         <div class="pbx__sumbody" id="pbx-sumbody">
@@ -176,7 +176,7 @@ const monthly0 = money(PLANS[0].monthly);
           </ul>
 
           <p class="note-sm pbx__terms">{VAT_TERMS}</p>
-          <p class="pbx__cta"><a class="btn" id="pb-cta" href="/service#book">Book a call with this plan</a></p>
+          <p class="pbx__cta"><a class="btn" id="pb-cta" href="/services#book">Book a call with this plan</a></p>
           <p class="note-sm pbx__nojs">See the full price list below for every figure in AED, pounds and dollars.</p>
         </div>
       </aside>
@@ -343,7 +343,7 @@ const monthly0 = money(PLANS[0].monthly);
          the resolved absolute URL — copying that to the bar button would bake
          the current origin into the markup and leave the two links carrying
          different hrefs for the same destination. */
-      var href = '/service?' + new URLSearchParams(q).toString() + '#book';
+      var href = '/services?' + new URLSearchParams(q).toString() + '#book';
       cta.href = href;
       ctaM.href = href;
       try { sessionStorage.setItem('brandure.plan', JSON.stringify(q)); } catch (e) { /* link carries it */ }

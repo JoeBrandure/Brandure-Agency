@@ -459,21 +459,21 @@ export const COST_OF_ABSENCE = [
     a: 'cobalt',
     t: 'Your reporting says everything\u2019s fine.',
     p: 'No impression, no click, no enquiry. Nothing to see, because there was nothing to lose.',
-    e: 'This is the only channel where losing looks exactly like a quiet month. Your dashboard can\u2019t tell the two apart, so nobody raises it.',
+    e: 'Losing here looks exactly like a quiet month. Your dashboard can\u2019t tell the two apart, so nobody raises it.',
   },
   {
     n: '02',
     a: 'violet',
     t: 'The shortlist gets made without you.',
     p: 'On Google, a buyer could still find you at position seven. An AI hands them three names and stops.',
-    e: 'Page two used to mean less traffic. Here it means you\u2019re not on the list, and there\u2019s no page two to climb from.',
+    e: 'Page two used to mean less traffic. Here there is no page two to climb from.',
   },
   {
     n: '03',
     a: 'teal',
     t: 'It gets pricier the longer you leave it.',
     p: 'These answers come from a small set of sources that doesn\u2019t change quickly. Every month a competitor holds those mentions, the link gets harder to break.',
-    e: 'Getting there first costs a fraction of what it costs to prise someone else out. That\u2019s the whole argument for moving now.',
+    e: 'Getting there first costs a fraction of prising someone else out. That\u2019s the argument for moving now.',
   },
 ] as const;
 

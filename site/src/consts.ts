@@ -144,7 +144,7 @@ export const NAV = [
      but plenty of visitors do not know that convention, and a visible Home
      item gives a reader deep in /research one obvious way back. */
   { href: '/', label: 'Home' },
-  { href: '/service', label: 'Service' },
+  { href: '/services', label: 'Services' },
   /* Pricing sits next to Service from 2026-10-31. It is the page buyers go
      looking for, and it was last in a six-item row. */
   { href: '/pricing', label: 'Pricing' },

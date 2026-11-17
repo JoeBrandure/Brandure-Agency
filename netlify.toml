@@ -52,6 +52,27 @@
   status = 301
   force = true
 
+# --- /service → /services ------------------------------------------------
+# The page moved on 2026-11-17 when it stopped being about one service. The
+# old URL has been published for months, so it redirects rather than 404s.
+# A browser reapplies the fragment itself across a 301, so /service#buy,
+# /service#book and /service#report all land on the matching anchor — the ids
+# are unchanged on the new page for exactly that reason.
+#
+# /service never had children. The splat rule exists because a stray
+# /service/pricing in somebody's CMS should reach the page rather than the
+# 404, and it sends all of them to /services rather than to a child path that
+# has never existed.
+[[redirects]]
+  from = "/service"
+  to = "/services"
+  status = 301
+
+[[redirects]]
+  from = "/service/*"
+  to = "/services"
+  status = 301
+
 # --- Sitemap alias ------------------------------------------------------
 # Astro emits sitemap-index.xml. Plenty of tools, and some crawlers, try
 # /sitemap.xml first and give up on a 404, so point it at the real one.

@@ -2,9 +2,9 @@
 import { MARKET_STATS, MARKET_BAND } from '../data/stats';
 
 /**
- * The market stats band: four sourced figures, a heading, a CTA and the
- * terms line. Used on the home page and on /aeo-agency-dubai, which is why
- * it is a component rather than two copies of the same markup.
+ * The market stats band: four sourced figures, a heading, a CTA and an
+ * optional terms line. Used on the home page and on /aeo-agency-dubai, which
+ * is why it is a component rather than two copies of the same markup.
  *
  * EVERY NUMBER IS IN THE HTML. The count-up rewrites the text node it finds;
  * it does not supply it. So the final value ships in the markup and a reader
@@ -24,8 +24,13 @@ interface Props {
   /** Where "Check where you stand" goes, if not the home page report form. */
   ctaHref?: string;
   id?: string;
+  /** Show the term-and-exit line under the CTA. Default on, because the band
+   *  came with it; the home page turns it off, since the terms belong beside
+   *  a price and the home page no longer carries one. /aeo-agency-dubai keeps
+   *  it on and also states them in its own price section. */
+  terms?: boolean;
 }
-const { as = 'h2', ctaHref = MARKET_BAND.ctaHref, id } = Astro.props;
+const { as = 'h2', ctaHref = MARKET_BAND.ctaHref, id, terms = true } = Astro.props;
 const Heading = as;
 ---
 
@@ -57,7 +62,7 @@ const Heading = as;
 
 <div class="stat-band__foot" data-reveal>
   <a class="btn" href={ctaHref}>{MARKET_BAND.cta}</a>
-  <p class="note-sm stat-band__terms">{MARKET_BAND.terms}</p>
+  {terms && <p class="note-sm stat-band__terms">{MARKET_BAND.terms}</p>}
 </div>
 
 <style>

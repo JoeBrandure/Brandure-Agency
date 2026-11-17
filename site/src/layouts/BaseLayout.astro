@@ -107,6 +107,15 @@ const organizationSchema = {
     'AI visibility',
   ],
   founder: { '@id': `${SITE.url}/about#person` },
+  /* WHAT THIS ORGANISATION SELLS, as one catalog of three services. Added
+     2026-11-17 with /services. Organization already claimed knowsAbout for
+     all three and offered none of them, so a consumer asking what Brandure
+     sells had to infer it from three unconnected Service nodes.
+
+     A bare @id reference to a node defined on /services, which is the pattern
+     already used for /pricing#catalog on each Service. The catalog itself is
+     defined once, on the page that renders it. */
+  hasOfferCatalog: { '@id': `${SITE.url}/services#catalog` },
   contactPoint: [{
     '@type': 'ContactPoint',
     contactType: 'sales',

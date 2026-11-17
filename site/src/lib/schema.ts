@@ -4,9 +4,13 @@ import { SITE } from '../consts';
  * The single Service node, emitted on /, /service and /pricing.
  *
  * ONE DEFINITION, THREE PAGES. Before this there were two Service nodes with
- * different @ids — `/#service` on the home page and `/service#service` on
- * /service — describing the same service in different words. Two @ids is two
- * services to a consumer. This is the only definition; the pages import it.
+ * different @ids — `/#service` on the home page and `/service#service` on the
+ * services page — describing the same service in different words. Two @ids is
+ * two services to a consumer. This is the only definition; the pages import it.
+ *
+ * All three Service nodes are also collected into `/services#catalog`, which
+ * Organization points at. That catalog says they are three parts of one offer;
+ * these nodes say what each part is.
  *
  * `hasOfferCatalog` is a bare reference to the catalog defined on /pricing,
  * not a copy of it. /service previously inlined its own anonymous OfferCatalog

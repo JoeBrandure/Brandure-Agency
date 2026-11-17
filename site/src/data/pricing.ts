@@ -149,6 +149,13 @@ export const EXAMPLES = [
  * and omitted in two others, so a reader, or an engine lifting one line,
  * could meet the commitment without the exit. They are one sentence now, and
  * everywhere that states the term composes from this.
+ *
+ * ONE EXCEPTION, ADDED 2026-11-17: the "Is there a minimum term?" and "Can I
+ * leave early?" answers in SERVICE_FAQS are written out rather than composed.
+ * They are the two an engine is most likely to lift and show on their own,
+ * so they are plainer and shorter than this sentence, which composing could
+ * not give them. They have to be changed in step with it — the note above
+ * them in data/content.ts says the same.
  */
 export const TERM_AND_EXIT =
   'Six-month initial term with a 90-day review — if your citation share hasn’t moved against your baseline by day 90, you can end the engagement.';

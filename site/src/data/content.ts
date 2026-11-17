@@ -1,4 +1,4 @@
-import { TERM_AND_EXIT, TERM_SHORT } from './pricing';
+import { TERM_AND_EXIT } from './pricing';
 import { SITE } from '../consts';
 
 const IDENTITY_SENTENCE = SITE.identityLine;
@@ -522,13 +522,26 @@ const TIMING_ANSWER =
   'Changes to your entity data and on-site content can start to show in AI answers within four to eight weeks. Earning citations on third-party sources takes longer, typically three to six months. These are typical ranges, not guarantees: timing depends on your starting visibility, the engine, the type of work and how competitive your category is. That’s why we measure your starting position first.';
 
 export const SERVICE_FAQS = [
+  /* SELF-CONTAINED, DELIBERATELY. These were one-sentence pointers back to
+     the terms line under the plans — fine for a reader scrolling the page,
+     useless to an engine, which lifts a single acceptedAnswer and shows it
+     with no page around it. "The full terms are stated beside the plans on
+     this page" answers nothing once it is the whole answer. Both now carry
+     the term themselves.
+
+     They are literal strings rather than compositions of TERM_AND_EXIT. The
+     composed version WAS the repetition that put that paragraph on the page
+     three times, and these are deliberately shorter and plainer than it.
+     That means they can drift: if the six months, the 90-day review or the
+     rolling-monthly tail ever change, TERM_AND_EXIT in data/pricing.ts and
+     these two answers all have to change together. */
   {
     q: 'Is there a minimum term?',
-    a: `Yes \u2014 ${TERM_SHORT}, with the full terms stated beside the plans on this page.`,
+    a: 'Yes. There\u2019s a six-month initial term with a 90-day review, then it runs month to month.',
   },
   {
     q: 'Can I leave early?',
-    a: `Yes \u2014 at the 90-day review, and with a month\u2019s notice once the initial term ends; the full terms are stated beside the plans on this page.`,
+    a: 'Yes. At the 90-day review you can end the engagement if your AI citation share hasn\u2019t moved against your baseline. After six months it\u2019s rolling monthly.',
   },
   { q: 'How soon will we see results?', a: TIMING_ANSWER },
   { q: 'Which AI engines do you track?', a: ENGINES_ANSWER },

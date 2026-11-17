@@ -149,20 +149,16 @@ export const EXAMPLES = [
  * and omitted in two others, so a reader, or an engine lifting one line,
  * could meet the commitment without the exit. They are one sentence now, and
  * everywhere that states the term composes from this.
+ *
+ * ONE EXCEPTION, ADDED 2026-11-17: the "Is there a minimum term?" and "Can I
+ * leave early?" answers in SERVICE_FAQS are written out rather than composed.
+ * They are the two an engine is most likely to lift and show on their own,
+ * so they are plainer and shorter than this sentence, which composing could
+ * not give them. They have to be changed in step with it — the note above
+ * them in data/content.ts says the same.
  */
 export const TERM_AND_EXIT =
   'Six-month initial term with a 90-day review — if your citation share hasn’t moved against your baseline by day 90, you can end the engagement.';
-
-/**
- * The term as a CLAUSE, for answers that point at the full statement instead
- * of repeating it. The /services FAQ used to carry TERM_AND_EXIT verbatim in
- * two of its six answers, so the same paragraph appeared three times on one
- * page — under the plans, and then twice more a screen later.
- *
- * MUST AGREE WITH TERM_AND_EXIT ABOVE. It is a summary, not a derivation, so
- * nothing enforces it: change one and change the other.
- */
-export const TERM_SHORT = 'a six-month initial term with a 90-day review';
 
 export const VAT_TERMS = `Prices exclude VAT (UAE 5%, UK 20%). ${TERM_AND_EXIT}`;
 

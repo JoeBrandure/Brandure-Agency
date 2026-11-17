@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Testimonials from '../components/Testimonials.astro';
 import ReportForm from '../components/ReportForm.astro';
 import BookForm from '../components/BookForm.astro';
-import { PACKAGES, ENGINES_SENTENCE, COST_OF_ABSENCE, NOT_SEO, SETUP, TERMS, SERVICE_FAQS, STAGES } from '../data/content';
+import { PACKAGES, ENGINES_SENTENCE, NOT_SEO, SETUP, TERMS, SERVICE_FAQS, STAGES } from '../data/content';
 import { PLANS, SETUP_FEE, ADDONS } from '../data/pricing';
 import Price from '../components/Price.astro';
 import CurrencySwitch from '../components/CurrencySwitch.astro';
@@ -30,7 +30,7 @@ import { allServiceSchemas } from '../lib/schema';
 /* THE SHAPE OF THIS PAGE, TOP TO BOTTOM.
      hero          the three parts named in the H1, and three ways down
      cards         one card each, with the tag that says how it is bought
-     #ai-search    the cost of absence, the not-SEO table, SCAN in four lines
+     #ai-search    the not-SEO table, then SCAN in four lines
      #seo          what lands at setup, what runs every month
      #websites     a summary of /ai-ready-websites, and the rule about plans
      fits          the one strip that says how the three stack up
@@ -107,8 +107,8 @@ const PARTS = [
     tag: 'Core or Growth plan',
     b: [
       'Each engine measured separately, never averaged',
-      'Earned citations on the sources those answers use',
-      'A monthly net figure, your category’s movement taken out',
+      'Mentions on the sites AI trusts',
+      'A monthly report on what changed because of us',
     ],
   },
   {
@@ -144,7 +144,7 @@ const FITS = [
   { a: 'teal', t: 'Website', d: 'Google and AI can read you' },
   { a: 'violet', t: 'SEO', d: 'Google ranks you' },
   { a: 'cobalt', t: 'AI Search', d: 'AI names you' },
-  { a: 'deep', t: 'Measured monthly', d: 'net of your category’s own movement' },
+  { a: 'deep', t: 'Measured monthly', d: 'What changed because of us' },
 ] as const;
 ---
 <BaseLayout
@@ -163,8 +163,8 @@ const FITS = [
     <div class="wrap-narrow" data-load>
       <h1 class="statement" data-split>AI Search, SEO and websites. One team, one plan.</h1>
       <p class="lede">
-        Providing everything you need to get found, whether your buyer asks an
-        AI or types into Google.
+        Get found when buyers ask ChatGPT, Perplexity or Google&rsquo;s AI
+        Overviews, and get a website they can all read.
       </p>
       <nav class="jump" aria-label="Jump to a service">
         <a class="jump__l" href="#ai-search">AI Search</a>
@@ -226,8 +226,13 @@ const FITS = [
     </div>
   </section>
 
-  <!-- 3. AI SEARCH. Three sub-parts: what absence costs, why it is not an SEO
-       retainer, and the four stages shown rather than explained. -->
+  <!-- 3. AI SEARCH. Two sub-parts: why it is not an SEO retainer, and the
+       four stages shown rather than explained.
+
+       THE THREE PROBLEM CARDS THAT USED TO OPEN THIS ARE GONE. They argued
+       what being absent costs, which is what the home page's problem grid
+       already argues to the same reader on the way here. The comparison
+       table is the thing only this page says, so it opens the section. -->
   <section class="section section--sunk" id="ai-search">
     <div class="wrap" data-reveal>
       <div class="section-head">
@@ -235,22 +240,7 @@ const FITS = [
         <p class="lede">Named, cited and recommended inside the answers your buyers are given.</p>
       </div>
 
-      <h3 class="svc-sub">You&rsquo;re losing business here and your reporting says nothing.</h3>
-      <div class="problem-grid problem-grid--3" data-stagger>
-        {COST_OF_ABSENCE.map((c) => (
-          <div class:list={['card', 'problem', `problem--${c.a}`]}>
-            <span class="problem__n" aria-hidden="true">{c.n}</span>
-            <h4>{c.t}</h4>
-            <p class="problem__p">{c.p}</p>
-            <div class="problem__effect">
-              <span class="problem__k">Why it matters</span>
-              <p>{c.e}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <h3 class="svc-sub svc-sub--gap">This isn&rsquo;t an SEO retainer with a new name.</h3>
+      <h3 class="svc-sub">This isn&rsquo;t an SEO retainer with a new name.</h3>
       <p class="svc-sub__p">
         AI Search needs its own strategy, budget and reporting. Bolt it onto an
         SEO retainer and it gets none of the three.
@@ -323,8 +313,8 @@ const FITS = [
         <div class="card two__c stages--cobalt">
           <p class="two__k">Every month</p>
           <ul class="two__l">
-            <li>Your priority pages</li>
-            <li>Measured on Google and in AI answers</li>
+            <li>Ongoing SEO on the pages that bring buyers</li>
+            <li>Monthly report: Google rankings and AI mentions</li>
           </ul>
         </div>
       </div>
@@ -396,7 +386,7 @@ const FITS = [
         {/* No subheading. The cards carry the price and the artefact list, and
             a lede in between was softening the number before the reader
             reached it. */}
-        <h2>Start your AI Search growth one of two ways.</h2>
+        <h2>One plan, two sizes.</h2>
       </div>
 
       <CurrencySwitch />
@@ -436,6 +426,14 @@ const FITS = [
         ))}
       </div>
 
+      {/* Website work is the third thing we sell and the only one that is
+          not in a plan, so it is stated here rather than left to the card
+          three sections up. Same Price component, so it follows the switch. */}
+      <p class="pkg__setup">
+        <strong>Websites &mdash; add to either plan, from <Price m={WEB_PAGE.price} /> a page.</strong>
+        {' '}<a href="#websites">What we build</a>.
+      </p>
+
       {/* Setup is not a third card — it is bought alongside either tier, and
           both cards already state it in their price line. It sits here as a
           line so the ten-day lead time is visible before the terms. */}
@@ -443,6 +441,9 @@ const FITS = [
         <strong>{SETUP.name} &mdash; <Price m={SETUP_FEE.price} />.</strong> {SETUP.d}
       </p>
 
+      {/* THE ONLY STATEMENT OF THE TERMS ON THIS PAGE. The two FAQ answers
+          below used to repeat this paragraph in full, which put it on the
+          page three times; they now give the clause and point back here. */}
       <p class="center-row mt-1"><span class="note-sm">{TERMS}</span></p>
       {/* The capacity cap. It was one of three figures in the old hero; the
           hero now has a job that three numbers got in the way of, and this is
@@ -469,7 +470,7 @@ const FITS = [
           about it now, and which tier fits. No deck.
         </p>
       </div>
-      <BookForm id="book-form" />
+      <BookForm id="book-form" heading="Tell us about your business" />
     </div>
   </section>
 
@@ -535,6 +536,19 @@ const FITS = [
 </BaseLayout>
 
 <style>
+  /* ---------- Jump targets: deliberately NO scroll-margin-top ----------
+     html already carries scroll-padding-top: calc(var(--header-h) + 0.75rem)
+     in global.css, and the two properties SUM. Measured on the three section
+     ids, heading top against a header whose bottom is 72px (desktop) and
+     103px (mobile):
+
+       no scroll-margin          170px / 136px   heading clear, fully visible
+       + calc(--header-h + 1rem) 258px / 224px   heading a third down the page
+
+     So adding it here pushes the heading 88px further away rather than
+     closer. The clearance is already correct from a hero chip, from a
+     homepage /services#seo deep link, and on a cold load with the hash. */
+
   /* ---------- Hero jump links ---------- */
   /* Three chips, not three buttons. The hero already has two buttons and a
      row of five would make none of them read as the primary action. */

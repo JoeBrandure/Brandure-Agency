@@ -1,4 +1,4 @@
-import { TERM_AND_EXIT } from './pricing';
+import { TERM_AND_EXIT, TERM_SHORT } from './pricing';
 import { SITE } from '../consts';
 
 const IDENTITY_SENTENCE = SITE.identityLine;
@@ -46,7 +46,7 @@ export const PROBLEMS = [
     n: '01',
     accent: 'cobalt',
     t: 'You\u2019re losing deals you\u2019ll never hear about.',
-    p: 'Someone asks ChatGPT for a supplier. It gives them three names. They call one. You were never in the running.',
+    p: 'Someone asks ChatGPT, Google AI Overviews or Perplexity for a supplier. They get three names back. They call one. You were never in the running.',
     e: 'There\u2019s no click to lose, so nothing lands in your reporting. It just looks like a quiet month.',
   },
   {
@@ -289,6 +289,7 @@ export const PACKAGES = [
       '2 earned citation placements a month \u2014 around 85% of AI citations come from third-party sources, not your own site',
       'Quarterly category authority asset',
       'Technical and entity foundation: schema, AI crawler access, Google Business Profile',
+      'Technical SEO at setup, ongoing SEO every month',
       'Monthly reporting on mention rate, share of voice and AI-referred traffic',
     ],
     /* "One category, English, Dubai." until 2026-10-21. With Arabic and
@@ -324,6 +325,7 @@ export const PACKAGES = [
       'Monthly category authority asset',
       'Active competitor displacement \u2014 named targets, quarterly plan',
       'Entity correction across third-party sources',
+      'Technical SEO at setup, ongoing SEO every month',
     ],
     honest: 'Up to three categories.',
     /* Three bullets, matching Core. Removing the Arabic line left this tier
@@ -445,37 +447,17 @@ export const PRIZE = {
     'Muck Rack sells PR software, so read it with that in mind. We use it because of the sample size and because the number has barely moved in a year.',
 } as const;
 
-/**
- * What being absent actually costs, for /service.
+/* COST_OF_ABSENCE WAS HERE, AND IS GONE. Three cards on /service — "your
+ * reporting says everything's fine", "the shortlist gets made without you",
+ * "it gets pricier the longer you leave it" — each with a "Why it matters"
+ * box under it.
  *
- * Distinct from PROBLEMS on the home page, which explains *why* a brand is
- * absent — the mechanics. This is the commercial consequence, which is the
- * thing that makes a buyer act. Deliberately none of it is a statistic: the
- * argument holds without one, and a number here would have to be invented.
+ * Removed 2026-11-17: the home page's PROBLEMS grid above makes the same
+ * argument to the same reader, four cards instead of three, and a buyer who
+ * reached /services has already read it. #ai-search now opens on the
+ * comparison table, which is the thing that page can say and the home page
+ * cannot. The copy is in the history if the argument is wanted back.
  */
-export const COST_OF_ABSENCE = [
-  {
-    n: '01',
-    a: 'cobalt',
-    t: 'Your reporting says everything\u2019s fine.',
-    p: 'No impression, no click, no enquiry. Nothing to see, because there was nothing to lose.',
-    e: 'Losing here looks exactly like a quiet month. Your dashboard can\u2019t tell the two apart, so nobody raises it.',
-  },
-  {
-    n: '02',
-    a: 'violet',
-    t: 'The shortlist gets made without you.',
-    p: 'On Google, a buyer could still find you at position seven. An AI hands them three names and stops.',
-    e: 'Page two used to mean less traffic. Here there is no page two to climb from.',
-  },
-  {
-    n: '03',
-    a: 'teal',
-    t: 'It gets pricier the longer you leave it.',
-    p: 'These answers come from a small set of sources that doesn\u2019t change quickly. Every month a competitor holds those mentions, the link gets harder to break.',
-    e: 'Getting there first costs a fraction of prising someone else out. That\u2019s the argument for moving now.',
-  },
-] as const;
 
 /** What separates this from an SEO retainer, stated as a comparison. */
 export const NOT_SEO = [
@@ -541,10 +523,13 @@ const TIMING_ANSWER =
   'Changes to your entity data and on-site content can start to show in AI answers within four to eight weeks. Earning citations on third-party sources takes longer, typically three to six months. These are typical ranges, not guarantees: timing depends on your starting visibility, the engine, the type of work and how competitive your category is. That’s why we measure your starting position first.';
 
 export const SERVICE_FAQS = [
-  { q: 'Is there a minimum term?', a: `Yes. ${TERM_AND_EXIT} It runs rolling monthly after that.` },
+  {
+    q: 'Is there a minimum term?',
+    a: `Yes \u2014 ${TERM_SHORT}, with the full terms stated beside the plans on this page.`,
+  },
   {
     q: 'Can I leave early?',
-    a: `Yes. ${TERM_AND_EXIT} After the initial term it runs rolling monthly, so you can stop with a month’s notice.`,
+    a: `Yes \u2014 at the 90-day review, and with a month\u2019s notice once the initial term ends; the full terms are stated beside the plans on this page.`,
   },
   { q: 'How soon will we see results?', a: TIMING_ANSWER },
   { q: 'Which AI engines do you track?', a: ENGINES_ANSWER },

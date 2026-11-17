@@ -153,6 +153,17 @@ export const EXAMPLES = [
 export const TERM_AND_EXIT =
   'Six-month initial term with a 90-day review — if your citation share hasn’t moved against your baseline by day 90, you can end the engagement.';
 
+/**
+ * The term as a CLAUSE, for answers that point at the full statement instead
+ * of repeating it. The /services FAQ used to carry TERM_AND_EXIT verbatim in
+ * two of its six answers, so the same paragraph appeared three times on one
+ * page — under the plans, and then twice more a screen later.
+ *
+ * MUST AGREE WITH TERM_AND_EXIT ABOVE. It is a summary, not a derivation, so
+ * nothing enforces it: change one and change the other.
+ */
+export const TERM_SHORT = 'a six-month initial term with a 90-day review';
+
 export const VAT_TERMS = `Prices exclude VAT (UAE 5%, UK 20%). ${TERM_AND_EXIT}`;
 
 /** 5 or more single pages costs more than the up-to-10 rebuild, so the builder

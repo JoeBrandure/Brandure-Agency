@@ -104,7 +104,13 @@ const { id = 'book-form', heading = 'Book a call' } = Astro.props;
     <div class="field">
       <label for={`${id}-tier`}>What you&rsquo;re asking about</label>
       <select id={`${id}-tier`} name="tier">
-        {PACKAGES.map((p) => <option value={p.name}>{p.name} &mdash; {p.price} {p.unit}</option>)}
+        {/* Name only. This read `{p.name} — {p.price} {p.unit}`, and PACKAGES
+            has neither a `price` nor a `unit` field — both have been on PLANS
+            in data/pricing.ts throughout — so every option rendered as
+            "Core —" with a dangling dash and nothing after it. The price is
+            on the cards directly above this form; the select only has to say
+            which tier the enquiry is about. */}
+        {PACKAGES.map((p) => <option value={p.name}>{p.name}</option>)}
         <option value="Not sure yet">Not sure yet</option>
       </select>
     </div>

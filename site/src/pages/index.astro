@@ -85,7 +85,10 @@ const faqSchema = {
       band is full width and centred on the axis, like every other section. */}
   <section class="section section--tight" aria-labelledby="market-h">
     <div class="wrap">
-      <StatsBand as="h2" id="market-h" />
+      {/* No terms line here. The band is shared with /aeo-agency-dubai,
+          which states the terms in its own price section; the home page now
+          states them nowhere and sends the reader to /services#buy. */}
+      <StatsBand as="h2" id="market-h" terms={false} />
     </div>
   </section>
 
@@ -115,18 +118,22 @@ const faqSchema = {
           what made "what does Brandure actually do" a three-page answer. */}
       <div class="ways" data-stagger>
         <div class="card way">
-          <span class="way__k"><a class="way__main" href="/services#ai-search">AI search (AEO)</a></span>
+          <span class="way__k"><a class="way__main" href="/services#ai-search">AI Search (AEO)</a></span>
           <span class="way__d">Get named when buyers ask ChatGPT, Google&rsquo;s AI Overviews and Perplexity.</span>
           <span class="way__d">Based in Dubai. See our <a class="way__in" href="/aeo-agency-dubai">AEO agency in Dubai</a> page.</span>
           <span class="way__p">Plans from <strong><Price m={PLANS[0].monthly} /></strong> a month</span>
         </div>
         <div class="card way">
           <span class="way__k"><a class="way__main" href="/services#seo">SEO</a></span>
-          <span class="way__d">Rank on Google for the searches that bring buyers. Included in every plan.</span>
-          <span class="way__p">Included</span>
+          <span class="way__d">Rank on Google for the searches that bring buyers.</span>
+          {/* "Included in every plan" was in the description AND again as a
+              bare "Included" here. It belongs in this slot, where the other
+              two cards carry their price, and in the same words the card on
+              /services uses. */}
+          <span class="way__p">Included in every plan</span>
         </div>
         <div class="card way">
-          <span class="way__k"><a class="way__main" href="/services#websites">Websites built for both</a></span>
+          <span class="way__k"><a class="way__main" href="/services#websites">Websites</a></span>
           <span class="way__d">New pages or a full rebuild on your platform, so Google and AI can read you.</span>
           <span class="way__p">Pages from <strong><Price m={WEB_PAGE.price} /></strong></span>
         </div>
@@ -244,9 +251,13 @@ const faqSchema = {
     <div class="wrap" data-reveal>
       <CurrencySwitch />
       <div class="pteas">
+        {/* All three currencies, not the switched one: this line is the
+            home page's whole statement of what a plan costs, and it is the
+            form the price list calls the one every crawler should be able to
+            quote. The switch above still drives the three cards further up. */}
         <p class="pteas__t">
-          Plans from <strong><Price m={PLANS[0].monthly} /></strong> a month,
-          with AI search, SEO and website work on one plan.
+          Plans from <strong><Price m={PLANS[0].monthly} all /></strong> a
+          month. SEO included. Website work added when you need it.
         </p>
         <a class="btn" href="/services#buy">See the plans</a>
       </div>

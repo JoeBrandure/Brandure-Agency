@@ -1,0 +1,311 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CurrencySwitch from '../components/CurrencySwitch.astro';
+import PlanCards from '../components/PlanCards.astro';
+import StatsBand from '../components/StatsBand.astro';
+import Price from '../components/Price.astro';
+import { SITE } from '../consts';
+import { PLANS, SETUP_FEE, ADDONS, money, TERM_AND_EXIT } from '../data/pricing';
+import { TESTIMONIALS } from '../data/testimonials';
+import { serviceSchema } from '../lib/schema';
+
+/* AEO AGENCY UK — the UK counterpart of /aeo-agency-dubai.
+ *
+ * Same shape as that page: hero, prose sections, the market band, one client
+ * quote, prices, how it works, FAQs.
+ *
+ * NO OFFICE NODE, AND NO ADDRESS ANYWHERE ON THE PAGE. /aeo-agency-dubai
+ * carries a ProfessionalService with a street address, a phone number and a
+ * "Talk to us" block naming JVC, because there is a real base there. The UK
+ * side is served remotely, so this page claims no UK premises: no postal
+ * address, no local phone, no "our London office". Schema is therefore the
+ * three the brief names — Service, FAQPage, BreadcrumbList — plus the WebPage
+ * node every page here carries, and nothing that asserts a place.
+ *
+ * NO GBP OFFER CATALOG EITHER. The Dubai page hangs an AED-only catalog off
+ * its office node because that node exists. /pricing#catalog already carries
+ * every plan with a GBP UnitPriceSpecification alongside AED and USD, so a
+ * GBP-only duplicate here would add a second, thinner description of the same
+ * offers for a consumer to reconcile.
+ *
+ * DEFAULTS TO GBP, the mirror of Dubai defaulting to AED. Prices render from
+ * src/data/pricing.ts, so this page cannot quote a figure /pricing does not.
+ */
+const url = `${SITE.url}/aeo-agency-uk`;
+const page = ADDONS.find((a) => a.key === 'page')!;
+
+/* A CONFIRMED quote, and a UK one. src/data/testimonials.ts marks only two
+   entries as the client's own words; Joanne's is the UK of the two. The
+   file's own rule is that only a confirmed quote may be cited where client
+   proof is being offered, which is exactly what this section does. */
+const quote = TESTIMONIALS.find((t) => t.brand === 'Little Lockets London' && t.confirmed)!;
+
+/* SELF-CONTAINED, EVERY ONE. These are lifted into an AI answer one at a
+   time, with no page around them, so each answer has to carry its own
+   figures and its own terms. "See the prices above" answers nothing once it
+   IS the answer.
+
+   The market range is the one /guides/aeo-cost-uk already publishes, with the
+   sources named there. Our own figures are composed from data/pricing.ts so
+   they cannot drift from /pricing. */
+const FAQS = [
+  {
+    q: 'How much does an AEO agency cost in the UK?',
+    a:
+      `Most UK businesses pay £2,000–5,000 a month for AI search optimisation (AEO), plus a one-off audit or setup fee of roughly £1,500–5,000. ` +
+      `Brandure's plans are ${money(PLANS[0].monthly).gbp} a month (Core) or ${money(PLANS[1].monthly).gbp} (Growth), ` +
+      `plus a one-off ${money(SETUP_FEE.price).gbp} setup. All figures exclude VAT.`,
+  },
+  {
+    q: 'Can I leave early?',
+    a: 'Yes. At the 90-day review you can end the engagement if your AI citation share hasn’t moved against your baseline. After six months it’s rolling monthly.',
+  },
+  {
+    q: 'How long does AEO take to work?',
+    a: 'Technical and entity fixes can show within weeks. Earned citations usually take two to three months to show consistently across ChatGPT, Google AI Overviews and Perplexity.',
+  },
+  {
+    q: 'Is AEO different from SEO?',
+    a: 'SEO gets you ranked on Google. AEO gets you named inside AI answers. Most of the groundwork overlaps, so every Brandure plan includes both.',
+  },
+  {
+    q: 'Which AI engines does Brandure track for UK businesses?',
+    a: 'ChatGPT, Google AI Overviews and Perplexity, each measured and reported separately, because the same business can be named in one and missing from another.',
+  },
+  {
+    /* Answers "are you actually in the UK" without claiming premises. */
+    q: 'Do you need to be in the UK to work with Brandure?',
+    a: 'No. We work with UK businesses remotely. Tracking, citations, SEO and website work are all done remotely, and calls are on video. We work across the UK and the UAE.',
+  },
+];
+
+const pageDescription =
+  'Brandure is an AEO agency for UK businesses, getting you named in ChatGPT, Google AI Overviews and Perplexity. SEO and AI-ready websites included.';
+
+const webPageSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  '@id': `${url}#webpage`,
+  url,
+  name: 'AEO agency in the UK',
+  description: pageDescription,
+  inLanguage: 'en-GB',
+  isPartOf: { '@id': `${SITE.url}/#website` },
+  about: { '@id': `${SITE.url}/#service` },
+};
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  '@id': `${url}#breadcrumb`,
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: SITE.url },
+    { '@type': 'ListItem', position: 2, name: 'AEO agency in the UK', item: url },
+  ],
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  '@id': `${url}#faq`,
+  isPartOf: { '@id': `${SITE.url}/#website` },
+  mainEntity: FAQS.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+---
+<BaseLayout
+  title="AEO Agency UK | AI Search & SEO | Brandure"
+  fullTitle
+  description={pageDescription}
+  schemas={[webPageSchema, breadcrumbSchema, serviceSchema, faqSchema]}
+>
+  <script is:inline>
+    /* GBP is this page's default, the mirror of AED on /aeo-agency-dubai. A
+       visitor who has already chosen a currency keeps it — a default must not
+       overrule a choice, so every one of the three stored values is honoured
+       and only an unset preference falls through to pounds.
+
+       IT HAS TO RUN BEFORE CurrencySwitch, which reads data-cur to decide
+       which button to press. At the end of the body it would set the prices
+       after the switch had already marked a different button, and the page
+       would show one currency beside a control claiming another. */
+    (function () {
+      var root = document.documentElement;
+      var stored = null;
+      try { stored = localStorage.getItem('brandure_cur'); } catch (e) { /* no choice stored */ }
+      if (stored !== 'aed' && stored !== 'gbp' && stored !== 'usd') {
+        root.setAttribute('data-cur', 'gbp');
+      }
+    })();
+  </script>
+
+  <section class="hero hero--short">
+    <div class="mesh" aria-hidden="true">
+      <div class="mesh__layer mesh__layer--1"><div class="mesh__blob mesh__blob--1"></div></div>
+      <div class="mesh__layer mesh__layer--2"><div class="mesh__blob mesh__blob--2"></div></div>
+    </div>
+    <div class="wrap-narrow" data-load>
+      <p class="eyebrow">United Kingdom</p>
+      <h1 class="statement statement--sub" data-split>AEO agency in the UK</h1>
+      <p class="lede">
+        Brandure is an AI search optimisation (AEO) and SEO agency working with
+        UK businesses. We get you named when buyers ask ChatGPT, Google AI
+        Overviews and Perplexity who to use, and ranked on Google for the same
+        questions.
+      </p>
+      <div class="hero-actions">
+        <a class="btn" href="/#report">Get your free AI visibility report</a>
+        <a class="btn btn--violet" href="/pricing">Build your plan</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--sunk">
+    <div class="wrap-narrow" data-reveal>
+      <div class="prose">
+        <h2>Why AI search needs its own work</h2>
+        <p>
+          We measure how AI engines answer buying questions, and the engines
+          don&rsquo;t agree with each other. Each one often names different
+          businesses for the same question, because each reads a different set
+          of sources: directories and listings for one, ranked lists and press
+          for another. So a business can be recommended by one engine and
+          missing from the rest.
+        </p>
+        <p>
+          That&rsquo;s why we track and report each engine separately, and why
+          most of the work happens on the sites the engines read, not only on
+          yours. Our published measurement is from our own market and carries
+          its method, dates and sample size so you can check it or run it
+          yourself.
+        </p>
+        <p><a href="/research">Read our research &rarr;</a></p>
+
+        <h2>What we do for UK businesses</h2>
+        <ul>
+          <li><strong>AI visibility tracking per engine.</strong> We track the questions your buyers actually ask, across ChatGPT, Google AI Overviews and Perplexity, reported separately every month.</li>
+          <li><strong>Earned citations.</strong> We get you placed on the UK directories, ranked lists and publications the engines quote.</li>
+          <li><strong>SEO included.</strong> Technical SEO at setup and ongoing SEO for your priority pages, so you rank on Google as well.</li>
+          <li><strong>Google Business Profile and entity fixes.</strong> Your name, category and location stay consistent everywhere AI looks, which matters for Google AI Overviews.</li>
+          <li><strong>AI-ready websites.</strong> When your site is the blocker, we rebuild the pages that matter on your current platform. <a href="/ai-ready-websites">How we build</a>.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  {/* The sourced market band. terms={false} because the term and its exit are
+      stated once on this page, under the prices, where they bear on the
+      decision. */}
+  <section class="section" aria-labelledby="res-h">
+    <div class="wrap" data-reveal>
+      <StatsBand as="h2" id="res-h" ctaHref="/#report" terms={false} />
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="wrap-narrow" data-reveal>
+      <ul class="tst__col uk-quote" role="list">
+        <li class:list={['tst__card', `tst--${quote.accent}`]}>
+          <blockquote>
+            <p>{quote.quote}</p>
+            <footer>
+              <span class="tst__mono" aria-hidden="true">{quote.initials}</span>
+              <span class="tst__who">
+                <cite>{quote.name}</cite>
+                <span class="tst__role">{quote.role} &middot; {quote.brand}</span>
+              </span>
+            </footer>
+          </blockquote>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--sunk" aria-labelledby="pr-h">
+    <div class="wrap-narrow" data-reveal>
+      <div class="section-head">
+        <h2 id="pr-h">Prices in the UK</h2>
+      </div>
+      <CurrencySwitch />
+
+      {/* The same two cards as /pricing, display-only, from the same data. */}
+      <div class="grid grid--2 uk-plans">
+        <PlanCards mode="link" />
+      </div>
+
+      <div class="prose">
+        {/* Every space that has to survive is written inside the text, never
+            left to the indentation: Astro collapses the newline between a
+            close tag and the text on the next line. */}
+        <p class="note-sm uk-plus">
+          <strong>{SETUP_FEE.name} <Price m={SETUP_FEE.price} /> one-off</strong>, included with every plan
+          &middot; <strong>Website work</strong> from <Price m={page.price} /> per page
+        </p>
+        <p class="note-sm">
+          Prices exclude 20% VAT. {TERM_AND_EXIT}
+        </p>
+        <p>
+          <a class="btn" href="/pricing">Build your plan</a>
+        </p>
+        <p>
+          <a href="/guides/aeo-cost-uk">How much AEO costs in the UK &rarr;</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap-narrow" data-reveal>
+      <div class="prose">
+        <h2>How it works</h2>
+        <ol>
+          <li><strong>Free AI visibility report.</strong> See how each engine answers your buyers&rsquo; questions today, and who it names instead of you.</li>
+          <li><strong>Setup in 10 working days.</strong> Technical SEO, schema, AI crawler access, Google Business Profile and your baseline.</li>
+          <li><strong>Monthly work and reporting.</strong> Citations, content and SEO, with AI visibility, rankings and AI-referred traffic reported per engine.</li>
+        </ol>
+
+        <h2>Talk to us</h2>
+        {/* No address and no phone number. We work with UK clients remotely,
+            and a landing page is the last place to imply premises that are
+            not there. */}
+        <p>
+          We work with UK businesses remotely, so everything runs over email
+          and video.<br />
+          Email: <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+        </p>
+        <p><a class="btn" href="/services#book">Book a call</a></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--sunk">
+    <div class="wrap-narrow" data-reveal>
+      <div class="section-head">
+        <h2>Questions</h2>
+      </div>
+      <div class="qa">
+        {FAQS.map((f) => (
+          <details>
+            <summary>{f.q}</summary>
+            <p>{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* The same placements /aeo-agency-dubai uses for the single quote and the
+     plan pair: existing components, put on a page that has one of each
+     rather than a grid. */
+  .uk-quote { max-width: 34rem; margin-inline: auto; list-style: none; padding: 0; }
+  /* The cards sit between the currency switch and the prose, so they need the
+     gap the prose would otherwise have given them. The "Most chosen" tag
+     overhangs the card's top edge, hence the row of top padding. */
+  .uk-plans { margin: 0 0 1.5rem; padding-top: 0.65rem; }
+  .uk-plus { margin-top: 0; }
+</style>

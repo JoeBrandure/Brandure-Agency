@@ -34,7 +34,7 @@ More UK agencies publish prices than UAE ones, but most still quote on request. 
 | MarGen | £2,950 audit; £2,950, £5,950 and from £12,950 a month | Audit credited against month one ([MarGen](https://www.margen.net/aeo-agency-pricing-uk/)) |
 | Brandure | £1,400 a month (Core) or £2,600 (Growth), plus £750 setup | AI search (AEO) with SEO included, tracked separately across ChatGPT, Google AI Overviews and Perplexity; website builds available as an add-on ([our pricing](/pricing)) |
 
-Brandure wrote this guide, so treat our row the same way you'd treat any agency's own figures.
+Brandure wrote this guide, so treat our row the same way you'd treat any agency's own figures. We are an [AEO agency for UK businesses](/aeo-agency-uk), working remotely across the UK.
 
 ## Why UK prices vary so much
 

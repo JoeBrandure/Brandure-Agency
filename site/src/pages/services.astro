@@ -223,6 +223,14 @@ const FITS = [
           </div>
         ))}
       </div>
+      {/* The two markets the service is sold in, each with a page of its own.
+          Same sentence shape as the home page's AI Search card, which points
+          at the Dubai one. */}
+      <p class="svc3__where">
+        We work across the UK and the UAE. See our
+        {' '}<a href="/aeo-agency-uk">AEO agency in the UK</a> and
+        {' '}<a href="/aeo-agency-dubai">AEO agency in Dubai</a> pages.
+      </p>
     </div>
   </section>
 
@@ -609,6 +617,11 @@ const FITS = [
     margin: 0.9rem 0 0; margin-top: auto; padding-top: 0.9rem;
     border-top: 1px solid var(--border);
     font-size: var(--small); font-weight: 600; color: var(--sa);
+  }
+
+  .svc3__where {
+    margin: 1.25rem auto 0; max-width: 62ch; text-align: center;
+    font-size: var(--small); color: var(--muted);
   }
 
   /* ---------- Sub-headings inside a service section ----------

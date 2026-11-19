@@ -45,6 +45,9 @@ ${SITE.identityLine}
 - [AEO agency in Dubai](${SITE.url}/aeo-agency-dubai): the Dubai landing page —
   what AI search optimisation looks like for a UAE business, local prices in
   AED, and the JVC address and phone number.
+- [AEO agency in the UK](${SITE.url}/aeo-agency-uk): the UK landing page — what
+  AI search optimisation looks like for a UK business, prices in GBP, and how
+  the work runs. UK clients are served remotely.
 - [AI-ready websites](${SITE.url}/ai-ready-websites): websites built so Google
   and AI assistants can read, trust and recommend a business, on WordPress,
   Shopify, Webflow or our own stack, with AI search and SEO included.

@@ -112,7 +112,7 @@ If a face-to-face relationship matters to you, shortlist agencies with a London 
 
 For a full checklist, see [how to choose an AEO agency](/guides/how-to-choose-an-aeo-agency).
 
-Whoever you speak to, get a baseline of your AI visibility on named questions before you sign. Our [free AI visibility report](/#report) covers ChatGPT, Google AI Overviews and Perplexity, and [how to choose an AEO agency](/guides/how-to-choose-an-aeo-agency) has the full checklist. For prices, see [how much AEO costs in the UK](/guides/aeo-cost-uk).
+Brandure is an [AEO agency for UK businesses](/aeo-agency-uk). Whoever you speak to, get a baseline of your AI visibility on named questions before you sign. Our [free AI visibility report](/#report) covers ChatGPT, Google AI Overviews and Perplexity, and [how to choose an AEO agency](/guides/how-to-choose-an-aeo-agency) has the full checklist. For prices, see [how much AEO costs in the UK](/guides/aeo-cost-uk).
 
 ## Frequently asked questions
 

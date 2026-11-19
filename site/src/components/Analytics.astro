@@ -30,8 +30,18 @@ const { ga4, privacyHref } = SITE;
 
 {/* GOOGLE CONSENT MODE v2 — defaults first, always.
     This block runs on every page, before anything measures anything. All four
-    signals default to denied; the three ad signals are never granted, because
-    the site runs no ads and nothing here should imply it might.
+    signals default to denied.
+
+    WHAT ACCEPT GRANTS, AND WHAT IT DOES NOT. Accept grants analytics_storage,
+    ad_storage and ad_user_data. ad_personalization stays DENIED, on purpose
+    and permanently: the first three are what Google Ads needs to attribute a
+    conversion to a click, the fourth is what it needs to build remarketing
+    audiences, and we do conversion measurement without remarketing. Granting
+    ad_personalization would make the banner's own wording false.
+
+    THERE IS NO AW- TAG, deliberately. Conversions are imported into Google
+    Ads from GA4 rather than sent twice. Adding a Google Ads tag here would
+    double-count every lead and give the two systems different numbers.
 
     WHY gtag.js IS NOT LOADED HERE. Consent Mode's own documentation loads the
     tag immediately and lets it send cookieless pings while consent is denied.
@@ -81,9 +91,64 @@ const { ga4, privacyHref } = SITE;
 
     function apply(choice) {
       if (choice !== 'granted') return;
-      gtag('consent', 'update', { analytics_storage: 'granted' });
+      gtag('consent', 'update', {
+        analytics_storage: 'granted',
+        ad_storage: 'granted',
+        ad_user_data: 'granted',
+        /* Restated rather than left to the default above. It is the one
+           signal that must never flip, so it is written at the point of
+           granting where anyone adding a signal here will read it. */
+        ad_personalization: 'denied',
+      });
       loadGa();
     }
+
+    /* THE ONLY WAY ANYTHING ON THIS SITE SENDS AN EVENT TO GOOGLE.
+       Gated on the stored choice rather than on gtag existing: window.gtag is
+       defined on every page load and merely pushes to dataLayer, so calling it
+       before consent would queue the event and gtag.js would REPLAY it the
+       moment a later Accept loaded the tag. An event recorded while consent
+       was denied must not arrive later; this returns early instead. */
+    function track(name, params) {
+      if (!ga4 || stored() !== 'granted') return;
+      gtag('event', name, params || {});
+    }
+    window.brandureTrack = track;
+
+    /* PostHog is initialised on idle, so it may not exist yet when something
+       fires early. One retry rather than a queue: these events happen minutes
+       into a session, long after idle, and a dropped product analytic is not
+       worth a queue implementation. */
+    function capture(name, props) {
+      function go() {
+        if (window.posthog && typeof window.posthog.capture === 'function') {
+          window.posthog.capture(name, props || {});
+          return true;
+        }
+        return false;
+      }
+      if (!go()) setTimeout(go, 2000);
+    }
+    window.brandureCapture = capture;
+
+    /* CALENDLY BOOKINGS. The widget is embedded inline wherever a call is
+       booked — today that is the confirmation panel FormEnhance builds after
+       a call-request submit — and it posts a message to the parent window
+       when a slot is taken. One listener here covers every embed, present and
+       future, rather than one per mount point.
+
+       The origin check is the security boundary: without it any page in any
+       iframe could fake a booking. It matches calendly.com and its
+       subdomains and nothing else — note the escaped dot and the anchors, so
+       "calendly.com.example.net" does not pass. */
+    var CALENDLY_ORIGIN = /^https:\/\/([a-z0-9-]+\.)*calendly\.com$/;
+    window.addEventListener('message', function (e) {
+      if (!CALENDLY_ORIGIN.test(e.origin)) return;
+      var d = e.data;
+      if (!d || typeof d !== 'object' || d.event !== 'calendly.event_scheduled') return;
+      track('book_call');
+      capture('call_booked');
+    });
 
     function persist(choice) {
       try {

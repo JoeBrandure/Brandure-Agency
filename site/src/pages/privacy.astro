@@ -15,7 +15,7 @@ import { SITE } from '../consts';
  * Deliberately not in llms.txt: it is a legal notice, not something to put in
  * front of an answer engine summarising what the agency does.
  */
-const UPDATED = new Date('2026-10-25');
+const UPDATED = new Date('2026-11-18');
 const iso = UPDATED.toISOString().slice(0, 10);
 const human = UPDATED.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
 
@@ -83,17 +83,22 @@ const schema = {
             pages are used.
           </li>
           <li>
-            <strong>Analytics with cookies (only if you accept):</strong> Google
-            Analytics 4 sets cookies to measure visits and traffic sources. It
-            only runs after you click &ldquo;Accept analytics&rdquo;. We
-            don&rsquo;t use advertising cookies.
+            <strong>Analytics and conversion measurement (only if you
+            accept):</strong> Google Analytics 4 sets cookies to measure visits
+            and traffic sources, and to measure which enquiries and bookings
+            came from our Google Ads. Those conversions are imported into
+            Google Ads from Analytics; we don&rsquo;t run a separate Google Ads
+            tag. None of it runs until you click &ldquo;Accept&rdquo;, and
+            none of it is used for remarketing or personalised ads &mdash; we
+            leave Google&rsquo;s ad personalisation signal switched off.
           </li>
         </ul>
 
         <h2>Who processes it for us</h2>
         <p>
-          Netlify (hosting and forms), Google (Workspace email, Analytics),
-          PostHog (analytics), Calendly (scheduling). Some of these providers
+          Netlify (hosting and forms), Google (Workspace email, Analytics,
+          Ads conversion measurement), PostHog (analytics), Calendly
+          (scheduling). Some of these providers
           store data outside the UK and the UAE under their standard data
           protection terms.
         </p>

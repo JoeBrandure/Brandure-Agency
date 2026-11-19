@@ -45,6 +45,21 @@
           .then(function (res) {
             if (!res.ok) throw new Error('Netlify returned ' + res.status);
 
+            /* GOOGLE ADS CONVERSION, ON SUCCESS ONLY. This sits after the
+               res.ok check on purpose: PostHog's own event fires from the
+               submit listener in Analytics.astro, which runs on the ATTEMPT
+               and so counts submissions that then failed. A lead conversion
+               imported into Google Ads has to mean a lead that landed, so
+               this one fires here and nowhere else.
+
+               brandureTrack is a no-op until the visitor has accepted, so
+               nothing reaches Google without consent. */
+            if (typeof window.brandureTrack === 'function') {
+              window.brandureTrack('generate_lead', {
+                form_name: form.getAttribute('name') || '',
+              });
+            }
+
             var panel = document.createElement('div');
             panel.className = 'form-done';
             panel.setAttribute('role', 'status');

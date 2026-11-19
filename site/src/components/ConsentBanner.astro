@@ -5,8 +5,9 @@ import { SITE } from '../consts';
  * Cookie consent banner. UK GDPR / PECR.
  *
  * PECR requires consent BEFORE a non-essential cookie is set or read, so
- * nothing analytics-related runs until the visitor accepts — see the note in
- * Analytics.astro about why gtag.js is not loaded up front.
+ * nothing measurement-related runs until the visitor accepts — see the note
+ * in Analytics.astro about why gtag.js is not loaded up front, and what
+ * Accept does and does not grant.
  *
  * NO DARK PATTERNS. Accept and Reject are the same component, the same size
  * and the same visual weight: both are .btn--ghost. A filled Accept next to an
@@ -33,11 +34,16 @@ const { privacyHref } = SITE;
 >
   <div class="consent__inner">
     <p class="consent__t" id="consent-t">
-      We use analytics cookies to understand how the site is used. No
-      advertising cookies.{privacyHref && (<> <a href={privacyHref}>Privacy policy</a>.</>)}
+      We use cookies for Google Analytics and Google Ads conversion
+      measurement, so we can see which pages and ads lead to enquiries. No
+      advertising cookies are used for remarketing.{privacyHref && (<> <a href={privacyHref}>Privacy policy</a>.</>)}
     </p>
     <div class="consent__actions">
-      <button type="button" class="btn btn--ghost" data-consent="granted">Accept analytics</button>
+      {/* "Accept analytics" until 2026-11-18, when Accept began granting
+          ad_storage and ad_user_data as well. A button that names only
+          analytics while granting advertising storage is not informed
+          consent, whatever the line above it says. */}
+      <button type="button" class="btn btn--ghost" data-consent="granted">Accept</button>
       <button type="button" class="btn btn--ghost" data-consent="denied">Reject</button>
     </div>
   </div>

@@ -55,15 +55,12 @@ export const SITE = {
      third contradicted it on the same page. */
   areaServed: ['AE', 'GB'],
 
-  /* The Dubai base. Added 2026-10-31 with /aeo-agency-dubai — a local landing
-     page with no address or phone is the thing an engine cannot verify. */
+  /* The contact number. `address` and `addressUk` were here until 2026-11-19
+     and are gone: Brandure is remote in both markets, so there was no
+     premises for either to describe, and a constant exists to be rendered.
+     A phone number is a way to reach people, not a place, so it stays. */
   phone: '+971585081399',
   phoneDisplay: '+971 58 508 1399',
-  address: {
-    locality: 'Jumeirah Village Circle',
-    region: 'Dubai',
-    country: 'AE',
-  },
   /* The Calendly event the booking confirmation embeds. Verified against the
      Calendly API on 2026-09-08: account joe@brandure.io, event "15 Minute
      Meeting", Google Meet, active. The 15 matches the copy on the page — an
@@ -105,16 +102,6 @@ export const SITE = {
     'AI search optimisation (AEO) agency, UK and UAE. Brandure (brandure.io) gets businesses named and cited in the answers ChatGPT, Google AI Overviews and Perplexity give their buyers. Founded by Joe Hickman.',
 
   logo: '/og/default.png',
-
-  /* The UK half of "UK and the UAE". It was only ever in the /privacy copy,
-     so the Organization node claimed areaServed GB with a Dubai address and
-     nothing to tie it to. */
-  addressUk: {
-    locality: 'Staines-upon-Thames',
-    region: 'Surrey',
-    postalCode: 'TW18',
-    country: 'GB',
-  },
 
   /* "Brandure Agency" came off 2026-11-12. An alternateName tells an engine
      another string means this entity; that one is generic enough that several

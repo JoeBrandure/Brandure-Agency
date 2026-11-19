@@ -78,25 +78,12 @@ const organizationSchema = {
   logo: new URL(SITE.logo, SITE.url).href,
   areaServed: SITE.areaServed.map((c) => ({ '@type': 'Country', identifier: c })),
   telephone: SITE.phone,
-  /* BOTH BASES. areaServed has said GB and AE for weeks with only a Dubai
-     address underneath it, which left the UK half of the claim unevidenced —
-     and an unevidenced claim is exactly what lets an engine substitute a
-     similarly-named company somewhere else. */
-  address: [
-    {
-      '@type': 'PostalAddress',
-      addressLocality: SITE.address.locality,
-      addressRegion: SITE.address.region,
-      addressCountry: SITE.address.country,
-    },
-    {
-      '@type': 'PostalAddress',
-      addressLocality: SITE.addressUk.locality,
-      addressRegion: SITE.addressUk.region,
-      postalCode: SITE.addressUk.postalCode,
-      addressCountry: SITE.addressUk.country,
-    },
-  ],
+  /* NO address. Brandure is a remote agency: it serves the UK and the UAE and
+     keeps no premises in either, so the node says where the work is sold and
+     not where anyone sits. The two PostalAddress entries that used to be here
+     — a Dubai locality and a UK one — came off on 2026-11-19 because they
+     asserted offices that do not exist. areaServed below is the claim that
+     survives, and it is the true one. */
   /* Deduplicated at build time rather than trusted to stay unique by hand. */
   sameAs: [...new Set(SITE.sameAs)],
   knowsAbout: [

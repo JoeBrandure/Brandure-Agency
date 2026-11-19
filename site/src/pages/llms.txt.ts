@@ -44,7 +44,7 @@ ${SITE.identityLine}
   what a client receives at each stage.
 - [AEO agency in Dubai](${SITE.url}/aeo-agency-dubai): the Dubai landing page —
   what AI search optimisation looks like for a UAE business, local prices in
-  AED, and the JVC address and phone number.
+  AED, and how the work runs. UAE clients are served remotely.
 - [AEO agency in the UK](${SITE.url}/aeo-agency-uk): the UK landing page — what
   AI search optimisation looks like for a UK business, prices in GBP, and how
   the work runs. UK clients are served remotely.

@@ -7,8 +7,9 @@ import Price from '../components/Price.astro';
 import { SITE } from '../consts';
 import { PLANS, SETUP_FEE, ADDONS, money, TERM_AND_EXIT } from '../data/pricing';
 import { TESTIMONIALS } from '../data/testimonials';
-/* The Dubai page sells the same service from a local base: the
-   ProfessionalService node below is the office, this is what it sells. */
+/* The Dubai page sells the same service into a local market: the
+   ProfessionalService node below is that market's entity, this is what it
+   sells. */
 import { serviceSchema } from '../lib/schema';
 
 /* AEO AGENCY DUBAI — a local landing page for "AEO agency Dubai".
@@ -47,8 +48,12 @@ const FAQS = [
     a: 'Yes. We work across the UAE and the UK, with Dubai as our base.',
   },
   {
-    q: 'Where is Brandure based?',
-    a: 'Jumeirah Village Circle (JVC), Dubai, with a second office in the UK.',
+    /* Was "Jumeirah Village Circle (JVC), Dubai, with a second office in the
+       UK." Brandure keeps no premises in either market, so the honest answer
+       is how the work runs, not where a desk is. Self-contained, like every
+       answer here, because an engine quotes one at a time. */
+    q: 'Do you need to be in Dubai to work with Brandure?',
+    a: 'No. Brandure is a remote agency working across the UAE and the UK. Tracking, citations, SEO and website work are all done remotely, and calls are on phone or video.',
   },
 ];
 
@@ -81,10 +86,11 @@ const breadcrumbSchema = {
   ],
 };
 
-/* The Organization node is a plain Organization, so the Dubai base gets its
-   own ProfessionalService rather than changing that node's type. It is the
-   local entity: same name and site, its own address, phone and area served,
-   pointing back at the parent. */
+/* The Organization node is a plain Organization, so the Dubai market gets
+   its own ProfessionalService rather than changing that node's type. It
+   carries the contact details, the area served and the AED price list, and
+   points back at the parent. It carries no address: there is no Dubai office
+   to describe. */
 const officeSchema = {
   '@context': 'https://schema.org',
   '@type': 'ProfessionalService',
@@ -93,12 +99,9 @@ const officeSchema = {
   url,
   telephone: SITE.phone,
   email: SITE.email,
-  address: {
-    '@type': 'PostalAddress',
-    addressLocality: SITE.address.locality,
-    addressRegion: SITE.address.region,
-    addressCountry: SITE.address.country,
-  },
+  /* No address. Brandure serves Dubai remotely and keeps no premises there,
+     so this node says what it sells and where it sells it, and asserts no
+     place. areaServed below is the claim that survives. */
   parentOrganization: { '@id': `${SITE.url}/#organization` },
   areaServed: ['Dubai', 'AE'],
   /* AED only on this page, as specified. /pricing carries both currencies. */
@@ -170,7 +173,13 @@ const faqSchema = {
       var root = document.documentElement;
       var stored = null;
       try { stored = localStorage.getItem('brandure_cur'); } catch (e) { /* no choice stored */ }
-      if (stored !== 'aed' && stored !== 'gbp') root.setAttribute('data-cur', 'aed');
+      /* Every stored choice is honoured, 'usd' included. The test used to
+         name only 'aed' and 'gbp', so a visitor who had explicitly chosen
+         dollars was pushed back to dirhams on this page alone. A default
+         must not overrule a choice. Matches /aeo-agency-uk. */
+      if (stored !== 'aed' && stored !== 'gbp' && stored !== 'usd') {
+        root.setAttribute('data-cur', 'aed');
+      }
     })();
   </script>
 
@@ -183,10 +192,10 @@ const faqSchema = {
       <p class="eyebrow">Dubai</p>
       <h1 class="statement statement--sub" data-split>AEO agency in Dubai</h1>
       <p class="lede">
-        Brandure is an AI search optimisation (AEO) and SEO agency based in
-        Jumeirah Village Circle (JVC), Dubai. We get Dubai businesses named when
-        buyers ask ChatGPT, Google AI Overviews and Perplexity who to use, and
-        ranked on Google for the same questions.
+        Brandure is an AI search optimisation (AEO) and SEO agency working
+        with Dubai businesses. We get you named when buyers ask ChatGPT,
+        Google AI Overviews and Perplexity who to use, and ranked on Google
+        for the same questions.
       </p>
       <div class="hero-actions">
         <a class="btn" href="/#report">Get your free AI visibility report</a>
@@ -310,8 +319,11 @@ const faqSchema = {
         </ol>
 
         <h2>Talk to us</h2>
+        {/* No address. We work with Dubai businesses remotely, and a
+            landing page is the last place to imply premises. */}
         <p>
-          Brandure, Jumeirah Village Circle (JVC), Dubai, UAE<br />
+          We work with Dubai businesses remotely, so everything runs over
+          phone, email and video.<br />
           Phone: <a href={`tel:${SITE.phone}`}>{SITE.phoneDisplay}</a><br />
           Email: <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
         </p>

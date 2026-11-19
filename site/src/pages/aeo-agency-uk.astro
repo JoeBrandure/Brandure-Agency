@@ -14,16 +14,18 @@ import { serviceSchema } from '../lib/schema';
  * Same shape as that page: hero, prose sections, the market band, one client
  * quote, prices, how it works, FAQs.
  *
- * NO OFFICE NODE, AND NO ADDRESS ANYWHERE ON THE PAGE. /aeo-agency-dubai
- * carries a ProfessionalService with a street address, a phone number and a
- * "Talk to us" block naming JVC, because there is a real base there. The UK
- * side is served remotely, so this page claims no UK premises: no postal
- * address, no local phone, no "our London office". Schema is therefore the
- * three the brief names — Service, FAQPage, BreadcrumbList — plus the WebPage
- * node every page here carries, and nothing that asserts a place.
+ * NO OFFICE NODE, AND NO ADDRESS ANYWHERE ON THE PAGE. Brandure is remote in
+ * both markets — every street address came off the site on 2026-11-19 — so
+ * this page claims no UK premises: no postal address, no local phone, no
+ * "our London office". Schema is the three the brief names — Service,
+ * FAQPage, BreadcrumbList — plus the WebPage node every page here carries,
+ * and nothing that asserts a place. /aeo-agency-dubai keeps a
+ * ProfessionalService node for its AED price list; that one is addressless
+ * too.
  *
  * NO GBP OFFER CATALOG EITHER. The Dubai page hangs an AED-only catalog off
- * its office node because that node exists. /pricing#catalog already carries
+ * its ProfessionalService node because that node exists. /pricing#catalog
+ * already carries
  * every plan with a GBP UnitPriceSpecification alongside AED and USD, so a
  * GBP-only duplicate here would add a second, thinner description of the same
  * offers for a consumer to reconcile.

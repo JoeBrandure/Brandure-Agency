@@ -15,7 +15,7 @@ import { SITE } from '../consts';
  * Deliberately not in llms.txt: it is a legal notice, not something to put in
  * front of an answer engine summarising what the agency does.
  */
-const UPDATED = new Date('2026-11-18');
+const UPDATED = new Date('2026-11-19');
 const iso = UPDATED.toISOString().slice(0, 10);
 const human = UPDATED.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
 
@@ -59,9 +59,14 @@ const schema = {
         </p>
 
         <h2>Who we are</h2>
+        {/* Contact email only. This carried a Dubai street address and a UK
+            one until 2026-11-19; Brandure is remote in both markets and
+            keeps no premises in either, so a notice that named two offices
+            was describing something that does not exist. The controller is
+            still identified, which is what this section is for. */}
         <p>
-          Brandure, 2121 Binghatti Corner, Dubai, United Arab Emirates. UK
-          office: Richmond Road, Staines-upon-Thames, TW18. Contact:{' '}
+          Brandure, a remote agency working across the UK and the United Arab
+          Emirates. Contact:{' '}
           <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.
         </p>
 

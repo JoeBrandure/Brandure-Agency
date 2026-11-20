@@ -5,11 +5,12 @@ import PlanCards from '../components/PlanCards.astro';
 import StatsBand from '../components/StatsBand.astro';
 import Price from '../components/Price.astro';
 import { SITE } from '../consts';
-import { PLANS, SETUP_FEE, ADDONS, money, TERM_AND_EXIT } from '../data/pricing';
+/* PLANS and `money` went with the removed schema node: the visible plan
+   cards render from PlanCards, which imports PLANS itself. */
+import { SETUP_FEE, ADDONS, TERM_AND_EXIT } from '../data/pricing';
 import { TESTIMONIALS } from '../data/testimonials';
-/* The Dubai page sells the same service into a local market: the
-   ProfessionalService node below is that market's entity, this is what it
-   sells. */
+/* The shared Service node: one definition, emitted here as on / and
+   /pricing, pointing at the one priced catalog on /pricing. */
 import { serviceSchema } from '../lib/schema';
 
 /* AEO AGENCY DUBAI — a local landing page for "AEO agency Dubai".
@@ -86,60 +87,25 @@ const breadcrumbSchema = {
   ],
 };
 
-/* The Organization node is a plain Organization, so the Dubai market gets
-   its own ProfessionalService rather than changing that node's type. It
-   carries the contact details, the area served and the AED price list, and
-   points back at the parent. It carries no address: there is no Dubai office
-   to describe. */
-const officeSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'ProfessionalService',
-  '@id': `${SITE.url}/#dubai-office`,
-  name: SITE.name,
-  url,
-  telephone: SITE.phone,
-  email: SITE.email,
-  /* No address. Brandure serves Dubai remotely and keeps no premises there,
-     so this node says what it sells and where it sells it, and asserts no
-     place. areaServed below is the claim that survives. */
-  parentOrganization: { '@id': `${SITE.url}/#organization` },
-  areaServed: ['Dubai', 'AE'],
-  /* AED only on this page, as specified. /pricing carries both currencies. */
-  hasOfferCatalog: {
-    '@type': 'OfferCatalog',
-    '@id': `${url}#catalog-aed`,
-    name: 'Brandure plans, Dubai',
-    itemListElement: [
-      ...PLANS.map((p) => ({
-        '@type': 'Offer',
-        '@id': `${url}#offer-${p.key}`,
-        name: p.name,
-        description: p.includes,
-        url: `${SITE.url}/pricing`,
-        priceCurrency: 'AED',
-        price: p.monthly.aed,
-        seller: { '@id': `${SITE.url}/#organization` },
-        priceSpecification: {
-          '@type': 'UnitPriceSpecification',
-          price: p.monthly.aed,
-          priceCurrency: 'AED',
-          unitText: 'MONTH',
-        },
-      })),
-      {
-        '@type': 'Offer',
-        '@id': `${url}#offer-setup`,
-        name: SETUP_FEE.name,
-        description: SETUP_FEE.d,
-        url: `${SITE.url}/pricing`,
-        priceCurrency: 'AED',
-        price: SETUP_FEE.price.aed,
-        seller: { '@id': `${SITE.url}/#organization` },
-      },
-    ],
-  },
-};
-
+/* NO ProfessionalService NODE, AND NO LocalBusiness ANYWHERE ON THE SITE.
+ *
+ * This page carried one at #dubai-office. It existed to be the Dubai entity:
+ * its own address, phone, area served and an AED-only price list hanging off
+ * it. The address came off on 2026-11-19, when the site stopped claiming
+ * premises it does not have, and what was left was a LocalBusiness subtype —
+ * a type whose whole meaning is a place you can visit — describing an agency
+ * that works remotely. It could not earn a local rich result without an
+ * address, so it was asserting something untrue for nothing in return.
+ *
+ * The node is gone. Nothing referenced it: #dubai-office, #catalog-aed and
+ * the three aeo-agency-dubai#offer-* ids it owned were defined here and
+ * pointed at from nowhere else, so there was no reference to repoint at
+ * #organization. The AED figures are unaffected — /pricing#catalog carries
+ * every plan with an AED UnitPriceSpecification beside GBP and USD, and the
+ * Service node this page emits already points at that catalog.
+ *
+ * What the page still emits: WebPage, BreadcrumbList, Service, FAQPage.
+ */
 const faqSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
@@ -156,7 +122,7 @@ const faqSchema = {
   title="AEO Agency in Dubai | AI Search & SEO | Brandure"
   fullTitle
   description={pageDescription}
-  schemas={[webPageSchema, breadcrumbSchema, serviceSchema, officeSchema, faqSchema]}
+  schemas={[webPageSchema, breadcrumbSchema, serviceSchema, faqSchema]}
 >
   <script is:inline>
     /* AED is this page's default. A visitor who has already picked pounds

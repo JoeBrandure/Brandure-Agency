@@ -23,6 +23,18 @@ import { SITE } from '../consts';
  * shapes now differ: Organization says AE/GB/US, this says the two markets the
  * service is actually sold in.
  */
+/**
+ * WHAT #service IS, IN ITS OWN WORDS.
+ *
+ * This read SITE.description until 2026-11-23, which described the AGENCY —
+ * all three services and both markets — on the node whose job is to describe
+ * one of those three. #service-seo and #service-web already carry their own,
+ * so AEO was the only one borrowing a sentence written for something else.
+ * SITE.description is now llms.txt's alone; this is the service.
+ */
+const SERVICE_DESCRIPTION =
+  'AI search optimisation (AEO): getting a business named and cited in ChatGPT, Google AI Overviews and Perplexity, with each engine measured and reported separately.';
+
 export const serviceSchema = {
   '@context': 'https://schema.org',
   '@type': 'Service',
@@ -34,7 +46,7 @@ export const serviceSchema = {
     'AEO',
     'Generative engine optimisation',
   ],
-  description: SITE.description,
+  description: SERVICE_DESCRIPTION,
   provider: { '@id': `${SITE.url}/#organization` },
   areaServed: ['United Arab Emirates', 'United Kingdom'],
   hasOfferCatalog: { '@id': `${SITE.url}/pricing#catalog` },

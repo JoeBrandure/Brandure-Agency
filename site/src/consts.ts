@@ -72,8 +72,13 @@ export const SITE = {
      Set to null to fall back to promising times by email; nothing else needs
      changing either way. */
   bookingUrl: 'https://calendly.com/joe-brandure/15min' as string | null,
+  /** THE AGENCY IN ONE LINE, FOR llms.txt AND NOTHING ELSE. It also fed the
+   *  #service Service node until 2026-11-23, which is why it had to describe
+   *  one service and three at once; that node has its own description now, so
+   *  this sentence is free to be about the agency. Check the consumers before
+   *  reusing it — a sentence read in two places has to suit both. */
   description:
-    'Brandure is an AI search specialist agency: AI search optimisation (AEO) and SEO, with websites built for both. For businesses in the UK and the UAE.',
+    'Brandure is a remote AI search agency: AI search optimisation (AEO), SEO and web design, for businesses in the UK and the UAE.',
 
   /**
    * WHO WE ARE, IN ONE SENTENCE. Used as the Organization node's

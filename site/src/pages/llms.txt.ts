@@ -25,11 +25,11 @@ export async function GET(_context: APIContext) {
 
 > ${SITE.description}
 
-${SITE.name} is an answer engine optimisation (AEO) agency. It measures where a
-brand appears in AI-generated answers across ChatGPT, Google AI Overviews and
-Perplexity, diagnoses why, and does the entity, content and third-party
-placement work that changes it. Each engine is reported separately, because the
-three disagree with each other materially.
+${SITE.name} is a remote AI search optimisation (AEO), SEO and web design
+agency. It measures where a brand appears in AI-generated answers across
+ChatGPT, Google AI Overviews and Perplexity, diagnoses why, and does the
+entity, content and third-party placement work that changes it. Each engine is
+reported separately, because the three disagree with each other materially.
 
 ${SITE.identityLine}
 

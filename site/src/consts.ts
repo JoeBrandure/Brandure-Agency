@@ -1,6 +1,6 @@
 /** The identity sentence. See the note on SITE.identityLine. */
 const IDENTITY =
-  'Brandure is an AI search optimisation (AEO) agency for UK and UAE brands, founded by Joe Hickman.';
+  'Brandure is a remote AI search optimisation (AEO), SEO and web design agency for UK and UAE brands, founded by Joe Hickman.';
 
 export const SITE = {
   name: 'Brandure',

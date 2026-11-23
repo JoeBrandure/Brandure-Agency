@@ -32,12 +32,16 @@ export const SITE = {
      The Google Business Profile is the maps.google.com ?cid= form, supplied
      2026-11-12. The cid is the profile's own identifier, so the link
      survives a rename or a move in a way a /place/ URL built from the name
-     does not. */
+     does not.
+
+     https://www.sortlist.com/agency/brandure-3 came out on 2026-11-23: the
+     profile is dead. sameAs is a set of claims that this entity is the one
+     at the other end of each link, so a URL that no longer resolves is a
+     claim a consumer can only fail to verify. */
   sameAs: [
     'https://www.linkedin.com/company/brandureagency',
     'https://www.instagram.com/brandure.agency/',
     'https://clutch.co/profile/brandure-0',
-    'https://www.sortlist.com/agency/brandure-3',
     'https://www.goodfirms.co/company/brandure',
     'https://maps.google.com/?cid=8798909916733823593',
   ],

@@ -86,11 +86,19 @@ const organizationSchema = {
      survives, and it is the true one. */
   /* Deduplicated at build time rather than trusted to stay unique by hand. */
   sameAs: [...new Set(SITE.sameAs)],
+  /* All three services this agency sells, each under the name it is sold
+     by, plus the synonyms the field has not settled on. "Web design" was
+     the gap: the list had "AI-ready websites", which is what we call the
+     product, and nothing a consumer matching on the ordinary term would
+     recognise. */
   knowsAbout: [
     'Answer engine optimisation',
-    'SEO',
-    'AI-ready websites',
     'AI search optimisation',
+    'Generative engine optimisation',
+    'SEO',
+    'Search engine optimisation',
+    'Web design',
+    'AI-ready websites',
     'AI visibility',
   ],
   founder: { '@id': `${SITE.url}/about#person` },

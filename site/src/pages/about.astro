@@ -1,24 +1,29 @@
 ---
 /**
- * STUB — created 2026-09-24 because the research series links here from every
- * byline, every author bio and the Person JSON-LD in the Article schema, and a
- * link that 404s in structured data is worse than a thin page.
+ * ABOUT BRANDURE — the agency first, the founder second.
  *
- * What is here is Joe's bio as it already appears at the foot of the research
- * drafts, and nothing invented. It needs a proper write-up: what Brandure is,
- * why it exists, and a photograph.
+ * This page used to open on "Joe Hickman", so the first thing an engine read
+ * on the page named to answer "what is Brandure" was a person. The answer-
+ * first opening fixed that in November; this rewrite finishes the job by
+ * describing all three services rather than AEO alone, which is what the
+ * rest of the site has sold since /services was built.
+ *
+ * THE FOUNDER STAYS. The visible section below, the Person node at
+ * /about#person and Organization.founder are all unchanged in substance —
+ * every research article's byline and Article author reference that @id, so
+ * it is load-bearing, not decoration.
  */
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-/* The Person node for @id https://brandure.io/about#person used to be defined
-   here. It now lives in BaseLayout and is emitted sitewide, so this page gets
-   it like every other page. Re-adding it here would resolve that @id to two
-   full nodes, which is the duplication this consolidation removed. */
+/* The Person node for @id https://brandure.io/about#person is NOT defined
+   here. It lives in BaseLayout and is emitted sitewide, so this page gets it
+   like every other page. Re-adding it here would resolve that @id to two
+   full nodes, which is the duplication that consolidation removed. */
 ---
 <BaseLayout
-  title="About Brandure: AI search optimisation (AEO) agency, UAE & UK"
+  title="About Brandure: AEO, SEO and web design agency, UK & UAE"
   fullTitle
-  description="Brandure is an answer engine optimisation agency in the UAE and UK, helping businesses get named in ChatGPT, Google AI Overviews and Perplexity."
+  description="Brandure is a remote AEO, SEO and web design agency serving the UK and UAE, getting businesses named in ChatGPT, Google AI Overviews and Perplexity."
 >
   <section class="hero hero--short">
     <div class="mesh" aria-hidden="true">
@@ -28,42 +33,71 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     <div class="wrap res-hero" data-load>
       <p class="eyebrow">About</p>
       <h1 class="statement" data-split>About Brandure</h1>
+      {/* THE ENTITY LINE, as high on the page as it goes. It names the
+          domain because the domain is what makes the entity unambiguous, and
+          it states the three services and the two markets in one sentence an
+          engine can lift whole. */}
       <p class="lede">
-        Brandure is an answer engine optimisation (AEO) agency operating in the
-        UAE and UK.
+        Brandure (brandure.io) is a remote AEO, SEO and web design agency
+        serving the UK and UAE.
       </p>
     </div>
   </section>
 
-  {/* ANSWER FIRST. The page opened on "Joe Hickman", so the first thing an
-      engine read on the page named to answer "what is Brandure" was a
-      person — which is what Searchable marked Critical. The founder section
-      is unchanged and follows this. */}
   <section class="section">
     <div class="wrap-narrow" data-reveal>
       <div class="prose">
         <p>
-          Brandure is an answer engine optimisation (AEO) agency operating in
-          the UAE and UK. It helps businesses get named and cited in the
-          answers ChatGPT, Google AI Overviews and Perplexity give their
-          buyers. Every engagement starts by measuring where a business stands
-          across those three engines, then fixes the causes: website
+          Brandure helps businesses get named and cited in the answers
+          ChatGPT, Google AI Overviews and Perplexity give their buyers, and
+          ranked on Google for the same questions. Every engagement starts by
+          measuring where a business stands across those three engines, each
+          one reported separately, then fixes the causes: website
           foundations, entity data, answer-ready content and the third-party
-          sources the engines cite. See <a href="/method">how we work</a> and{' '}
-          <a href="/research">our research</a>.
+          sources the engines cite.
         </p>
+        <p>
+          We work remotely across the UK and the UAE. See{' '}
+          <a href="/services">what we do</a>, <a href="/method">how we work</a>
+          {' '}and <a href="/research">our research</a>.
+        </p>
+
+        <h2>What we do</h2>
+        <ul>
+          <li>
+            <strong>AI search optimisation (AEO).</strong> Getting you named
+            when buyers ask ChatGPT, Google AI Overviews and Perplexity who to
+            use. Each engine is measured and reported separately, because the
+            same business can be named in one and missing from another.
+          </li>
+          <li>
+            <strong>SEO.</strong> Ranking on Google for the searches that
+            bring buyers. Most of the groundwork overlaps with AI search, so
+            it is included in every plan.
+          </li>
+          <li>
+            <strong>Web design.</strong> New pages or a full rebuild on the
+            platform you already use, built so Google and AI assistants can
+            read, trust and recommend you.{' '}
+            <a href="/ai-ready-websites">How we build</a>.
+          </li>
+        </ul>
       </div>
     </div>
   </section>
 
+  {/* The founder section, kept. Its opening clause now describes the agency
+      the same way the rest of the page does — it said "an answer engine
+      optimisation agency" while every other line on the page said three
+      services, and one of the two had to be wrong. */}
   <section class="section section--sunk">
     <div class="wrap-narrow" data-reveal>
       <div class="prose">
         <h2>Joe Hickman</h2>
         <p>
-          Joe Hickman is the founder of Brandure, an answer engine optimisation
-          agency operating in the UAE and UK: how businesses get named in
-          ChatGPT, Google&rsquo;s AI Overviews and Perplexity.
+          Joe Hickman is the founder of Brandure, a remote AEO, SEO and web
+          design agency serving the UK and UAE: how businesses get named in
+          ChatGPT, Google AI Overviews and Perplexity, and found on Google.
         </p>
         <p>
           He has a background in paid social across Meta, Google, TikTok and

@@ -12,9 +12,11 @@
   NODE_VERSION = "22"
 
 # --- IndexNow ------------------------------------------------------------
-# Pings Bing, Yandex, Seznam, Naver and Yep after a successful production
-# deploy. Google does not participate, so nothing here affects Google.
-# The path is resolved against `base` above, so this is site/netlify/plugins/.
+# Pings Bing, Yandex, Seznam, Naver and Yep on a production deploy, at
+# onPostBuild, and ships the response code in the deploy at
+# /indexnow-status.json. Google does not participate, so nothing here affects
+# Google. The path is resolved against `base` above, so this is
+# site/netlify/plugins/.
 [[plugins]]
   package = "/netlify/plugins/indexnow"
 

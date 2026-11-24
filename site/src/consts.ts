@@ -37,12 +37,19 @@ export const SITE = {
      https://www.sortlist.com/agency/brandure-3 came out on 2026-11-23: the
      profile is dead. sameAs is a set of claims that this entity is the one
      at the other end of each link, so a URL that no longer resolves is a
-     claim a consumer can only fail to verify. */
+     claim a consumer can only fail to verify.
+
+     Crunchbase went in on 2026-11-24, grouped with the other directory
+     profiles. It is the one entry here never confirmed to resolve from a
+     build environment — crunchbase.com is blocked outbound — so it is the
+     first thing to re-check if this list is ever audited against the
+     Sortlist lesson above. */
   sameAs: [
     'https://www.linkedin.com/company/brandureagency',
     'https://www.instagram.com/brandure.agency/',
     'https://clutch.co/profile/brandure-0',
     'https://www.goodfirms.co/company/brandure',
+    'https://www.crunchbase.com/organization/brandure-8762',
     'https://maps.google.com/?cid=8798909916733823593',
   ],
 

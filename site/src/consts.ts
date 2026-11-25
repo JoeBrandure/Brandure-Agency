@@ -34,22 +34,23 @@ export const SITE = {
      survives a rename or a move in a way a /place/ URL built from the name
      does not.
 
-     https://www.sortlist.com/agency/brandure-3 came out on 2026-11-23: the
-     profile is dead. sameAs is a set of claims that this entity is the one
-     at the other end of each link, so a URL that no longer resolves is a
-     claim a consumer can only fail to verify.
+     Sortlist came out on 2026-11-23 because the profile was dead, and went
+     back in on 2026-11-25 on instruction. sameAs is a set of claims that
+     this entity is the one at the other end of each link, so a URL that no
+     longer resolves is a claim a consumer can only fail to verify — that
+     was the reason for taking it out and it has not changed. What changed
+     is the instruction, which presumes the profile is live again.
 
-     Crunchbase went in on 2026-11-24, grouped with the other directory
-     profiles. It is the one entry here never confirmed to resolve from a
-     build environment — crunchbase.com is blocked outbound — so it is the
-     first thing to re-check if this list is ever audited against the
-     Sortlist lesson above. */
+     Neither Sortlist nor Crunchbase has been confirmed to resolve from a
+     build environment: both hosts are blocked outbound here. They are the
+     two entries to re-check first if this list is ever audited. */
   sameAs: [
     'https://www.linkedin.com/company/brandureagency',
     'https://www.instagram.com/brandure.agency/',
     'https://clutch.co/profile/brandure-0',
     'https://www.goodfirms.co/company/brandure',
     'https://www.crunchbase.com/organization/brandure-8762',
+    'https://www.sortlist.com/agency/brandure-3',
     'https://maps.google.com/?cid=8798909916733823593',
   ],
 

@@ -1,12 +1,12 @@
 ---
 title: "How to check whether ChatGPT recommends your business"
-meta_description: "How to check whether ChatGPT, Perplexity, Gemini, AI Overviews, Claude and Copilot name your business: logged out, location set, three runs per prompt."
-summary: "A step-by-step manual method to check if ChatGPT, Perplexity, Gemini, AI Overviews, Claude and Copilot name your business: logged out, location set, repeated runs."
+meta_description: "How to check whether ChatGPT, Google AI Overviews and Perplexity name your business: logged out, location set, three runs per prompt."
+summary: "A step-by-step manual method to check if ChatGPT, Google AI Overviews and Perplexity name your business: logged out, location set, repeated runs."
 slug: check-whether-chatgpt-recommends-your-business
 byline: Brandure
 date: 2026-10-21
 ---
-To check whether ChatGPT recommends your business, ask it the questions your buyers ask, logged out, from your market, at least three times each, and record who it names, in what order and which sources it cites. Then repeat the same prompts on Perplexity, Gemini, Google, Claude and Copilot, because each engine reads different sources and will often give you a different answer.
+To check whether ChatGPT recommends your business, ask it the questions your buyers ask, logged out, from your market, at least three times each, and record who it names, in what order and which sources it cites. Then repeat the same prompts on Google AI Overviews and Perplexity, because each engine reads different sources and will often give you a different answer.
 
 This is the manual method we use for our own research. It needs a browser, a spreadsheet and about an hour.
 
@@ -14,9 +14,9 @@ This is the manual method we use for our own research. It needs a browser, a spr
 
 Because one answer isn't a position. When we asked ChatGPT for the best aesthetic clinics in Dubai twice, minutes apart, first place stayed the same but half the list below it changed. Ask once and you might conclude you're in when you're usually out, or the reverse.
 
-Your own account also skews the result. Engines personalise answers using your history and settings. We learned this ourselves: our August 2026 Gemini and Google runs were done signed in, and we had to discard them and rerun everything logged out in September.
+Your own account also skews the result. Engines personalise answers using your history and settings. We learned this ourselves: our August 2026 runs were done signed in, and we had to discard them and rerun everything logged out in September.
 
-And ChatGPT is only one engine. In [our testing across seven Dubai categories](/research/ai-engines-disagree-best-in-dubai), engines rarely agreed on who to name. A separate study found Claude's citations matched ChatGPT's only 8% of the time on the same prompts ([Search Engine Land](https://searchengineland.com/claude-visibility-brave-search-rankings-480053)).
+And ChatGPT is only one engine. In [our testing across seven Dubai categories](/research/ai-engines-disagree-best-in-dubai), engines rarely agreed on who to name.
 
 ## Step 1: Which prompts should you test?
 
@@ -34,7 +34,7 @@ Expect the engines to interpret your category differently. When we asked for the
 ## Step 2: How do you set up a clean, logged-out test?
 
 - **Use a private or incognito window**, or a fresh browser profile with no sign-ins.
-- **Stay logged out** wherever the engine allows it. ChatGPT, Perplexity, Gemini and Google can all be tested logged out. Claude requires an account, so use one with no prior history and turn off memory and personalisation where the settings allow.
+- **Stay logged out.** ChatGPT, Google AI Overviews and Perplexity can all be tested without an account.
 - **Note the model.** Logged-out users usually get the default or free model. Paid tiers can ground differently, so record which one you used and keep it consistent.
 - **Clear the chat between prompts.** Start a new conversation for every run so earlier questions don't shape later answers.
 
@@ -42,7 +42,7 @@ Expect the engines to interpret your category differently. When we asked for the
 
 Run the test from the country you sell in. If you're testing a market you're not in, use a VPN exit in that country.
 
-Then check the answer actually localised. Signs it did: a map or Places module centred on your city, local businesses rather than global brands, and local sources such as regional directories. In our Dubai runs, ChatGPT geolocated to a Dubai neighbourhood and Gemini's map cards centred on Dubai, which told us the location signal was working.
+Then check the answer actually localised. Signs it did: a map or Places module centred on your city, local businesses rather than global brands, and local sources such as regional directories. In our Dubai runs, ChatGPT geolocated to a Dubai neighbourhood, which told us the location signal was working.
 
 Watch for drift. Perplexity's answer to a Dubai universities question included institutions in Abu Dhabi, Al Ain and Sharjah. If the engine wanders outside your market, note it; it's part of the result.
 
@@ -73,7 +73,7 @@ Record the source as well as the name. Who the engine cited tells you which leve
 | Position | Where you appeared | Top slots are more stable |
 | Competitors named | Everyone else on the list | Shows who you're up against |
 | Sources cited | Every publication, directory or site linked | Shows which lever drives the answer |
-| Answer format | Text list, table, map cards, Places module, shopping cards | Tells you which Google feed or source type is in play |
+| Answer format | Text list, table, map cards, Places module | Tells you which source type is in play |
 | Screenshot | Full answer with citations visible | Proof, and a before/after record |
 
 Capture screenshots at the time you run each prompt. Answers change, and you can't recreate last month's result later.
@@ -82,12 +82,9 @@ Capture screenshots at the time you run each prompt. Answers change, and you can
 
 - **ChatGPT:** look at the citation chips. In our testing it grounded on whatever authority the category had (Legal 500 for law firms, trade press for SaaS) and fell back to ratings and review counts when neither existed.
 - **Perplexity:** it can show two layers on local questions, a Places module and the written answer, and they often name different businesses. Record both.
-- **Gemini:** note which Google product the answer looks like. In our tests it mirrored the Google Hotels module for hotels, Google Maps for local services, Shopping cards for manufacturers and YouTube for universities.
 - **Google AI Overviews:** it won't fire on every query. Record whether it appeared at all, then who it named and cited.
-- **Claude:** it doesn't always search. One study found it searched on about 36.6% of prompts, mostly "best", ranking, location and comparison questions ([Search Engine Land](https://searchengineland.com/claude-visibility-brave-search-rankings-480053)). An answer with no citations is coming from what the model already knows.
-- **Copilot:** it draws on Bing, so your Bing visibility matters (see Step 8).
 
-Also check whether the engine has your business right. One Dubai clinic appears under two spellings of its name, with two Google listings. Perplexity treated it as one business; ChatGPT and Gemini each picked one spelling and ignored the other. Inconsistent names and duplicate listings split your visibility in two, and that's the first thing to fix.
+Also check whether the engine has your business right. One Dubai clinic appears under two spellings of its name, with two Google listings. Perplexity treated it as one business; ChatGPT picked one spelling and ignored the other. Inconsistent names and duplicate listings split your visibility in two, and that's the first thing to fix.
 
 ## Step 7: How do you read the results?
 
@@ -101,12 +98,9 @@ Rerun the same prompts monthly with the same setup. A single check is a snapshot
 
 ## Step 8: Which free first-party reports should you add?
 
-Two platforms now show some AI data directly:
+One platform now shows some AI data directly. **Google Search Console** has a generative AI report showing impressions in AI Overviews and AI Mode by page, but not clicks or queries ([Google Search Central](https://developers.google.com/search/blog/2026/06/gen-ai-performance-reports); [TechWyse](https://www.techwyse.com/blog/ai/google-search-console-ai-search-reporting)).
 
-- **Google Search Console** has a generative AI report showing impressions in AI Overviews and AI Mode by page, but not clicks or queries ([Google Search Central](https://developers.google.com/search/blog/2026/06/gen-ai-performance-reports); [TechWyse](https://www.techwyse.com/blog/ai/google-search-console-ai-search-reporting)).
-- **Bing Webmaster Tools** has an AI Performance report showing how often Copilot and partner surfaces cited your pages and the queries behind those citations ([Search Engine Land](https://searchengineland.com/bing-webmaster-tools-testing-new-ai-performance-report-468039)).
-
-Neither covers ChatGPT, Perplexity or Claude. For those, the manual method above is still the only way to see what buyers see.
+It doesn't cover ChatGPT or Perplexity. For those, the manual method above is still the only way to see what buyers see.
 
 If you'd rather not run it yourself, Brandure's [free AI Visibility Report](/#report) does this across ChatGPT, Google AI Overviews and Perplexity and shows which sources are recommending your competitors instead of you.
 
@@ -131,8 +125,6 @@ No. Logged-in answers are personalised to you. Your buyers aren't seeing your hi
 
 **Sources**
 
-- [Search Engine Land: Claude visibility and Brave Search rankings (June 2026)](https://searchengineland.com/claude-visibility-brave-search-rankings-480053)
-- [Search Engine Land: Bing Webmaster Tools testing new AI Performance report (January 2026)](https://searchengineland.com/bing-webmaster-tools-testing-new-ai-performance-report-468039)
 - [Google Search Central: Introducing Search Generative AI performance reports (June 2026)](https://developers.google.com/search/blog/2026/06/gen-ai-performance-reports)
 - [TechWyse: Google Search Console now tracks AI search visibility](https://www.techwyse.com/blog/ai/google-search-console-ai-search-reporting)
-- Brandure first-party testing: `best [category] in Dubai`, 7 categories, ChatGPT, Perplexity, Gemini and Google Search, logged out, UAE location, August and September 2026.
+- Brandure first-party testing: `best [category] in Dubai`, 7 categories, logged out, UAE location, August and September 2026. Engines covered and the full method are in [the research](/research/ai-engines-disagree-best-in-dubai).

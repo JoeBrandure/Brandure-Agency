@@ -10,7 +10,7 @@ date: 2026-10-31
 ---
 **Most UK businesses pay £2,000–5,000 a month for AI search optimisation (AEO), plus a one-off audit or setup fee of roughly £1,500–5,000.** Starter packages begin around £800 a month. Competitive B2B or multi-service programmes run £5,000–10,000 a month, and enterprise work starts around £10,000. Anything sold as full AEO for well under £1,500 a month is usually SEO with an AI check added.
 
-AEO (often called GEO, generative engine optimisation, in the UK) is the work of getting your business named and cited when people ask ChatGPT, Gemini, Perplexity, Claude, Copilot or Google's AI Overviews for a recommendation.
+AEO (often called GEO, generative engine optimisation, in the UK) is the work of getting your business named and cited when people ask ChatGPT, Google AI Overviews or Perplexity for a recommendation.
 
 ## UK AEO prices at a glance (2026)
 
@@ -49,7 +49,7 @@ For a local business in a low-competition category, a £800–1,500 starter pack
 
 ## What to check before you sign
 
-- **Per-engine reporting.** ChatGPT, Gemini, Perplexity and AI Overviews often name different businesses for the same question.
+- **Per-engine reporting.** ChatGPT, Google AI Overviews and Perplexity often name different businesses for the same question.
 - **A baseline first.** See where you stand on named questions before month one.
 - **Setup vs monthly.** Schema, crawler access and entity fixes are mostly one-off work.
 - **Exit terms.** Ask what happens if visibility hasn't moved by day 90.

@@ -6,7 +6,7 @@ slug: how-to-choose-an-aeo-agency
 byline: Brandure
 date: 2026-10-21
 ---
-To choose an AEO agency, check how it prices and measures the work before you look at what it promises: per-engine reporting, a logged-out baseline, and a plan weighted towards earned third-party placements are the clearest signs it knows what moves AI answers. Walk away from anyone guaranteeing a position or a citation in ChatGPT, Gemini or Google AI Overviews, because no one controls those.
+To choose an AEO agency, check how it prices and measures the work before you look at what it promises: per-engine reporting, a logged-out baseline, and a plan weighted towards earned third-party placements are the clearest signs it knows what moves AI answers. Walk away from anyone guaranteeing a position or a citation in ChatGPT, Google AI Overviews or Perplexity, because no one controls those.
 
 Brandure is an AEO agency, so we have an interest here. These are the same checks we'd want a prospective client to run on us.
 
@@ -32,7 +32,7 @@ An agency that can't answer the third question hasn't thought about it.
 
 ## 3. Does the agency report each AI engine separately?
 
-It should. ChatGPT, Perplexity, Gemini, Google AI Overviews, Claude and Copilot draw on different sources and rarely name the same businesses. In [our Dubai testing across seven categories](/research/ai-engines-disagree-best-in-dubai), overlap between engines came back low in most categories, with real agreement only where a strong third-party authority (such as a recognised directory or ranking) existed. A separate practitioner study found Claude's citations matched ChatGPT's only 8% of the time on identical prompts ([Search Engine Land](https://searchengineland.com/claude-visibility-brave-search-rankings-480053)).
+It should. ChatGPT, Google AI Overviews and Perplexity draw on different sources and rarely name the same businesses. In [our Dubai testing across seven categories](/research/ai-engines-disagree-best-in-dubai), overlap between engines came back low in most categories, with real agreement only where a strong third-party authority (such as a recognised directory or ranking) existed.
 
 A single blended "AI visibility score" averages those positions together and tells you nothing you can act on. You could be first on one engine and missing from another.
 
@@ -71,10 +71,7 @@ So ask which third-party sources the engines cite in your category today, and wh
 
 ## 6. Do they do entity and profile work?
 
-Engines have to know who you are before they can name you. Two examples from our data:
-
-- **Entity confusion.** One Dubai clinic appears under two spellings of its name, with two Google listings. Perplexity treated it as one business; ChatGPT and Gemini each picked one spelling and ignored the other. Inconsistent names and duplicate listings split your visibility in two — an identity problem, fixed with consistent names, descriptions and profile data, not with more content.
-- **Google's own feeds.** Gemini's answers mapped onto Google products: the Google Hotels module for hotels, Google Maps for local services, Shopping cards for manufacturers, YouTube for universities. For a local business, Google Business Profile work is AEO work.
+Engines have to know who you are before they can name you. One example from our data: one Dubai clinic appears under two spellings of its name, with two Google listings. Perplexity treated it as one business; ChatGPT picked one spelling and ignored the other. Inconsistent names and duplicate listings split your visibility in two — an identity problem, fixed with consistent names, descriptions and profile data, not with more content.
 
 An agency that never mentions profiles, directories or business identity is skipping the cheapest wins.
 
@@ -129,7 +126,6 @@ Not necessarily. Most engines search the web before answering commercial questio
 
 - [HubSpot: How much does AEO cost? A breakdown by approach (updated September 2026)](https://blog.hubspot.com/marketing/how-much-does-aeo-cost)
 - [Google Search Central: Do you need an SEO?](https://developers.google.com/search/docs/fundamentals/do-i-need-seo)
-- [Search Engine Land: Claude visibility and Brave Search rankings (June 2026)](https://searchengineland.com/claude-visibility-brave-search-rankings-480053)
 - [Search Engine Journal: Google's new AI search guide calls AEO and GEO still SEO (May 2026)](https://searchenginejournal.com/googles-new-ai-search-guide-calls-aeo-and-geo-still-seo/575026)
 - [Search Engine Journal: Google says it's fine to use llms.txt (June 2026)](https://www.searchenginejournal.com/googles-says-its-fine-to-use-llms-txt-for-ai-seo/579608/)
-- Brandure first-party testing: `best [category] in Dubai`, 7 categories, ChatGPT, Perplexity, Gemini and Google Search, logged out, UAE location, August and September 2026.
+- Brandure first-party testing: `best [category] in Dubai`, 7 categories, logged out, UAE location, August and September 2026. Engines covered and the full method are in [the research](/research/ai-engines-disagree-best-in-dubai).

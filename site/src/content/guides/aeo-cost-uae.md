@@ -10,7 +10,7 @@ date: 2026-10-31
 ---
 **Most UAE businesses pay AED 4,000–15,000 a month for AI search optimisation (AEO), plus a one-off audit or setup of roughly AED 3,500–10,000.** Mid-market programmes covering several service lines run AED 15,000–35,000 a month, and enterprise work, often bilingual, goes higher still. Published ranges from Dubai agencies broadly agree on these bands, though most agencies still quote on request.
 
-AEO (also called GEO, generative engine optimisation) is the work of getting your business named and cited when people ask ChatGPT, Gemini, Perplexity, Claude, Copilot or Google's AI Overviews for a recommendation.
+AEO (also called GEO, generative engine optimisation) is the work of getting your business named and cited when people ask ChatGPT, Google AI Overviews or Perplexity for a recommendation.
 
 ## UAE AEO prices at a glance (2026)
 
@@ -49,11 +49,11 @@ Four things drive most of the difference:
 
 ## Is a cheaper package enough?
 
-Below about AED 4,000 a month, expect monitoring plus SEO hygiene rather than active work to change what AI says about you. That can be the right choice for a small local business in a quiet category. If competitors are already being named in ChatGPT or Gemini answers for your services, you'll usually need third-party citation work too, and that's what pushes programmes into the AED 6,000–15,000 band.
+Below about AED 4,000 a month, expect monitoring plus SEO hygiene rather than active work to change what AI says about you. That can be the right choice for a small local business in a quiet category. If competitors are already being named in ChatGPT, Google AI Overviews or Perplexity answers for your services, you'll usually need third-party citation work too, and that's what pushes programmes into the AED 6,000–15,000 band.
 
 ## What to check before you sign
 
-- **Per-engine reporting.** ChatGPT, Gemini, Perplexity and Google AI Overviews often name different businesses for the same question. One blended "AI score" hides that.
+- **Per-engine reporting.** ChatGPT, Google AI Overviews and Perplexity often name different businesses for the same question. One blended "AI score" hides that.
 - **A baseline before you pay.** You should see where you stand today, on named questions, before month one.
 - **What's one-off and what's monthly.** Technical setup (schema, crawler access, entity fixes) is mostly done once. It shouldn't be billed every month.
 - **Exit terms tied to results.** Ask what happens if visibility hasn't moved by day 90.

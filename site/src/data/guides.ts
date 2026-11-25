@@ -43,7 +43,7 @@ export const GUIDE_ORDER = GUIDE_GROUPS.flatMap((g) => g.slugs) as readonly stri
 /** Short enough for a list; the full description is in the front matter. */
 export const GUIDE_BLURBS: Record<string, string> = {
   'answer-engine-optimisation-uk-uae-guide':
-    'what AEO is, how each engine decides who to name, and the five levers that move it.',
+    'what AEO is, how each engine decides who to name, and the four levers that move it.',
   'how-to-choose-an-aeo-agency':
     'eight checks before hiring, from pricing and exit terms to per-engine reporting and the red flags.',
   'check-whether-chatgpt-recommends-your-business':

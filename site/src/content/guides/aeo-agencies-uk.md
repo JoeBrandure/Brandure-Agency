@@ -129,7 +129,7 @@ Yes, in practice. Both mean getting your business named and cited in AI-generate
 Ask for before-and-after AI visibility on named questions, reported per engine (ChatGPT, Google AI Overviews, Perplexity), not just Google traffic.
 
 **Who can help get my business recommended by ChatGPT in the UK?**
-An agency that earns third-party citations on the sources ChatGPT draws on, corrects your business information across those sources, and tracks your mention rate on the questions your buyers ask. On-site SEO alone won't do it. Look for separate reporting for ChatGPT, Google AI Overviews and Perplexity, and a before-and-after result on a named question.
+An agency that earns third-party citations on the sources ChatGPT draws on, corrects your business information across those sources, and tracks your mention rate on the questions your buyers ask. On-site SEO alone won’t do it. Look for separate reporting for ChatGPT, Google AI Overviews and Perplexity, and a before-and-after result on a named question.
 
 **Do I need a GEO agency based in London?**
 No. Location matters less than whether the agency tracks per-engine AI visibility and earns third-party citations. A UK agency outside London can serve a London business well.
@@ -138,6 +138,6 @@ No. Location matters less than whether the agency tracks per-engine AI visibilit
 In practice the terms are used interchangeably. AEO (answer engine optimisation) is the more precise term; GEO (generative engine optimisation) is more common among UK agencies. Both mean getting your business named and cited in AI answers from engines such as ChatGPT, Google AI Overviews and Perplexity.
 
 **How do I know if an AEO agency is actually improving my AI visibility?**
-Ask for a baseline of your mention rate on named questions across ChatGPT, Google AI Overviews and Perplexity before work starts. Monthly reporting should show how that rate changes, per engine. If reporting only covers Google traffic or keyword rankings, it isn't measuring AI search visibility.
+Ask for a baseline of your mention rate on named questions across ChatGPT, Google AI Overviews and Perplexity before work starts. Monthly reporting should show how that rate changes, per engine. If reporting only covers Google traffic or keyword rankings, it isn’t measuring AI search visibility.
 
 *Checked October 2026. Brandure is one of the agencies listed. Corrections: joe@brandure.io.*

@@ -65,6 +65,14 @@
 # /service/pricing in somebody's CMS should reach the page rather than the
 # 404, and it sends all of them to /services rather than to a child path that
 # has never existed.
+# Piece 3 was rebuilt on 2026-11-25 around its AI Overview findings and
+# renamed with it, so the published URL had to change. The old one has been
+# live and linked since September, so it redirects rather than 404s.
+[[redirects]]
+  from = "/research/gemini-routes-into-google-feeds-dubai"
+  to = "/research/google-ai-overview-dubai"
+  status = 301
+
 [[redirects]]
   from = "/service"
   to = "/services"

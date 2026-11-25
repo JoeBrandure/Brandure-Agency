@@ -1,62 +1,53 @@
 ---
-title: "Ask three AI engines who's best in Dubai: the overlap is low, not zero"
-description: "Across seven Dubai categories, ChatGPT, Perplexity and Gemini named 147 businesses and only 10 of them appeared in all three engines' answers."
-summary: "Across seven Dubai categories, ChatGPT, Perplexity and Gemini named 147 businesses and 10 appeared on all three. The same engine asked twice also returned different lists below first place."
+title: "Ask ChatGPT and Perplexity who's best in Dubai: 21 businesses made both lists"
+description: "Across seven Dubai categories, 21 businesses appeared on both ChatGPT and Perplexity. The overlap is low, not zero, and where it exists it has a cause."
+summary: "Across seven Dubai categories, 21 businesses appeared on both ChatGPT and Perplexity, six of them in universities alone. The same engine asked twice also returned different lists below first place."
 piece: 2
 researchDate: 2026-09-10
 datePublished: 2026-09-25
-dateModified: 2026-09-25
+dateModified: 2026-11-25
 heroImage: /images/research/p2-hero-chatgpt-clinics-three-runs.webp
 heroAlt: "Table of ChatGPT's three runs of 'Best aesthetic clinics in Dubai', showing the same clinic first every time and ten different clinics filling the places below it, all labelled Clinic A to Clinic J"
 draft: false
 faq:
-  - q: Do ChatGPT, Perplexity and Gemini recommend the same businesses in Dubai?
-    a: "Rarely. Across seven categories they named 147 businesses between them and 10 appeared on all three. In law firms, aesthetic clinics and car dealerships, no business appeared on all three."
+  - q: Do ChatGPT and Perplexity recommend the same businesses in Dubai?
+    a: "Rarely the same list. Across seven categories, 21 businesses appeared on both. Universities overlapped most, with six, and car dealerships least, with one."
   - q: Does ChatGPT give the same answer if you ask twice?
     a: "At the top, often yes. Below it, no. Across three runs of the same clinic question, ChatGPT put the same clinic first each time but named ten different clinics in total."
   - q: Why do Perplexity and ChatGPT give different answers?
     a: "They read different sources. Perplexity mostly grounds on editorial coverage such as GRAZIA and What's On; ChatGPT mostly grounds on listings and directories such as Bayut and Doctify."
   - q: Which Dubai categories do AI engines agree on most?
-    a: "Universities, where four institutions appeared on all three engines, followed by B2B SaaS with three. Both have strong third-party rankings or trade coverage that all three engines read."
+    a: "Universities, where six businesses appeared on both engines, followed by B2B SaaS with five. Both have strong third-party rankings or trade coverage that both engines read."
 ---
 
-We asked ChatGPT, Perplexity and Gemini the same "best in Dubai" question across seven categories on the same day. Between them they named 147 businesses. Ten appeared on all three engines. In three of the seven categories, not one business made all three lists.
+We asked ChatGPT and Perplexity the same "best in Dubai" question across seven categories on the same day. Twenty-one businesses appeared on both engines' answers. Six of those were in universities alone; in car dealerships there was one.
 
-The overlap is low, but it isn't zero, and where it exists it has a cause: a ranking body or a body of trade press that all three engines read. The bigger surprise was inside each engine. ChatGPT asked the same question minutes apart named the same clinic first both times, then a different set of clinics below it.
+The overlap is low, but it isn't zero, and where it exists it has a cause: a ranking body or a body of trade press that both engines read. The bigger surprise was inside each engine. ChatGPT asked the same question minutes apart named the same clinic first both times, then a different set of clinics below it.
 
 For a Dubai business, the practical point is that a visibility score from one engine on one run tells you about that engine on that run. It won't tell you what the other engines say, or what the same engine says next time.
 
-This is the second of three pieces from our September test. [Piece 1](/research/dubai-companies-writing-the-sources-ai-quotes) covers companies writing the articles AI quotes about them. [Piece 3](/research/gemini-routes-into-google-feeds-dubai) covers what each engine reads before it answers.
+This is the second of three pieces from our September test. [Piece 1](/research/dubai-companies-writing-the-sources-ai-quotes) covers companies writing the articles AI quotes about them. [Piece 3](/research/google-ai-overview-dubai) covers Google's AI Overview and what each engine reads before it answers.
 
 ## What did we test?
 
-We are an [AEO agency in Dubai](/aeo-agency-dubai), and this is our own market. We asked ChatGPT, Perplexity, Gemini and Google Search "Best [category] in Dubai" across seven categories: law firms, B2B SaaS, aesthetic clinics, boutique hotels, industrial manufacturers, universities and car dealerships. All logged out, free tier, UAE location, 44 answers in total. Clinics and manufacturers were run three times on every surface. The overlap figures below compare the three chat engines; Google's AI Overview appeared on four of the seven categories, so it's covered separately.
+We are an [AEO agency in Dubai](/aeo-agency-dubai), and this is our own market. We asked "Best [category] in Dubai" across seven categories: law firms, B2B SaaS, aesthetic clinics, boutique hotels, industrial manufacturers, universities and car dealerships. The figures here come from ChatGPT, Perplexity and Google Search, all logged out, free tier, UAE location, 33 answers across those three surfaces. Clinics and manufacturers were run three times on every surface. The overlap figures below compare the two chat engines; Google's AI Overview appeared on four of the seven categories, so it's covered separately.
 
 ## How often do the AI engines name the same businesses?
 
 We counted every business an engine recommended, including "also worth considering" lists and separate tiers, and excluded passing mentions in caveats. For clinics and manufacturers we pooled the three runs on each engine.
 
-| Category | Businesses named across the three engines | ChatGPT and Perplexity | ChatGPT and Gemini | Perplexity and Gemini | On all three |
-|---|---|---|---|---|---|
-| Law firms | 24 | 2 | 4 | 4 | 0 |
-| B2B SaaS | 18 | 5 | 3 | 6 | 3 |
-| Aesthetic clinics | 25 | 2 | 1 | 3 | 0 |
-| Boutique hotels | 14 | 3 | 1 | 1 | 1 |
-| Industrial manufacturers | 34 | 2 | 2 | 5 | 2 |
-| Universities | 14 | 6 | 6 | 7 | 4 |
-| Car dealerships | 18 | 1 | 6 | 2 | 0 |
-| **Total** | **147** | | | | **10** |
-
-The ten businesses on all three engines:
-
-| Category | On ChatGPT, Perplexity and Gemini |
+| Category | Businesses on both ChatGPT and Perplexity |
 |---|---|
-| Universities | University B, University C, University D, University E |
-| B2B SaaS | SaaS company A, SaaS company D, SaaS company E |
-| Industrial manufacturers | Manufacturer A, Manufacturer B |
-| Boutique hotels | Hotel A |
+| Law firms | 2 |
+| B2B SaaS | 5 |
+| Aesthetic clinics | 2 |
+| Boutique hotels | 3 |
+| Industrial manufacturers | 2 |
+| Universities | 6 |
+| Car dealerships | 1 |
+| **Total** | **21** |
 
-About 7% of the businesses named made every list. A business can lead one engine and be missing from another, and in law firms, clinics and dealerships that was true of every business named.
+A business can lead one engine and be missing from the other. Only universities and B2B SaaS put more than three businesses on both lists; every other category managed three or fewer.
 
 ## Why do Perplexity and ChatGPT disagree?
 
@@ -72,7 +63,7 @@ Industrial manufacturers show it most clearly. Across three runs each, ChatGPT's
 ![ChatGPT's answer to "Best industrial manufacturers in Dubai" listing SME fabricators with their names redacted, and two heavy-industry manufacturers mentioned separately as large-scale companies](/images/research/06-chatgpt-manufacturers-sme-fabricators-r2.webp)
 *ChatGPT, logged out, UAE. SME fabricators in the shortlist, heavy industry set apart. Business names are redacted. Recaptured for publication; the shortlist differs from the logged runs, which is the next section's point.*
 
-Same prompt, two readings of what a "manufacturer" is. Gemini sided with Perplexity: it shared five manufacturers with Perplexity and two with ChatGPT.
+Same prompt, two readings of what a "manufacturer" is.
 
 ## Does the same engine give the same answer twice?
 
@@ -97,10 +88,8 @@ The engines don't all vary the same amount:
 | ChatGPT | Manufacturers | No (Manufacturer C twice, Manufacturer D once) | 4 | 9 |
 | Perplexity | Clinics | No (Clinic K once, another clinic twice) | 5 | 14 |
 | Perplexity | Manufacturers | Yes (Manufacturer A) | 7 | 11 |
-| Gemini | Clinics | Yes (Clinic K) | 2 | 7 |
-| Gemini | Manufacturers | Yes (Manufacturer A) | 4 | 11 |
 
-Gemini's clinic answer was the steadiest: Clinic K first and Clinic L second in every run. Google's own results page didn't move at all. The organic results and local pack were identical across three runs; only the AI layer varied.
+Google's own results page didn't move at all. The organic results and local pack were identical across three runs; only the AI layer varied.
 
 ## What happens when one business goes by two names?
 
@@ -110,32 +99,30 @@ The engines split it. One Dubai aesthetic clinic in our results trades under two
 |---|---|
 | Google Search | Name A, in the local pack and via its own site in organic results |
 | Perplexity | Both names in one entry, ranked first in two of three runs |
-| Gemini | Name B only, in one of three runs |
 | ChatGPT | Name B only, as a passing mention in one of three runs |
 
-Perplexity was the only engine to connect the two names, and it ranked the clinic first. Google shows one name, the other two AI engines show the other.
+Perplexity was the only engine to connect the two names, and it ranked the clinic first. Google shows one name; ChatGPT showed the other.
 
 A business with inconsistent naming gives each engine a chance to treat it as someone else, or to pick up only part of its reputation. The fix is practical: one canonical name across the website, Google Business Profile and directory listings, with the alternate spelling declared in structured data so every engine resolves to the same record.
 
 ## Where do the engines agree, and why?
 
-Where all three read the same kind of authority. Universities had the most overlap, with four institutions on all three engines, and it's the category where independent rankings (Times Higher Education, QS, uniRank) are everywhere in the sources. B2B SaaS came next, with trade coverage like eChai Ventures shared across engines.
+Where both read the same kind of authority. Universities had the most overlap, with six businesses on both engines, and it's the category where independent rankings (Times Higher Education, QS, uniRank) are everywhere in the sources. B2B SaaS came next, with trade coverage like eChai Ventures shared across engines.
 
-Car dealerships showed a different pattern. ChatGPT and Perplexity shared one dealer, Dealer C. Gemini shared six with ChatGPT (including Dealers D and E and the franchise groups) and two with Perplexity (Dealers A and F). Gemini sat between the two engines that otherwise barely overlapped.
+Car dealerships showed the opposite. ChatGPT and Perplexity shared a single dealer, Dealer C — the lowest overlap of any category.
 
 Google's AI Overview mostly picked from the same consensus names:
 
 | Category | Named in the AI Overview | Also named by |
 |---|---|---|
-| Industrial manufacturers | Manufacturer B, Manufacturer A | All three engines |
-| Industrial manufacturers | Manufacturer M | Gemini |
-| Universities | University B | All three engines |
-| Universities | University A | Perplexity, Gemini |
-| Law firms | Law firm A, Law firm B | ChatGPT, Gemini |
-| Law firms | Law firm C | Perplexity, Gemini |
-| B2B SaaS | SaaS company E | All three engines |
+| Industrial manufacturers | Manufacturer B, Manufacturer A | Both engines |
+| Universities | University B | Both engines |
+| Universities | University A | Perplexity |
+| Law firms | Law firm A, Law firm B | ChatGPT |
+| Law firms | Law firm C | Perplexity |
+| B2B SaaS | SaaS company E | Both engines |
 
-In manufacturers, universities and law firms, every business the AI Overview named was on at least one of the three engines, and most were on two or more. B2B SaaS is the partial exception: of the three companies its AI Overview led with, only SaaS company E made all three engines. SaaS companies F and G did not.
+In manufacturers, universities and law firms, every business the AI Overview named was on at least one of the two engines, and several on both. B2B SaaS is the partial exception: of the three companies its AI Overview led with, only SaaS company E appeared on either. SaaS companies F and G did not.
 
 ## What does a single-engine, single-run score miss?
 
@@ -143,10 +130,10 @@ Most of the picture. A score taken from one engine once can't show:
 
 | What it misses | Evidence from this test |
 |---|---|
-| The other engines | 10 of 147 businesses named appeared on all three |
+| The other engine | 21 businesses appeared on both ChatGPT and Perplexity |
 | The next run | ChatGPT named 10 different clinics across three runs of the same prompt |
 | Which source to fix | Perplexity reads editorial, ChatGPT reads listings |
-| Naming splits | One clinic appeared under one spelling on Google and another on Gemini and ChatGPT |
+| Naming splits | One clinic appeared under one spelling on Google and another on ChatGPT |
 
 Even the most anchored category reorders. ChatGPT's law firm answer was grounded entirely on Legal 500 in both our August scan and in September. Between the two, Law firm D went from first to absent, Law firms E and F dropped out, Law firm G came in, and Law firm A moved from fourth to first. A directory holds the source steady. It doesn't hold the ranking steady.
 
@@ -154,13 +141,13 @@ Even the most anchored category reorders. ChatGPT's law firm answer was grounded
 
 - **Prompt:** "Best [category] in Dubai", one prompt shape, English only.
 - **Categories:** law firms, B2B SaaS, aesthetic clinics, boutique hotels, industrial manufacturers, universities, car dealerships.
-- **Surfaces:** ChatGPT, Perplexity, Gemini, Google Search.
-- **Conditions:** data collected 10 September 2026. Four surfaces, logged out, clean profile, geo verified to the United Arab Emirates, free or default model tier. Fresh session per cell. Signed-out Gemini served Flash-Lite.
-- **Volume:** 44 answers. Clinics and manufacturers ran three times on every surface (n=3); the other five categories ran once (n=1). Single-run categories may overlap more or less on a repeat, and the n=3 categories have larger pooled lists, which lowers their overlap share.
+- **Surfaces:** the figures in this piece come from ChatGPT, Perplexity and Google Search.
+- **Conditions:** data collected 10 September 2026. Logged out, clean profile, geo verified to the United Arab Emirates, free or default model tier. Fresh session per cell.
+- **Volume:** 33 answers across those three surfaces. Clinics and manufacturers ran three times on every surface (n=3); the other five categories ran once (n=1). Single-run categories may overlap more or less on a repeat, and the n=3 categories have larger pooled lists, which lowers their overlap share.
 - **Overlap counting:** every business recommended, including "also consider" lists and separate tiers; passing mentions in caveats excluded; Perplexity counted from its written answer, not its Places module. One Perplexity hotel entry was truncated in our log, so hotel overlap may be slightly understated.
 - **Market:** Dubai only.
 - **Date:** re-run logged 10 September 2026. The law firm comparison uses the ChatGPT cells from our August scan, which were logged out on the same conditions as September.
-- **What this doesn't cover:** signed-in or paid tiers, other phrasings, Arabic queries, Claude and Copilot.
+- **What this doesn't cover:** signed-in or paid tiers, other phrasings and Arabic queries.
 - **Screenshots:** recaptured after the logged run. Answers shift between runs, so every number here comes from the run log.
 
 ---

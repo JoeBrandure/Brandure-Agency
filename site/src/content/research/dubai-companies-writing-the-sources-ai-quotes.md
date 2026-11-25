@@ -1,11 +1,11 @@
 ---
 title: "The Dubai companies writing the articles AI quotes about them"
-description: "A 44-answer Dubai test found companies' own 'best of' articles still ground Perplexity's answers but not ChatGPT's — and those positions are losable."
-summary: "A 44-answer test in Dubai found companies' own 'best of' articles still ground Perplexity's answers but not ChatGPT's, and that self-published list positions are lost to competitors running the same play."
+description: "A 33-answer Dubai test found companies' own 'best of' articles still ground Perplexity's answers but not ChatGPT's — and those positions are losable."
+summary: "A 33-answer test in Dubai found companies' own 'best of' articles still ground Perplexity's answers but not ChatGPT's, and that self-published list positions are lost to competitors running the same play."
 piece: 1
 researchDate: 2026-09-10
 datePublished: 2026-09-25
-dateModified: 2026-09-25
+dateModified: 2026-11-25
 heroImage: /images/research/03-google-saas-organic-no1.webp
 heroAlt: "Google Search for 'Best B2B SaaS companies in Dubai', with the AI Overview cited to F6S and Wellfound and the page-one organic results redacted because they are the companies' own list articles"
 draft: false
@@ -24,11 +24,11 @@ SaaS company A, a Dubai HR software company, publishes an article called "10 Bes
 
 A company writing the list and then being quoted from it is still working in Dubai in September 2026, but only on some engines. ChatGPT has stopped citing companies about themselves. Perplexity hasn't. And where the play does work, the bigger threat to the company running it isn't the AI engines catching on. It's a competitor publishing the same article and taking the slot.
 
-This is the first of three pieces from our September test. [Piece 2](/research/ai-engines-disagree-best-in-dubai) measures how often the engines agree. [Piece 3](/research/gemini-routes-into-google-feeds-dubai) looks at what each engine reads before it answers.
+This is the first of three pieces from our September test. [Piece 2](/research/ai-engines-disagree-best-in-dubai) measures how often the engines agree. [Piece 3](/research/google-ai-overview-dubai) looks at Google's AI Overview and what each engine reads before it answers.
 
 ## What did we test?
 
-We are an [AEO agency in Dubai](/aeo-agency-dubai), and this is our own market. We asked ChatGPT, Perplexity, Gemini and Google Search the same question, "Best [category] in Dubai", across seven categories: law firms, B2B SaaS, aesthetic clinics, boutique hotels, industrial manufacturers, universities and car dealerships. Every run was logged out, on the free tier, from a UAE location, 44 answers in all. For each business an engine named, we recorded the source it cited and whether that source was the business's own website. Conditions and limits are in the methodology section.
+We are an [AEO agency in Dubai](/aeo-agency-dubai), and this is our own market. We asked the same question, "Best [category] in Dubai", across seven categories: law firms, B2B SaaS, aesthetic clinics, boutique hotels, industrial manufacturers, universities and car dealerships. The figures here come from ChatGPT, Perplexity and Google Search. Every run was logged out, on the free tier, from a UAE location, 33 answers across those three surfaces. For each business an engine named, we recorded the source it cited and whether that source was the business's own website. Conditions and limits are in the methodology section.
 
 ## Where does self-citation still work?
 
@@ -49,7 +49,7 @@ It isn't limited to software. In Perplexity's car dealership answer, Dealer A wa
 
 On ChatGPT. Across all 11 ChatGPT answers we recorded zero self-cited sources. Every category was grounded on third parties.
 
-SaaS company A shows what that looks like in practice. In our August scan, ChatGPT's entry for it was grounded on its own article. In September, ChatGPT still named it first and called it the best overall Dubai SaaS company, but the citations were eChai Ventures, Analytics Insight and DXBStart. The position stayed. The source changed. Gemini, signed out, also named it first, with no citation at all (one run).
+SaaS company A shows what that looks like in practice. In our August scan, ChatGPT's entry for it was grounded on its own article. In September, ChatGPT still named it first and called it the best overall Dubai SaaS company, but the citations were eChai Ventures, Analytics Insight and DXBStart. The position stayed. The source changed.
 
 That's the most useful thing in the data for anyone considering the play. The list got SaaS company A into the category answer. Third-party coverage is what holds it there on ChatGPT now.
 
@@ -71,7 +71,7 @@ Publishing the list gets you into the reading pile. Whether the engine names you
 
 ## What happened to the law firm that ran the play first?
 
-It lost the slot, and we can't tell you exactly when. In our first August scan, one Dubai law firm had its own "10 best law firms in Dubai" article at number eight on Google's first page, and that article was the source grounding Gemini's entire law firm answer. By September it was gone from page one. The firm still ranked, with its homepage. A different firm's own "top law firms in Dubai" page held the list slot.
+It lost the slot, and we can't tell you exactly when. In our first August scan, one Dubai law firm had its own "10 best law firms in Dubai" article at number eight on Google's first page. By September it was gone from page one. The firm still ranked, with its homepage. A different firm's own "top law firms in Dubai" page held the list slot.
 
 The honest caveat: that first scan ran on a signed-in profile. When we re-ran the same search signed out four days later, the article was already off page one. So the displacement may have happened inside August, or it may never have been there for a signed-out searcher in the first place. What we can say is that the slot exists, it was held by a firm's own list, and by September a different firm held it.
 
@@ -101,14 +101,14 @@ The list is where the position starts. Third-party coverage keeps it on ChatGPT,
 
 - **Prompt:** "Best [category] in Dubai", one prompt shape, English only.
 - **Categories:** law firms, B2B SaaS, aesthetic clinics, boutique hotels, industrial manufacturers, universities, car dealerships.
-- **Surfaces:** ChatGPT, Perplexity, Gemini, Google Search.
-- **Conditions:** data collected 10 September 2026. Four surfaces, logged out, clean profile, geo verified to the United Arab Emirates, free or default model tier. Fresh session per cell. Signed-out Gemini served Flash-Lite and returned no citations outside local categories, so it tells us little about self-citation on Gemini.
-- **Volume:** 44 answers. Aesthetic clinics and industrial manufacturers were run three times per surface (n=3). The other five categories, including B2B SaaS and law firms, were run once per surface (n=1). The SaaS company A, Dealer A and law firm findings are single runs.
+- **Surfaces:** the figures in this piece come from ChatGPT, Perplexity and Google Search.
+- **Conditions:** data collected 10 September 2026. Logged out, clean profile, geo verified to the United Arab Emirates, free or default model tier. Fresh session per cell.
+- **Volume:** 33 answers across those three surfaces. Aesthetic clinics and industrial manufacturers were run three times per surface (n=3). The other five categories, including B2B SaaS and law firms, were run once per surface (n=1). The SaaS company A, Dealer A and law firm findings are single runs.
 - **Self-citation:** counted when the cited source for a named business was that business's own domain.
 - **Market:** Dubai only.
 - **Date:** re-run logged 10 September 2026.
 - **August comparisons:** we ran two August scans. The ChatGPT and Perplexity cells were logged out and are directly comparable, so the SaaS company A grounding change stands on like-for-like conditions. The Google Search cells in the first scan ran on a signed-in profile; we re-ran them signed out on 17 August. The law firm listing change is reported against both, and the caveat is stated where the claim is made.
-- **What this doesn't cover:** signed-in or paid tiers, other phrasings, Arabic queries, Claude and Copilot.
+- **What this doesn't cover:** signed-in or paid tiers, other phrasings and Arabic queries.
 - **Screenshots:** recaptured after the logged run. Answers shift between runs, so every number here comes from the run log.
 
 ---

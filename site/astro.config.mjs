@@ -112,7 +112,20 @@ export default defineConfig({
   site: SITE_URL,
   output: 'static',
   trailingSlash: 'never',
-  build: { format: 'file', inlineStylesheets: 'always' },
+  /* STYLESHEETS ARE LINKED, NOT INLINED. `inlineStylesheets: 'always'` put the
+     whole 108 KB bundle into every page, so all 30 pages shipped the same
+     stylesheet again and shared none of it: the smallest page on the site,
+     /404, was 154 KB of which 145 KB was CSS and JS a visitor had already
+     downloaded on the page before. 'auto' keeps small per-component styles
+     inline, where a request would cost more than the bytes, and links the
+     bundle so it is fetched once and cached for every page after.
+
+     A linked stylesheet in <head> is render-blocking exactly as an inline one
+     is, so there is no flash of unstyled content and nothing moves; the cost
+     is one request on a cold first page, against ~108 KB saved on every page
+     after it. Verified by pixel-comparing 10 pages at two viewports before
+     and after: identical. */
+  build: { format: 'file', inlineStylesheets: 'auto' },
   integrations: [
     sitemap({
       filter: (page) => {

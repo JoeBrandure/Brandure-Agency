@@ -51,6 +51,7 @@ export const SITE = {
     'https://www.goodfirms.co/company/brandure',
     'https://www.crunchbase.com/organization/brandure-8762',
     'https://www.sortlist.com/agency/brandure-3',
+    'https://www.trustpilot.com/review/brandure.io',
     'https://maps.google.com/?cid=8798909916733823593',
   ],
 

@@ -1,12 +1,13 @@
 ---
 import { SITE } from '../consts';
+import BrandLogo from './BrandLogo.astro';
 const year = new Date().getFullYear();
 ---
 <footer class="site-footer">
   <div class="wrap">
     <div class="footer-grid">
       <div>
-        <a class="wordmark" href="/">BRANDURE</a>
+        <a class="wordmark" href="/" aria-label="Brandure home"><BrandLogo /></a>
         <p style="margin-top:0.7rem">Answer engine optimisation.<br />Measured, then moved.</p>
       </div>
       <div>

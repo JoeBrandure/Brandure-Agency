@@ -1,5 +1,6 @@
 ---
 import Header from '../components/Header.astro';
+import BrandLogoDefs from '../components/BrandLogoDefs.astro';
 import Footer from '../components/Footer.astro';
 import ConsentBanner from '../components/ConsentBanner.astro';
 import Analytics from '../components/Analytics.astro';
@@ -75,7 +76,12 @@ const organizationSchema = {
   description: SITE.orgDescription,
   disambiguatingDescription: SITE.disambiguatingDescription,
   alternateName: [...SITE.alternateName],
-  logo: new URL(SITE.logo, SITE.url).href,
+  logo: {
+    '@type': 'ImageObject',
+    url: new URL(SITE.logo, SITE.url).href,
+    width: 1024,
+    height: 1024,
+  },
   areaServed: SITE.areaServed.map((c) => ({ '@type': 'Country', identifier: c })),
   telephone: SITE.phone,
   /* NO address. Brandure is a remote agency: it serves the UK and the UAE and
@@ -249,9 +255,18 @@ const allSchemas = [
     {/* .ico first, SVG second: browsers that understand the SVG take it on the
         type attribute, and the ones that don't stop at the first icon they can
         parse. /favicon.ico was 404ing — some crawlers and feed readers request
-        it at the root regardless of what is declared here. */}
-    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+        it at the root regardless of what is declared here.
+
+        The set, the sizes and the order are the brand kit README's, including
+        sizes="48x48" on the .ico, which the kit ships at that size. The 16 and
+        32 px PNGs are in public/ for the clients that look for them by
+        filename; they are deliberately not declared, because the SVG covers
+        every browser that reads a <link>. */}
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#2F5BFF" />
     <link rel="alternate" type="application/rss+xml" title={`${SITE.name} research`} href="/rss.xml" />
     <link rel="sitemap" href="/sitemap-index.xml" />
 
@@ -277,6 +292,7 @@ const allSchemas = [
   </head>
   <body>
     <div class="scroll-progress" aria-hidden="true"></div>
+    <BrandLogoDefs />
     <a class="skip" href="#main">Skip to content</a>
     <Header />
     <main id="main"><slot /></main>

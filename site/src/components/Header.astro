@@ -1,5 +1,6 @@
 ---
 import ThemeToggle from './ThemeToggle.astro';
+import BrandLogo from './BrandLogo.astro';
 import { NAV, SITE } from '../consts';
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 
@@ -8,7 +9,7 @@ const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 ---
 <header class="site-header" id="site-header">
   <div class="wrap header-bar">
-    <a class="wordmark" href="/" aria-label={`${SITE.name} — home`}>BRANDURE</a>
+    <a class="wordmark" href="/" aria-label="Brandure home"><BrandLogo /></a>
     <nav class="site-nav" aria-label="Primary">
       {NAV.map((i) => (
         <a href={i.href} aria-current={path === i.href || (i.href !== '/' && path.startsWith(`${i.href}/`)) ? 'page' : undefined}>{i.label}</a>

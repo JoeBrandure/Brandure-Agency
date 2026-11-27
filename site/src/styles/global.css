@@ -950,6 +950,65 @@ figcaption {
   font-size: 0.9375rem; text-decoration: none; color: var(--ink);
   display: inline-flex; align-items: center; min-height: 1.75rem;
   justify-self: start;
+  /* CLEAR SPACE. The kit asks for the diameter of the b's counter — about half
+     the logo's height — on every side. At the 28px desktop size that is 14px,
+     and the header grid's 1rem column gap already clears it horizontally; this
+     guarantees it even if that gap changes. */
+  padding-right: 0.875rem;
+}
+
+/* ---------------------------------------------------------------- brand logo
+ * The logo parts of the kit's web/brand.css, and only those: the site's
+ * colours and type already match v1.1, so none of the kit's colour or font
+ * tokens are copied in. The two differences from the kit file are deliberate.
+ *
+ * 1. The kit's .brandure-logo paints itself with --brandure-ink /
+ *    --brandure-ink-inv. Those are the same values as this site's --ink and
+ *    --ink-inv, so it reads the site's own tokens instead of adding a second
+ *    name for one colour. The letters are currentColor, so they follow the
+ *    existing data-theme toggle with no JavaScript.
+ *
+ * 2. The kit's own comment reads "never below 15px tall (≈88px wide)", but the
+ *    viewBox is 425.09 × 73.5, so 15px tall is 86.8px wide — just under the
+ *    88px minimum the README states. 16px is the smallest height that honours
+ *    both, giving 92.6px, so that is the floor here.
+ */
+:root {
+  --brandure-b-1: #2140B8;
+  --brandure-b-2: #2F5BFF;
+  --brandure-b-3: #7C5AE8;
+}
+/* Dark surfaces: lift the b so it stays bright on navy and near-black. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --brandure-b-1: #7B9CFF;
+    --brandure-b-2: #8F8CFF;
+    --brandure-b-3: #B39BFF;
+  }
+}
+[data-theme='dark'], .brandure-on-dark {
+  --brandure-b-1: #7B9CFF;
+  --brandure-b-2: #8F8CFF;
+  --brandure-b-3: #B39BFF;
+}
+
+.brandure-logo {
+  display: block;
+  height: 28px;
+  width: auto;
+  min-height: 16px;      /* 92.6px wide — see note 2 above */
+  color: var(--ink);
+}
+[data-theme='dark'] .brandure-logo, .brandure-on-dark .brandure-logo {
+  color: var(--ink-inv);
+}
+.brandure-logo--sm { height: 20px; }
+.brandure-logo--lg { height: 44px; }
+
+/* A phone gets the kit's small size, 20px tall and 116px wide, which is still
+   well clear of the 88px minimum. Nothing narrower reduces it further. */
+@media (max-width: 47.99rem) {
+  .site-header .brandure-logo, .site-footer .brandure-logo { height: 20px; }
 }
 .header-right { display: flex; align-items: center; gap: 0.6rem; justify-self: end; }
 .site-nav { display: flex; gap: 1.5rem; font-size: var(--small); justify-self: center; }
@@ -963,7 +1022,10 @@ figcaption {
    full-width nav claimed row two and pushed the toggle onto a third row, so
    the header ate 120px of a phone screen before any content. */
 @media (max-width: 47.99rem) {
-  .header-bar { grid-template-columns: 1fr auto; row-gap: 0.55rem; }
+  /* row-gap is the logo's clear space on this layout, because the nav sits
+     directly under it. Half of the 20px mobile logo is 10px, so 0.55rem
+     (8.8px) was 1.2px short of what the kit asks for. */
+  .header-bar { grid-template-columns: 1fr auto; row-gap: 0.625rem; }
   .wordmark    { grid-row: 1; grid-column: 1; }
   .header-right { grid-row: 1; grid-column: 2; }
   .site-nav    { grid-row: 2; grid-column: 1 / -1; justify-self: start; gap: 1.1rem; font-size: var(--label); }

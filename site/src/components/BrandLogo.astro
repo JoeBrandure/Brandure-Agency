@@ -1,0 +1,22 @@
+---
+/**
+ * The wordmark, as the kit draws it. Geometry comes from the <symbol> that
+ * BrandLogoDefs.astro puts in the page once; this is the visible instance.
+ *
+ * NO SYMBOL BEFORE THE WORDMARK, no recolouring, no shadow, no stretch: the
+ * kit forbids all four, and the only thing any caller may change is the size
+ * class, which is why there is no colour or transform prop here.
+ */
+interface Props {
+  /** '' is the 28px default, 'sm' is 20px. Never smaller — see global.css. */
+  size?: '' | 'sm';
+  class?: string;
+}
+const { size = '', class: extra = '' } = Astro.props;
+const cls = ['brandure-logo', size === 'sm' ? 'brandure-logo--sm' : '', extra]
+  .filter(Boolean)
+  .join(' ');
+---
+<svg class={cls} viewBox="0 0 425.09 73.5" role="img" aria-label="Brandure">
+  <use href="#brandure-logo-sym" />
+</svg>

@@ -119,7 +119,12 @@ export const SITE = {
   orgDescription:
     'AI search optimisation (AEO) agency, UK and UAE. Brandure (brandure.io) gets businesses named and cited in the answers ChatGPT, Google AI Overviews and Perplexity give their buyers. Founded by Joe Hickman.',
 
-  logo: '/og/default.png',
+  /* THE LOGO, NOT THE SHARE IMAGE. This was /og/default.png, which is the
+     1200×630 Open Graph card — a social banner standing in for a logo, which
+     is not what Organization.logo means. It is now the square paper avatar
+     from the brand kit, 1024×1024, described as an ImageObject in
+     BaseLayout so a consumer gets its dimensions too. */
+  logo: '/brand/brandure-avatar-paper-1024.png',
 
   /* "Brandure Agency" came off 2026-11-12. An alternateName tells an engine
      another string means this entity; that one is generic enough that several

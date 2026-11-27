@@ -60,7 +60,7 @@ const faqSchema = {
               {groups[g].map((f) => (
                 <details>
                   <summary>{f.q}</summary>
-                  <p>{f.a}</p>
+                  {'aHtml' in f && f.aHtml ? <p set:html={f.aHtml} /> : <p>{f.a}</p>}
                 </details>
               ))}
             </div>

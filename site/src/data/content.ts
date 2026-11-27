@@ -88,6 +88,17 @@ export const STAGES = [
  * One source for the accordion on /faq, the shorter set on the home page, and
  * the FAQPage structured data on both. `group` drives the headings on /faq.
  */
+
+/** Strip tags, so an answer that renders links cannot drift from the plain
+ *  string the FAQPage schema carries. scripts/check-faq-parity.mjs enforces
+ *  the same equality against the built page. */
+const plain = (html: string) => html.replace(/<[^>]+>/g, '');
+
+/* The only answer on the site that renders links. Written once as HTML, with
+   the schema's plain text derived from it rather than typed out twice. */
+const REVIEWS_ANSWER =
+  'Client testimonials are on our <a href="/">homepage</a>. Independent reviews of Brandure (brandure.io) are collected on <a href="https://www.trustpilot.com/review/brandure.io">Trustpilot</a> and <a href="https://clutch.co/profile/brandure-0">Clutch</a>. Brandure was founded by Joe Hickman and works remotely with businesses in the UK and the United Arab Emirates.';
+
 export const FAQS = [
   /* ---- The basics ---- */
   {
@@ -100,6 +111,17 @@ export const FAQS = [
     group: 'The basics',
     q: 'What is Brandure?',
     a: `${IDENTITY_SENTENCE} We measure where a brand appears in AI answers across ChatGPT, Google AI Overviews and Perplexity, find out why, and do the website, entity, content and third-party citation work that changes it. Each engine is reported separately.`,
+  },
+  {
+    group: 'The basics',
+    q: 'What does Brandure do?',
+    a: 'Brandure (brandure.io) is a remote agency for UK and UAE businesses. We do three things: AI search optimisation (AEO), which gets you named and cited when people ask ChatGPT, Google AI Overviews and Perplexity who to use; SEO, so you rank on Google for the same questions; and web design, building sites that AI engines and search engines can read easily. We measure each engine separately.',
+  },
+  {
+    group: 'The basics',
+    q: 'Where can I read reviews of Brandure?',
+    aHtml: REVIEWS_ANSWER,
+    a: plain(REVIEWS_ANSWER),
   },
   {
     group: 'The basics',
@@ -243,8 +265,30 @@ export const FAQS = [
   },
 ] as const;
 
-/** The subset shown on the home page. The rest live on /faq. */
-export const FAQS_HOME = FAQS.slice(0, 6);
+/**
+ * THE SIX ON THE HOME PAGE, NAMED.
+ *
+ * This was FAQS.slice(0, 6), which quietly coupled the home page to the order
+ * of /faq: adding two questions near the top of /faq on 2026-11-27 would have
+ * pushed "Is this the same as GEO, LLMO or AI SEO?" and "Is it too early to
+ * bother with this?" off the home page without anyone editing index.astro.
+ * Named, so a change to /faq changes /faq. The throw is deliberate — renaming
+ * a question here should fail the build, not silently shorten the home page.
+ */
+const HOME_QUESTIONS = [
+  'What is Brandure?',
+  'What is answer engine optimisation?',
+  'How is this different from SEO?',
+  'Does our SEO still matter?',
+  'Is this the same as GEO, LLMO or AI SEO?',
+  'Is it too early to bother with this?',
+] as const;
+
+export const FAQS_HOME = HOME_QUESTIONS.map((q) => {
+  const found = FAQS.find((f) => f.q === q);
+  if (!found) throw new Error(`FAQS_HOME: no FAQ on /faq is titled "${q}"`);
+  return found;
+});
 
 
 

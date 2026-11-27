@@ -1,5 +1,6 @@
 ---
 title: "Google's AI Overview is already in your Dubai category. You can't pick what it cites."
+titleTag: "Google's AI Overview in Dubai: 4 of 7 categories"
 description: "Google's AI Overview covered four of seven Dubai categories in August and September, naming the same brands every run while rotating its source."
 summary: "Google's AI Overview covered four of seven Dubai categories in August and again in September. Across three identical runs it named the same three manufacturers every time and cited a different set of sources on each one."
 piece: 3

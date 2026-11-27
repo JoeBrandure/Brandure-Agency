@@ -1,5 +1,6 @@
 ---
 title: "Ask ChatGPT and Perplexity who's best in Dubai: 21 businesses made both lists"
+titleTag: "ChatGPT vs Perplexity in Dubai: 21 shared names"
 description: "Across seven Dubai categories, 21 businesses appeared on both ChatGPT and Perplexity. The overlap is low, not zero, and where it exists it has a cause."
 summary: "Across seven Dubai categories, 21 businesses appeared on both ChatGPT and Perplexity, six of them in universities alone. The same engine asked twice also returned different lists below first place."
 piece: 2

@@ -46,6 +46,13 @@ const research = defineCollection({
       datePublished: publishDate.optional(),
       /** Equals datePublished at launch; moves only when the text changes. */
       dateModified: publishDate.optional(),
+      /* THE <title> ONLY, WHERE THE HEADLINE IS TOO LONG FOR ONE.
+         A result page cuts a title past about 60 characters, and these
+         headlines run to 96 with the site name on the end. This shortens the
+         tab and the result line and nothing else: the H1, the meta
+         description, the slug and the Article headline all stay on `title`,
+         because that is the sentence the piece is actually called. */
+      titleTag: z.string().optional(),
       heroImage: z.string().optional(),
       heroAlt: z.string().optional(),
       /* THE CARD LINE, WHERE IT IS NOT THE META DESCRIPTION. /research and

@@ -75,7 +75,7 @@ const faqSchema =
     : null;
 ---
 <BaseLayout
-  title={d.title}
+  title={d.titleTag ?? d.title}
   description={d.description}
   schemas={faqSchema ? [articleSchema, faqSchema] : [articleSchema]}
 >

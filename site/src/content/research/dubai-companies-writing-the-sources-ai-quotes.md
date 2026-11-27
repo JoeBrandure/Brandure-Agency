@@ -1,5 +1,6 @@
 ---
 title: "The Dubai companies writing the articles AI quotes about them"
+titleTag: "Dubai companies writing the articles AI quotes"
 description: "A 33-answer Dubai test found companies' own 'best of' articles still ground Perplexity's answers but not ChatGPT's — and those positions are losable."
 summary: "A 33-answer test in Dubai found companies' own 'best of' articles still ground Perplexity's answers but not ChatGPT's, and that self-published list positions are lost to competitors running the same play."
 piece: 1

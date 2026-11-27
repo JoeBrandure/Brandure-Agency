@@ -13,13 +13,31 @@ const FONTS = [
   path.join(FONT_DIR, 'Inter-Regular.ttf'),
   path.join(FONT_DIR, 'Inter-SemiBold.ttf'),
   path.join(FONT_DIR, 'IBMPlexMono-Regular.ttf'),
+  /* Manrope 700 is the kit's display face and the one the site sets headings
+     in. The file was already here and simply never loaded, so the cards set
+     their headline in Inter SemiBold — the body face — while every heading on
+     the site itself was Manrope. */
+  path.join(FONT_DIR, 'Manrope-Bold.ttf'),
 ];
 
 const PAPER = '#FAF7F2';
 const INK = '#1A1613';
 const MUTED = '#5F574E';
-const ACCENT = '#7A2E52';
+/* Cobalt, from the brand kit. This was #7A2E52, a maroon that appears nowhere
+   in the kit and was the last unbranded colour on the site. */
+const ACCENT = '#2F5BFF';
 const RULE = '#CFC4B4';
+
+/* The kit's brand gradient, which it permits for brand accents. 112deg in CSS
+   is a direction vector of (sin112, -cos112) = (0.927, 0.375) in screen
+   coordinates, so the gradient line is set in user space at that slope rather
+   than left to objectBoundingBox, which would shear it on a 1200x10 bar. */
+const GRADIENT_ID = 'brandure-bar';
+const GRADIENT_DEF = `<linearGradient id="${GRADIENT_ID}" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1200" y2="485">
+    <stop offset="0" stop-color="#2140B8"/>
+    <stop offset="0.45" stop-color="#2F5BFF"/>
+    <stop offset="1" stop-color="#7C5AE8"/>
+  </linearGradient>`;
 
 /**
  * THE WORDMARK ON A SHARE CARD, FROM THE BRAND KIT.
@@ -92,18 +110,19 @@ export function renderOg({ title, kicker = 'brandure.io' }: OgOptions): Buffer {
   const startY = 300 - blockHeight / 2 + size * 0.9;
 
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>${GRADIENT_DEF}</defs>
   <rect width="1200" height="630" fill="${PAPER}"/>
-  <rect x="0" y="0" width="1200" height="10" fill="${ACCENT}"/>
+  <rect x="0" y="0" width="1200" height="10" fill="url(#${GRADIENT_ID})"/>
   <text x="80" y="112" font-family="IBM Plex Mono" font-size="24" fill="${ACCENT}" letter-spacing="1.5">${escape(kicker)}</text>
   ${lines
     .map(
       (l, i) =>
-        `<text x="80" y="${startY + i * size * 1.16}" font-family="Inter" font-size="${size}" font-weight="600" fill="${INK}" letter-spacing="-1.4">${escape(l)}</text>`,
+        `<text x="80" y="${startY + i * size * 1.16}" font-family="Manrope" font-size="${size}" font-weight="700" fill="${INK}" letter-spacing="-1.4">${escape(l)}</text>`,
     )
     .join('\n  ')}
   <line x1="80" y1="524" x2="1120" y2="524" stroke="${RULE}" stroke-width="2"/>
   ${logoMarkup(80, 572, 34)}
-  <text x="1120" y="572" text-anchor="end" font-family="IBM Plex Mono" font-size="23" fill="${MUTED}">Answer engine optimisation</text>
+  <text x="1120" y="572" text-anchor="end" font-family="IBM Plex Mono" font-size="23" fill="${MUTED}">AI search, SEO &amp; web design</text>
 </svg>`;
 
   const resvg = new Resvg(svg, {
